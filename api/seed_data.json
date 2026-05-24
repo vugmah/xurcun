@@ -1,0 +1,2274 @@
+[
+  {
+    "titleAz": "SƏHƏR YEMƏYİ",
+    "titleRu": "ЗАВТРАК",
+    "titleEn": "BREAKFAST",
+    "tab": "food",
+    "sortOrder": 1,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Tavada yumurta",
+        "nameRu": "Яичница",
+        "nameEn": "Fried eggs",
+        "active": true,
+        "price": "8 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Pomidor-yumurta",
+        "nameRu": "Яичница с помидорами",
+        "nameEn": "Eggs with tomato",
+        "active": true,
+        "price": "10 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Kükü",
+        "nameRu": "Кюку",
+        "nameEn": "Kuku",
+        "active": true,
+        "price": "10 AZN",
+        "descAz": "Yumurta, göyərti, kərə yağı, qatıq",
+        "descRu": "Яйцо, зелень, сливочное масло, йогурт",
+        "descEn": "Egg, herbs, butter, yogurt",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Pankelər, karamelizə banan, duzlu karamel dondurma",
+        "nameRu": "Панкейки с карамелизированным бананом",
+        "nameEn": "Pancakes, caramelized banana, salted caramel ice cream",
+        "active": true,
+        "price": "10 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "İspanaqlı brunch omleti",
+        "nameRu": "Омлет со шпинатом",
+        "nameEn": "Brunch omelette with spinach",
+        "active": true,
+        "price": "10 AZN",
+        "descAz": "Pendir, baguette, konfi pomidor",
+        "descRu": "Сыр, багет, конфи из помидоров",
+        "descEn": "Cheese, baguette, confit tomato",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Yoğurt bowl",
+        "nameRu": "Йогурт боул",
+        "nameEn": "Yogurt bowl",
+        "active": true,
+        "price": "15 AZN",
+        "descAz": "Xama, sadə yoğurt, banan, granola, çiyələk",
+        "descRu": "Сметана, йогурт, банан, гранола, клубника",
+        "descEn": "Sour cream, yogurt, banana, granola, strawberry",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Ənənəvi şəhər yeməyi seti",
+        "nameRu": "Традиционный завтрак сет",
+        "nameEn": "Traditional breakfast set",
+        "active": true,
+        "price": "18 AZN",
+        "descAz": "Mürəbbə, pendir dipi, zeytun, lavaş, yerli pendirlər",
+        "descRu": "Варенье, сырный дип, оливки, лаваш, местные сыры",
+        "descEn": "Jam, cheese dip, olives, lavash, local cheeses",
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "İngilis şəhər yeməyi",
+        "nameRu": "Английский завтрак",
+        "nameEn": "English breakfast",
+        "active": true,
+        "price": "18 AZN",
+        "descAz": "Göbələk, yumurta, kərə yağı, sosis",
+        "descRu": "Грибы, яйцо, сливочное масло, сосиски",
+        "descEn": "Mushrooms, egg, butter, sausages",
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Kəsmikli pankeklər",
+        "nameRu": "Сырники",
+        "nameEn": "Curd pancakes",
+        "active": true,
+        "price": "14 AZN",
+        "descAz": "Pankek, kəsmik, giləmeyvə",
+        "descRu": "Панкейки, творог, ягоды",
+        "descEn": "Pancakes, curd, berries",
+        "sortOrder": 90
+      },
+      {
+        "nameAz": "Giləmeyvə mürəbbəsi ilə fransız tostu",
+        "nameRu": "Французский тост с ягодным вареньем",
+        "nameEn": "French toast with berry jam",
+        "active": true,
+        "price": "14 AZN",
+        "descAz": "Tost çörəyi, yumurta, süd, giləmeyvə mürəbbəsi",
+        "descRu": "Тостовый хлеб, яйцо, молоко, ягодное варенье",
+        "descEn": "Toast bread, egg, milk, berry jam",
+        "sortOrder": 100
+      },
+      {
+        "nameAz": "Marinad edilmiş qızılbalıq Benedikt",
+        "nameRu": "Бенедикт с маринованным лососем",
+        "nameEn": "Benedict with marinated salmon",
+        "active": true,
+        "price": "27 AZN",
+        "descAz": "Marinad edilmiş qızılbalıq, poached egg, hollandaise sous",
+        "descRu": "Маринованный лосось, яйцо пашот, соус голландез",
+        "descEn": "Marinated salmon, poached egg, hollandaise sauce",
+        "sortOrder": 110
+      },
+      {
+        "nameAz": "The Woo şəhər ləzzətləri",
+        "nameRu": "Завтрак The Woo",
+        "nameEn": "The Woo breakfast",
+        "active": true,
+        "price": "18 AZN",
+        "descAz": "Su samlı simit, kartof samosası, spring roll, qril sucuk",
+        "descRu": "Бублик с кунжутом, картофельные самосы, спринг-ролл, гриль-суджук",
+        "descEn": "Sesame bagel, potato samosas, spring roll, grilled sucuk",
+        "sortOrder": 120
+      }
+    ]
+  },
+  {
+    "titleAz": "ŞORBALAR",
+    "titleRu": "СУПЫ",
+    "titleEn": "SOUPS",
+    "tab": "food",
+    "sortOrder": 2,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Dovğa",
+        "nameRu": "Довга",
+        "nameEn": "Dovga",
+        "active": true,
+        "price": "7 AZN",
+        "descAz": "Sadə qatıq, quru nanə, təzə nanə, zəfəran, zeytun yağı",
+        "descRu": "Йогурт, сухая мята, свежая мята, шафран, оливковое масло",
+        "descEn": "Yogurt, dried mint, fresh mint, saffron, olive oil",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Qaymaqlı pomidor şorbası",
+        "nameRu": "Томатный крем-суп",
+        "nameEn": "Creamy tomato soup",
+        "active": true,
+        "price": "8 AZN",
+        "descAz": "Pomidor, soğan, kəklikotu, qaymaq",
+        "descRu": "Помидоры, лук, чабрец, сливки",
+        "descEn": "Tomato, onion, thyme, cream",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Bakü əriştə şorbası",
+        "nameRu": "Бакинский суп с лапшой",
+        "nameEn": "Baku noodle soup",
+        "active": true,
+        "price": "10 AZN",
+        "descAz": "Xəmir, quzu əti, lobya, quzu bulyonu",
+        "descRu": "Тесто, баранина, фасоль, бараний бульон",
+        "descEn": "Dough, lamb, beans, lamb broth",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Düşbərə şorbası",
+        "nameRu": "Дюшбара",
+        "nameEn": "Dushbara soup",
+        "active": true,
+        "price": "10 AZN",
+        "descAz": "Xırda düşbərə, quzu əti, bulyon, sirkə",
+        "descRu": "Мелкие дюшбары, баранина, бульон, уксус",
+        "descEn": "Small dumplings, lamb, broth, vinegar",
+        "sortOrder": 40
+      }
+    ]
+  },
+  {
+    "titleAz": "SALATLAR",
+    "titleRu": "САЛАТЫ",
+    "titleEn": "SALADS",
+    "tab": "food",
+    "sortOrder": 3,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Tərəvəzli yay salatı",
+        "nameRu": "Овощной салат",
+        "nameEn": "Summer vegetable salad",
+        "active": true,
+        "price": "10 AZN",
+        "descAz": "Balqabaq, pomidor, xiyar, avokado, qırmızı soğan, zeytun, turp",
+        "descRu": "Тыква, помидоры, огурцы, авокадо, красный лук, оливки, редис",
+        "descEn": "Pumpkin, tomato, cucumber, avocado, red onion, olives, radish",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Rukkola və balqabaq salatı",
+        "nameRu": "Салат с рукколой и тыквой",
+        "nameEn": "Arugula and pumpkin salad",
+        "active": true,
+        "price": "15 AZN",
+        "descAz": "Rukkola, konfi balqabaq, mövsümi tərəvəzlər",
+        "descRu": "Руккола, конфи из тыквы, сезонные овощи",
+        "descEn": "Arugula, confit pumpkin, seasonal vegetables",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "\"Healthy\" salat",
+        "nameRu": "\"Healthy\" салат",
+        "nameEn": "\"Healthy\" salad",
+        "active": true,
+        "price": "15 AZN",
+        "descAz": "Avokado, əzilmiş qırmızı kələm, alma, qarışıq kahı, blue cheese, çuğundur marmeladı",
+        "descRu": "Авокадо, красная капуста, яблоко, салат, сыр с плесенью, мармелад из свеклы",
+        "descEn": "Avocado, red cabbage, apple, mixed lettuce, blue cheese, beetroot marmalade",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Qril toyuq Sezar salatı",
+        "nameRu": "Цезарь с курицей гриль",
+        "nameEn": "Grilled chicken Caesar salad",
+        "active": true,
+        "price": "21 AZN",
+        "descAz": "Avokado, yavaş bişmiş toyuq, kahı, ev üsulu mayon sousu",
+        "descRu": "Авокадо, курица гриль, салат, домашний майонез",
+        "descEn": "Avocado, slow-cooked chicken, lettuce, house mayonnaise",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Burrata və hisə verilmiş çuğundur",
+        "nameRu": "Буррата с копченой свеклой",
+        "nameEn": "Burrata with smoked beetroot",
+        "active": true,
+        "price": "20 AZN",
+        "descAz": "Burrata, hisə verilmiş çuğundur, nar, sarımsaqlı yoğurt sousu",
+        "descRu": "Буррата, копченая свекла, гранат, йогуртовый соус с чесноком",
+        "descEn": "Burrata, smoked beetroot, pomegranate, garlic yogurt sauce",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Yay ləzzətli krevet salatı",
+        "nameRu": "Летний салат с креветками",
+        "nameEn": "Summer prawn salad",
+        "active": true,
+        "price": "24 AZN",
+        "descAz": "Rukkola, avokado, brokoli, keşniş, portağal, zirə pomidoru, sərt pendir, qaragilə",
+        "descRu": "Руккола, авокадо, брокколи, кинза, апельсин, помидоры, твердый сыр, черника",
+        "descEn": "Arugula, avocado, broccoli, coriander, orange, tomatoes, hard cheese, blueberry",
+        "sortOrder": 60
+      }
+    ]
+  },
+  {
+    "titleAz": "BAŞLANĞICLAR",
+    "titleRu": "ЗАКУСКИ",
+    "titleEn": "APPETIZERS",
+    "tab": "food",
+    "sortOrder": 4,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Yerli pendir çeşidləri",
+        "nameRu": "Ассорти местных сыров",
+        "nameEn": "Local cheese selection",
+        "active": true,
+        "price": "8 AZN",
+        "descAz": "Yerli pendir çeşidləri, göyərti, zeytun yağı",
+        "descRu": "Местные сыры, зелень, оливковое масло",
+        "descEn": "Local cheeses, herbs, olive oil",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Xarici pendir çeşidləri",
+        "nameRu": "Ассорти импортных сыров",
+        "nameEn": "Imported cheese selection",
+        "active": true,
+        "price": "15 AZN",
+        "descAz": "Xarici pendir çeşidləri, göyərti, zeytun yağı",
+        "descRu": "Импортные сыры, зелень, оливковое масло",
+        "descEn": "Imported cheeses, herbs, olive oil",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Turşu çeşidləri",
+        "nameRu": "Ассорти солений",
+        "nameEn": "Pickle selection",
+        "active": true,
+        "price": "11 AZN",
+        "descAz": "Mövsümi turşu tərəvəzləri",
+        "descRu": "Сезонные соленые овощи",
+        "descEn": "Seasonal pickled vegetables",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Quzu ətindən qutab (3 ədəd)",
+        "nameRu": "Кутаб с бараниной (3 шт)",
+        "nameEn": "Lamb qutab (3 pcs)",
+        "active": true,
+        "price": "10 AZN",
+        "descAz": "Quzu əti ilə hazırlanmış Corat qutabı",
+        "descRu": "Кутаб с бараниной по-чоратски",
+        "descEn": "Corat-style qutab with lamb",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Mini quzu qutabı (10 ədəd)",
+        "nameRu": "Мини кутаб с бараниной (10 шт)",
+        "nameEn": "Mini lamb qutab (10 pcs)",
+        "active": true,
+        "price": "11 AZN",
+        "descAz": "Quzu əti ilə mini qutablar",
+        "descRu": "Мини кутаб с бараниной",
+        "descEn": "Mini qutab with lamb",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Teriyaki balıq topları",
+        "nameRu": "Рыбные шарики терияки",
+        "nameEn": "Teriyaki fish balls",
+        "active": true,
+        "price": "22 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Portağal veluté-də tempura krevetləri",
+        "nameRu": "Креветки темпура в апельсиновом велуте",
+        "nameEn": "Tempura prawns in orange velouté",
+        "active": true,
+        "price": "22 AZN",
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "Qızardılmış dəniz məhsulları",
+        "nameRu": "Жареные морепродукты",
+        "nameEn": "Fried seafood",
+        "active": true,
+        "price": "22 AZN",
+        "descAz": "Xırtıldayan kalmar, krevetlər, limon-mayo sousu",
+        "descRu": "Хрустящий кальмар, креветки, лимонный майонез",
+        "descEn": "Crispy calamari, prawns, lemon-mayo sauce",
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Laym ilə marinadlanmış toyuq filesi",
+        "nameRu": "Куриное филе в маринаде из лайма",
+        "nameEn": "Lime marinated chicken fillet",
+        "active": true,
+        "price": "14 AZN",
+        "descAz": "Mövsümi tərəvəzlər, laym-balı sous, portağal",
+        "descRu": "Сезонные овощи, лаймовый медовый соус, апельсин",
+        "descEn": "Seasonal vegetables, lime-honey sauce, orange",
+        "sortOrder": 90
+      },
+      {
+        "nameAz": "Yerli məzə boşqabı",
+        "nameRu": "Тарелка местных мезе",
+        "nameEn": "Local meze platter",
+        "active": true,
+        "price": "16 AZN",
+        "descAz": "Yer məzələrindən seçmə boşqab",
+        "descRu": "Ассорти местных мезе",
+        "descEn": "Selection of local mezes",
+        "sortOrder": 100
+      },
+      {
+        "nameAz": "Toyuqlu tərəvəz bükməsi",
+        "nameRu": "Спринг-роллы с курицей",
+        "nameEn": "Chicken vegetable spring rolls",
+        "active": true,
+        "price": "18 AZN",
+        "descAz": "Toyuq, tərəvəz, spring roll xəmiri",
+        "descRu": "Курица, овощи, рисовая бумага",
+        "descEn": "Chicken, vegetables, spring roll wrapper",
+        "sortOrder": 110
+      }
+    ]
+  },
+  {
+    "titleAz": "ƏSAS YEMƏKLƏR",
+    "titleRu": "ОСНОВНЫЕ БЛЮДА",
+    "titleEn": "MAIN COURSES",
+    "tab": "food",
+    "sortOrder": 5,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Üzüm yarpağından dolma",
+        "nameRu": "Долма в виноградных листьях",
+        "nameEn": "Stuffed grape leaves",
+        "active": true,
+        "price": "16 AZN",
+        "descAz": "Üzüm yarpağı, düyü, göyərti, ət, qatıq sousu",
+        "descRu": "Виноградные листья, рис, зелень, мясо, йогуртовый соус",
+        "descEn": "Grape leaves, rice, herbs, meat, yogurt sauce",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Toyuq rulet levengisi",
+        "nameRu": "Куриный рулет",
+        "nameEn": "Chicken roll",
+        "active": true,
+        "price": "20 AZN",
+        "descAz": "Toyuq ruleti, qoz, şallot, sous",
+        "descRu": "Куриный рулет, грецкий орех, лук-шалот, соус",
+        "descEn": "Chicken roll, walnut, shallot, sauce",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Mal əti burger",
+        "nameRu": "Бургер с говядиной",
+        "nameEn": "Beef burger",
+        "active": true,
+        "price": "20 AZN",
+        "descAz": "Mal əti, pendir, kartof fri",
+        "descRu": "Говядина, сыр, картофель фри",
+        "descEn": "Beef, cheese, french fries",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Mal əti fisincan",
+        "nameRu": "Фисинджан из говядины",
+        "nameEn": "Beef fisincan",
+        "active": true,
+        "price": "21 AZN",
+        "descAz": "Mal əti, qoz, soğan, yerli ədviyyatlar",
+        "descRu": "Говядина, грецкий орех, лук, местные специи",
+        "descEn": "Beef, walnut, onion, local spices",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Quzu qolundan buğlama",
+        "nameRu": "Буглама из бараньей ноги",
+        "nameEn": "Lamb shank buglama",
+        "active": true,
+        "price": "25 AZN",
+        "descAz": "Bişmiş quzu budu, sous, kartof əzməsi",
+        "descRu": "Тушеная баранья нога, соус, картофельное пюре",
+        "descEn": "Braised lamb shank, sauce, mashed potato",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Xüsusi quzu döyməsi",
+        "nameRu": "Особая баранина тушеная",
+        "nameEn": "Special lamb stew",
+        "active": true,
+        "price": "22 AZN",
+        "descAz": "Quzu əti, soğan, pomidor, yerli ədviyyatlar",
+        "descRu": "Баранина, лук, помидоры, местные специи",
+        "descEn": "Lamb, onion, tomato, local spices",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Kajun ədviyyatlı böyük krevetlər",
+        "nameRu": "Крупные креветки с кайенским перцем",
+        "nameEn": "Large cajun prawns",
+        "active": true,
+        "price": "28 AZN",
+        "descAz": "Kajun ədviyyatı ilə hazırlanmış krevetlər",
+        "descRu": "Креветки с кайенской приправой",
+        "descEn": "Prawns with cajun seasoning",
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "Qızıl balıq meunière",
+        "nameRu": "Лосось мёньер",
+        "nameEn": "Salmon meunière",
+        "active": true,
+        "price": "38 AZN",
+        "descAz": "Qızıl balıq, kərə yağı, limon, göyərti",
+        "descRu": "Лосось, сливочное масло, лимон, зелень",
+        "descEn": "Salmon, butter, lemon, herbs",
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Qril sudak balığı",
+        "nameRu": "Судак на гриле",
+        "nameEn": "Grilled zander",
+        "active": true,
+        "price": "21 AZN",
+        "descAz": "Quru zoğal, kərə yağı, soğan, sarıkök",
+        "descRu": "Сухой барбарис, сливочное масло, лук, куркума",
+        "descEn": "Dried barberry, butter, onion, turmeric",
+        "sortOrder": 90
+      },
+      {
+        "nameAz": "Qızıl balıq cravlaksı",
+        "nameRu": "Гравлакс из лосося",
+        "nameEn": "Salmon gravlax",
+        "active": true,
+        "price": "24 AZN",
+        "descAz": "Marinad edilmiş qızıl balıq, göyərti, sous",
+        "descRu": "Маринованный лосось, зелень, соус",
+        "descEn": "Marinated salmon, herbs, sauce",
+        "sortOrder": 100
+      },
+      {
+        "nameAz": "Quzu ətindən basdırma",
+        "nameRu": "Басдырма из баранины",
+        "nameEn": "Lamb basdirma",
+        "active": true,
+        "price": "21 AZN",
+        "descAz": "Quzu əti, quzu jus sousu, kərəviz püresi, buxarda tərəvəzlər",
+        "descRu": "Баранина, соус из баранины, пюре из сельдерея, овощи на пару",
+        "descEn": "Lamb, lamb jus sauce, celery puree, steamed vegetables",
+        "sortOrder": 110
+      },
+      {
+        "nameAz": "File minyon, trüf sousu ilə",
+        "nameRu": "Филе миньон с трюфельным соусом",
+        "nameEn": "Filet mignon with truffle sauce",
+        "active": true,
+        "price": "50 AZN",
+        "descAz": "File minyon, trüf madeyra sousu",
+        "descRu": "Филе миньон, трюфельный мадейра соус",
+        "descEn": "Filet mignon, truffle madeira sauce",
+        "sortOrder": 120
+      },
+      {
+        "nameAz": "Ribay steyk 350 qr",
+        "nameRu": "Рибай стейк 350 г",
+        "nameEn": "Ribeye steak 350g",
+        "active": true,
+        "price": "80 AZN",
+        "descAz": "350 qr ribay steyk, sous və qarnir ilə",
+        "descRu": "Рибай стейк 350 г, соус и гарнир",
+        "descEn": "Ribeye steak 350g, sauce and garnish",
+        "sortOrder": 130
+      },
+      {
+        "nameAz": "Laym və qril olunmuş can əti salatı",
+        "nameRu": "Салат с мясом и лаймом",
+        "nameEn": "Lime grilled meat salad",
+        "active": true,
+        "price": "22 AZN",
+        "descAz": "Marinadlı xiyar, pomidor, kahı, susam, cəfəri, kök",
+        "descRu": "Маринованные огурцы, помидоры, салат, кунжут, петрушка, морковь",
+        "descEn": "Marinated cucumber, tomato, lettuce, sesame, parsley, carrot",
+        "sortOrder": 140
+      }
+    ]
+  },
+  {
+    "titleAz": "QARNAİRLƏR",
+    "titleRu": "ГАРНИРЫ",
+    "titleEn": "SIDES",
+    "tab": "food",
+    "sortOrder": 6,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Sarımsaq ilə kartof",
+        "nameRu": "Картофель с чесноком",
+        "nameEn": "Garlic potatoes",
+        "active": true,
+        "price": "6 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Kartof fri",
+        "nameRu": "Картофель фри",
+        "nameEn": "French fries",
+        "active": true,
+        "price": "6 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Buxarda bişmiş mövsümi tərəvəzlər",
+        "nameRu": "Овощи на пару",
+        "nameEn": "Steamed seasonal vegetables",
+        "active": true,
+        "price": "7 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Buxarda zəfəranlı düyü",
+        "nameRu": "Рис с шафраном на пару",
+        "nameEn": "Steamed saffron rice",
+        "active": true,
+        "price": "6 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Yunan üslubunda zeytinli kartof",
+        "nameRu": "Картофель с оливками по-гречески",
+        "nameEn": "Greek style potato with olives",
+        "active": true,
+        "price": "9 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Qril toyuq filesi",
+        "nameRu": "Куриное филе на гриле",
+        "nameEn": "Grilled chicken fillet",
+        "active": true,
+        "price": "10 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Tempura krevetlər (5 ədəd)",
+        "nameRu": "Креветки темпура (5 шт)",
+        "nameEn": "Tempura prawns (5 pcs)",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 70
+      }
+    ]
+  },
+  {
+    "titleAz": "PASTA & RİZOTTO",
+    "titleRu": "ПАСТА И РИЗОТТО",
+    "titleEn": "PASTA & RISOTTO",
+    "tab": "food",
+    "sortOrder": 7,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Pomidorlu spagetti",
+        "nameRu": "Спагетти с помидорами",
+        "nameEn": "Tomato spaghetti",
+        "active": true,
+        "price": "16 AZN",
+        "descAz": "Pomidor sousu, sarımsaq, reyhan, parmesan",
+        "descRu": "Томатный соус, чеснок, базилик, пармезан",
+        "descEn": "Tomato sauce, garlic, basil, parmesan",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Can əti penne",
+        "nameRu": "Пенне с мясом",
+        "nameEn": "Meat penne",
+        "active": true,
+        "price": "18 AZN",
+        "descAz": "Can əti, qaymaq, sarımsaq, parmesan, quru pomidor, cəfəri, kərəviz",
+        "descRu": "Мясо, сливки, чеснок, пармезан, вяленые помидоры, петрушка, сельдерей",
+        "descEn": "Meat, cream, garlic, parmesan, sun-dried tomato, parsley, celery",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Sarımsaqlı kərə yağında toyuq Alfredo",
+        "nameRu": "Курица Альфредо со сливочным маслом и чесноком",
+        "nameEn": "Chicken Alfredo with garlic butter",
+        "active": true,
+        "price": "18 AZN",
+        "descAz": "Toyuq, qaymaq, sarımsaq, parmesan, göbələk",
+        "descRu": "Курица, сливки, чеснок, пармезан, грибы",
+        "descEn": "Chicken, cream, garlic, parmesan, mushroom",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Krevetli risotto",
+        "nameRu": "Ризотто с креветками",
+        "nameEn": "Prawn risotto",
+        "active": true,
+        "price": "28 AZN",
+        "descAz": "Krevet, risotto düyüsü, parmesan, zəfəran yağı",
+        "descRu": "Креветки, рис для ризотто, пармезан, шафрановое масло",
+        "descEn": "Prawn, risotto rice, parmesan, saffron oil",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Qızıl balıq və ispanıqlı tagliatelle",
+        "nameRu": "Тальятелле с лососем и шпинатом",
+        "nameEn": "Salmon and spinach tagliatelle",
+        "active": true,
+        "price": "28 AZN",
+        "descAz": "Qızıl balıq, sarımsaq, ispanaq, limon qabığı və suyu, qaymaq",
+        "descRu": "Лосось, чеснок, шпинат, цедра и сок лимона, сливки",
+        "descEn": "Salmon, garlic, spinach, lemon zest and juice, cream",
+        "sortOrder": 50
+      }
+    ]
+  },
+  {
+    "titleAz": "ŞİRNİYYATLAR",
+    "titleRu": "ДЕСЕРТЫ",
+    "titleEn": "DESSERTS",
+    "tab": "food",
+    "sortOrder": 8,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Gündəlik təzə şirniyyatlar",
+        "nameRu": "Свежие десерты дня",
+        "nameEn": "Daily fresh desserts",
+        "active": true,
+        "descAz": "Personalımızdan müxtəlif təzə desertlər haqqında soruşa bilərsiniz",
+        "descRu": "Уточняйте у персонала о свежих десертах дня",
+        "descEn": "Please ask our staff about today's fresh desserts",
+        "sortOrder": 10
+      }
+    ]
+  },
+  {
+    "titleAz": "İMZA KOKTEYLLƏR",
+    "titleRu": "ФИРМЕННЫЕ КОКТЕЙЛИ",
+    "titleEn": "SIGNATURE COCKTAILS",
+    "tab": "beverage",
+    "sortOrder": 9,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Chica & Jimador",
+        "nameRu": "Chica & Jimador",
+        "nameEn": "Chica & Jimador",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "City Fizz",
+        "nameRu": "City Fizz",
+        "nameEn": "City Fizz",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Pie Tai",
+        "nameRu": "Pie Tai",
+        "nameEn": "Pie Tai",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Woody",
+        "nameRu": "Woody",
+        "nameEn": "Woody",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Bitter Crunch",
+        "nameRu": "Bitter Crunch",
+        "nameEn": "Bitter Crunch",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Dr. Fashion",
+        "nameRu": "Dr. Fashion",
+        "nameEn": "Dr. Fashion",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Jackie-Pookie",
+        "nameRu": "Jackie-Pookie",
+        "nameEn": "Jackie-Pookie",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "Lily Spritz",
+        "nameRu": "Lily Spritz",
+        "nameEn": "Lily Spritz",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Spoted Mai Tai",
+        "nameRu": "Spoted Mai Tai",
+        "nameEn": "Spoted Mai Tai",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 90
+      }
+    ]
+  },
+  {
+    "titleAz": "KLASSIK KOKTEYLLƏR",
+    "titleRu": "КЛАССИЧЕСКИЕ КОКТЕЙЛИ",
+    "titleEn": "CLASSIC COCKTAILS",
+    "tab": "beverage",
+    "sortOrder": 10,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Mango espresso martini",
+        "nameRu": "Манго эспрессо мартини",
+        "nameEn": "Mango espresso martini",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Pornstar martini",
+        "nameRu": "Pornstar мартини",
+        "nameEn": "Pornstar martini",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Aperol Spritz",
+        "nameRu": "Aperol Spritz",
+        "nameEn": "Aperol Spritz",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Negroni",
+        "nameRu": "Negroni",
+        "nameEn": "Negroni",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Long Island iced tea",
+        "nameRu": "Лонг Айленд айс ти",
+        "nameEn": "Long Island iced tea",
+        "active": true,
+        "price": "18 AZN",
+        "sortOrder": 50
+      }
+    ]
+  },
+  {
+    "titleAz": "İMZA MOKTEYLLƏR",
+    "titleRu": "ФИРМЕННЫЕ МОКТЕЙЛИ",
+    "titleEn": "SIGNATURE MOCKTAILS",
+    "tab": "beverage",
+    "sortOrder": 11,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Cucu Hugo Collins",
+        "nameRu": "Cucu Hugo Collins",
+        "nameEn": "Cucu Hugo Collins",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Donna Sour",
+        "nameRu": "Donna Sour",
+        "nameEn": "Donna Sour",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Tahiti Tonic",
+        "nameRu": "Tahiti Tonic",
+        "nameEn": "Tahiti Tonic",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Virgin Pornstar",
+        "nameRu": "Virgin Pornstar",
+        "nameEn": "Virgin Pornstar",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 40
+      }
+    ]
+  },
+  {
+    "titleAz": "PİVƏ",
+    "titleRu": "ПИВО",
+    "titleEn": "BEER",
+    "tab": "beverage",
+    "sortOrder": 12,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Asahi Beer Super Dry 330ml",
+        "nameRu": "Asahi Beer Super Dry 330ml",
+        "nameEn": "Asahi Beer Super Dry 330ml",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Paulaner 0.0% 500ml",
+        "nameRu": "Paulaner 0.0% 500ml",
+        "nameEn": "Paulaner 0.0% 500ml",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Heineken Original 330ml",
+        "nameRu": "Heineken Original 330ml",
+        "nameEn": "Heineken Original 330ml",
+        "active": true,
+        "price": "14 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Paulaner Naturtrub 500ml",
+        "nameRu": "Paulaner Naturtrub 500ml",
+        "nameEn": "Paulaner Naturtrub 500ml",
+        "active": true,
+        "price": "14 AZN",
+        "sortOrder": 40
+      }
+    ]
+  },
+  {
+    "titleAz": "ŞAMPAN",
+    "titleRu": "ШАМПАНСКОЕ",
+    "titleEn": "CHAMPAGNE",
+    "tab": "beverage",
+    "sortOrder": 13,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Bottega Brut (125ml)",
+        "nameRu": "Bottega Brut (125ml)",
+        "nameEn": "Bottega Brut (125ml)",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Bottega Brut",
+        "nameRu": "Bottega Brut",
+        "nameEn": "Bottega Brut",
+        "active": true,
+        "price": "60 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "FA Valley, Petnat, Xaçmaz",
+        "nameRu": "FA Valley, Petnat, Хачмаз",
+        "nameEn": "FA Valley, Petnat, Khachmaz",
+        "active": true,
+        "price": "80 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Doudet Naudin",
+        "nameRu": "Doudet Naudin",
+        "nameEn": "Doudet Naudin",
+        "active": true,
+        "price": "210 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Mumm Cordon",
+        "nameRu": "Mumm Cordon",
+        "nameEn": "Mumm Cordon",
+        "active": true,
+        "price": "250 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Moet & Chandon",
+        "nameRu": "Moet & Chandon",
+        "nameEn": "Moet & Chandon",
+        "active": true,
+        "price": "375 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Moet & Chandon Rose",
+        "nameRu": "Moet & Chandon Rose",
+        "nameEn": "Moet & Chandon Rose",
+        "active": true,
+        "price": "445 AZN",
+        "sortOrder": 70
+      }
+    ]
+  },
+  {
+    "titleAz": "AĞ VƏ ROZE ŞƏRAB",
+    "titleRu": "БЕЛОЕ И РОЗОВОЕ ВИНО",
+    "titleEn": "WHITE & ROSÉ WINE",
+    "tab": "beverage",
+    "sortOrder": 14,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "FA Valley, Amore, Rose (125ml)",
+        "nameRu": "FA Valley, Amore, Rose (125ml)",
+        "nameEn": "FA Valley, Amore, Rose (125ml)",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Meysari Sedef (125ml)",
+        "nameRu": "Meysari Sedef (125ml)",
+        "nameEn": "Meysari Sedef (125ml)",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Meysari Sedef",
+        "nameRu": "Meysari Sedef",
+        "nameEn": "Meysari Sedef",
+        "active": true,
+        "price": "60 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Whalebone Sauvignon Blanc",
+        "nameRu": "Whalebone Sauvignon Blanc",
+        "nameEn": "Whalebone Sauvignon Blanc",
+        "active": true,
+        "price": "110 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Marrone Moscato DOCG",
+        "nameRu": "Marrone Moscato DOCG",
+        "nameEn": "Marrone Moscato DOCG",
+        "active": true,
+        "price": "250 AZN",
+        "sortOrder": 50
+      }
+    ]
+  },
+  {
+    "titleAz": "QIRMIZI ŞƏRAB",
+    "titleRu": "КРАСНОЕ ВИНО",
+    "titleEn": "RED WINE",
+    "tab": "beverage",
+    "sortOrder": 15,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "FA Valley, Amore, Xaçmaz, Rose",
+        "nameRu": "FA Valley, Amore, Хачмаз, Rose",
+        "nameEn": "FA Valley, Amore, Khachmaz, Rose",
+        "active": true,
+        "price": "60 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Meysari Billuri",
+        "nameRu": "Meysari Billuri",
+        "nameEn": "Meysari Billuri",
+        "active": true,
+        "price": "60 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Meysari Marjan",
+        "nameRu": "Meysari Marjan",
+        "nameEn": "Meysari Marjan",
+        "active": true,
+        "price": "60 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Meysari Innabi",
+        "nameRu": "Meysari Innabi",
+        "nameEn": "Meysari Innabi",
+        "active": true,
+        "price": "60 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Meysari Makhmari (125ml)",
+        "nameRu": "Meysari Makhmari (125ml)",
+        "nameEn": "Meysari Makhmari (125ml)",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Meysari Makhmari",
+        "nameRu": "Meysari Makhmari",
+        "nameEn": "Meysari Makhmari",
+        "active": true,
+        "price": "70 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Marrone, Barbaresco DOCG",
+        "nameRu": "Marrone, Barbaresco DOCG",
+        "nameEn": "Marrone, Barbaresco DOCG",
+        "active": true,
+        "price": "125 AZN",
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "FA Valley, Fratello 2020, Red Dry",
+        "nameRu": "FA Valley, Fratello 2020, Red Dry",
+        "nameEn": "FA Valley, Fratello 2020, Red Dry",
+        "active": true,
+        "price": "170 AZN",
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "FA Valley, Nessun Dorma 2022, Red Dry",
+        "nameRu": "FA Valley, Nessun Dorma 2022, Red Dry",
+        "nameEn": "FA Valley, Nessun Dorma 2022, Red Dry",
+        "active": true,
+        "price": "170 AZN",
+        "sortOrder": 90
+      },
+      {
+        "nameAz": "Brunello di Montalcino",
+        "nameRu": "Brunello di Montalcino",
+        "nameEn": "Brunello di Montalcino",
+        "active": true,
+        "price": "420 AZN",
+        "sortOrder": 100
+      }
+    ]
+  },
+  {
+    "titleAz": "VİSKİ (40ml)",
+    "titleRu": "ВИСКИ (40ml)",
+    "titleEn": "WHISKEY (40ml)",
+    "tab": "beverage",
+    "sortOrder": 16,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Jack Daniel's No 7",
+        "nameRu": "Jack Daniel's No 7",
+        "nameEn": "Jack Daniel's No 7",
+        "active": true,
+        "price": "12 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Jack Daniel's Apple",
+        "nameRu": "Jack Daniel's Apple",
+        "nameEn": "Jack Daniel's Apple",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Jack Daniel's Honey",
+        "nameRu": "Jack Daniel's Honey",
+        "nameEn": "Jack Daniel's Honey",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Bulleit Bourbon",
+        "nameRu": "Bulleit Bourbon",
+        "nameEn": "Bulleit Bourbon",
+        "active": true,
+        "price": "14 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Jameson",
+        "nameRu": "Jameson",
+        "nameEn": "Jameson",
+        "active": true,
+        "price": "14 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Wild Turkey 81",
+        "nameRu": "Wild Turkey 81",
+        "nameEn": "Wild Turkey 81",
+        "active": true,
+        "price": "14 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "JW Black Label",
+        "nameRu": "JW Black Label",
+        "nameEn": "JW Black Label",
+        "active": true,
+        "price": "14 AZN",
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "Jack Daniel's Single Barrel",
+        "nameRu": "Jack Daniel's Single Barrel",
+        "nameEn": "Jack Daniel's Single Barrel",
+        "active": true,
+        "price": "16 AZN",
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Singleton of Dufftown",
+        "nameRu": "Singleton of Dufftown",
+        "nameEn": "Singleton of Dufftown",
+        "active": true,
+        "price": "16 AZN",
+        "sortOrder": 90
+      },
+      {
+        "nameAz": "Glenfiddich 12 YO",
+        "nameRu": "Glenfiddich 12 YO",
+        "nameEn": "Glenfiddich 12 YO",
+        "active": true,
+        "price": "18 AZN",
+        "sortOrder": 100
+      },
+      {
+        "nameAz": "JW Gold Label Reserve",
+        "nameRu": "JW Gold Label Reserve",
+        "nameEn": "JW Gold Label Reserve",
+        "active": true,
+        "price": "18 AZN",
+        "sortOrder": 110
+      },
+      {
+        "nameAz": "Monkey Shoulder",
+        "nameRu": "Monkey Shoulder",
+        "nameEn": "Monkey Shoulder",
+        "active": true,
+        "price": "18 AZN",
+        "sortOrder": 120
+      },
+      {
+        "nameAz": "Glenfiddich 15 YO",
+        "nameRu": "Glenfiddich 15 YO",
+        "nameEn": "Glenfiddich 15 YO",
+        "active": true,
+        "price": "22 AZN",
+        "sortOrder": 130
+      },
+      {
+        "nameAz": "Chivas Regal 18 YO",
+        "nameRu": "Chivas Regal 18 YO",
+        "nameEn": "Chivas Regal 18 YO",
+        "active": true,
+        "price": "25 AZN",
+        "sortOrder": 140
+      },
+      {
+        "nameAz": "Macallan Double Cask 15 YO",
+        "nameRu": "Macallan Double Cask 15 YO",
+        "nameEn": "Macallan Double Cask 15 YO",
+        "active": true,
+        "price": "60 AZN",
+        "sortOrder": 150
+      },
+      {
+        "nameAz": "JW Blue Label",
+        "nameRu": "JW Blue Label",
+        "nameEn": "JW Blue Label",
+        "active": true,
+        "price": "66 AZN",
+        "sortOrder": 160
+      }
+    ]
+  },
+  {
+    "titleAz": "ROM (40ml)",
+    "titleRu": "РОМ (40ml)",
+    "titleEn": "RUM (40ml)",
+    "tab": "beverage",
+    "sortOrder": 17,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Bacardi Carta Blanca",
+        "nameRu": "Bacardi Carta Blanca",
+        "nameEn": "Bacardi Carta Blanca",
+        "active": true,
+        "price": "8 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Bacardi Carta Negra",
+        "nameRu": "Bacardi Carta Negra",
+        "nameEn": "Bacardi Carta Negra",
+        "active": true,
+        "price": "8 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Captain Morgan Dark",
+        "nameRu": "Captain Morgan Dark",
+        "nameEn": "Captain Morgan Dark",
+        "active": true,
+        "price": "12 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Captain Morgan Spiced Gold",
+        "nameRu": "Captain Morgan Spiced Gold",
+        "nameEn": "Captain Morgan Spiced Gold",
+        "active": true,
+        "price": "12 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Captain Morgan White",
+        "nameRu": "Captain Morgan White",
+        "nameEn": "Captain Morgan White",
+        "active": true,
+        "price": "12 AZN",
+        "sortOrder": 50
+      }
+    ]
+  },
+  {
+    "titleAz": "VODKA (40ml)",
+    "titleRu": "ВОДКА (40ml)",
+    "titleEn": "VODKA (40ml)",
+    "tab": "beverage",
+    "sortOrder": 18,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Finlandia",
+        "nameRu": "Finlandia",
+        "nameEn": "Finlandia",
+        "active": true,
+        "price": "10 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Graddau 54",
+        "nameRu": "Graddau 54",
+        "nameEn": "Graddau 54",
+        "active": true,
+        "price": "10 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Ciroc",
+        "nameRu": "Ciroc",
+        "nameEn": "Ciroc",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Grey Goose",
+        "nameRu": "Grey Goose",
+        "nameEn": "Grey Goose",
+        "active": true,
+        "price": "17 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Beluga Noble",
+        "nameRu": "Beluga Noble",
+        "nameEn": "Beluga Noble",
+        "active": true,
+        "price": "18 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Belvedere",
+        "nameRu": "Belvedere",
+        "nameEn": "Belvedere",
+        "active": true,
+        "price": "19 AZN",
+        "sortOrder": 60
+      }
+    ]
+  },
+  {
+    "titleAz": "CİN (40ml)",
+    "titleRu": "ДЖИН (40ml)",
+    "titleEn": "GIN (40ml)",
+    "tab": "beverage",
+    "sortOrder": 19,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Tanqueray London Dry",
+        "nameRu": "Tanqueray London Dry",
+        "nameEn": "Tanqueray London Dry",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Tanqueray No Ten",
+        "nameRu": "Tanqueray No Ten",
+        "nameEn": "Tanqueray No Ten",
+        "active": true,
+        "price": "13 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Gin Mare",
+        "nameRu": "Gin Mare",
+        "nameEn": "Gin Mare",
+        "active": true,
+        "price": "17 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Hendrick's",
+        "nameRu": "Hendrick's",
+        "nameEn": "Hendrick's",
+        "active": true,
+        "price": "18 AZN",
+        "sortOrder": 40
+      }
+    ]
+  },
+  {
+    "titleAz": "TEKİLA (40ml)",
+    "titleRu": "ТЕКИЛА (40ml)",
+    "titleEn": "TEQUILA (40ml)",
+    "tab": "beverage",
+    "sortOrder": 20,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Patron Reposado",
+        "nameRu": "Patron Reposado",
+        "nameEn": "Patron Reposado",
+        "active": true,
+        "price": "21 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Patron Blanco",
+        "nameRu": "Patron Blanco",
+        "nameEn": "Patron Blanco",
+        "active": true,
+        "price": "21 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Don Julio Reposado",
+        "nameRu": "Don Julio Reposado",
+        "nameEn": "Don Julio Reposado",
+        "active": true,
+        "price": "25 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Don Julio Blanco",
+        "nameRu": "Don Julio Blanco",
+        "nameEn": "Don Julio Blanco",
+        "active": true,
+        "price": "25 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Don Julio 1942",
+        "nameRu": "Don Julio 1942",
+        "nameEn": "Don Julio 1942",
+        "active": true,
+        "price": "70 AZN",
+        "sortOrder": 50
+      }
+    ]
+  },
+  {
+    "titleAz": "KONYAK (40ml)",
+    "titleRu": "КОНЬЯК (40ml)",
+    "titleEn": "COGNAC (40ml)",
+    "tab": "beverage",
+    "sortOrder": 21,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Hennessy VSOP",
+        "nameRu": "Hennessy VSOP",
+        "nameEn": "Hennessy VSOP",
+        "active": true,
+        "price": "35 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Hennessy XO",
+        "nameRu": "Hennessy XO",
+        "nameEn": "Hennessy XO",
+        "active": true,
+        "price": "100 AZN",
+        "sortOrder": 20
+      }
+    ]
+  },
+  {
+    "titleAz": "LİKÖR (40ml)",
+    "titleRu": "ЛИКЁР (40ml)",
+    "titleEn": "LIQUEUR (40ml)",
+    "tab": "beverage",
+    "sortOrder": 22,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Kahlua",
+        "nameRu": "Kahlua",
+        "nameEn": "Kahlua",
+        "active": true,
+        "price": "8 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Aperol",
+        "nameRu": "Aperol",
+        "nameEn": "Aperol",
+        "active": true,
+        "price": "9 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Campari",
+        "nameRu": "Campari",
+        "nameEn": "Campari",
+        "active": true,
+        "price": "9 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Baileys Original",
+        "nameRu": "Baileys Original",
+        "nameEn": "Baileys Original",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Jagermeister",
+        "nameRu": "Jagermeister",
+        "nameEn": "Jagermeister",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Martini Bianco",
+        "nameRu": "Martini Bianco",
+        "nameEn": "Martini Bianco",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Martini Extra Dry",
+        "nameRu": "Martini Extra Dry",
+        "nameEn": "Martini Extra Dry",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "Martini Fierro",
+        "nameRu": "Martini Fierro",
+        "nameEn": "Martini Fierro",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Martini Rosso",
+        "nameRu": "Martini Rosso",
+        "nameEn": "Martini Rosso",
+        "active": true,
+        "price": "11 AZN",
+        "sortOrder": 90
+      },
+      {
+        "nameAz": "Jagermeister Manifest",
+        "nameRu": "Jagermeister Manifest",
+        "nameEn": "Jagermeister Manifest",
+        "active": true,
+        "price": "15 AZN",
+        "sortOrder": 100
+      }
+    ]
+  },
+  {
+    "titleAz": "QƏHVƏ",
+    "titleRu": "КОФЕ",
+    "titleEn": "COFFEE",
+    "tab": "beverage",
+    "sortOrder": 23,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Espresso",
+        "nameRu": "Эспрессо",
+        "nameEn": "Espresso",
+        "active": true,
+        "price": "4.5 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Türk qəhvəsi",
+        "nameRu": "Турецкий кофе",
+        "nameEn": "Turkish coffee",
+        "active": true,
+        "price": "5.5 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Americano",
+        "nameRu": "Американо",
+        "nameEn": "Americano",
+        "active": true,
+        "price": "7 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Double espresso",
+        "nameRu": "Двойной эспрессо",
+        "nameEn": "Double espresso",
+        "active": true,
+        "price": "7 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Cappuccino",
+        "nameRu": "Капучино",
+        "nameEn": "Cappuccino",
+        "active": true,
+        "price": "8 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Flat White",
+        "nameRu": "Флэт уайт",
+        "nameEn": "Flat White",
+        "active": true,
+        "price": "8 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Latte",
+        "nameRu": "Латте",
+        "nameEn": "Latte",
+        "active": true,
+        "price": "8 AZN",
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "Spanish Latte",
+        "nameRu": "Spanish Latte",
+        "nameEn": "Spanish Latte",
+        "active": true,
+        "price": "8 AZN",
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Raff Classic",
+        "nameRu": "Raff Classic",
+        "nameEn": "Raff Classic",
+        "active": true,
+        "price": "9 AZN",
+        "sortOrder": 90
+      }
+    ]
+  },
+  {
+    "titleAz": "ÇAY",
+    "titleRu": "ЧАЙ",
+    "titleEn": "TEA",
+    "tab": "beverage",
+    "sortOrder": 24,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Çay stəkanda",
+        "nameRu": "Чай в стакане",
+        "nameEn": "Tea in glass",
+        "active": true,
+        "price": "7 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Lənkəran çayı",
+        "nameRu": "Ленкоранский чай",
+        "nameEn": "Lankaran tea",
+        "active": true,
+        "price": "18 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Chouchou & Loulou",
+        "nameRu": "Chouchou & Loulou",
+        "nameEn": "Chouchou & Loulou",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Douce Nuit",
+        "nameRu": "Douce Nuit",
+        "nameEn": "Douce Nuit",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "La Tete dans les Etoiles",
+        "nameRu": "La Tete dans les Etoiles",
+        "nameEn": "La Tete dans les Etoiles",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Le Temps Present Bio",
+        "nameRu": "Le Temps Present Bio",
+        "nameEn": "Le Temps Present Bio",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Les Cloches Sonnent",
+        "nameRu": "Les Cloches Sonnent",
+        "nameEn": "Les Cloches Sonnent",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "Cascara Tea",
+        "nameRu": "Cascara Tea",
+        "nameEn": "Cascara Tea",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Marcel de Provence",
+        "nameRu": "Marcel de Provence",
+        "nameEn": "Marcel de Provence",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 90
+      },
+      {
+        "nameAz": "Mon Beau Sapin",
+        "nameRu": "Mon Beau Sapin",
+        "nameEn": "Mon Beau Sapin",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 100
+      },
+      {
+        "nameAz": "Pain d'Epice",
+        "nameRu": "Pain d'Epice",
+        "nameEn": "Pain d'Epice",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 110
+      },
+      {
+        "nameAz": "Pomme Verte",
+        "nameRu": "Pomme Verte",
+        "nameEn": "Pomme Verte",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 120
+      },
+      {
+        "nameAz": "Rouge Ananas",
+        "nameRu": "Rouge Ananas",
+        "nameEn": "Rouge Ananas",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 130
+      },
+      {
+        "nameAz": "Si T'es Sage",
+        "nameRu": "Si T'es Sage",
+        "nameEn": "Si T'es Sage",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 140
+      },
+      {
+        "nameAz": "The de la Chance",
+        "nameRu": "The de la Chance",
+        "nameEn": "The de la Chance",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 150
+      },
+      {
+        "nameAz": "Toujours La",
+        "nameRu": "Toujours La",
+        "nameEn": "Toujours La",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 160
+      },
+      {
+        "nameAz": "Vachement Sympa",
+        "nameRu": "Vachement Sympa",
+        "nameEn": "Vachement Sympa",
+        "active": true,
+        "price": "20 AZN",
+        "sortOrder": 170
+      },
+      {
+        "nameAz": "Coco Givrees",
+        "nameRu": "Coco Givrees",
+        "nameEn": "Coco Givrees",
+        "active": true,
+        "price": "25 AZN",
+        "sortOrder": 180
+      },
+      {
+        "nameAz": "Rose en Sucre",
+        "nameRu": "Rose en Sucre",
+        "nameEn": "Rose en Sucre",
+        "active": true,
+        "price": "25 AZN",
+        "sortOrder": 190
+      },
+      {
+        "nameAz": "Energie du Yogi Bio",
+        "nameRu": "Energie du Yogi Bio",
+        "nameEn": "Energie du Yogi Bio",
+        "active": true,
+        "price": "30 AZN",
+        "sortOrder": 200
+      },
+      {
+        "nameAz": "Jardin Emeraude Bio",
+        "nameRu": "Jardin Emeraude Bio",
+        "nameEn": "Jardin Emeraude Bio",
+        "active": true,
+        "price": "30 AZN",
+        "sortOrder": 210
+      },
+      {
+        "nameAz": "Le Temps des Cerises",
+        "nameRu": "Le Temps des Cerises",
+        "nameEn": "Le Temps des Cerises",
+        "active": true,
+        "price": "30 AZN",
+        "sortOrder": 220
+      },
+      {
+        "nameAz": "Ma Bonne Etoile",
+        "nameRu": "Ma Bonne Etoile",
+        "nameEn": "Ma Bonne Etoile",
+        "active": true,
+        "price": "30 AZN",
+        "sortOrder": 230
+      },
+      {
+        "nameAz": "Sucre d'Orge",
+        "nameRu": "Sucre d'Orge",
+        "nameEn": "Sucre d'Orge",
+        "active": true,
+        "price": "30 AZN",
+        "sortOrder": 240
+      }
+    ]
+  },
+  {
+    "titleAz": "SOYUQ İÇKİLƏR",
+    "titleRu": "БЕЗАЛКОГОЛЬНЫЕ НАПИТКИ",
+    "titleEn": "SOFT DRINKS",
+    "tab": "beverage",
+    "sortOrder": 25,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Coca-Cola / Coca-Cola Zero / Fanta / Sprite 330ml",
+        "nameRu": "Coca-Cola / Coca-Cola Zero / Fanta / Sprite 330ml",
+        "nameEn": "Coca-Cola / Coca-Cola Zero / Fanta / Sprite 330ml",
+        "active": true,
+        "price": "5.5 AZN",
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Schweppes Tonic",
+        "nameRu": "Schweppes Tonic",
+        "nameEn": "Schweppes Tonic",
+        "active": true,
+        "price": "5.5 AZN",
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Red Bull",
+        "nameRu": "Red Bull",
+        "nameEn": "Red Bull",
+        "active": true,
+        "price": "8 AZN",
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Sirab Premium Qazsız / Qazlı",
+        "nameRu": "Sirab Premium Still / Sparkling",
+        "nameEn": "Sirab Premium Still / Sparkling",
+        "active": true,
+        "price": "4 AZN",
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Istisu Qazlı",
+        "nameRu": "Istisu Sparkling",
+        "nameEn": "Istisu Sparkling",
+        "active": true,
+        "price": "5.5 AZN",
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Evian Qazsız",
+        "nameRu": "Evian Still",
+        "nameEn": "Evian Still",
+        "active": true,
+        "price": "6.5 AZN",
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "San Pellegrino Qazlı",
+        "nameRu": "San Pellegrino Sparkling",
+        "nameEn": "San Pellegrino Sparkling",
+        "active": true,
+        "price": "6.5 AZN",
+        "sortOrder": 70
+      }
+    ]
+  },
+  {
+    "titleAz": "Qəlyan cihazları",
+    "titleRu": "Кальянные устройства",
+    "titleEn": "Hookah Devices",
+    "items": [
+      {
+        "nameAz": "Wookah — 100 AZN",
+        "nameRu": "Wookah — 100 AZN",
+        "nameEn": "Wookah — 100 AZN",
+        "active": true,
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Hooky — 85 AZN",
+        "nameRu": "Hooky — 85 AZN",
+        "nameEn": "Hooky — 85 AZN",
+        "active": true,
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Quasar — 75 AZN",
+        "nameRu": "Quasar — 75 AZN",
+        "nameEn": "Quasar — 75 AZN",
+        "active": true,
+        "sortOrder": 30
+      }
+    ],
+    "sortOrder": 26,
+    "tab": "shisha",
+    "active": true
+  },
+  {
+    "titleAz": "Best Sellers",
+    "titleRu": "Хиты продаж",
+    "titleEn": "Best Sellers",
+    "items": [
+      {
+        "nameAz": "Sherbetli — Lime Spiced Peach",
+        "nameRu": "Sherbetli — Lime Spiced Peach",
+        "nameEn": "Sherbetli — Lime Spiced Peach",
+        "active": true,
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Sherbetli — Ice Berry",
+        "nameRu": "Sherbetli — Ice Berry",
+        "nameEn": "Sherbetli — Ice Berry",
+        "active": true,
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Sherbetli — Feijoa",
+        "nameRu": "Sherbetli — Feijoa",
+        "nameEn": "Sherbetli — Feijoa",
+        "active": true,
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Al Fakher — Grape",
+        "nameRu": "Al Fakher — Grape",
+        "nameEn": "Al Fakher — Grape",
+        "active": true,
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Azure Gold Line — Lychee",
+        "nameRu": "Azure Gold Line — Lychee",
+        "nameEn": "Azure Gold Line — Lychee",
+        "active": true,
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Musthave — Tropic Juice",
+        "nameRu": "Musthave — Tropic Juice",
+        "nameEn": "Musthave — Tropic Juice",
+        "active": true,
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Starline — Pineapple",
+        "nameRu": "Starline — Pineapple",
+        "nameEn": "Starline — Pineapple",
+        "active": true,
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "White Angel — Original",
+        "nameRu": "White Angel — Original",
+        "nameEn": "White Angel — Original",
+        "active": true,
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Adalya — N1",
+        "nameRu": "Adalya — N1",
+        "nameEn": "Adalya — N1",
+        "active": true,
+        "sortOrder": 90
+      }
+    ],
+    "sortOrder": 27,
+    "tab": "shisha",
+    "active": true
+  },
+  {
+    "titleAz": "Klassik brendlər",
+    "titleRu": "Классические бренды",
+    "titleEn": "Classic Brands",
+    "items": [
+      {
+        "nameAz": "Sherbetli",
+        "nameRu": "Sherbetli",
+        "nameEn": "Sherbetli",
+        "active": true,
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Starline",
+        "nameRu": "Starline",
+        "nameEn": "Starline",
+        "active": true,
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Al Fakher",
+        "nameRu": "Al Fakher",
+        "nameEn": "Al Fakher",
+        "active": true,
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Blackburn",
+        "nameRu": "Blackburn",
+        "nameEn": "Blackburn",
+        "active": true,
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Adalya",
+        "nameRu": "Adalya",
+        "nameEn": "Adalya",
+        "active": true,
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Element",
+        "nameRu": "Element",
+        "nameEn": "Element",
+        "active": true,
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Nash",
+        "nameRu": "Nash",
+        "nameEn": "Nash",
+        "active": true,
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "Everest",
+        "nameRu": "Everest",
+        "nameEn": "Everest",
+        "active": true,
+        "sortOrder": 80
+      }
+    ],
+    "sortOrder": 28,
+    "tab": "shisha",
+    "active": true
+  },
+  {
+    "titleAz": "Premium brendlər",
+    "titleRu": "Премиум бренды",
+    "titleEn": "Premium Brands",
+    "items": [
+      {
+        "nameAz": "Palitra Classic",
+        "nameRu": "Palitra Classic",
+        "nameEn": "Palitra Classic",
+        "active": true,
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Darkside",
+        "nameRu": "Darkside",
+        "nameEn": "Darkside",
+        "active": true,
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Sebero",
+        "nameRu": "Sebero",
+        "nameEn": "Sebero",
+        "active": true,
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Musthave",
+        "nameRu": "Musthave",
+        "nameEn": "Musthave",
+        "active": true,
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Sarma",
+        "nameRu": "Sarma",
+        "nameEn": "Sarma",
+        "active": true,
+        "sortOrder": 50
+      },
+      {
+        "nameAz": "Chabacco",
+        "nameRu": "Chabacco",
+        "nameEn": "Chabacco",
+        "active": true,
+        "sortOrder": 60
+      },
+      {
+        "nameAz": "Xuligan",
+        "nameRu": "Xuligan",
+        "nameEn": "Xuligan",
+        "active": true,
+        "sortOrder": 70
+      },
+      {
+        "nameAz": "Deus",
+        "nameRu": "Deus",
+        "nameEn": "Deus",
+        "active": true,
+        "sortOrder": 80
+      },
+      {
+        "nameAz": "Bonche",
+        "nameRu": "Bonche",
+        "nameEn": "Bonche",
+        "active": true,
+        "sortOrder": 90
+      }
+    ],
+    "sortOrder": 29,
+    "tab": "shisha",
+    "active": true
+  },
+  {
+    "titleAz": "FRESH VƏ TƏBII ŞIRƏ",
+    "titleRu": "Свежевыжатые и натуральные соки",
+    "titleEn": "Fresh & Natural Juices",
+    "tab": "beverage",
+    "sortOrder": 180,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Portağal şirəsi",
+        "nameRu": "Апельсиновый сок",
+        "nameEn": "Orange juice",
+        "price": "8 AZN",
+        "active": true,
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Alma şirəsi",
+        "nameRu": "Яблочный сок",
+        "nameEn": "Apple juice",
+        "price": "7 AZN",
+        "active": true,
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "Qreypfrut şirəsi",
+        "nameRu": "Грейпфрутовый сок",
+        "nameEn": "Grapefruit juice",
+        "price": "8 AZN",
+        "active": true,
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "Nar şirəsi",
+        "nameRu": "Гранатовый сок",
+        "nameEn": "Pomegranate juice",
+        "price": "10 AZN",
+        "active": true,
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Cənnət ərikli",
+        "nameRu": "Персиковый рай",
+        "nameEn": "Apricot paradise",
+        "price": "9 AZN",
+        "active": true,
+        "sortOrder": 50
+      }
+    ]
+  },
+  {
+    "titleAz": "SU",
+    "titleRu": "Вода",
+    "titleEn": "Water",
+    "tab": "beverage",
+    "sortOrder": 190,
+    "active": true,
+    "items": [
+      {
+        "nameAz": "Sirab 500ml",
+        "nameRu": "Sirab 500мл",
+        "nameEn": "Sirab 500ml",
+        "price": "3 AZN",
+        "active": true,
+        "sortOrder": 10
+      },
+      {
+        "nameAz": "Sirab qazlı 500ml",
+        "nameRu": "Sirab газированная 500мл",
+        "nameEn": "Sirab sparkling 500ml",
+        "price": "3 AZN",
+        "active": true,
+        "sortOrder": 20
+      },
+      {
+        "nameAz": "San Benedetto 750ml",
+        "nameRu": "San Benedetto 750мл",
+        "nameEn": "San Benedetto 750ml",
+        "price": "8 AZN",
+        "active": true,
+        "sortOrder": 30
+      },
+      {
+        "nameAz": "San Pellegrino 750ml",
+        "nameRu": "San Pellegrino 750мл",
+        "nameEn": "San Pellegrino 750ml",
+        "price": "9 AZN",
+        "active": true,
+        "sortOrder": 40
+      },
+      {
+        "nameAz": "Acqua Panna 750ml",
+        "nameRu": "Acqua Panna 750мл",
+        "nameEn": "Acqua Panna 750ml",
+        "price": "9 AZN",
+        "active": true,
+        "sortOrder": 50
+      }
+    ]
+  }
+]

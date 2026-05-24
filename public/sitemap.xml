@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!--
+    NOTE: This SPA uses client-side hash routing (/#/). Only the root
+    URL is listed — Google indexes the homepage and discovers hash
+    routes via internal links. For full SEO indexing of all pages,
+    server-side rendering or prerender.io is recommended.
+  -->
+
+  <url>
+    <loc>https://xurcun.az/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+</urlset>

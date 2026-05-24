@@ -1,0 +1,181 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:900px;margin:40px auto;padding:20px;line-height:1.6;color:#333}
+h1{color:#C9A96E;border-bottom:2px solid #C9A96E;padding-bottom:10px}
+h2{color:#333;border-bottom:1px solid #ddd;padding-bottom:6px;margin-top:30px}
+h3{color:#555;margin-top:24px}
+table{border-collapse:collapse;width:100%;margin:16px 0}
+th,td{border:1px solid #ddd;padding:10px 12px;text-align:left}
+th{background:#f5f5f5;font-weight:600}
+tr:nth-child(even){background:#fafafa}
+code{background:#f4f4f4;padding:2px 6px;border-radius:4px;font-size:0.9em}
+pre code{display:block;padding:12px;overflow-x:auto}
+hr{border:none;border-top:1px solid #ddd;margin:24px 0}
+ul,ol{padding-left:24px}
+li{margin:4px 0}
+</style></head><body><h1>The Woo White City — Görüş Özeti</h1>
+<p><strong>Tarix:</strong> 19 May 2026<br />
+<strong>Mövzu:</strong> Admin panel fix-ləri + SEO audit<br />
+<strong>Status:</strong> 2 kritik bug düzəldildi, deploy edildi  </p>
+<hr />
+<h2>1. Bugün Düzəldilən Fix-lər</h2>
+<h3>1.1 Admin MenuPage — Shisha/Nargile Görünmürdü</h3>
+<p><strong>Problem:</strong> Admin paneldə Shisha tab-ı boş görünürdü<br />
+<strong>Səbəb:</strong> <code>import("@/lib/menuData")</code> səhv faylı yükləyirdi (interface-lər olan fayl). <code>shishaData</code> isə <code>menuData.static.ts</code>-də idi.<br />
+<strong>Düzəliş:</strong> <code>src/pages/admin/MenuPage.tsx</code>  </p>
+<pre><code class="language-diff">- import(&quot;@/lib/menuData&quot;)
++ import(&quot;@/lib/menuData.static&quot;)
+</code></pre>
+<p><strong>Commit:</strong> <code>acc2512</code></p>
+<h3>1.2 MediaPage → Foto Təyin Etmə Görünmürdü</h3>
+<p><strong>Problem:</strong> Media paneldən şəkil təyin edəndə menüdə görünmürdü, ama Menu Management-dən edəndə görünürdü<br />
+<strong>Səbəb:</strong> <code>handleAssign</code> Supabase tam URL-ni <code>imageId</code> olaraq göndərirdi. <code>getImageUrl("https://.../abc.jpg")</code> → <code>/food-photos/https://.../abc.jpg.webp</code> (tamamilə pozulmuş URL)<br />
+<strong>Düzəliş:</strong> <code>src/pages/admin/MediaPage.tsx</code><br />
+- <code>extractId()</code> funksiyası genişləndirildi — indi həm local <code>/food-photos/</code>, həm də Supabase URL-lərindən təmiz ID çıxarır
+- <code>handleAssign</code> — <code>imageId</code>-ni <code>extractId()</code> ilə təmizləyir<br />
+<strong>Commit:</strong> <code>3327ca2</code></p>
+<hr />
+<h2>2. Aktiv Problemlər və Status-ları</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>Status</th>
+<th>Qeyd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Shisha/Nargile görünmürdü</td>
+<td>✅ Düzəldildi</td>
+<td><code>acc2512</code> — deploy edildi</td>
+</tr>
+<tr>
+<td>2</td>
+<td>MediaPage foto təyin etmə</td>
+<td>✅ Düzəldildi</td>
+<td><code>3327ca2</code> — deploy edildi</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Supabase upload persistency</td>
+<td>⚠️ Naməlum</td>
+<td>Bucket mövcudluğu + service_role key yoxlanmayıb</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Build chunk 404-ləri</td>
+<td>⚠️ Aralıqlı</td>
+<td>Cloudflare Purge Everything + empty commit lazım ola bilər</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SPA SEO limitasiyası</td>
+<td>⏸️ Təxirə salındı</td>
+<td>Prerender.io/SSR lazım — user təxirə saldı</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. SEO Audit — Tapılan Eksikliklər</h2>
+<h3>🔴 Kritik</h3>
+<ol>
+<li><strong>SPA HashRouter</strong> — Google yalnız <code>/</code> görür, <code>/#/menu</code> görünmür → bütün menyu indekslənmir</li>
+<li><strong>Semantic HTML yoxdur</strong> — <code>&lt;main&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code> heç biri istifadə edilməyib</li>
+<li><strong>Canonical URL-lər gerçəkdə yoxdur</strong> — <code>SEO.tsx</code> <code>https://thewoo.az/az/</code> yaradır (404 verir)</li>
+<li><strong>Hreflang tag-ləri zərərli</strong> — olmayan URL-lərə işarə edir</li>
+<li><strong><code>&lt;noscript&gt;</code> içəriyi yoxdur</strong> — JS bağlı olanda səhifə boşdur</li>
+</ol>
+<h3>🟠 Orta</h3>
+<ol>
+<li><strong>Şəkil <code>alt</code> text-ləri boş</strong> — <code>QRMenuPage.tsx</code>, <code>Gallery.tsx</code> bir çox yerdə <code>alt=""</code></li>
+<li><strong>Sitemap tək URL-dir</strong> — yalnız ana səhifə var</li>
+<li><strong>JSON-LD Menu schema yoxdur</strong> — FoodEstablishment &gt; menu</li>
+<li><strong>Schema markup xətaları</strong> — <code>acceptsReservations: "True"</code> (string, boolean olmalı), fake <code>reviewCount: 152</code></li>
+<li><strong>Google Search Console verification</strong> — statik <code>index.html</code>-də yoxdur</li>
+<li><strong>Facebook Domain Verification boş</strong> — <code>content=""</code></li>
+<li><strong>Twitter Card duplicate</strong> — <code>twitter:image</code> 2 dəfə təkrarlanıb</li>
+</ol>
+<h3>🟡 Aşağı</h3>
+<ol>
+<li>Breadcrumb HTML yoxdur (yalnız JSON-LD)</li>
+<li>OG image cache MISS</li>
+<li><code>robots.txt</code>-də gərəksiz <code>/#/admin</code> sətirləri</li>
+</ol>
+<hr />
+<h2>4. Test Edilməsi Lazım Olanlar (Deploy-dan Sonra)</h2>
+<ul>
+<li>[ ] Admin → Menu → Shisha tab — nargile elementləri görünür mü?</li>
+<li>[ ] Admin → Media → Təyin Et — şəkil təyin edəndə menüdə görünür mü?</li>
+<li>[ ] QR Menu / sayt — şəkillər düzgün yüklənir mi?</li>
+<li>[ ] Cloudflare Purge Everything (əgər 404 chunk xətası görünsə)</li>
+</ul>
+<hr />
+<h2>5. Sabah Davam Edilə Biləcək İşlər</h2>
+<h3>Plan A: SEO Təməl Fix-ləri</h3>
+<ol>
+<li>Semantic HTML əlavə etmək (<code>&lt;main&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code>)</li>
+<li>Canonical URL düzəltmək (yalnız <code>https://thewoo.az/</code>)</li>
+<li>Hreflang tag-lərini düzəltmək/kaldırmaq</li>
+<li><code>&lt;noscript&gt;</code> əsas içərik əlavə etmək</li>
+<li><code>alt</code> text-lərini doldurmaq</li>
+</ol>
+<h3>Plan B: SEO Zənginləşdirmə</h3>
+<ol>
+<li>Sitemap genişləndirmək</li>
+<li>Menu schema (JSON-LD) əlavə etmək</li>
+<li><code>robots.txt</code> təmizləmək</li>
+<li>Google Search Console verification statik əlavə etmək</li>
+</ol>
+<h3>Plan C: Texniki İmkanlar</h3>
+<ol>
+<li>Supabase bucket yoxlanması (<code>media</code> bucket mövcuddur mu?)</li>
+<li><code>SUPABASE_SERVICE_KEY</code> formatı yoxlanması (<code>sb_secret_</code> prefix-i)</li>
+<li>Prerender.io inteqrasiyası (əgər user istəsə)</li>
+</ol>
+<hr />
+<h2>6. Vacib Kontekst (Yadda Saxla)</h2>
+<h3>Texniki Stack</h3>
+<ul>
+<li>React + Vite + Hono + tRPC + Drizzle ORM + Railway MySQL</li>
+<li>HashRouter SPA (<code>/#/menu</code>, <code>/#/admin</code>)</li>
+<li>Supabase storage (<code>SUPABASE_BUCKET=media</code>)</li>
+<li>Cloudflare proxy</li>
+</ul>
+<h3>Tracking ID-lər (DB / Live)</h3>
+<ul>
+<li>Meta Pixel: <code>988936886861215</code></li>
+<li>GTM: <code>GTM-N5S76LX6</code></li>
+<li>GA4: <code>G-389571119</code></li>
+<li>Google Ads: <code>AW-9288635894</code></li>
+</ul>
+<h3>Foto Təyinat Açar Formatı</h3>
+<pre><code>${tab}:${catTitleAz}:${itemNameAz}
+</code></pre>
+<p>Məsələn: <code>food:Şorbalar:Mercimek</code></p>
+<h3>Fayllar (Son Dəyişiklik)</h3>
+<table>
+<thead>
+<tr>
+<th>Fayl</th>
+<th>Son Commit</th>
+<th>Dəyişiklik</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/pages/admin/MenuPage.tsx</code></td>
+<td><code>acc2512</code></td>
+<td><code>import("@/lib/menuData.static")</code></td>
+</tr>
+<tr>
+<td><code>src/pages/admin/MediaPage.tsx</code></td>
+<td><code>3327ca2</code></td>
+<td><code>extractId()</code> + <code>handleAssign</code> fix</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Bu sənəd 19 May 2026 tarixində yaradılmışdır.</em></p></body></html>

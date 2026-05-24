@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /#/admin
+Disallow: /admin/
+Disallow: /#/admin/
+Disallow: /admin/login
+Disallow: /#/admin/login
+
+# Sitemap
+Sitemap: https://thewoo.az/sitemap.xml

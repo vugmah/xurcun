@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="az">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="msapplication-TileColor" content="#0A0A0A" />
+    <!-- PWA install/open-app prompts disabled for QR menu browser flow. -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Xurcun" />
+    <meta name="copyright" content="Xurcun" />
+    <title>Xurcun</title>
+    <meta name="description" content="Xurcun — Premium restoran & lounge merkezi." />
+    <meta name="keywords" content="Xurcun, restoran, lounge, premium restoran" />
+
+    <!-- ═══ Canonical URL ═══ -->
+    <link rel="canonical" href="https://xurcun.az/" />
+
+    <!-- ═══ Structured Data (JSON-LD) ═══ -->
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://xurcun.az/#organization","name":"Xurcun","alternateName":"Xurcun","url":"https://xurcun.az/","logo":{"@type":"ImageObject","url":"https://xurcun.az/assets/logo.png","width":512,"height":512},"image":"https://xurcun.az/assets/og-default.jpg","description":"Premium restaurant and lounge.","sameAs":[]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","@id":"https://xurcun.az/#website","url":"https://xurcun.az/","name":"Xurcun","alternateName":"Xurcun","inLanguage":"az","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://xurcun.az/#/menu"},"query-input":"required name=search_term_string"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":["Restaurant","LocalBusiness"],"@id":"https://xurcun.az/#restaurant","name":"Xurcun","alternateName":"Xurcun","url":"https://xurcun.az/","image":"https://xurcun.az/assets/og-default.jpg","logo":"https://xurcun.az/assets/logo.png","telephone":"","email":"","priceRange":"$$$","currenciesAccepted":"AZN","paymentAccepted":"Cash, Credit Card","hasMap":"","description":"Premium restaurant and lounge.","servesCuisine":["Azerbaijani","European","Italian","Mediterranean","Brunch","Cocktails","Premium Shisha","Lounge"],"address":{"@type":"PostalAddress","streetAddress":"","addressLocality":"Bakı","addressRegion":"Bakı","postalCode":"AZ1000","addressCountry":"AZ"},"geo":{"@type":"GeoCoordinates","latitude":40.3667,"longitude":49.8352},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"10:00","closes":"02:00"}],"acceptsReservations":"True","aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"0"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","@id":"https://xurcun.az/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana Səhifə","item":"https://xurcun.az/"}]}</script>
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <link rel="apple-touch-icon" href="/assets/favicon.svg" />
+
+    <!-- ═══ Hreflang REMOVED — HashRouter SPA limitation ═══ -->
+    <!-- Hash URLs (/#/az, #/en, etc.) are NOT independently crawlable by Google. -->
+    <!-- Only https://thewoo.az/ is indexed. If path-based multilingual routing is -->
+    <!-- added in the future, restore proper hreflang links here. -->
+
+    <!-- ═══ Open Graph (Facebook, WhatsApp, LinkedIn) ═══ -->
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:url" content="https://xurcun.az/" />
+    <meta property="og:site_name" content="Xurcun" />
+    <meta property="og:title" content="Xurcun" />
+    <meta property="og:description" content="Xurcun — Premium restoran & lounge merkezi." />
+    <meta property="og:image" content="https://xurcun.az/assets/og-default.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="az_AZ" />
+
+    <!-- ═══ Twitter Cards ═══ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Xurcun" />
+    <meta name="twitter:description" content="Xurcun — Premium restoran & lounge merkezi." />
+    <meta name="twitter:image" content="https://xurcun.az/assets/og-default.jpg" />
+
+    <!-- ═══ Security Headers (meta http-equiv) ═══ -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <!-- X-Frame-Options sent via HTTP header (api/boot.ts) — meta tag removed to avoid console warning -->
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+
+    <!-- ═══ Meta Domain Verification (dinamik - admin panelden yuklenir) ═══ -->
+    <meta name="facebook-domain-verification" id="meta-domain-verification-tag" content="" />
+
+    <!-- ═══ HashRouter redirect: / → /#/ ONLY (MUST be first script) ═══ -->
+    <script>
+      (function() {
+        var loc = window.location;
+        var path = loc.pathname;
+        var hash = loc.hash;
+        // Already has hash route → skip
+        if (hash && hash.length > 1) return;
+        // Not root path → skip (server serves index.html, HashRouter handles /)
+        if (path !== '/' && path !== '') return;
+        // Redirect: / → /#/
+        loc.replace(loc.protocol + '//' + loc.host + '/#' + (loc.search || ''));
+      })();
+    </script>
+
+    <!-- ═══ Canonical Domain for Tracking (used by initTracking.ts) ═══ -->
+    <script>
+      window.__XURCUN_DOMAIN__ = 'https://xurcun.az';
+    </script>
+
+    <!-- Google Consent Mode v2 — default denied (EU/GDPR compliant) -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('consent', 'default', {
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        personalization_storage: 'denied',
+        wait_for_update: 500
+      });
+    </script>
+    <!-- End Google Consent Mode v2 -->
+
+    <script>
+      // data-gtm click tracking
+      document.addEventListener('click', function(e) {
+        var el = e.target.closest('[data-gtm]');
+        if (el && window.dataLayer) {
+          window.dataLayer.push({
+            event: 'gtm.click',
+            gtm_tag: el.getAttribute('data-gtm'),
+            gtm_label: el.textContent.trim().substring(0, 50)
+          });
+        }
+      });
+    </script>
+
+    <!-- ═══ Preconnect / DNS Prefetch for external resources ═══ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://imagedelivery.net" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
+    <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+  </head>
+  <body>
+    <!-- GTM noscript - dinamik olarak initTracking.ts'den yuklenir -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

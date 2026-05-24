@@ -1,0 +1,201 @@
+import { useState, useEffect } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
+import {
+  loadConsent,
+  hasConsentDecision,
+  acceptAllConsent,
+  rejectAllConsent,
+  saveCustomConsent,
+  updateGoogleConsent,
+  getDefaultConsent,
+  type ConsentState,
+} from "@/lib/consent";
+import { setTrackingEnabled } from "@/lib/tracking";
+
+type BannerView = "main" | "customize";
+
+export function CookieConsentBanner() {
+  const { t, lang } = useLanguage();
+  const [visible, setVisible] = useState(false);
+  const [view, setView] = useState<BannerView>("main");
+  const [consent, setConsent] = useState<ConsentState>(getDefaultConsent());
+
+  useEffect(() => {
+    // Check if already decided
+    if (!hasConsentDecision()) {
+      setVisible(true);
+      return;
+    }
+
+    // Already decided — apply saved consent
+    const saved = loadConsent();
+    if (saved) {
+      applyConsent(saved);
+    }
+  }, []);
+
+  function applyConsent(state: ConsentState) {
+    updateGoogleConsent(state);
+    setTrackingEnabled({
+      google: true, // GTM always loads, consent mode controls data
+      meta: state.marketing,
+    });
+    // Meta Pixel init is handled by initTracking.ts
+    // CookieConsentBanner only sets tracking consent flags
+  }
+
+  function handleAcceptAll() {
+    const state = acceptAllConsent();
+    applyConsent(state);
+    setVisible(false);
+  }
+
+  function handleReject() {
+    const state = rejectAllConsent();
+    applyConsent(state);
+    setVisible(false);
+  }
+
+  function handleSaveCustom() {
+    const state = saveCustomConsent(consent);
+    applyConsent(state);
+    setVisible(false);
+  }
+
+  if (!visible) return null;
+
+  const texts = {
+    az: {
+      title: "Cookie istifadəsi",
+      desc: "Saytımızın düzgün işləməsi və təcrübənizi yaxşılaşdırmaq üçün cookie və tracking alətlərindən istifadə edirik.",
+      acceptAll: "Hamısını qəbul et",
+      reject: "Rədd et",
+      customize: "Tənzimlə",
+      save: "Yadda saxla",
+      back: "Geri",
+      necessary: "Zəruri",
+      necessaryDesc: "Saytın əsas funksiyaları üçün tələb olunur.",
+      analytics: "Analitika",
+      analyticsDesc: "Sayt istifadəsini ölçmək və təkmilləşdirmək.",
+      marketing: "Marketinq",
+      marketingDesc: "Google Ads və Meta remarketing reklamları.",
+    },
+    ru: {
+      title: "Использование cookies",
+      desc: "Мы используем cookie и инструменты отслеживания для корректной работы сайта и улучшения вашего опыта.",
+      acceptAll: "Принять все",
+      reject: "Отклонить",
+      customize: "Настроить",
+      save: "Сохранить",
+      back: "Назад",
+      necessary: "Необходимые",
+      necessaryDesc: "Требуются для основных функций сайта.",
+      analytics: "Аналитика",
+      analyticsDesc: "Измерение использования сайта и улучшение.",
+      marketing: "Маркетинг",
+      marketingDesc: "Ремаркетинг Google Ads и Meta.",
+    },
+    en: {
+      title: "Cookie Usage",
+      desc: "We use cookies and tracking tools for the proper functioning of our site and to improve your experience.",
+      acceptAll: "Accept all",
+      reject: "Reject",
+      customize: "Customize",
+      save: "Save",
+      back: "Back",
+      necessary: "Necessary",
+      necessaryDesc: "Required for the site's core functions.",
+      analytics: "Analytics",
+      analyticsDesc: "Measure site usage and improve.",
+      marketing: "Marketing",
+      marketingDesc: "Google Ads and Meta remarketing.",
+    },
+  };
+
+  const txt = texts[lang as keyof typeof texts] ?? texts.az;
+
+  if (view === "customize") {
+    return (
+      <div className="fixed inset-x-0 bottom-0 z-[9999] bg-[#0A0A0A]/98 backdrop-blur-md border-t border-[#333]">
+        <div className="max-w-3xl mx-auto px-4 py-5">
+          <h3 className="text-white text-base font-medium mb-4">{txt.title}</h3>
+
+          {/* Necessary — always on, disabled */}
+          <div className="flex items-start gap-3 mb-3 p-3 rounded-lg bg-[#111]">
+            <div className="mt-0.5">
+              <span className="inline-block w-9 h-5 bg-green-400 rounded-full relative">
+                <span className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-white" />
+              </span>
+            </div>
+            <div>
+              <p className="text-white text-sm font-medium">{txt.necessary}</p>
+              <p className="text-white/40 text-xs">{txt.necessaryDesc}</p>
+            </div>
+          </div>
+
+          {/* Analytics */}
+          <div className="flex items-start gap-3 mb-3 p-3 rounded-lg bg-[#111]">
+            <button
+              onClick={() => setConsent((c) => ({ ...c, analytics: !c.analytics }))}
+              className="mt-0.5"
+            >
+              <span className={`inline-block w-9 h-5 rounded-full relative transition-all ${consent.analytics ? "bg-green-400" : "bg-white/20"}`}>
+                <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${consent.analytics ? "right-0.5" : "left-0.5"}`} />
+              </span>
+            </button>
+            <div>
+              <p className="text-white text-sm font-medium">{txt.analytics}</p>
+              <p className="text-white/40 text-xs">{txt.analyticsDesc}</p>
+            </div>
+          </div>
+
+          {/* Marketing */}
+          <div className="flex items-start gap-3 mb-4 p-3 rounded-lg bg-[#111]">
+            <button
+              onClick={() => setConsent((c) => ({ ...c, marketing: !c.marketing }))}
+              className="mt-0.5"
+            >
+              <span className={`inline-block w-9 h-5 rounded-full relative transition-all ${consent.marketing ? "bg-green-400" : "bg-white/20"}`}>
+                <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${consent.marketing ? "right-0.5" : "left-0.5"}`} />
+              </span>
+            </button>
+            <div>
+              <p className="text-white text-sm font-medium">{txt.marketing}</p>
+              <p className="text-white/40 text-xs">{txt.marketingDesc}</p>
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <button onClick={() => setView("main")} className="px-4 py-2 text-xs text-white/50 hover:text-white/80 transition-colors">
+              {txt.back}
+            </button>
+            <button onClick={handleSaveCustom} className="px-5 py-2 bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A] text-xs font-medium rounded-md transition-colors ml-auto">
+              {txt.save}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Main view
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-[9999] bg-[#0A0A0A]/98 backdrop-blur-md border-t border-[#333]">
+      <div className="max-w-3xl mx-auto px-4 py-4">
+        <h3 className="text-white text-base font-medium mb-1">{txt.title}</h3>
+        <p className="text-white/50 text-xs mb-4 leading-relaxed">{txt.desc}</p>
+        <div className="flex flex-wrap gap-2">
+          <button onClick={handleAcceptAll} className="px-5 py-2 bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A] text-xs font-medium rounded-md transition-colors">
+            {txt.acceptAll}
+          </button>
+          <button onClick={() => setView("customize")} className="px-5 py-2 bg-[#1A1A1A] hover:bg-[#222] text-white text-xs font-medium rounded-md transition-colors border border-[#333]">
+            {txt.customize}
+          </button>
+          <button onClick={handleReject} className="px-5 py-2 text-white/50 hover:text-white/80 text-xs transition-colors">
+            {txt.reject}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
