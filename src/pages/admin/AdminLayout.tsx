@@ -3,26 +3,23 @@ import { Link, useLocation, useNavigate, Outlet } from "react-router";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import AdminErrorBoundary from "@/components/AdminErrorBoundary";
 import {
-  LayoutDashboard, Utensils, Globe, Image, LogOut, ChevronLeft,
-  Sparkles, Mail, Megaphone, Menu, X, Users, Settings, Camera, Bot,
+  LayoutDashboard, Globe, Image, LogOut, ChevronLeft,
+  Mail, Megaphone, Menu, X, Settings, Bot,
   Lightbulb, MessageSquare, ShoppingBag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems: { path: string; icon: React.ComponentType<{ className?: string }>; label: string; soon?: boolean }[] = [
-  { path: "/admin", icon: LayoutDashboard, label: "Dashboard" },
+  { path: "/admin", icon: LayoutDashboard, label: "İdarə paneli" },
   { path: "/admin/catalog", icon: ShoppingBag, label: "Kataloq" },
-  { path: "/admin/menu", icon: Utensils, label: "Menu" },
-  { path: "/admin/seo", icon: Globe, label: "SEO" },
   { path: "/admin/media", icon: Image, label: "Media" },
-  { path: "/admin/mail-settings", icon: Mail, label: "Mail" },
-  { path: "/admin/inbox", icon: MessageSquare, label: "Gelen Mesajlar" },
+  { path: "/admin/seo", icon: Globe, label: "SEO" },
   { path: "/admin/google-ads", icon: Megaphone, label: "Google Ads" },
-  { path: "/admin/social", icon: Users, label: "Social" },
-  { path: "/admin/homepage-photos", icon: Camera, label: "Ana Sayfa Fotograflari" },
+  { path: "/admin/popups", icon: Megaphone, label: "Kampaniyalar" },
   { path: "/admin/ai-auditor", icon: Bot, label: "AI Auditor" },
   { path: "/admin/ai-insights", icon: Lightbulb, label: "AI Insights" },
-  { path: "/admin/popups", icon: Megaphone, label: "Kampaniyalar" },
+  { path: "/admin/inbox", icon: MessageSquare, label: "Gələn mesajlar" },
+  { path: "/admin/mail-settings", icon: Mail, label: "Mail" },
   { path: "/admin/settings", icon: Settings, label: "Ayarlar" },
   { path: "/admin/shisha-discount", icon: Megaphone, label: "Shisha Endirim" },
 
@@ -84,7 +81,7 @@ export default function AdminLayout() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#14110e] text-white overflow-x-hidden">
       {/* ─── Mobile Overlay ─── */}
       {sidebarOpen && (
         <div
@@ -94,14 +91,14 @@ export default function AdminLayout() {
       )}
 
       {/* ─── Mobile Header ─── */}
-      <header className="md:hidden flex items-center gap-3 px-4 h-16 bg-[#0b0b0b] border-b border-white/10 sticky top-0 z-30">
+      <header className="md:hidden flex items-center gap-3 px-4 h-16 bg-[#100d0a] border-b border-white/10 sticky top-0 z-30">
         <button
           onClick={() => setSidebarOpen(true)}
           className="text-white/60 hover:text-white p-1"
         >
           <Menu className="w-5 h-5" />
         </button>
-        <h2 className="text-[#C9A96E] font-semibold text-sm tracking-wider uppercase">
+        <h2 className="text-[#C2A05A] font-semibold text-sm tracking-wider uppercase">
           Xurcun Admin
         </h2>
       </header>
@@ -111,7 +108,7 @@ export default function AdminLayout() {
         className={`
           fixed top-0 left-0 z-50 h-screen
           w-[82vw] max-w-[320px] md:w-[260px]
-          bg-[#0b0b0b] border-r border-white/10
+          bg-[#100d0a] border-r border-white/10
           flex flex-col
           transform transition-transform duration-300 ease-in-out
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
@@ -122,15 +119,8 @@ export default function AdminLayout() {
         {/* Logo */}
         <div className="p-5 border-b border-white/10 flex items-center justify-between">
           <Link to="/admin" className="flex items-center gap-3" onClick={() => setSidebarOpen(false)}>
-            <Sparkles className="w-6 h-6 text-[#C9A96E] shrink-0" />
-            <div>
-              <h1 className="text-[#C9A96E] font-bold text-sm tracking-widest uppercase">
-                Xurcun
-              </h1>
-              <p className="text-white/40 text-[10px] uppercase tracking-widest">
-                Admin Panel
-              </p>
-            </div>
+            <img src="/brand/logo-gold.png" alt="Xurcun" className="h-8" />
+            <span className="text-white/40 text-[10px] uppercase tracking-widest">Admin</span>
           </Link>
           <button className="md:hidden text-white/50 hover:text-white" onClick={() => setSidebarOpen(false)}>
             <X className="w-5 h-5" />
@@ -148,7 +138,7 @@ export default function AdminLayout() {
                 to={item.path}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all duration-200 ${
                   isActive
-                    ? "bg-[#C9A96E]/15 text-[#C9A96E] font-medium"
+                    ? "bg-[#C2A05A]/15 text-[#C2A05A] font-medium"
                     : "text-white/60 hover:text-white hover:bg-white/5"
                 } ${item.soon ? "opacity-50" : ""}`}
                 onClick={() => setSidebarOpen(false)}

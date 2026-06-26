@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Sparkles, Shield } from "lucide-react";
 
 export default function LoginPage() {
   const [key, setKey] = useState("");
@@ -20,62 +17,64 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     if (!key.trim()) {
-      setError("Zehmet olmasa admin acar sozunu daxil edin");
+      setError("Zəhmət olmasa admin açar sözünü daxil edin");
       return;
     }
-    const success = login(key.trim());
-    if (success) {
-      navigate("/admin");
-    } else {
-      setError("Yanlis admin acar sozu. Yeniden cehd edin.");
-    }
+    if (login(key.trim())) navigate("/admin");
+    else setError("Yanlış admin açar sözü. Yenidən cəhd edin.");
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#14110e" }}>
       <div className="w-full max-w-md">
-        <div className="bg-[#111] border border-[#222] rounded-2xl p-8">
+        <div className="rounded-2xl p-8 border" style={{ background: "#1d1915", borderColor: "#352d24" }}>
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#C9A96E]/15 mb-4">
-              <Shield className="w-8 h-8 text-[#C9A96E]" />
-            </div>
-            <h1 className="text-[#C9A96E] font-bold text-xl tracking-widest uppercase mb-2">
-              Xurcun Admin
+            <img src="/brand/logo-gold.png" alt="Xurcun" className="h-12 mx-auto mb-5" />
+            <h1 className="text-xl tracking-[0.2em] uppercase mb-2" style={{ color: "#C2A05A", fontFamily: "Rufolo, serif", fontWeight: 700 }}>
+              Admin Panel
             </h1>
-            <p className="text-white/50 text-sm">
-              Idarə panelinə giriş üçün admin açar sözünü daxil edin
+            <p className="text-sm" style={{ color: "#928876" }}>
+              İdarə panelinə giriş üçün admin açar sözünü daxil edin
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Input
-                type="password"
-                placeholder="Admin acar sozu"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-                className="bg-[#0A0A0A] border-[#333] text-white placeholder:text-white/30 focus:border-[#C9A96E] focus:ring-[#C9A96E]/20"
-              />
-            </div>
+            <input
+              type="password"
+              autoFocus
+              placeholder="Admin açar sözü"
+              value={key}
+              onChange={(e) => setKey(e.target.value)}
+              className="w-full rounded-lg px-4 py-3 text-sm outline-none transition"
+              style={{ background: "#16120e", border: "1px solid #352d24", color: "#ECE6DA" }}
+              onFocus={(e) => (e.currentTarget.style.borderColor = "#9D7C38")}
+              onBlur={(e) => (e.currentTarget.style.borderColor = "#352d24")}
+            />
             {error && (
-              <p className="text-red-400 text-sm bg-red-400/10 p-3 rounded-lg">
+              <p className="text-sm p-3 rounded-lg" style={{ color: "#e0697a", background: "#2c1418" }}>
                 {error}
               </p>
             )}
-            <Button
+            <button
               type="submit"
-              className="w-full bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A] font-semibold"
+              className="w-full rounded-lg py-3 text-sm font-semibold transition"
+              style={{ background: "#9D7C38", color: "#1a140a" }}
+              onMouseOver={(e) => (e.currentTarget.style.background = "#C2A05A")}
+              onMouseOut={(e) => (e.currentTarget.style.background = "#9D7C38")}
             >
-              Giris
-            </Button>
+              Giriş
+            </button>
           </form>
 
           <div className="mt-6 text-center">
-            <a href="/" className="text-white/40 text-sm hover:text-[#C9A96E] transition-colors">
-              Siteye qayit
+            <a href="/" className="text-sm transition" style={{ color: "#6c6353" }}>
+              ← Sayta qayıt
             </a>
           </div>
         </div>
+        <p className="text-center mt-5 text-[11px] tracking-[0.3em] uppercase" style={{ color: "#5a5446" }}>
+          Xurcun · Fond of Quality
+        </p>
       </div>
     </div>
   );
