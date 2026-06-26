@@ -492,6 +492,61 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
   await createIndex("product_variants", "idx_product_variants_item", "item_id");
   await createIndex("menu_categories", "idx_menu_categories_parent", "parent_id");
 
+  // ── 7d. XURCUN CATALOG CATEGORIES (real categories from xurcun.com) ──
+  // Idempotent: only inserts a category if it does not already exist.
+  // Does NOT touch restaurant ("food"/"beverage"/…) categories — those are a
+  // different menu_type and never show on the catalog/QR menu.
+  try {
+    const pool = getPool();
+    // [titleAz, titleRu, titleEn, titleTr, titleAr, sortOrder]
+    const CATS: [string, string, string, string, string, number][] = [
+      ["Quru meyvə", "Сухофрукты", "Dried Fruit", "Kuru Meyve", "فواكه مجففة", 10],
+      ["Çərəz", "Орехи и снеки", "Nuts & Snacks", "Çerez", "مكسرات", 20],
+      ["Çay və Ədviyyat", "Чай и специи", "Tea & Spices", "Çay & Baharat", "شاي وتوابل", 30],
+      ["Şokolad", "Шоколад", "Chocolate", "Çikolata", "شوكولاتة", 40],
+      ["Lokum", "Лукум", "Turkish Delight", "Lokum", "ملبن", 50],
+      ["Paxlava", "Пахлава", "Baklava", "Baklava", "بقلاوة", 60],
+      ["Hədiyyəlik", "Подарки", "Gifts", "Hediyelik", "هدايا", 70],
+    ];
+    for (const [az, ru, en, tr, ar, sort] of CATS) {
+      const [r] = await pool.execute(
+        `SELECT id FROM menu_categories WHERE menu_type='catalog' AND title_az=? AND parent_id IS NULL LIMIT 1`,
+        [az],
+      );
+      if (!(r as any[]).length) {
+        await pool.execute(
+          `INSERT INTO menu_categories
+             (menu_type, parent_id, title_az, title_ru, title_en, title_tr, title_ar, sort_order, is_active, is_featured)
+           VALUES ('catalog', NULL, ?, ?, ?, ?, ?, ?, true, false)`,
+          [az, ru, en, tr, ar, sort],
+        );
+      }
+    }
+    // "Çay" — sub-category of "Çay və Ədviyyat" (mirrors xurcun.com hierarchy)
+    const [pr] = await pool.execute(
+      `SELECT id FROM menu_categories WHERE menu_type='catalog' AND title_az=? AND parent_id IS NULL LIMIT 1`,
+      ["Çay və Ədviyyat"],
+    );
+    const parentId = (pr as any[])[0]?.id;
+    if (parentId) {
+      const [sr] = await pool.execute(
+        `SELECT id FROM menu_categories WHERE menu_type='catalog' AND title_az=? AND parent_id=? LIMIT 1`,
+        ["Çay", parentId],
+      );
+      if (!(sr as any[]).length) {
+        await pool.execute(
+          `INSERT INTO menu_categories
+             (menu_type, parent_id, title_az, title_ru, title_en, title_tr, title_ar, sort_order, is_active, is_featured)
+           VALUES ('catalog', ?, ?, ?, ?, ?, ?, ?, true, false)`,
+          [parentId, "Çay", "Чай", "Tea", "Çay", "شاي", 10],
+        );
+      }
+    }
+    console.log("[MIGRATE] Xurcun catalog categories ensured (7 + 1 sub)");
+  } catch (err: any) {
+    console.error("[MIGRATE] Catalog category seed error:", err.message || err);
+  }
+
   // ── 8. SEO SETTINGS — per-page multilingual SEO ──
   // DROP old table (may have legacy columns: title, description, keywords, lang)
   // then recreate with clean per-language-only schema
