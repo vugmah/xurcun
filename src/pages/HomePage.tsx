@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
+import { trpc } from '@/providers/trpc'
 import '@/xurcun-home.css'
 
 const LOGO = '/brand/logo-gold.png'
@@ -104,6 +105,14 @@ export default function HomePage() {
   const t = (m: M) => m[lang] ?? m.az
   const root = useRef<HTMLDivElement>(null)
 
+  // Branches come from the admin/DB (synced). Fallback to static list if API empty.
+  const branchesQ = trpc.branch.getBranches.useQuery(undefined, { retry: false })
+  const branches: Branch[] = (branchesQ.data && branchesQ.data.length)
+    ? branchesQ.data.map((b) => ({
+        slug: b.slug ?? '', name: b.name ?? '', addr: b.address ?? '', tel: b.phone ?? undefined, q: `Xurcun ${b.name ?? ''} Baku`,
+      }))
+    : BRANCHES
+
   useEffect(() => {
     const el = root.current
     if (!el) return
@@ -124,7 +133,7 @@ export default function HomePage() {
       cleanups.push(() => { b.removeEventListener('mouseenter', play); b.removeEventListener('mouseleave', stop) })
     })
     return () => { io.disconnect(); window.removeEventListener('scroll', onScroll); cleanups.forEach((c) => c()) }
-  }, [lang])
+  }, [lang, branchesQ.data])
 
   return (
     <div className="xc" ref={root}>
@@ -218,7 +227,7 @@ export default function HomePage() {
             <h2>{t(S.stores_title)}</h2><div className="tag">{t(S.stores_label)}</div>
           </div>
           <div className="mag-grid">
-            {BRANCHES.map((b, i) => (
+            {branches.map((b, i) => (
               <div className={`branch reveal d${(i % 3) + 1}`} key={b.slug}>
                 <video muted loop playsInline preload="none" poster={`/images/branches/${b.slug}.jpg`}>
                   <source src={`/videos/${b.slug}.mp4`} type="video/mp4" />
