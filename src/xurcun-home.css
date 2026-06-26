@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500&family=Pinyon+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600&display=swap');
 
 @font-face{font-family:"Rufolo";src:url(/fonts/RufoloLight.woff) format("woff");font-weight:300;font-style:normal;font-display:swap}
 @font-face{font-family:"Rufolo";src:url(/fonts/Rufolo.woff) format("woff");font-weight:400;font-style:normal;font-display:swap}
@@ -144,3 +144,51 @@
   .xc nav{flex-wrap:wrap; justify-content:center; gap:18px}
 }
 [dir="rtl"] .xc .ornament img{animation:none}
+
+/* ── Mobile ── */
+@media(max-width:600px){
+  .xc .wrap{padding:0 18px}
+  .xc .topbar .wrap{height:auto; padding:8px 18px; flex-direction:column; gap:6px}
+  .xc .topbar .ph{gap:14px; font-size:10.5px}
+  .xc header .wrap{padding:14px 18px 10px; gap:10px}
+  .xc .logo{height:46px}
+  .xc nav{gap:14px 16px; font-size:11px; letter-spacing:.12em}
+  .xc .hero{min-height:78vh}
+  .xc .hero .emb{width:60px; margin-bottom:16px}
+  .xc .hero .lead{font-size:14.5px; margin:18px auto 26px}
+  .xc .btns{gap:12px}
+  .xc .btn{padding:14px 24px; font-size:11px}
+  .xc .values .wrap{gap:14px 22px; padding:16px 18px; font-size:10px; letter-spacing:.18em}
+  .xc section.sec{padding:54px 0}
+  .xc .sec-head{margin-bottom:32px}
+  .xc .cat{flex-basis:50%; padding:18px 8px; font-size:11px}
+  .xc .grid{grid-template-columns:repeat(2,1fr); gap:14px}
+  .xc .card-b .pname{font-size:18px}
+  .xc .luxe .wrap{padding:60px 18px; gap:32px}
+  .xc .mag-grid{grid-template-columns:repeat(2,1fr); gap:12px}
+  .xc .bover{padding:12px}
+  .xc .bover .bn{font-size:17px}
+  .xc footer .wrap{padding:48px 18px 28px; gap:30px}
+}
+@media(max-width:380px){
+  .xc .mag-grid{grid-template-columns:1fr 1fr; gap:9px}
+  .xc .bover .bn{font-size:15px}
+}
+
+/* ── Arabic / RTL ── (Rufolo & Pinyon lack Arabic glyphs → use Amiri/Cairo;
+   Arabic has no uppercase and letter-spacing breaks letter-joining) */
+[dir="rtl"] .xc{ --display:"Amiri",serif; --body:"Cairo","Montserrat",system-ui,sans-serif; font-weight:400 }
+[dir="rtl"] .xc .script{ font-family:"Amiri",serif; font-style:italic }
+[dir="rtl"] .xc .hero h1 em,[dir="rtl"] .xc .luxe h2 em{ font-style:normal }
+[dir="rtl"] .xc .tag,
+[dir="rtl"] .xc nav,
+[dir="rtl"] .xc .langs button,
+[dir="rtl"] .xc .values .wrap,
+[dir="rtl"] .xc .badge,
+[dir="rtl"] .xc .cat,
+[dir="rtl"] .xc .card-b .pcat,
+[dir="rtl"] .xc .bover a,
+[dir="rtl"] .xc footer h4,
+[dir="rtl"] .xc .copyright,
+[dir="rtl"] .xc .btn{ letter-spacing:normal !important; text-transform:none !important }
+[dir="rtl"] .xc .hero h1{ letter-spacing:normal }

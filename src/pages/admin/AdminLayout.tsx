@@ -5,12 +5,13 @@ import AdminErrorBoundary from "@/components/AdminErrorBoundary";
 import {
   LayoutDashboard, Utensils, Globe, Image, LogOut, ChevronLeft,
   Sparkles, Mail, Megaphone, Menu, X, Users, Settings, Camera, Bot,
-  Lightbulb, MessageSquare,
+  Lightbulb, MessageSquare, ShoppingBag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems: { path: string; icon: React.ComponentType<{ className?: string }>; label: string; soon?: boolean }[] = [
   { path: "/admin", icon: LayoutDashboard, label: "Dashboard" },
+  { path: "/admin/catalog", icon: ShoppingBag, label: "Kataloq" },
   { path: "/admin/menu", icon: Utensils, label: "Menu" },
   { path: "/admin/seo", icon: Globe, label: "SEO" },
   { path: "/admin/media", icon: Image, label: "Media" },

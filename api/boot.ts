@@ -381,17 +381,37 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )`);
 
-  // Seed default branches if empty
+  // Seed real Xurcun branches (idempotent by slug; only base columns —
+  // extended columns whatsapp/map/video/has_cafe/sort are added later in 7c)
   try {
     const pool = getPool();
-    const [rows] = await pool.execute(`SELECT COUNT(*) as c FROM branches`);
-    const count = Number((rows as any)?.[0]?.c || 0);
-    if (count === 0) {
-      await pool.execute(`INSERT INTO branches (name, slug, address, phone, is_active) VALUES
-        ('White City', 'white-city', 'Baku, White City', NULL, true),
-        ('Seabreeze Marina', 'seabreeze', 'Baku, Seabreeze Marina', NULL, true)`);
-      console.log("[MIGRATE] Default branches seeded (White City + Seabreeze)");
+    // remove legacy TheWoo template defaults if still present
+    await pool.execute(
+      `DELETE FROM branches WHERE (slug = 'white-city' AND address = 'Baku, White City') OR slug = 'seabreeze'`,
+    );
+    const XB: [string, string, string, string | null][] = [
+      ["Port Baku Mall", "port-baku", "Üzeyir Hacıbəyov 57, Bakı", "+994777170070"],
+      ["Crescent Mall", "crescent-mall", "Neftçilər pr. 68, Bakı", null],
+      ["Sea Breeze", "sea-breeze", "Sea Breeze Resort, Nardaran", null],
+      ["Gənclik Mall", "genclik", "Fətəli Xan Xoyski 38, Bakı", "+994502123574"],
+      ["Səməd Vurğun", "semed-vurgun", "Səməd Vurğun 81, Bakı", "+994502123549"],
+      ["Azadlıq prospekti", "azadliq", "Azadlıq pr. 119, Bakı", "+994502123547"],
+      ["Hüseyn Cavid", "huseyn-cavid", "Hüseyn Cavid pr. 47K, Bakı", "+994502123548"],
+      ["Xətai", "xetai", "İzzət Orucov 16, Bakı", "+994122121811"],
+      ["Hava Limanı — Coffee", "airport", "Heydər Əliyev Hava Limanı, Terminal 1", "+994502123515"],
+      ["Hava Limanı — Duty Free", "airport-dutyfree", "Heydər Əliyev Hava Limanı (GYD)", null],
+      ["White City", "white-city", "1-ci Yaşıl Ada küç., Bakı", "+994502123599"],
+    ];
+    for (const [name, slug, address, phone] of XB) {
+      const [r] = await pool.execute(`SELECT id FROM branches WHERE slug = ? LIMIT 1`, [slug]);
+      if (!(r as any[]).length) {
+        await pool.execute(
+          `INSERT INTO branches (name, slug, address, phone, is_active) VALUES (?, ?, ?, ?, true)`,
+          [name, slug, address, phone],
+        );
+      }
     }
+    console.log("[MIGRATE] Xurcun branches ensured (11)");
   } catch (err: any) {
     console.error("[MIGRATE] Branch seed error:", err.message || err);
   }

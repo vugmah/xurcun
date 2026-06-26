@@ -11,13 +11,13 @@ import { useAutoPageView } from "./hooks/useTracking";
 import { initCopyProtection } from "./lib/copyProtection";
 import { useEffect } from "react";
 import PopupRenderer from "./components/PopupRenderer";
-import { AllHomepageJsonLd } from "@/components/JsonLd";
 
 // Admin shell is NOT lazy-loaded — it renders instantly
 import AdminLayout from "./pages/admin/AdminLayout";
 const LoginPage = lazy(() => import("./pages/admin/LoginPage"));
 const DashboardPage = lazy(() => import("./pages/admin/DashboardPage"));
 const MenuPage = lazy(() => import("./pages/admin/MenuPage"));
+const CatalogPage = lazy(() => import("./pages/admin/CatalogPage"));
 const SeoPage = lazy(() => import("./pages/admin/SeoPage"));
 const MediaPage = lazy(() => import("./pages/admin/MediaPage"));
 const MailSettingsPage = lazy(() => import("./pages/admin/MailSettingsPage"));
@@ -74,7 +74,6 @@ function App() {
   return (
     <>
       <PopupRenderer />
-      <AllHomepageJsonLd />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login/admin" element={<Navigate to="/admin/login" replace />} />
@@ -86,6 +85,7 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Suspense fallback={<SectionSkeleton />}><DashboardPage /></Suspense>} />
           <Route path="menu" element={<Suspense fallback={<SectionSkeleton />}><MenuPage /></Suspense>} />
+          <Route path="catalog" element={<Suspense fallback={<SectionSkeleton />}><CatalogPage /></Suspense>} />
           <Route path="seo" element={<Suspense fallback={<SectionSkeleton />}><SeoPage /></Suspense>} />
           <Route path="media" element={<Suspense fallback={<SectionSkeleton />}><MediaPage /></Suspense>} />
           <Route path="tracking" element={<Navigate to="/admin/settings" replace />} />
