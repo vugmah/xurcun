@@ -15,10 +15,12 @@ const btnGold =
 const btnGhost =
   "bg-transparent border border-[#352d24] hover:border-[#9D7C38] text-[#ECE6DA] text-xs rounded-lg px-4 py-2 transition";
 
-export default function CatalogPage() {
+export default function CatalogPage(props: { menuType?: "catalog" | "cafe"; heading?: string } = {}) {
+  const menuType = props.menuType ?? "catalog";
+  const heading = props.heading ?? "Kataloq";
   const utils = trpc.useUtils();
   const catsQ = trpc.menu.adminGetCategories.useQuery();
-  const cats = (catsQ.data ?? []).filter((c: any) => c.menuType === "catalog");
+  const cats = (catsQ.data ?? []).filter((c: any) => c.menuType === menuType);
 
   const [selCat, setSelCat] = useState<number | null>(null);
   const itemsQ = trpc.menu.getItemsByCategory.useQuery(
@@ -29,7 +31,7 @@ export default function CatalogPage() {
   return (
     <div className="text-[#ECE6DA]">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold" style={{ fontFamily: "Rufolo, serif" }}>Kataloq</h1>
+        <h1 className="text-2xl font-semibold" style={{ fontFamily: "Rufolo, serif" }}>{heading}</h1>
         <p className="text-xs text-[#928876] mt-1">Kateqoriya və məhsul idarəetməsi · çoxdilli · AI tərcümə</p>
       </div>
 
@@ -38,6 +40,7 @@ export default function CatalogPage() {
         <div>
           <CategoryPanel
             cats={cats}
+            menuType={menuType}
             selCat={selCat}
             onSelect={setSelCat}
             onChanged={() => utils.menu.adminGetCategories.invalidate()}
@@ -66,8 +69,8 @@ export default function CatalogPage() {
 
 /* ─────────── Categories ─────────── */
 function CategoryPanel({
-  cats, selCat, onSelect, onChanged,
-}: { cats: any[]; selCat: number | null; onSelect: (id: number) => void; onChanged: () => void }) {
+  cats, menuType, selCat, onSelect, onChanged,
+}: { cats: any[]; menuType: "catalog" | "cafe"; selCat: number | null; onSelect: (id: number) => void; onChanged: () => void }) {
   const [adding, setAdding] = useState(false);
   const [titleAz, setTitleAz] = useState("");
   const create = trpc.menu.createCategory.useMutation({
@@ -80,7 +83,7 @@ function CategoryPanel({
     let t: any = { az: titleAz, ru: titleAz, en: titleAz, tr: titleAz, ar: titleAz };
     try { t = await translate.mutateAsync({ text: titleAz, source: "az" }); } catch { /* fallback to az */ }
     create.mutate({
-      menuType: "catalog",
+      menuType,
       titleAz: t.az || titleAz,
       titleRu: t.ru || titleAz,
       titleEn: t.en || titleAz,

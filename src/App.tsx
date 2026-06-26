@@ -18,6 +18,9 @@ const LoginPage = lazy(() => import("./pages/admin/LoginPage"));
 const DashboardPage = lazy(() => import("./pages/admin/DashboardPage"));
 const MenuPage = lazy(() => import("./pages/admin/MenuPage"));
 const CatalogPage = lazy(() => import("./pages/admin/CatalogPage"));
+const CafeMenuPage = lazy(() => import("./pages/admin/CafeMenuPage"));
+const BranchesPage = lazy(() => import("./pages/admin/BranchesPage"));
+const QrPage = lazy(() => import("./pages/admin/QrPage"));
 const SeoPage = lazy(() => import("./pages/admin/SeoPage"));
 const MediaPage = lazy(() => import("./pages/admin/MediaPage"));
 const MailSettingsPage = lazy(() => import("./pages/admin/MailSettingsPage"));
@@ -86,6 +89,9 @@ function App() {
           <Route index element={<Suspense fallback={<SectionSkeleton />}><DashboardPage /></Suspense>} />
           <Route path="menu" element={<Suspense fallback={<SectionSkeleton />}><MenuPage /></Suspense>} />
           <Route path="catalog" element={<Suspense fallback={<SectionSkeleton />}><CatalogPage /></Suspense>} />
+          <Route path="cafe" element={<Suspense fallback={<SectionSkeleton />}><CafeMenuPage /></Suspense>} />
+          <Route path="branches" element={<Suspense fallback={<SectionSkeleton />}><BranchesPage /></Suspense>} />
+          <Route path="qr" element={<Suspense fallback={<SectionSkeleton />}><QrPage /></Suspense>} />
           <Route path="seo" element={<Suspense fallback={<SectionSkeleton />}><SeoPage /></Suspense>} />
           <Route path="media" element={<Suspense fallback={<SectionSkeleton />}><MediaPage /></Suspense>} />
           <Route path="tracking" element={<Navigate to="/admin/settings" replace />} />

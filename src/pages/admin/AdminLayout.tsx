@@ -5,24 +5,34 @@ import AdminErrorBoundary from "@/components/AdminErrorBoundary";
 import {
   LayoutDashboard, Globe, Image, LogOut, ChevronLeft,
   Mail, Megaphone, Menu, X, Settings, Bot,
-  Lightbulb, MessageSquare, ShoppingBag,
+  Lightbulb, MessageSquare, ShoppingBag, MapPin, QrCode, Coffee,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const navItems: { path: string; icon: React.ComponentType<{ className?: string }>; label: string; soon?: boolean }[] = [
-  { path: "/admin", icon: LayoutDashboard, label: "İdarə paneli" },
-  { path: "/admin/catalog", icon: ShoppingBag, label: "Kataloq" },
-  { path: "/admin/media", icon: Image, label: "Media" },
-  { path: "/admin/seo", icon: Globe, label: "SEO" },
-  { path: "/admin/google-ads", icon: Megaphone, label: "Google Ads" },
-  { path: "/admin/popups", icon: Megaphone, label: "Kampaniyalar" },
-  { path: "/admin/ai-auditor", icon: Bot, label: "AI Auditor" },
-  { path: "/admin/ai-insights", icon: Lightbulb, label: "AI Insights" },
-  { path: "/admin/inbox", icon: MessageSquare, label: "Gələn mesajlar" },
-  { path: "/admin/mail-settings", icon: Mail, label: "Mail" },
-  { path: "/admin/settings", icon: Settings, label: "Ayarlar" },
-  { path: "/admin/shisha-discount", icon: Megaphone, label: "Shisha Endirim" },
-
+type NavItem = { path: string; icon: React.ComponentType<{ className?: string }>; label: string };
+const navGroups: { group: string; items: NavItem[] }[] = [
+  { group: "Ümumi", items: [{ path: "/admin", icon: LayoutDashboard, label: "İdarə paneli" }] },
+  { group: "Kataloq", items: [
+    { path: "/admin/catalog", icon: ShoppingBag, label: "Kataloq" },
+    { path: "/admin/media", icon: Image, label: "Media" },
+  ] },
+  { group: "Mağaza & QR", items: [
+    { path: "/admin/branches", icon: MapPin, label: "Mağazalar" },
+    { path: "/admin/qr", icon: QrCode, label: "QR Menyu" },
+    { path: "/admin/cafe", icon: Coffee, label: "Kafe Menyu" },
+  ] },
+  { group: "Marketinq", items: [
+    { path: "/admin/seo", icon: Globe, label: "SEO" },
+    { path: "/admin/google-ads", icon: Megaphone, label: "Google Ads" },
+    { path: "/admin/popups", icon: Megaphone, label: "Kampaniyalar" },
+    { path: "/admin/ai-auditor", icon: Bot, label: "AI Auditor" },
+    { path: "/admin/ai-insights", icon: Lightbulb, label: "AI Insights" },
+  ] },
+  { group: "Ünsiyyət", items: [
+    { path: "/admin/inbox", icon: MessageSquare, label: "Gələn mesajlar" },
+    { path: "/admin/mail-settings", icon: Mail, label: "Mail" },
+  ] },
+  { group: "Sistem", items: [{ path: "/admin/settings", icon: Settings, label: "Ayarlar" }] },
 ];
 
 /** Section skeleton — shows inside content area only, never blocks sidebar */
@@ -128,31 +138,31 @@ export default function AdminLayout() {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-          {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all duration-200 ${
-                  isActive
-                    ? "bg-[#C2A05A]/15 text-[#C2A05A] font-medium"
-                    : "text-white/60 hover:text-white hover:bg-white/5"
-                } ${item.soon ? "opacity-50" : ""}`}
-                onClick={() => setSidebarOpen(false)}
-              >
-                <Icon className="w-4 h-4 shrink-0" />
-                <span className="truncate">{item.label}</span>
-                {item.soon && (
-                  <span className="ml-auto text-[9px] bg-white/10 text-white/40 px-1.5 py-0.5 rounded">
-                    Yakinda
-                  </span>
-                )}
-              </Link>
-            );
-          })}
+        <nav className="flex-1 p-3 overflow-y-auto">
+          {navGroups.map((g) => (
+            <div key={g.group} className="mb-1">
+              <div className="px-3 pt-4 pb-1.5 text-[9px] uppercase tracking-[0.2em] text-white/30">{g.group}</div>
+              {g.items.map((item) => {
+                const isActive = location.pathname === item.path;
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                      isActive
+                        ? "bg-[#C2A05A]/15 text-[#C2A05A] font-medium"
+                        : "text-white/60 hover:text-white hover:bg-white/5"
+                    }`}
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <Icon className="w-4 h-4 shrink-0" />
+                    <span className="truncate">{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
         {/* Bottom */}
