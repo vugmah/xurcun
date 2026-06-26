@@ -443,8 +443,15 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
   await createIndex("menu_items", "idx_menu_items_sort", "sort_order, id");
 
   // ── 7c. XURCUN CATALOG ADAPTATION (additive, idempotent) ──
-  // Categories: sub-category support
+  // Categories: sub-category support + TR/AR titles (clone lacked them)
   await addColumn("menu_categories", "parent_id", "INT");
+  await addColumn("menu_categories", "title_tr", "VARCHAR(200)");
+  await addColumn("menu_categories", "title_ar", "VARCHAR(200)");
+  // Items: TR/AR name + description (clone lacked them)
+  await addColumn("menu_items", "name_tr", "VARCHAR(300)");
+  await addColumn("menu_items", "name_ar", "VARCHAR(300)");
+  await addColumn("menu_items", "desc_tr", "TEXT");
+  await addColumn("menu_items", "desc_ar", "TEXT");
   // Items: price visibility + unit
   await addColumn("menu_items", "price_visible", "BOOLEAN DEFAULT true");
   await addColumn("menu_items", "unit", "VARCHAR(50)");

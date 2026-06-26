@@ -1,14 +1,52 @@
 import { z } from "zod";
 import { createRouter, publicQuery, adminMutation } from "../middleware";
 import { getDb } from "../queries/connection";
-import { productImages, productVariants } from "../../db/schema";
-import { eq, asc } from "drizzle-orm";
+import { productImages, productVariants, menuItems, menuCategories } from "../../db/schema";
+import { eq, asc, and, desc, isNull } from "drizzle-orm";
 
 /**
  * Xurcun catalog extras — product image gallery + variants (size/color).
+ * Plus public homepage feeds (categories + featured products).
  * itemId references menu_items.id (the product).
  */
 export const catalogRouter = createRouter({
+  // ── Public homepage feeds ──
+  // Top-level catalog categories (for the homepage category strip).
+  categories: publicQuery.query(async () => {
+    const db = getDb();
+    return db
+      .select()
+      .from(menuCategories)
+      .where(
+        and(
+          eq(menuCategories.menuType, "catalog"),
+          isNull(menuCategories.parentId),
+          eq(menuCategories.isActive, true),
+        ),
+      )
+      .orderBy(asc(menuCategories.sortOrder), asc(menuCategories.id));
+  }),
+
+  // Featured/active catalog products with their category title (homepage grid).
+  featured: publicQuery.query(async () => {
+    const db = getDb();
+    return db
+      .select({
+        id: menuItems.id,
+        nameAz: menuItems.nameAz, nameRu: menuItems.nameRu, nameEn: menuItems.nameEn,
+        nameTr: menuItems.nameTr, nameAr: menuItems.nameAr,
+        price: menuItems.price, priceVisible: menuItems.priceVisible,
+        imageUrl: menuItems.imageUrl, isNew: menuItems.isNew,
+        catTitleAz: menuCategories.titleAz, catTitleRu: menuCategories.titleRu,
+        catTitleEn: menuCategories.titleEn, catTitleTr: menuCategories.titleTr, catTitleAr: menuCategories.titleAr,
+      })
+      .from(menuItems)
+      .innerJoin(menuCategories, eq(menuItems.categoryId, menuCategories.id))
+      .where(and(eq(menuCategories.menuType, "catalog"), eq(menuItems.isActive, true)))
+      .orderBy(desc(menuItems.isFeatured), desc(menuItems.id))
+      .limit(8);
+  }),
+
   // ── Product images (gallery) ──
   getImages: publicQuery
     .input(z.object({ itemId: z.number() }))

@@ -113,6 +113,30 @@ export default function HomePage() {
       }))
     : BRANCHES
 
+  // Categories + featured products from the admin/DB (synced). Fallback to static.
+  const suffix = lang === 'az' ? 'Az' : lang === 'ru' ? 'Ru' : lang === 'en' ? 'En' : lang === 'tr' ? 'Tr' : 'Ar'
+  const pick = (o: Record<string, unknown>, base: string) => (o[base + suffix] || o[base + 'Az'] || '') as string
+
+  const catQ = trpc.catalog.categories.useQuery(undefined, { retry: false })
+  const catLabels: string[] = (catQ.data && catQ.data.length)
+    ? catQ.data.map((c) => pick(c as Record<string, unknown>, 'title'))
+    : CATS.map((c) => t(c))
+
+  const featQ = trpc.catalog.featured.useQuery(undefined, { retry: false })
+  const featured: { name: string; cat: string; price: string; img?: string; isNew: boolean }[] =
+    (featQ.data && featQ.data.length)
+      ? featQ.data.map((p) => {
+          const o = p as Record<string, unknown>
+          return {
+            name: pick(o, 'name'),
+            cat: pick(o, 'catTitle'),
+            price: o.priceVisible === false ? '' : (o.price ? `${o.price as string} ₼` : ''),
+            img: (o.imageUrl as string) || undefined,
+            isNew: !!o.isNew,
+          }
+        })
+      : FEATURED.map((p) => ({ name: p.name, cat: t(CATS[p.cat]), price: p.price, img: p.img, isNew: !!p.isNew }))
+
   useEffect(() => {
     const el = root.current
     if (!el) return
@@ -133,7 +157,7 @@ export default function HomePage() {
       cleanups.push(() => { b.removeEventListener('mouseenter', play); b.removeEventListener('mouseleave', stop) })
     })
     return () => { io.disconnect(); window.removeEventListener('scroll', onScroll); cleanups.forEach((c) => c()) }
-  }, [lang, branchesQ.data])
+  }, [lang, branchesQ.data, catQ.data, featQ.data])
 
   return (
     <div className="xc" ref={root}>
@@ -182,7 +206,7 @@ export default function HomePage() {
             <h2>{t(S.cat_title)}</h2><div className="tag">{t(S.cat_label)}</div>
           </div>
           <div className="cats reveal d1">
-            {CATS.map((c) => (<div className="cat" key={c.az}><img src={EMBLEM} alt="" />{t(c)}</div>))}
+            {catLabels.map((label, i) => (<div className="cat" key={i}><img src={EMBLEM} alt="" />{label}</div>))}
           </div>
         </div>
       </section>
@@ -194,13 +218,13 @@ export default function HomePage() {
             <h2>{t(S.feat_title)}</h2><div className="tag">{t(S.feat_label)}</div>
           </div>
           <div className="grid">
-            {FEATURED.map((p, i) => (
-              <div className={`card reveal d${(i % 3) + 1}`} key={p.name}>
+            {featured.map((p, i) => (
+              <div className={`card reveal d${(i % 3) + 1}`} key={i}>
                 <div className="thumb">
                   {p.isNew && <span className="badge">{t(S.yeni)}</span>}
                   {p.img ? <img className="pimg" src={p.img} alt={p.name} /> : <img className="wm" src={EMBLEM} alt="" />}
                 </div>
-                <div className="card-b"><div className="pcat">{t(CATS[p.cat])}</div><div className="pname">{p.name}</div><div className="price">{p.price}</div></div>
+                <div className="card-b"><div className="pcat">{p.cat}</div><div className="pname">{p.name}</div>{p.price && <div className="price">{p.price}</div>}</div>
               </div>
             ))}
           </div>
