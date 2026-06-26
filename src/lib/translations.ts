@@ -1,4 +1,4 @@
-export type Language = 'az' | 'ru' | 'en' | 'tr'
+export type Language = 'az' | 'ru' | 'en' | 'tr' | 'ar'
 
 export const translations = {
   az: {
@@ -480,6 +480,126 @@ export const translations = {
     tag_fish: 'Balık',
     tag_vegetarian: 'Vejetaryen',
     tag_halal: 'Helal',
+  },
+  ar: {
+    // Navigation
+    nav_menu: 'القائمة',
+    nav_about: 'من نحن',
+    nav_gallery: 'المعرض',
+    nav_events: 'المناسبات',
+    nav_find_us: 'موقعنا',
+    nav_contact: 'اتصل بنا',
+    nav_reserve: 'الحجز',
+
+    // Hero
+    hero_label: 'باكو · أذربيجان',
+    hero_subline: 'مطعم وصالة',
+    hero_cta_menu: 'استكشف القائمة',
+    hero_cta_reserve: 'احجز طاولة',
+    marquee_text: 'النكهة · الأجواء · المطبخ الأذربيجاني · الأطباق الأوروبية · كوكتيلات مميزة · شيشة فاخرة · ',
+
+    // About
+    about_label: 'من نحن',
+    about_title: 'شوركون وايت سيتي — حيث تلتقي النكهة والراحة والتجربة الفاخرة',
+    about_cta: 'اقرأ المزيد',
+
+    // Concept
+    concept_restaurant: 'المطعم',
+    concept_restaurant_desc: 'مطبخ أذربيجاني حديث وأطباق أوروبية مختارة',
+    concept_bar: 'البار',
+    concept_bar_desc: 'كوكتيلات مميزة وتشكيلة مشروبات منتقاة',
+    concept_lounge: 'الصالة',
+    concept_lounge_desc: 'أجواء مريحة وخدمة فاخرة وأمسيات راقية',
+    concept_events: 'المناسبات الخاصة',
+    concept_events_desc: 'أعياد الميلاد والفعاليات المؤسسية والتجمعات الخاصة بقوائم مخصصة',
+
+    // Menu
+    menu_label: 'القائمة',
+    menu_title: 'رحلة من الذوق',
+    menu_subtitle: 'اختيارات قائمة منتقاة بعناية لكل ذوق',
+    menu_view_all: 'عرض القائمة كاملة',
+    menu_categories: 'الفئات',
+    menu_alacarte: 'قائمة الطعام',
+    menu_beverages: 'قائمة المشروبات',
+    menu_shisha: 'قائمة الشيشة',
+
+    // Menu card items
+    menu_card_food_items: 'فطور · شوربات · سلطات · مقبلات · أطباق رئيسية · معكرونة · حلويات',
+    menu_card_bev_items: 'كوكتيلات مميزة · كوكتيلات كلاسيكية · نبيذ · ويسكي · تيكيلا · قهوة · شاي',
+    menu_card_shisha_items: 'ووكا · كوازار · تبغ فاخر · تبغ كلاسيكي · نكهات خاصة',
+
+    // Gallery
+    gallery_label: 'المعرض',
+    gallery_title: 'لحظات في شوركون',
+    gallery_close: 'إغلاق',
+
+    // Events
+    events_label: 'المناسبات',
+    events_title: 'المناسبات الخاصة',
+    events_intro: 'يوفر شوركون المكان المثالي للفعاليات الاجتماعية والمؤسسية. نحن في خدمتكم بحلول مخصصة وخطط جلوس مرنة.',
+    events_capacity_restaurant_label: 'المطعم',
+    events_capacity_restaurant_title: 'مطعم شوركون',
+    events_capacity_restaurant_desc: 'تجمع منطقة المطعم بين الفخامة العصرية والأجواء الراقية، وتوفر مكانًا مثاليًا للفعاليات الاجتماعية والمؤسسية بمستوى خدمة فاخر ومريح.',
+    events_capacity_restaurant_guests: 'تتسع لما يصل إلى 55 ضيفًا',
+    events_capacity_lounge_label: 'الصالة',
+    events_capacity_lounge_title: 'صالة شوركون',
+    events_capacity_lounge_desc: 'تمزج بين أجواء المدينة الحيوية والتصاميم الأنيقة ومفهوم الصالة الفاخرة. مكان مناسب للتجمعات والفعاليات الخاصة وأمسيات التواصل والمناسبات الحصرية.',
+    events_capacity_lounge_guests: 'تتسع لتناول الطعام لما يصل إلى 60 ضيفًا',
+    events_seating_title: 'خيارات ترتيب الجلوس',
+    events_seating_ushape: 'ترتيب على شكل U',
+    events_seating_theatre: 'ترتيب مسرحي',
+    events_seating_banquet: 'ترتيب مأدبة',
+    events_seating_cocktail: 'حفل كوكتيل',
+    events_tech_title: 'التقنية والميزات السمعية البصرية',
+    events_tech_displays: 'شاشات عرض كبيرة عالية الدقة',
+    events_tech_hdmi: 'اتصال HDMI للعروض التقديمية وتشغيل الفيديو',
+    events_tech_bose: 'نظام صوت BOSE احترافي',
+    events_tech_infra: 'بنية مناسبة للاجتماعات والفعاليات المؤسسية',
+    events_types_title: 'خيارات الفعاليات والتجمعات الخاصة',
+    events_type_corporate: 'الاجتماعات المؤسسية',
+    events_type_presentations: 'العروض التقديمية للأعمال',
+    events_type_dining: 'تناول الطعام الخاص',
+    events_type_birthday: 'احتفالات أعياد الميلاد',
+    events_type_cocktail: 'حفلات الكوكتيل',
+    events_type_networking: 'فعاليات التواصل',
+    events_type_exclusive: 'تجمعات اجتماعية حصرية',
+    events_reserve: 'تواصل معنا لمناسبتك',
+    events_cta_text: 'نقدم حلولًا مخصصة وتخطيطًا مرنًا لمناسبتك.',
+
+    // Contact / Footer
+    contact_brand: 'شوركون وايت سيتي — مطعم وصالة',
+    contact_address: 'شارع ياشيل آدا 1، باكو، أذربيجان',
+    contact_hours: 'الإثنين–الأحد: 10:00 – 00:00',
+    contact_quicklinks: 'روابط سريعة',
+    contact_phone: 'الهاتف',
+    contact_email: 'البريد الإلكتروني',
+    contact_copyright: '© 2026 شوركون وايت سيتي — مطعم وصالة',
+    contact_location: 'باكو · أذربيجان',
+    contact_follow: 'تابعنا',
+
+    // Social & Google Reviews
+    social_follow: 'تابعنا',
+    social_instagram: 'إنستغرام',
+    social_facebook: 'فيسبوك',
+    google_review_title: 'رأيك يهمنا',
+    google_review_text: 'استمتعت بوقتك؟ اترك تقييمًا على Google لدعمنا.',
+    google_review_button: 'اكتب تقييمًا على Google',
+    maps_open_button: 'افتح في خرائط Google',
+
+    // Menu page notes
+    service_note: 'ملاحظة: ستتم إضافة رسوم خدمة بنسبة 10% إلى فاتورتك',
+    allergy_note: 'يرجى إبلاغ موظفينا بأي حساسية تجاه الطعام.',
+    currency: 'AZN',
+
+    // Shisha note
+    shisha_note: 'للحصول على خيارات تبغ غير مدرجة في القائمة، يرجى سؤال فريق الشيشة لدينا. يمكننا تحضير شيشة مخصصة بخلطات تبغ مختلفة حسب ذوقك.',
+
+    // Item tags
+    tag_new: 'جديد',
+    tag_meat: 'لحم',
+    tag_fish: 'سمك',
+    tag_vegetarian: 'نباتي',
+    tag_halal: 'حلال',
   }
 } as const
 

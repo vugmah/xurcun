@@ -15,7 +15,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (typeof navigator === 'undefined') return null
     const navLang = navigator.language || (navigator as any).userLanguage || ''
     const code = navLang.toLowerCase().split('-')[0]
-    const map: Record<string, Language> = { az: 'az', tr: 'tr', ru: 'ru', en: 'en' }
+    const map: Record<string, Language> = { az: 'az', tr: 'tr', ru: 'ru', en: 'en', ar: 'ar' }
     // Regional mappings
     if (code === 'tk' || code === 'ky' || code === 'uz') return 'tr'
     if (code === 'uk' || code === 'be') return 'ru'
@@ -26,10 +26,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (typeof window === 'undefined') return 'az'
     const params = new URLSearchParams(window.location.search)
     const urlLang = params.get('lang')
-    if (urlLang === 'az' || urlLang === 'ru' || urlLang === 'en' || urlLang === 'tr') return urlLang
+    if (urlLang === 'az' || urlLang === 'ru' || urlLang === 'en' || urlLang === 'tr' || urlLang === 'ar') return urlLang
     // Check stored preference
     const stored = localStorage.getItem('xurcun_lang')
-    if (stored === 'az' || stored === 'ru' || stored === 'en' || stored === 'tr') return stored
+    if (stored === 'az' || stored === 'ru' || stored === 'en' || stored === 'tr' || stored === 'ar') return stored
     // First visit — detect from browser language
     const detected = detectBrowserLang()
     if (detected) {
@@ -41,9 +41,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const [lang, setLangState] = useState<Language>(getInitialLang)
 
+  // Sync <html lang/dir> on mount and whenever language changes (Arabic = RTL)
+  useEffect(() => {
+    document.documentElement.lang = lang
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
+  }, [lang])
+
   const setLang = useCallback((newLang: Language) => {
     setLangState(newLang)
     document.documentElement.lang = newLang
+    document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr'
     localStorage.setItem('xurcun_lang', newLang)
     // Update URL ?lang= param without reload
     const url = new URL(window.location.href)
@@ -60,9 +67,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const onPopState = () => {
       const params = new URLSearchParams(window.location.search)
       const urlLang = params.get('lang')
-      if (urlLang === 'az' || urlLang === 'ru' || urlLang === 'en' || urlLang === 'tr') {
+      if (urlLang === 'az' || urlLang === 'ru' || urlLang === 'en' || urlLang === 'tr' || urlLang === 'ar') {
         setLangState(urlLang)
         document.documentElement.lang = urlLang
+        document.documentElement.dir = urlLang === 'ar' ? 'rtl' : 'ltr'
       }
     }
     window.addEventListener('popstate', onPopState)

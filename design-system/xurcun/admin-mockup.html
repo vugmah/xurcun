@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xurcun — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face{font-family:"Rufolo";src:url(./fonts/Rufolo.woff) format("woff");font-weight:400;font-display:swap}
+  @font-face{font-family:"Rufolo";src:url(./fonts/Rufolo-Bold.woff) format("woff");font-weight:600 700;font-display:swap}
+  :root{
+    --bg:#14110e;--panel:#1d1915;--panel2:#241f19;--line:#352d24;--line2:#2a241d;
+    --gold:#C2A05A;--gold2:#9D7C38;--gold-dim:#7E6228;
+    --text:#ECE6DA;--muted:#928876;--dim:#6c6353;
+    --green:#5bbd86;--green-bg:#16291f;--red:#e0697a;--red-bg:#2c1418;--blue:#6aa6e0;
+    --display:"Rufolo",serif;--body:"Montserrat",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--text);font-size:13.5px;font-weight:400;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+
+  .side{background:#100d0a;border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+  .brand{padding:20px 20px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px}
+  .brand img{height:30px}.brand .sub{font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-top:5px}
+  .nav{flex:1;overflow:auto;padding:10px 10px 20px}
+  .nav .grp{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);padding:15px 10px 6px}
+  .nav button{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;color:#b6ac98;font-family:var(--body);font-size:12.5px;text-align:left;padding:9px 11px;border-radius:7px;cursor:pointer;transition:.16s}
+  .nav button:hover{background:rgba(255,255,255,.04);color:var(--text)}
+  .nav button.on{background:rgba(194,160,90,.14);color:var(--gold);font-weight:500}
+  .nav .ic{width:17px;text-align:center;font-size:14px;opacity:.85}
+  .nav .soon{margin-left:auto;font-size:8px;background:rgba(255,255,255,.07);color:var(--dim);padding:2px 6px;border-radius:4px;letter-spacing:.05em}
+  .sfoot{padding:12px 16px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;font-size:11px;color:var(--muted)}
+  .sfoot .av{width:30px;height:30px;border-radius:50%;background:var(--gold2);color:#1a140a;display:flex;align-items:center;justify-content:center;font-weight:600}
+
+  .top{position:sticky;top:0;z-index:10;background:rgba(20,17,14,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:15px 28px}
+  .top h1{font-family:var(--display);font-size:24px;font-weight:700;color:var(--text)}
+  .top .r{display:flex;gap:10px;align-items:center}
+  .search{display:flex;gap:8px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 12px;color:var(--muted);width:220px}
+  .search input{background:none;border:none;outline:none;color:var(--text);font-family:var(--body);font-size:12.5px;width:100%}
+  .btn{font-family:var(--body);font-size:12px;font-weight:500;border-radius:8px;padding:9px 15px;cursor:pointer;border:1px solid var(--gold2);transition:.2s}
+  .btn-gold{background:var(--gold2);color:#1a140a}.btn-gold:hover{background:var(--gold)}
+  .btn-o{background:transparent;color:var(--text);border-color:var(--line)}.btn-o:hover{border-color:var(--gold)}
+  .wrap{padding:24px 28px 70px;max-width:1180px}
+  .view{display:none}.view.on{display:block;animation:f .3s ease}
+  @keyframes f{from{opacity:0;transform:translateY(8px)}}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:16px 18px}
+  .stat .l{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .stat .v{font-family:var(--display);font-size:30px;font-weight:700;margin-top:5px}
+  .stat .d{font-size:10.5px;color:var(--green);margin-top:3px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:18px}
+  .ph{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--line2)}
+  .ph h3{font-family:var(--display);font-size:18px;font-weight:700}
+  .ph .desc{font-size:11px;color:var(--muted);margin-top:2px}
+  .cols2{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+  .cols2>.panel{margin:0}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:11px 18px;border-bottom:1px solid var(--line2)}
+  td{padding:11px 18px;border-bottom:1px solid var(--line2);vertical-align:middle;color:#d7cfbe}
+  tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.02)}
+  .pt{width:38px;height:38px;border-radius:7px;background:var(--panel2);display:flex;align-items:center;justify-content:center;border:1px solid var(--line)}
+  .pt img{width:20px;opacity:.5}
+  .pn{font-weight:500;color:var(--text)}.ps{font-size:10.5px;color:var(--dim)}
+  .pr{font-family:var(--display);font-weight:700;font-size:14px;color:var(--gold)}
+  .pill{display:inline-block;font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px}
+  .pill.on{background:var(--green-bg);color:var(--green)}.pill.off{background:var(--red-bg);color:var(--red)}.pill.new{background:rgba(194,160,90,.16);color:var(--gold)}
+  .act{color:var(--muted);cursor:pointer;padding:4px 8px;border-radius:6px;font-size:12px}.act:hover{background:rgba(255,255,255,.05);color:var(--gold)}
+
+  label{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+  input[type=text],textarea,select{width:100%;font-family:var(--body);font-size:13px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:#16120e;color:var(--text);outline:none;transition:.15s}
+  input:focus,textarea:focus,select:focus{border-color:var(--gold2)}
+  textarea{resize:vertical;min-height:66px}
+  .fg{display:grid;gap:14px;padding:18px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}
+  .langtabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+  .langtabs span{font-size:10.5px;padding:5px 11px;border:1px solid var(--line);border-radius:7px;cursor:pointer;color:var(--muted)}
+  .langtabs span.on{background:var(--gold2);color:#1a140a;border-color:var(--gold2)}
+  .toggle{display:flex;align-items:center;gap:11px;background:#16120e;border:1px solid var(--line);border-radius:8px;padding:10px 13px}
+  .sw{width:38px;height:21px;border-radius:20px;background:var(--gold2);position:relative;flex:none;cursor:pointer}
+  .sw::after{content:"";position:absolute;top:2px;right:2px;width:17px;height:17px;border-radius:50%;background:#fff}
+  .sw.off{background:#403930}.sw.off::after{right:auto;left:2px}
+  .toggle .t{font-size:12px;color:var(--text)}.toggle .s{font-size:10.5px;color:var(--muted)}
+  .variant{display:grid;grid-template-columns:1fr 110px 32px;gap:9px;align-items:center;margin-bottom:8px}
+  .imgrow{display:flex;gap:11px;flex-wrap:wrap}
+  .imgbox{width:78px;height:78px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);display:flex;align-items:center;justify-content:center}
+  .imgbox img{width:30px;opacity:.45}.imgbox.add{border-style:dashed;cursor:pointer;color:var(--muted);font-size:22px}
+  .hint{font-size:10.5px;color:var(--dim);margin-top:6px}
+  .note{background:rgba(194,160,90,.1);border:1px solid rgba(194,160,90,.3);color:var(--gold);font-size:11.5px;padding:10px 14px;border-radius:9px;margin-bottom:18px}
+
+  .bcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:15px}
+  .bc{background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  .bv{position:relative;aspect-ratio:16/10;background:#000;overflow:hidden}
+  .bv img{width:100%;height:100%;object-fit:cover;opacity:.9}
+  .tagv{position:absolute;top:9px;left:9px;background:rgba(0,0,0,.6);color:var(--gold);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:5px}
+  .bb{padding:14px 15px}.bn{font-family:var(--display);font-size:18px;font-weight:700}
+  .bl{font-size:11.5px;color:var(--muted);margin-top:5px;display:flex;gap:7px}
+  .bmenus{display:flex;gap:6px;margin-top:9px}.chip2{font-size:10px;padding:3px 8px;border:1px solid var(--line);border-radius:20px;color:var(--gold)}
+  .brow{display:flex;gap:7px;margin-top:11px}.brow a{flex:1;text-align:center;font-size:10.5px;padding:7px;border:1px solid var(--line);border-radius:7px;transition:.2s}.brow a:hover{border-color:var(--gold);color:var(--gold)}
+
+  .qrgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+  .qrc{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:16px;text-align:center}
+  .qrbox{width:120px;height:120px;margin:0 auto 11px;border-radius:9px;padding:9px;background:#fff}.qrbox svg{width:100%;height:100%}
+  .qn{font-family:var(--display);font-size:16px;font-weight:700}.qu{font-size:10px;color:var(--muted);margin:3px 0 6px;word-break:break-all}
+  .qtype{font-size:9.5px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px}
+
+  .ai{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line2);align-items:flex-start}
+  .ai .dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex:none}
+  .ai .h{font-weight:500;color:var(--text);font-size:12.5px}.ai .b{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .score{font-family:var(--display);font-size:46px;font-weight:700;color:var(--gold)}
+  @media(max-width:900px){.app{grid-template-columns:1fr}.side{display:none}.stats{grid-template-columns:repeat(2,1fr)}.cols2{grid-template-columns:1fr}.two,.three{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><img src="./logo-gold.png" alt="Xurcun"><div><div class="sub">Admin Panel</div></div></div>
+    <nav class="nav">
+      <div class="grp">Ümumi</div>
+      <button class="on" data-v="dash"><span class="ic">▦</span> İdarə paneli</button>
+      <div class="grp">Kataloq</div>
+      <button data-v="products"><span class="ic">◧</span> Məhsullar</button>
+      <button data-v="cats"><span class="ic">≡</span> Kateqoriyalar</button>
+      <button data-v="media"><span class="ic">◩</span> Media</button>
+      <div class="grp">Mağaza & QR</div>
+      <button data-v="branches"><span class="ic">⌖</span> Mağazalar (Filiallar)</button>
+      <button data-v="qr"><span class="ic">▤</span> QR Menyu</button>
+      <button data-v="cafe"><span class="ic">☕</span> Kafe Menyu</button>
+      <div class="grp">Marketinq</div>
+      <button data-v="seo"><span class="ic">◎</span> SEO</button>
+      <button data-v="tracking"><span class="ic">📈</span> Tracking & Pixel</button>
+      <button data-v="ads"><span class="ic">◢</span> Google Ads</button>
+      <button data-v="popups"><span class="ic">◔</span> Kampaniyalar</button>
+      <button data-v="aiaudit"><span class="ic">🤖</span> AI Auditor</button>
+      <button data-v="aiins"><span class="ic">✦</span> AI Insights</button>
+      <div class="grp">Ünsiyyət</div>
+      <button data-v="inbox"><span class="ic">✉</span> Gələn mesajlar</button>
+      <button data-v="mail"><span class="ic">⚇</span> Mail (SMTP/IMAP)</button>
+      <div class="grp">Sistem</div>
+      <button data-v="settings"><span class="ic">⚙</span> Ayarlar</button>
+    </nav>
+    <div class="sfoot"><div class="av">V</div><div>Vüqar M.<br><span style="color:var(--dim)">Administrator</span></div></div>
+  </aside>
+
+  <main>
+    <div class="top">
+      <h1 id="title">İdarə paneli</h1>
+      <div class="r"><div class="search">⌕ <input placeholder="Axtar..."></div><button class="btn btn-gold" id="addbtn" style="display:none">+ Yeni məhsul</button></div>
+    </div>
+    <div class="wrap">
+
+      <section class="view on" id="dash">
+        <div class="stats">
+          <div class="stat"><div class="l">Məhsullar</div><div class="v">214</div><div class="d">+12 bu ay</div></div>
+          <div class="stat"><div class="l">Mağazalar</div><div class="v">9</div><div class="d">Bakı</div></div>
+          <div class="stat"><div class="l">QR baxış (ay)</div><div class="v">4 820</div><div class="d">+18%</div></div>
+          <div class="stat"><div class="l">SEO bal</div><div class="v">92</div><div class="d">Əla</div></div>
+        </div>
+        <div class="cols2">
+          <div class="panel"><div class="ph"><h3>Son məhsullar</h3><span class="act" data-go="products">Hamısı →</span></div>
+            <table><tr><th>Məhsul</th><th>Kateqoriya</th><th>Qiymət</th><th>Status</th></tr>
+              <tr><td><div style="display:flex;gap:10px;align-items:center"><div class="pt"><img src="./emblem-gold.png"></div><div><div class="pn">Boxful M Black</div><div class="ps">Hədiyyəlik</div></div></div></td><td>Hədiyyəlik</td><td class="pr">220 ₼</td><td><span class="pill new">Yeni</span></td></tr>
+              <tr><td><div style="display:flex;gap:10px;align-items:center"><div class="pt"><img src="./emblem-gold.png"></div><div><div class="pn">Bakhlava Special</div><div class="ps">Paxlava</div></div></div></td><td>Paxlava</td><td class="pr">330 ₼</td><td><span class="pill on">Aktiv</span></td></tr>
+              <tr><td><div style="display:flex;gap:10px;align-items:center"><div class="pt"><img src="./emblem-gold.png"></div><div><div class="pn">Çay — Earl Grey</div><div class="ps">Çay</div></div></div></td><td>Çay</td><td class="pr">12 ₼</td><td><span class="pill on">Aktiv</span></td></tr>
+            </table>
+          </div>
+          <div class="panel"><div class="ph"><h3>Marketinq vəziyyəti</h3></div>
+            <table>
+              <tr><td>Google Analytics 4</td><td style="text-align:right"><span class="pill on">Qoşulu</span></td></tr>
+              <tr><td>Google Tag Manager</td><td style="text-align:right"><span class="pill on">Qoşulu</span></td></tr>
+              <tr><td>Meta Pixel + CAPI</td><td style="text-align:right"><span class="pill on">Aktiv</span></td></tr>
+              <tr><td>Google Ads</td><td style="text-align:right"><span class="pill on">Aktiv</span></td></tr>
+              <tr><td>Meta Domain Verification</td><td style="text-align:right"><span class="pill on">Təsdiq</span></td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="products">
+        <div class="panel"><div class="ph"><div><h3>Məhsullar (214)</h3><div class="desc">Çoxdilli · variant · qiymət gizlət/göstər</div></div><button class="btn btn-gold" data-edit>+ Yeni məhsul</button></div>
+          <table><tr><th>Məhsul</th><th>Kateqoriya</th><th>Variant</th><th>Qiymət</th><th>Qiymət görünür</th><th>Status</th><th></th></tr>
+            <tr><td><div style="display:flex;gap:10px;align-items:center"><div class="pt"><img src="./emblem-gold.png"></div><div><div class="pn">Boxful M Black</div><div class="ps">/mehsul/boxful-m-black</div></div></div></td><td>Hədiyyəlik</td><td>S·M·L</td><td class="pr">220 ₼</td><td><span class="pill on">Bəli</span></td><td><span class="pill new">Yeni</span></td><td><span class="act" data-edit>Redaktə</span></td></tr>
+            <tr><td><div style="display:flex;gap:10px;align-items:center"><div class="pt"><img src="./emblem-gold.png"></div><div><div class="pn">Selection L Leather</div><div class="ps">/mehsul/selection-l-leather</div></div></div></td><td>Hədiyyəlik</td><td>Purple·Red</td><td class="pr">250 ₼</td><td><span class="pill off">Gizli</span></td><td><span class="pill on">Aktiv</span></td><td><span class="act" data-edit>Redaktə</span></td></tr>
+            <tr><td><div style="display:flex;gap:10px;align-items:center"><div class="pt"><img src="./emblem-gold.png"></div><div><div class="pn">Bakhlava Special</div><div class="ps">/mehsul/bakhlava-special</div></div></div></td><td>Paxlava</td><td>—</td><td class="pr">330 ₼</td><td><span class="pill on">Bəli</span></td><td><span class="pill on">Aktiv</span></td><td><span class="act" data-edit>Redaktə</span></td></tr>
+            <tr><td><div style="display:flex;gap:10px;align-items:center"><div class="pt"><img src="./emblem-gold.png"></div><div><div class="pn">Çay — Earl Grey</div><div class="ps">/mehsul/cay-earl-grey</div></div></div></td><td>Çay & Ədviyyat › Çay</td><td>100q·250q</td><td class="pr">12 ₼</td><td><span class="pill on">Bəli</span></td><td><span class="pill on">Aktiv</span></td><td><span class="act" data-edit>Redaktə</span></td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="edit">
+        <div class="cols2">
+          <div class="panel"><div class="ph"><h3>Məhsulu redaktə et</h3><span class="act" data-go="products">← Geri</span></div>
+            <div class="fg">
+              <div><label>Ad (çoxdilli)</label><div class="langtabs"><span class="on">AZ</span><span>RU</span><span>EN</span><span>TR</span><span>AR</span></div><input type="text" value="Boxful M Black"></div>
+              <div><label>Təsvir</label><textarea>Üç qatlı premium hədiyyə qutusu — seçmə quru meyvə, qoz-fındıq və lokum.</textarea></div>
+              <div class="two"><div><label>Kateqoriya</label><select><option>Hədiyyəlik</option><option>Paxlava</option><option>Çay & Ədviyyat › Çay</option></select></div><div><label>Qiymət (₼)</label><input type="text" value="220.00"></div></div>
+              <div class="toggle"><div class="sw" onclick="this.classList.toggle('off')"></div><div><div class="t">Qiyməti göstər</div><div class="s">Bağlı olsa "Qiymət üçün soruşun"</div></div></div>
+              <div><label>Variantlar</label>
+                <div class="variant"><input type="text" value="S White"><input type="text" value="35 ₼"><span class="act">✕</span></div>
+                <div class="variant"><input type="text" value="M Black"><input type="text" value="220 ₼"><span class="act">✕</span></div>
+                <button class="btn btn-o" style="margin-top:3px">+ Variant</button></div>
+              <div><label>Şəkillər</label><div class="imgrow"><div class="imgbox"><img src="./emblem-gold.png"></div><div class="imgbox"><img src="./emblem-gold.png"></div><div class="imgbox add">+</div></div></div>
+              <div class="two"><div class="toggle"><div class="sw" onclick="this.classList.toggle('off')"></div><div class="t">Aktiv</div></div><div class="toggle"><div class="sw off" onclick="this.classList.toggle('off')"></div><div class="t">"Yeni" nişanı</div></div></div>
+              <div style="display:flex;gap:9px"><button class="btn btn-gold">Yadda saxla</button><button class="btn btn-o">Ləğv</button></div>
+            </div>
+          </div>
+          <div class="panel" style="align-self:start"><div class="ph"><h3>Önizləmə</h3></div>
+            <div style="padding:18px"><div style="border:1px solid var(--line);border-radius:10px;overflow:hidden;max-width:230px;margin:0 auto;background:#16120e">
+              <div style="aspect-ratio:4/5;background:var(--panel2);display:flex;align-items:center;justify-content:center"><img src="./emblem-gold.png" style="width:58px;opacity:.18"></div>
+              <div style="padding:13px;text-align:center"><div style="font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)">Hədiyyəlik</div><div style="font-family:var(--display);font-size:19px;font-weight:700;margin-top:3px">Boxful M Black</div><div style="font-family:var(--display);font-size:17px;font-weight:700;color:var(--gold);margin-top:7px">220 ₼</div><div style="background:#1f4a34;color:#fff;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:8px;border-radius:6px;margin-top:11px">WhatsApp ilə sifariş</div></div>
+            </div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="cats">
+        <div class="panel"><div class="ph"><h3>Kateqoriyalar</h3><button class="btn btn-gold">+ Yeni</button></div>
+          <table><tr><th>Ad</th><th>Tip</th><th>Məhsul</th><th>Sıra</th><th>Status</th><th></th></tr>
+            <tr><td class="pn">Çay & Ədviyyat</td><td>Ana</td><td>24</td><td>1</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td style="padding-left:40px;color:var(--muted)">↳ Çay</td><td>Alt</td><td>11</td><td>1</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td class="pn">Çərəz</td><td>Ana</td><td>38</td><td>2</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td class="pn">Şokolad</td><td>Ana</td><td>19</td><td>3</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td class="pn">Meyvə Qurusu</td><td>Ana</td><td>27</td><td>4</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td class="pn">Lokum</td><td>Ana</td><td>22</td><td>5</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td class="pn">Paxlava</td><td>Ana</td><td>14</td><td>6</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td class="pn">Hədiyyəlik</td><td>Ana</td><td>31</td><td>7</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="media">
+        <div class="panel"><div class="ph"><h3>Media kitabxanası</h3><button class="btn btn-gold">+ Şəkil yüklə</button></div>
+          <div style="padding:18px"><div class="imgrow"><div class="imgbox"><img src="./emblem-gold.png"></div><div class="imgbox"><img src="./emblem-gold.png"></div><div class="imgbox"><img src="./emblem-gold.png"></div><div class="imgbox"><img src="./emblem-gold.png"></div><div class="imgbox add">+</div></div><div class="hint">Supabase Storage · JPG/PNG/WebP</div></div></div>
+      </section>
+
+      <section class="view" id="branches">
+        <div class="note">ⓘ Hər filiala: ünvan, Google Maps URL, öz WhatsApp nömrəsi, mağaza videosu və menyular (Katalog + Kafe) təyin olunur.</div>
+        <div class="panel"><div class="ph"><h3>Mağazalar (9)</h3><button class="btn btn-gold">+ Yeni filial</button></div>
+          <div style="padding:18px"><div class="bcards">
+            <div class="bc"><div class="bv"><span class="tagv">Video</span><img src="../../public/images/branches/port-baku.jpg"></div><div class="bb"><div class="bn">Port Baku Mall</div><div class="bl">⌖ Üzeyir Hacıbəyov 57</div><div class="bl">✆ WhatsApp təyin et</div><div class="bmenus"><span class="chip2">Katalog</span><span class="chip2">☕ Kafe</span></div><div class="brow"><a>Redaktə</a><a>QR</a></div></div></div>
+            <div class="bc"><div class="bv"><span class="tagv">Video</span><img src="../../public/images/branches/sea-breeze.jpg"></div><div class="bb"><div class="bn">Sea Breeze</div><div class="bl">⌖ Sea Breeze Resort</div><div class="bl">✆ Seabreeze WhatsApp</div><div class="bmenus"><span class="chip2">Katalog</span><span class="chip2">☕ Kafe</span></div><div class="brow"><a>Redaktə</a><a>QR</a></div></div></div>
+            <div class="bc"><div class="bv"><span class="tagv">Video</span><img src="../../public/images/branches/genclik.jpg"></div><div class="bb"><div class="bn">Gənclik Mall</div><div class="bl">⌖ Fətəli Xan Xoyski</div><div class="bl">✆ +994 50 212 35 74</div><div class="bmenus"><span class="chip2">Katalog</span></div><div class="brow"><a>Redaktə</a><a>QR</a></div></div></div>
+            <div class="bc"><div class="bv"><span class="tagv">Video</span><img src="../../public/images/branches/semed-vurgun.jpg"></div><div class="bb"><div class="bn">Səməd Vurğun</div><div class="bl">⌖ Səməd Vurğun 81</div><div class="bl">✆ +994 50 212 35 49</div><div class="bmenus"><span class="chip2">Katalog</span><span class="chip2">☕ Kafe</span></div><div class="brow"><a>Redaktə</a><a>QR</a></div></div></div>
+          </div></div>
+        </div>
+      </section>
+
+      <section class="view" id="qr">
+        <div class="note">ⓘ Hər filial üçün avtomatik QR. Menyu tipi seçilir: <b>Katalog</b> (məhsullar) və ya <b>Kafe Menyu</b> (mağaza içi kofe). Çap et → vitrin/masa.</div>
+        <div class="qrgrid">
+          <div class="qrc"><div class="qtype">Katalog</div><div class="qrbox" id="q1"></div><div class="qn">Port Baku Mall</div><div class="qu">xurcun.com/menu/port-baku</div><button class="btn btn-o">Yüklə</button></div>
+          <div class="qrc"><div class="qtype">☕ Kafe Menyu</div><div class="qrbox" id="q2"></div><div class="qn">Port Baku · Kafe</div><div class="qu">xurcun.com/menu/port-baku/kafe</div><button class="btn btn-o">Yüklə</button></div>
+          <div class="qrc"><div class="qtype">Katalog</div><div class="qrbox" id="q3"></div><div class="qn">Sea Breeze</div><div class="qu">xurcun.com/menu/sea-breeze</div><button class="btn btn-o">Yüklə</button></div>
+          <div class="qrc"><div class="qtype">☕ Kafe Menyu</div><div class="qrbox" id="q4"></div><div class="qn">Sea Breeze · Kafe</div><div class="qu">xurcun.com/menu/sea-breeze/kafe</div><button class="btn btn-o">Yüklə</button></div>
+        </div>
+      </section>
+
+      <section class="view" id="cafe">
+        <div class="note">ⓘ Mağaza içindəki kofe shop-lar üçün ayrıca menyu (içkilər, desertlər). QR ilə masada açılır — qiymətlər görünür.</div>
+        <div class="panel"><div class="ph"><div><h3>Kafe Menyu</h3><div class="desc">Filial: Port Baku Mall</div></div><button class="btn btn-gold">+ Menyu maddəsi</button></div>
+          <table><tr><th>Maddə</th><th>Kateqoriya</th><th>Qiymət</th><th>Status</th><th></th></tr>
+            <tr><td class="pn">Türk qəhvəsi</td><td>İsti içkilər</td><td class="pr">5 ₼</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td class="pn">Espresso</td><td>İsti içkilər</td><td class="pr">4 ₼</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td class="pn">Xurma çayı</td><td>Çaylar</td><td class="pr">6 ₼</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+            <tr><td class="pn">Paxlava (porsiya)</td><td>Desertlər</td><td class="pr">8 ₼</td><td><span class="pill on">Aktiv</span></td><td><span class="act">Redaktə</span></td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="seo">
+        <div class="panel"><div class="ph"><div><h3>SEO Tənzimləmələri</h3><div class="desc">Səhifə + dil əsasında · DB > dinamik > statik</div></div><button class="btn btn-gold">Yadda saxla</button></div>
+          <div class="fg">
+            <div class="two"><div><label>Səhifə</label><select><option>Ana səhifə</option><option>Kataloq</option><option>Hədiyyəlik</option><option>Mağazalar</option></select></div><div><label>Dil</label><div class="langtabs"><span class="on">AZ</span><span>RU</span><span>EN</span><span>TR</span><span>AR</span></div></div></div>
+            <div><label>Başlıq (title)</label><input type="text" value="Xurcun — Keyfiyyətə vurğunuq | Premium quru meyvə və hədiyyə"></div>
+            <div><label>Meta açıqlama</label><textarea>Azərbaycanın premium quru meyvə, çərəz, lokum və hədiyyə butiki. 9 mağaza, Bakı.</textarea></div>
+            <div><label>Açar sözlər</label><input type="text" value="xurcun, quru meyvə, paxlava, lokum, hədiyyə qutusu, Bakı"></div>
+            <div class="two"><div><label>Canonical domain</label><input type="text" value="https://xurcun.com"></div><div><label>OG şəkil</label><input type="text" value="/brand/og-xurcun.jpg"></div></div>
+            <div class="toggle"><div class="sw" onclick="this.classList.toggle('off')"></div><div class="t">robots: index, follow</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="tracking">
+        <div class="note">ⓘ Bütün izləmə kodları buradan idarə olunur — sayta avtomatik əlavə edilir.</div>
+        <div class="panel"><div class="ph"><h3>Tracking & Pixel</h3><button class="btn btn-gold">Yadda saxla</button></div>
+          <div class="fg">
+            <div class="toggle"><div class="sw" onclick="this.classList.toggle('off')"></div><div class="t">İzləmə aktiv</div></div>
+            <div class="two"><div><label>GA4 Measurement ID</label><input type="text" value="G-XXXXXXXXXX"></div><div><label>Google Tag Manager ID</label><input type="text" value="GTM-XXXXXXX"></div></div>
+            <div class="two"><div><label>Google Ads Conversion ID</label><input type="text" value="AW-XXXXXXXXX"></div><div><label>Google Site Verification</label><input type="text" value="google86363efbf92c4182"></div></div>
+            <div class="two"><div><label>Meta Pixel ID</label><input type="text" value="XXXXXXXXXXXXXXX"></div><div><label>Meta Domain Verification</label><input type="text" value="8mxo032tylxu0paqqykoa5z6i3ea8a"></div></div>
+            <div><label>Meta CAPI Access Token (server-side)</label><input type="text" value="••••••••••••••••••••••••"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="ads">
+        <div class="panel"><div class="ph"><div><h3>Google Ads</h3><div class="desc">Kampaniyalar · konversiya izləmə</div></div><button class="btn btn-gold">+ Kampaniya</button></div>
+          <table><tr><th>Kampaniya</th><th>Tip</th><th>Gündəlik büdcə</th><th>Status</th></tr>
+            <tr><td class="pn">Hədiyyə qutuları — Search</td><td>Search</td><td class="pr">40 ₼</td><td><span class="pill on">Aktiv</span></td></tr>
+            <tr><td class="pn">Yeni il kampaniyası</td><td>Performance Max</td><td class="pr">120 ₼</td><td><span class="pill on">Aktiv</span></td></tr>
+            <tr><td class="pn">Remarketing — Katalog</td><td>Display</td><td class="pr">25 ₼</td><td><span class="pill off">Dayandırılıb</span></td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="popups">
+        <div class="panel"><div class="ph"><h3>Kampaniyalar (Popup)</h3><button class="btn btn-gold">+ Kampaniya</button></div>
+          <table><tr><th>Başlıq</th><th>Yer</th><th>Başlama</th><th>Status</th></tr>
+            <tr><td class="pn">Yeni il endirimi</td><td>Ana səhifə</td><td>20.12 — 05.01</td><td><span class="pill on">Aktiv</span></td></tr>
+            <tr><td class="pn">QR menyu xoş gəldin</td><td>QR menyu</td><td>Daimi</td><td><span class="pill on">Aktiv</span></td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="aiaudit">
+        <div class="cols2">
+          <div class="panel"><div class="ph"><h3>AI Auditor</h3><button class="btn btn-o">Yenidən yoxla</button></div>
+            <div class="ai"><span class="dot" style="background:var(--red)"></span><div><div class="h">3 məhsulda şəkil yoxdur</div><div class="b">Kataloqda boş şəkil katalog görünüşünü zəiflədir.</div></div></div>
+            <div class="ai"><span class="dot" style="background:var(--gold)"></span><div><div class="h">5 məhsulda RU tərcümə yoxdur</div><div class="b">AI ilə avtomatik tərcümə təklif olunur.</div></div></div>
+            <div class="ai"><span class="dot" style="background:var(--green)"></span><div><div class="h">SEO başlıqları tam</div><div class="b">Bütün əsas səhifələrdə title/description mövcuddur.</div></div></div>
+          </div>
+          <div class="panel" style="text-align:center"><div class="ph" style="justify-content:center"><h3>Sayt sağlamlığı</h3></div><div style="padding:26px"><div class="score">92</div><div class="hint" style="font-size:12px">100-dən · Əla</div></div></div>
+        </div>
+      </section>
+
+      <section class="view" id="aiins">
+        <div class="panel"><div class="ph"><h3>AI Insights</h3></div>
+          <div class="ai"><span class="dot" style="background:var(--gold)"></span><div><div class="h">"Hədiyyə qutuları" axtarışı artıb</div><div class="b">Bu kateqoriyanı ana səhifədə öne çıxarmaq tövsiyə olunur.</div></div></div>
+          <div class="ai"><span class="dot" style="background:var(--blue)"></span><div><div class="h">Port Baku QR menyu ən aktiv</div><div class="b">Ay ərzində 1 240 baxış — kafe menyusunu da əlavə et.</div></div></div>
+        </div>
+      </section>
+
+      <section class="view" id="inbox">
+        <div class="panel"><div class="ph"><h3>Gələn mesajlar</h3></div>
+          <table><tr><th>Göndərən</th><th>Mövzu</th><th>Tarix</th><th></th></tr>
+            <tr><td class="pn">Aysel M.</td><td>Korporativ hədiyyə sifarişi</td><td>Bu gün</td><td><span class="act">Aç</span></td></tr>
+            <tr><td class="pn">Rəşad Q.</td><td>Topdan qiymət</td><td>Dünən</td><td><span class="act">Aç</span></td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="mail">
+        <div class="panel"><div class="ph"><h3>Mail (SMTP / IMAP)</h3><button class="btn btn-gold">Yadda saxla</button></div>
+          <div class="fg"><div class="two"><div><label>SMTP Sunucu</label><input type="text" value="mail.xurcun.com"></div><div><label>SMTP Port</label><input type="text" value="587"></div></div>
+          <div class="two"><div><label>IMAP Sunucu</label><input type="text" value="mail.xurcun.com"></div><div><label>IMAP Port</label><input type="text" value="993"></div></div>
+          <div><label>E-poçt</label><input type="text" value="info@xurcun.com"></div></div>
+        </div>
+      </section>
+
+      <section class="view" id="settings">
+        <div class="panel"><div class="ph"><h3>Ümumi tənzimləmələr</h3><button class="btn btn-gold">Yadda saxla</button></div>
+          <div class="fg">
+            <div class="two"><div><label>Marka adı</label><input type="text" value="Xurcun"></div><div><label>Valyuta</label><input type="text" value="₼ (AZN)"></div></div>
+            <div class="two"><div><label>WhatsApp (əsas)</label><input type="text" value="994502121811"></div><div><label>Telefon</label><input type="text" value="+994 50 212 18 11"></div></div>
+            <div class="two"><div><label>Instagram URL</label><input type="text" value="instagram.com/xurcun"></div><div><label>Facebook URL</label><input type="text" value="facebook.com/xurcun"></div></div>
+            <div><label>Google Reviews URL</label><input type="text" value="g.page/xurcun/review"></div>
+            <div><label>Dillər</label><div class="langtabs"><span class="on">AZ</span><span class="on">RU</span><span class="on">EN</span><span class="on">TR</span><span class="on">AR</span></div></div>
+          </div>
+        </div>
+
+        <div class="note">ⓘ AI tərcümə: məhsulu bir dildə yazıb <b>"Bütün dillərə tərcümə et"</b> düyməsinə basanda qalan dillər avtomatik dolur. Aşağıda <b>OpenAI</b> və ya <b>Claude</b> açarlarından <b>birini</b> daxil etmək kifayətdir.</div>
+        <div class="panel"><div class="ph"><div><h3>AI Tərcümə</h3><div class="desc">Açar daxil edilməyibsə düymə gizli qalır</div></div><button class="btn btn-gold">Yadda saxla</button></div>
+          <div class="fg">
+            <div><label>Provayder</label><select><option>Avtomatik (hansı açar varsa)</option><option>OpenAI (ChatGPT)</option><option>Anthropic (Claude)</option></select></div>
+            <div><label>OpenAI API açarı</label><input type="text" value="" placeholder="sk-..."></div>
+            <div><label>Anthropic (Claude) API açarı</label><input type="text" value="" placeholder="sk-ant-..."></div>
+            <div class="hint">Açar serverdə saxlanılır, brauzerə qaytarılmır. Yalnız biri kifayətdir — sistem onu avtomatik seçir.</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+<script>
+  const T={dash:'İdarə paneli',products:'Məhsullar',edit:'Məhsulu redaktə et',cats:'Kateqoriyalar',media:'Media',branches:'Mağazalar (Filiallar)',qr:'QR Menyu',cafe:'Kafe Menyu',seo:'SEO',tracking:'Tracking & Pixel',ads:'Google Ads',popups:'Kampaniyalar',aiaudit:'AI Auditor',aiins:'AI Insights',inbox:'Gələn mesajlar',mail:'Mail',settings:'Ayarlar'};
+  function show(v){document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id===v));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));document.getElementById('title').textContent=T[v]||'';document.getElementById('addbtn').style.display=(v==='products')?'block':'none';window.scrollTo(0,0);}
+  document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.v)));
+  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
+  document.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>show('edit')));
+  document.getElementById('addbtn').addEventListener('click',()=>show('edit'));
+  function qr(el){let s='<svg viewBox="0 0 21 21" shape-rendering="crispEdges">';for(let y=0;y<21;y++)for(let x=0;x<21;x++){const c=((x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13))?((x%6===0||y%6===0)?1:0):(Math.random()>0.55?1:0);if(c)s+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#2E2A25"/>`;}el.innerHTML=s+'</svg>';}
+  ['q1','q2','q3','q4'].forEach(id=>qr(document.getElementById(id)));
+</script>
+</body>
+</html>

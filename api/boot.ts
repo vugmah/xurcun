@@ -422,6 +422,49 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
   await createIndex("menu_items", "idx_menu_items_active", "is_active");
   await createIndex("menu_items", "idx_menu_items_sort", "sort_order, id");
 
+  // ── 7c. XURCUN CATALOG ADAPTATION (additive, idempotent) ──
+  // Categories: sub-category support
+  await addColumn("menu_categories", "parent_id", "INT");
+  // Items: price visibility + unit
+  await addColumn("menu_items", "price_visible", "BOOLEAN DEFAULT true");
+  await addColumn("menu_items", "unit", "VARCHAR(50)");
+  // Branches: per-branch WhatsApp, maps, store video, cafe flag, sort
+  await addColumn("branches", "whatsapp_number", "VARCHAR(30)");
+  await addColumn("branches", "map_url", "VARCHAR(500)");
+  await addColumn("branches", "video_url", "VARCHAR(500)");
+  await addColumn("branches", "has_cafe", "BOOLEAN DEFAULT false");
+  await addColumn("branches", "sort_order", "INT DEFAULT 0");
+  // Product images (gallery)
+  await createTable("product_images", `
+    CREATE TABLE IF NOT EXISTS product_images (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      item_id INT NOT NULL,
+      url VARCHAR(500) NOT NULL,
+      alt_az VARCHAR(200),
+      alt_en VARCHAR(200),
+      sort_order INT DEFAULT 0,
+      is_active BOOLEAN DEFAULT true,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`);
+  await createIndex("product_images", "idx_product_images_item", "item_id");
+  // Product variants (size / color)
+  await createTable("product_variants", `
+    CREATE TABLE IF NOT EXISTS product_variants (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      item_id INT NOT NULL,
+      name_az VARCHAR(150) NOT NULL,
+      name_ru VARCHAR(150),
+      name_en VARCHAR(150),
+      name_tr VARCHAR(150),
+      name_ar VARCHAR(150),
+      price VARCHAR(50),
+      sku VARCHAR(100),
+      sort_order INT DEFAULT 0,
+      is_active BOOLEAN DEFAULT true
+    )`);
+  await createIndex("product_variants", "idx_product_variants_item", "item_id");
+  await createIndex("menu_categories", "idx_menu_categories_parent", "parent_id");
+
   // ── 8. SEO SETTINGS — per-page multilingual SEO ──
   // DROP old table (may have legacy columns: title, description, keywords, lang)
   // then recreate with clean per-language-only schema

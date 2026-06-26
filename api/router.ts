@@ -1,5 +1,7 @@
 import { createRouter, publicQuery } from "./middleware";
 import { menuRouter } from "./routers/menu";
+import { catalogRouter } from "./routers/catalog";
+import { translateRouter } from "./routers/translate";
 import { settingsRouter } from "./routers/settings";
 import { photosRouter } from "./routers/photos";
 import { seoRouter } from "./routers/seo";
@@ -19,6 +21,8 @@ export const appRouter = createRouter({
   ping: publicQuery.query(() => ({ ok: true, ts: Date.now() })),
 
   menu: menuRouter,
+  catalog: catalogRouter,
+  translate: translateRouter,
   settings: settingsRouter,
   photos: photosRouter,
   seo: seoRouter,

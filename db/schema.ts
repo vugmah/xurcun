@@ -3,7 +3,10 @@ import { serial, varchar, text, boolean, timestamp, int, mysqlTable } from "driz
 // Menu categories
 export const menuCategories = mysqlTable("menu_categories", {
   id: serial("id"),
+  // "catalog" = məhsul kataloqu · "cafe" = mağaza içi kofe menyusu (food/beverage)
   menuType: varchar("menu_type", { length: 50 }).notNull(),
+  // NULL = ana kateqoriya · dolu = alt kateqoriya (Çay & Ədviyyat → Çay)
+  parentId: int("parent_id"),
   titleAz: varchar("title_az", { length: 200 }).notNull(),
   titleRu: varchar("title_ru", { length: 200 }).notNull(),
   titleEn: varchar("title_en", { length: 200 }).notNull(),
@@ -22,6 +25,8 @@ export const menuItems = mysqlTable("menu_items", {
   nameRu: varchar("name_ru", { length: 300 }).notNull(),
   nameEn: varchar("name_en", { length: 300 }).notNull(),
   price: varchar("price", { length: 50 }),
+  priceVisible: boolean("price_visible").default(true), // qiymət gizlət/göstər
+  unit: varchar("unit", { length: 50 }), // "500 q", "ədəd" vb. (opsional)
   descAz: text("desc_az"),
   descRu: text("desc_ru"),
   descEn: text("desc_en"),
@@ -43,6 +48,33 @@ export const menuItems = mysqlTable("menu_items", {
   isSnack: boolean("is_snack").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Product Images — çoxlu şəkil / qalereya (menu_items.id -> itemId)
+export const productImages = mysqlTable("product_images", {
+  id: serial("id"),
+  itemId: int("item_id").notNull(),
+  url: varchar("url", { length: 500 }).notNull(),
+  altAz: varchar("alt_az", { length: 200 }),
+  altEn: varchar("alt_en", { length: 200 }),
+  sortOrder: int("sort_order").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Product Variants — ölçü/rəng (məs. BOXFUL S/M/L, BLACK/WOOD)
+export const productVariants = mysqlTable("product_variants", {
+  id: serial("id"),
+  itemId: int("item_id").notNull(),
+  nameAz: varchar("name_az", { length: 150 }).notNull(),
+  nameRu: varchar("name_ru", { length: 150 }),
+  nameEn: varchar("name_en", { length: 150 }),
+  nameTr: varchar("name_tr", { length: 150 }),
+  nameAr: varchar("name_ar", { length: 150 }),
+  price: varchar("price", { length: 50 }), // opsional fiyat override
+  sku: varchar("sku", { length: 100 }),
+  sortOrder: int("sort_order").default(0),
+  isActive: boolean("is_active").default(true),
 });
 
 // Settings
@@ -255,6 +287,11 @@ export const branches = mysqlTable("branches", {
   slug: varchar("slug", { length: 100 }).notNull(),
   address: text("address"),
   phone: varchar("phone", { length: 50 }),
+  whatsappNumber: varchar("whatsapp_number", { length: 30 }), // filiala özəl WhatsApp (sifariş)
+  mapUrl: varchar("map_url", { length: 500 }), // Google Maps linki
+  videoUrl: varchar("video_url", { length: 500 }), // mağaza videosu (public/videos)
+  hasCafe: boolean("has_cafe").default(false), // mağaza içi kofe menyusu var?
+  sortOrder: int("sort_order").default(0),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

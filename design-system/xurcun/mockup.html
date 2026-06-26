@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xurcun — Premium Katalog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  @font-face{font-family:"Rufolo";src:url(./fonts/RufoloLight.woff) format("woff");font-weight:300;font-style:normal;font-display:swap}
+  @font-face{font-family:"Rufolo";src:url(./fonts/Rufolo.woff) format("woff");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"Rufolo";src:url(./fonts/Rufolo-Italic.woff) format("woff");font-weight:400;font-style:italic;font-display:swap}
+  @font-face{font-family:"Rufolo";src:url(./fonts/Rufolo-Bold.woff) format("woff");font-weight:600 700;font-style:normal;font-display:swap}
+  @font-face{font-family:"Rufolo";src:url(./fonts/Rufolo-BoldItalic.woff) format("woff");font-weight:600 700;font-style:italic;font-display:swap}
+  @font-face{font-family:"Rufolo";src:url(./fonts/RufoloBlack.woff) format("woff");font-weight:800 900;font-style:normal;font-display:swap}
+  :root{
+    --gold:#9D7C38; --gold-dark:#7E6228; --gold-light:#C2A05A;
+    --ink:#2E2A25; --ink-soft:#3a352e; --ink-muted:#6b6457;
+    --cream:#EBE5D7; --cream-50:#F6F2E9; --cream-100:#F1ECE0; --line:#D8CFB9; --white:#fff;
+    --wa:#1f4a34;
+    --display:"Rufolo","Cormorant Garamond",serif; --body:"Montserrat",system-ui,sans-serif; --script:"Pinyon Script",cursive;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:var(--ink);background:var(--cream-50);line-height:1.65;-webkit-font-smoothing:antialiased;font-weight:300;overflow-x:hidden}
+  h1,h2,h3,.serif{font-family:var(--display);font-weight:600}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+  a{color:inherit;text-decoration:none}
+  .muted{color:var(--ink-muted)} .gold{color:var(--gold)}
+  .tag{font-size:11px;letter-spacing:.32em;text-transform:uppercase;font-weight:400;color:var(--gold-dark)}
+  .ornament{display:flex;align-items:center;justify-content:center;gap:16px;margin:0 auto}
+  .ornament::before,.ornament::after{content:"";height:1px;width:64px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .ornament::after{background:linear-gradient(90deg,var(--gold),transparent)}
+  .ornament img{width:26px;opacity:.85;animation:spin 22s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.ornament img{animation:none}}
+
+  /* top bar */
+  .topbar{background:var(--ink);color:var(--cream)}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:38px;font-size:11px;letter-spacing:.08em}
+  .topbar .ph{display:flex;gap:22px;opacity:.8}
+  .langs{display:flex;gap:2px}
+  .langs span{padding:3px 9px;border-radius:2px;cursor:pointer;letter-spacing:.12em;transition:.2s}
+  .langs span.on,.langs span:hover{background:var(--gold);color:var(--ink)}
+
+  /* sticky header */
+  header{position:sticky;top:0;z-index:50;background:rgba(246,242,233,.86);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:.4s var(--ease)}
+  header.shrink{border-color:var(--line);box-shadow:0 6px 30px rgba(46,42,37,.07)}
+  header .wrap{display:flex;flex-direction:column;align-items:center;padding:20px 32px 14px;gap:14px;transition:.4s var(--ease)}
+  header.shrink .wrap{padding:10px 32px 8px}
+  .logo{height:58px;transition:.4s var(--ease)}
+  header.shrink .logo{height:40px}
+  nav{display:flex;gap:34px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;max-height:40px;overflow:hidden;transition:.4s var(--ease)}
+  header.shrink nav{max-height:0;opacity:0}
+  nav a{padding:3px 0;border-bottom:1px solid transparent;transition:.25s}
+  nav a:hover{color:var(--gold);border-color:var(--gold)}
+
+  /* hero */
+  .hero{position:relative;min-height:88vh;display:flex;align-items:center;background:var(--ink);overflow:hidden}
+  .hero video,.hero .heroimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+  .hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(46,42,37,.55),rgba(46,42,37,.78))}
+  .hero .bgpat{position:absolute;inset:0;background-image:url(./emblem-gold.png);background-size:96px;opacity:.06}
+  .hero .wrap{position:relative;text-align:center;color:var(--cream);width:100%;padding-top:40px;padding-bottom:40px}
+  .hero .emb{width:74px;margin:0 auto 22px;display:block;opacity:.95;animation:floaty 6s ease-in-out infinite}
+  @keyframes floaty{50%{transform:translateY(-12px)}}
+  .hero .script{font-family:var(--script);color:var(--gold-light);font-size:clamp(28px,4vw,40px);line-height:1;margin-bottom:8px}
+  .hero h1{font-size:clamp(3rem,7vw,6rem);line-height:1;font-weight:600;letter-spacing:.01em;color:#fff}
+  .hero h1 em{font-style:italic;color:var(--gold-light);font-weight:500}
+  .hero .lead{margin:24px auto 34px;max-width:520px;color:#e6ddca;font-size:16px;font-weight:300}
+  .btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--body);font-weight:400;font-size:12px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;border-radius:1px;transition:.3s var(--ease);border:1px solid var(--gold)}
+  .btn-gold{background:var(--gold);color:var(--ink);padding:16px 34px}
+  .btn-gold:hover{background:var(--gold-light);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--cream);border-color:rgba(235,229,215,.5);padding:16px 30px}
+  .btn-ghost:hover{background:var(--cream);color:var(--ink);border-color:var(--cream)}
+  .scrolldown{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:var(--gold-light);font-size:22px;animation:bob 1.8s infinite}
+  @keyframes bob{50%{transform:translate(-50%,8px)}}
+  .hero-hidden{opacity:0;transform:translateY(28px)}
+  .hero-in{opacity:1;transform:none;transition:opacity 1s var(--ease),transform 1s var(--ease)}
+
+  .values{background:var(--ink);color:var(--cream);border-top:1px solid rgba(194,160,90,.2)}
+  .values .wrap{display:flex;justify-content:center;gap:54px;padding:20px 32px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:300;flex-wrap:wrap}
+  .values span{display:flex;align-items:center;gap:12px;color:#d8cdb4}
+  .values span i{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+
+  section{padding:84px 0}
+  .sec-head{text-align:center;margin-bottom:46px}
+  .sec-head h2{font-size:clamp(30px,4vw,44px);font-weight:600;margin:14px 0 14px}
+
+  .cats{display:flex;flex-wrap:wrap;justify-content:center;border:1px solid var(--line);border-radius:2px;overflow:hidden;background:var(--white)}
+  .cat{flex:1 1 0;min-width:150px;text-align:center;padding:24px 12px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border-right:1px solid var(--line);transition:.3s var(--ease)}
+  .cat:last-child{border-right:none}
+  .cat img{width:30px;opacity:.5;display:block;margin:0 auto 12px;transition:.4s var(--ease)}
+  .cat:hover{background:var(--ink);color:var(--gold-light)}
+  .cat:hover img{opacity:1;transform:translateY(-4px) rotate(45deg)}
+
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+  .card{background:var(--white);border:1px solid var(--line);overflow:hidden;cursor:pointer;transition:transform .4s var(--ease),box-shadow .4s var(--ease);position:relative}
+  .card::after{content:"";position:absolute;inset:0;border:1px solid var(--gold);opacity:0;transition:.4s;pointer-events:none}
+  .card:hover{transform:translateY(-8px);box-shadow:0 24px 50px rgba(46,42,37,.13)}
+  .card:hover::after{opacity:1}
+  .thumb{aspect-ratio:4/5;background:var(--cream-100);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .thumb img.pimg{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+  .card:hover .thumb img.pimg{transform:scale(1.07)}
+  .thumb .wm{width:70px;opacity:.13}
+  .badge{position:absolute;top:0;left:0;background:var(--gold);color:var(--ink);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;z-index:2}
+  .card-b{padding:18px 18px 22px;text-align:center}
+  .card-b .pcat{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dark)}
+  .card-b .pname{font-family:var(--display);font-size:21px;font-weight:600;margin:5px 0 0;line-height:1.15}
+  .price{margin-top:12px;font-family:var(--display);font-size:20px;font-weight:600}
+  .price::before{content:"";display:block;width:24px;height:1px;background:var(--gold);margin:0 auto 10px}
+
+  .luxe{background:var(--ink);color:var(--cream);position:relative;overflow:hidden}
+  .luxe .bgpat{position:absolute;inset:0;background-image:url(./emblem-gold.png);background-size:96px;opacity:.05;will-change:transform}
+  .luxe .wrap{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:96px 32px}
+  .luxe .tag{color:var(--gold-light)}
+  .luxe h2{color:var(--cream);font-size:clamp(30px,4vw,46px);margin:14px 0 18px;line-height:1.1}
+  .luxe h2 em{color:var(--gold-light);font-style:italic}
+  .luxe p{color:#c9bea4;font-weight:300;font-size:15px;max-width:420px;margin-bottom:28px}
+  .luxe-frame{justify-self:center;width:100%;max-width:430px;aspect-ratio:1/1;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative}
+  .luxe-frame::before{content:"";position:absolute;inset:12px;border:1px solid rgba(194,160,90,.35)}
+  .luxe-frame img{width:130px;opacity:.85;animation:floaty 7s ease-in-out infinite}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center}
+  .detail{background:var(--white);border:1px solid var(--line);padding:38px}
+  .detail h3{font-size:32px;margin-top:8px}
+  .variants{display:flex;gap:10px;margin:18px 0}
+  .chip{border:1px solid var(--line);padding:9px 18px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:.25s}
+  .chip.on,.chip:hover{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+  .dprice{font-family:var(--display);font-size:32px;font-weight:600;margin:8px 0 22px}
+  .wa-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;background:var(--wa);color:#fff;padding:17px;font-weight:400;font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:none;transition:.3s var(--ease)}
+  .wa-btn:hover{background:#163524;transform:translateY(-2px)}
+  .wa-note{text-align:center;font-size:11.5px;color:var(--ink-muted);margin-top:12px;letter-spacing:.04em}
+
+  .phone{justify-self:center;width:300px;height:600px;background:var(--ink);border-radius:40px;padding:13px;box-shadow:0 30px 70px rgba(46,42,37,.34);animation:floaty 7s ease-in-out infinite}
+  .screen{background:var(--cream-50);height:100%;border-radius:28px;overflow:hidden;display:flex;flex-direction:column}
+  .ph-top{background:var(--ink);padding:18px 16px 14px;text-align:center}
+  .ph-top img{height:30px}
+  .ph-top .br{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-light);margin-top:7px}
+  .ph-list{flex:1;padding:13px}
+  .ph-item{display:flex;gap:12px;align-items:center;background:var(--white);border:1px solid var(--line);padding:10px;margin-bottom:10px}
+  .ph-img{width:50px;height:50px;background:var(--cream-100);flex:none;display:flex;align-items:center;justify-content:center}
+  .ph-img img{width:26px;opacity:.3}
+  .ph-item .n{font-family:var(--display);font-size:16px;font-weight:600;line-height:1.05}
+  .ph-item .p{font-size:12px;color:var(--gold-dark);font-weight:500;margin-top:3px}
+  .ph-wa{margin:0 13px 16px;background:var(--wa);color:#fff;text-align:center;padding:13px;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+
+  footer{background:var(--ink);color:var(--cream);position:relative;overflow:hidden}
+  footer .bgpat{position:absolute;inset:0;background-image:url(./emblem-gold.png);background-size:70px;opacity:.04}
+  footer .wrap{position:relative;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:44px;padding:64px 32px 34px}
+  footer .logo{height:48px;margin-bottom:16px}
+  footer h4{font-family:var(--body);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-light);margin-bottom:16px}
+  footer ul{list-style:none;font-size:13px;line-height:2.1;color:#c9bea4;font-weight:300}
+  footer p{font-size:13px;color:#c9bea4;font-weight:300;max-width:300px}
+  .copyright{position:relative;border-top:1px solid rgba(194,160,90,.18);text-align:center;font-size:11px;letter-spacing:.16em;color:#9c917b;padding:18px;text-transform:uppercase}
+  .mag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+  .branch{position:relative;aspect-ratio:9/16;border:1px solid var(--line);overflow:hidden;background:var(--ink);transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+  .branch:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(46,42,37,.24)}
+  .branch video,.branch .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .branch .grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(46,42,37,0) 42%,rgba(46,42,37,.88));pointer-events:none}
+  .branch .play{position:absolute;top:13px;right:13px;width:34px;height:34px;border:1px solid rgba(235,229,215,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:12px;transition:.3s}
+  .branch:hover .play{opacity:0}
+  .bover{position:absolute;left:0;right:0;bottom:0;padding:16px;color:var(--cream)}
+  .bover .bn{font-family:var(--display);font-size:21px;font-weight:600;line-height:1.1}
+  .bover .ba{font-size:11px;color:#d8cdb4;margin-top:4px}
+  .bover .brow{display:flex;gap:8px;margin-top:12px}
+  .bover a{flex:1;text-align:center;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:8px 5px;border:1px solid rgba(194,160,90,.5);color:var(--gold-light);transition:.25s}
+  .bover a:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+  .bover a.tel{border-color:rgba(235,229,215,.32);color:var(--cream)}
+  @media(max-width:920px){
+    .hero .wrap,.luxe .wrap,.split{grid-template-columns:1fr;gap:40px}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .cat{flex-basis:50%;border-bottom:1px solid var(--line)}
+    footer .wrap{grid-template-columns:1fr}
+    nav{flex-wrap:wrap;justify-content:center;gap:18px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="ph"><span>info@xurcun.az</span><span>+994 50 212 18 11</span></div>
+  <div class="langs"><span class="on">AZ</span><span>RU</span><span>EN</span><span>TR</span><span>AR</span></div>
+</div></div>
+
+<header id="hdr"><div class="wrap">
+  <img class="logo" src="./logo-gold.png" alt="Xurcun — Fond of Quality">
+  <nav>
+    <a href="#">Ana səhifə</a><a href="#">Kataloq</a><a href="#">Hədiyyəlik</a>
+    <a href="#magazalar">Mağazalar</a><a href="#">Haqqımızda</a><a href="#">Əlaqə</a>
+  </nav>
+</div></header>
+
+<section class="hero" style="padding:0">
+  <!-- VIDEO ALANI: public/videos/hero.mp4 yükləyəndə avtomatik oynayacaq -->
+  <video class="heroimg" autoplay muted loop playsinline poster="">
+    <source src="./hero.mp4" type="video/mp4">
+  </video>
+  <div class="bgpat"></div>
+  <div class="veil"></div>
+  <div class="wrap">
+    <img class="emb hero-hidden" data-h="1" src="./emblem-gold.png" alt="">
+    <div class="script hero-hidden" data-h="2">təbiətin ən seçmə dadları</div>
+    <h1 class="hero-hidden" data-h="3">Keyfiyyətə <em>vurğunuq.</em></h1>
+    <p class="lead hero-hidden" data-h="4">Seçmə quru meyvələr, qoz-fındıq, ləziz şirniyyatlar və əl işi premium hədiyyə qutuları — 2015-dən bəri Azərbaycanın zövqlü süfrəsi üçün.</p>
+    <div class="btns hero-hidden" data-h="5">
+      <button class="btn btn-gold">Kataloqa bax</button>
+      <button class="btn btn-ghost">Hədiyyə qutuları</button>
+    </div>
+  </div>
+  <div class="scrolldown">⌄</div>
+</section>
+
+<div class="values"><div class="wrap">
+  <span><i></i>100% Təbii</span><span><i></i>Əl işi hədiyyə qutuları</span>
+  <span><i></i>6 mağaza · Bakı</span><span><i></i>Est. 2015</span>
+</div></div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="ornament"><img src="./emblem-gold.png" alt=""></div>
+      <h2>Kolleksiyanı kəşf et</h2>
+      <div class="tag">Kateqoriyalar</div>
+    </div>
+    <div class="cats reveal d1">
+      <div class="cat"><img src="./emblem-gold.png" alt="">Çay & Ədviyyat</div>
+      <div class="cat"><img src="./emblem-gold.png" alt="">Çərəz</div>
+      <div class="cat"><img src="./emblem-gold.png" alt="">Şokolad</div>
+      <div class="cat"><img src="./emblem-gold.png" alt="">Quru Meyvə</div>
+      <div class="cat"><img src="./emblem-gold.png" alt="">Lokum</div>
+      <div class="cat"><img src="./emblem-gold.png" alt="">Paxlava</div>
+      <div class="cat"><img src="./emblem-gold.png" alt="">Hədiyyəlik</div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--cream-100)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="ornament"><img src="./emblem-gold.png" alt=""></div>
+      <h2>Seçilmiş məhsullar</h2>
+      <div class="tag">Bestseller</div>
+    </div>
+    <div class="grid">
+      <div class="card reveal">
+        <div class="thumb"><span class="badge">Yeni</span><img class="pimg" src="https://static.ticimax.cloud/47271/Uploads/UrunResimleri/thumb/boxful-m-black-08-1df.jpg" alt="Boxful M Black" onerror="this.outerHTML='<img class=\'wm\' src=\'./emblem-gold.png\' alt=\'\'>'"></div>
+        <div class="card-b"><div class="pcat">Hədiyyəlik</div><div class="pname">Boxful M Black</div><div class="price">220 ₼</div></div>
+      </div>
+      <div class="card reveal d1"><div class="thumb"><img class="wm" src="./emblem-gold.png" alt=""></div><div class="card-b"><div class="pcat">Paxlava</div><div class="pname">Bakhlava Special</div><div class="price">330 ₼</div></div></div>
+      <div class="card reveal d2"><div class="thumb"><img class="wm" src="./emblem-gold.png" alt=""></div><div class="card-b"><div class="pcat">Hədiyyəlik</div><div class="pname">Selection L Purple</div><div class="price">250 ₼</div></div></div>
+      <div class="card reveal d3"><div class="thumb"><span class="badge">Yeni</span><img class="wm" src="./emblem-gold.png" alt=""></div><div class="card-b"><div class="pcat">Hədiyyəlik</div><div class="pname">Carnaval S</div><div class="price">35 ₼</div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="luxe">
+  <div class="bgpat" id="luxepat"></div>
+  <div class="wrap">
+    <div class="reveal">
+      <div class="tag">İmza kolleksiya</div>
+      <h2>Hədiyyə vermək<br>bir <em>incəsənətdir.</em></h2>
+      <p>Əl işi ağac və dəri qutularda hazırlanan premium hədiyyə seçimlərimiz — korporativ təqdimatlar, bayramlar və xüsusi anlar üçün. Hər qutu Xurcun keyfiyyəti ilə imzalanır.</p>
+      <button class="btn btn-gold">Hədiyyə qutularına bax</button>
+    </div>
+    <div class="luxe-frame reveal d2"><img src="./emblem-gold.png" alt=""></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="ornament"><img src="./emblem-gold.png" alt=""></div>
+      <h2>Bax · seç · WhatsApp-dan sifariş et</h2>
+      <div class="tag">Necə işləyir</div>
+    </div>
+    <div class="split">
+      <div class="detail reveal">
+        <div class="tag">Hədiyyəlik</div>
+        <h3>Boxful Premium 3 Floors</h3>
+        <p class="muted" style="font-size:14px;margin-top:10px;font-weight:300">Üç qatlı əl işi premium hədiyyə qutusu — seçmə quru meyvə, qoz-fındıq və lokum kolleksiyası ilə.</p>
+        <div class="variants"><div class="chip">Black</div><div class="chip on">Wood</div><div class="chip">White</div></div>
+        <div class="dprice">720 ₼</div>
+        <button class="wa-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M.06 24l1.69-6.16a11.87 11.87 0 01-1.6-5.96C.16 5.32 5.5 0 12.06 0a11.8 11.8 0 018.4 3.49 11.74 11.74 0 013.48 8.4c0 6.56-5.34 11.9-11.9 11.9a11.9 11.9 0 01-5.7-1.45L.06 24zM6.6 20.2c1.66.98 3.24 1.57 5.45 1.57 5.45 0 9.9-4.43 9.9-9.88 0-5.46-4.43-9.9-9.9-9.9-5.46 0-9.9 4.44-9.9 9.9 0 2.32.69 4.06 1.85 5.88l-.99 3.6 3.59-1.17zm11.3-5.48c-.07-.12-.27-.2-.57-.35-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.64-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41z"/></svg>
+          WhatsApp ilə sifariş et
+        </button>
+        <div class="wa-note">Sifarişiniz seçdiyiniz mağazanın WhatsApp-ına göndərilir · səbət yoxdur</div>
+      </div>
+      <div class="phone reveal d2"><div class="screen">
+        <div class="ph-top"><img src="./logo-gold.png" alt="Xurcun"><div class="br">QR Menyu · Port Baku Mall</div></div>
+        <div class="ph-list">
+          <div class="ph-item"><div class="ph-img"><img src="./emblem-gold.png" alt=""></div><div><div class="n">Bakhlava Classic</div><div class="p">240 ₼</div></div></div>
+          <div class="ph-item"><div class="ph-img"><img src="./emblem-gold.png" alt=""></div><div><div class="n">Khanedan S White</div><div class="p">35 ₼</div></div></div>
+          <div class="ph-item"><div class="ph-img"><img src="./emblem-gold.png" alt=""></div><div><div class="n">Edition L Red</div><div class="p">220 ₼</div></div></div>
+          <div class="ph-item"><div class="ph-img"><img src="./emblem-gold.png" alt=""></div><div><div class="n">Corner Special</div><div class="p">330 ₼</div></div></div>
+        </div>
+        <div class="ph-wa">WhatsApp ilə sifariş et</div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section id="magazalar" style="background:var(--cream-100)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="ornament"><img src="./emblem-gold.png" alt=""></div>
+      <h2>Mağazalarımız</h2>
+      <div class="tag">11 filial · Bakı</div>
+    </div>
+    <div class="mag-grid">
+      <div class="branch reveal">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/port-baku.jpg"><source src="../../public/videos/port-baku.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Port Baku Mall</div><div class="ba">Üzeyir Hacıbəyov 57, Bakı</div>
+          <div class="brow"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Port%20Baku%20Mall" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal d1">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/crescent-mall.jpg"><source src="../../public/videos/crescent-mall.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Crescent Mall</div><div class="ba">Neftçilər pr. 68, Bakı</div>
+          <div class="brow"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Crescent%20Mall%20Baku" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal d2">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/sea-breeze.jpg"><source src="../../public/videos/sea-breeze.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Sea Breeze</div><div class="ba">Sea Breeze Resort, Nardaran</div>
+          <div class="brow"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Sea%20Breeze%20Baku" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal d3">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/genclik.jpg"><source src="../../public/videos/genclik.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Gənclik Mall</div><div class="ba">Fətəli Xan Xoyski, Bakı</div>
+          <div class="brow"><a class="tel" href="tel:+994502123574">Zəng et</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Genclik%20Mall%20Baku" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/semed-vurgun.jpg"><source src="../../public/videos/semed-vurgun.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Səməd Vurğun</div><div class="ba">Səməd Vurğun 81, Bakı</div>
+          <div class="brow"><a class="tel" href="tel:+994502123549">Zəng et</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Semed%20Vurgun%2081%20Baku" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal d1">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/azadliq.jpg"><source src="../../public/videos/azadliq.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Azadlıq prospekti</div><div class="ba">Azadlıq pr. 119, Bakı</div>
+          <div class="brow"><a class="tel" href="tel:+994502123547">Zəng et</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Azadliq%20prospekti%20Baku" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal d2">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/huseyn-cavid.jpg"><source src="../../public/videos/huseyn-cavid.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Hüseyn Cavid</div><div class="ba">Hüseyn Cavid pr. 47K, Bakı</div>
+          <div class="brow"><a class="tel" href="tel:+994502123548">Zəng et</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Huseyn%20Cavid%20Baku" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal d3">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/xetai.jpg"><source src="../../public/videos/xetai.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Xətai</div><div class="ba">Xətai rayonu, Bakı</div>
+          <div class="brow"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Xetai%20Baku" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/airport.jpg"><source src="../../public/videos/airport.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Hava Limanı — Coffee</div><div class="ba">Heydər Əliyev Hava Limanı, Terminal 1</div>
+          <div class="brow"><a class="tel" href="tel:+994502123515">Zəng et</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Cafe%20Terminal%201%20Baku%20Airport" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal d1">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/airport-dutyfree.jpg"><source src="../../public/videos/airport-dutyfree.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">Hava Limanı — Duty Free</div><div class="ba">Heydər Əliyev Hava Limanı (GYD)</div>
+          <div class="brow"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20Duty%20Free%20Heydar%20Aliyev%20Airport" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+      <div class="branch reveal d2">
+        <video class="bvid" muted loop playsinline preload="none" poster="../../public/images/branches/white-city.jpg"><source src="../../public/videos/white-city.mp4" type="video/mp4"></video>
+        <div class="grad"></div><div class="play">▶</div>
+        <div class="bover"><div class="bn">White City</div><div class="ba">1-ci Yaşıl Ada küçəsi, Bakı</div>
+          <div class="brow"><a class="map" href="https://www.google.com/maps/search/?api=1&query=Xurcun%20White%20City%20Baku" target="_blank" rel="noopener">Google Maps</a></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="bgpat"></div>
+  <div class="wrap">
+    <div class="reveal"><img class="logo" src="./logo-gold.png" alt="Xurcun"><p>Azərbaycanın premium quru meyvə, çərəz və hədiyyə butiki. 2015-dən bəri keyfiyyətə vurğunuq.</p></div>
+    <div class="reveal d1"><h4>Mağazalar</h4><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Heydər Əliyev Hava Limanı</li><li>Səməd Vurğun 81</li></ul></div>
+    <div class="reveal d2"><h4>Əlaqə</h4><ul><li>info@xurcun.az</li><li>+994 50 212 18 11</li><li>Instagram · Facebook</li><li>xurcun.az</li></ul></div>
+  </div>
+  <div class="copyright">© 2026 Xurcun · Bütün hüquqlar qorunur</div>
+</footer>
+
+<script>
+  // hero entrance (staggered)
+  window.addEventListener('load',()=>{
+    document.querySelectorAll('[data-h]').forEach(el=>{
+      const i=+el.dataset.h;
+      setTimeout(()=>{el.classList.remove('hero-hidden');el.classList.add('hero-in')}, 180*i);
+    });
+  });
+  // hide hero video frame if it fails to load (keeps dark+pattern bg)
+  const hv=document.querySelector('.hero video');
+  if(hv){hv.addEventListener('error',()=>hv.style.display='none');
+    hv.addEventListener('stalled',()=>hv.style.display='none');}
+  // reveal on scroll
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.16});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  // sticky header shrink
+  const hdr=document.getElementById('hdr');
+  addEventListener('scroll',()=>{hdr.classList.toggle('shrink',scrollY>60)});
+  // branch videos: play on hover (desktop), reset on leave
+  document.querySelectorAll('.branch').forEach(b=>{
+    const v=b.querySelector('video'); if(!v)return;
+    b.addEventListener('mouseenter',()=>{v.play().catch(()=>{})});
+    b.addEventListener('mouseleave',()=>{v.pause();try{v.currentTime=0}catch(e){}});
+  });
+  // subtle parallax on luxe pattern
+  const lp=document.getElementById('luxepat');
+  addEventListener('scroll',()=>{if(lp){const r=lp.getBoundingClientRect();lp.style.transform='translateY('+(r.top*0.06)+'px)'}});
+</script>
+</body>
+</html>
