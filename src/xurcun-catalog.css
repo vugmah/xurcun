@@ -100,9 +100,10 @@
 .xc.xcc .ctotal { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
 .xc.xcc .ctotal span { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-muted); }
 .xc.xcc .ctotal b { font-family: var(--display); font-size: 22px; color: var(--ink); }
-.xc.xcc .cwa { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; border-radius: 999px; background: var(--wa); color: #eaf3ec; font-family: var(--body); font-size: 14px; font-weight: 500; min-height: 50px; transition: filter .2s var(--ease), transform .12s var(--ease); }
+.xc.xcc .cwa { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; border: 0; cursor: pointer; border-radius: 999px; background: var(--wa); color: #eaf3ec; font-family: var(--body); font-size: 14px; font-weight: 500; min-height: 50px; transition: filter .2s var(--ease), transform .12s var(--ease); }
 @media (hover: hover) and (pointer: fine) { .xc.xcc .cwa:hover { filter: brightness(1.1); } }
 .xc.xcc .cwa:active { transform: scale(.98); }
+.xc.xcc .cwa:disabled { opacity: .6; cursor: progress; }
 .xc.xcc .cwa svg { width: 16px; height: 16px; }
 .xc.xcc .cclear { display: block; width: 100%; margin-top: 8px; padding: 10px; border: 0; background: none; color: var(--ink-muted); font-family: var(--body); font-size: 12.5px; cursor: pointer; }
 
