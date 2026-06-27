@@ -4,7 +4,7 @@ import { getFinalPageSeo } from '../lib/seoStore'
 import { getTrackingSettings } from '../lib/trackingSettings'
 import { trpc } from '../providers/trpc'
 
-type Lang = 'az' | 'ru' | 'en' | 'tr'
+type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar'
 
 /* ─── OG locale per language ─── */
 const OG_LOCALES: Record<Lang, string> = {
@@ -12,7 +12,18 @@ const OG_LOCALES: Record<Lang, string> = {
   ru: 'ru_RU',
   en: 'en_US',
   tr: 'tr_TR',
+  ar: 'ar_AR',
 }
+
+/* ─── hreflang alternates — site serves each language via ?lang= (crawlable) ─── */
+const HREFLANGS: { code: string; lang: Lang | null }[] = [
+  { code: 'az', lang: 'az' },
+  { code: 'ru', lang: 'ru' },
+  { code: 'en', lang: 'en' },
+  { code: 'tr', lang: 'tr' },
+  { code: 'ar', lang: 'ar' },
+  { code: 'x-default', lang: null },
+]
 
 const CANONICAL_ROOT = 'https://xurcun.az/'
 
@@ -118,19 +129,29 @@ export default function SEO({ page = 'home', branchSlug }: SeoProps) {
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <meta name="author" content="Xurcun White City Restaurant & Lounge" />
+      <meta name="author" content="Xurcun" />
       <meta name="robots" content={robotsContent} />
       <meta name="googlebot" content={robotsContent} />
 
       {/* Canonical */}
       <link rel="canonical" href={canonicalUrl} />
 
+      {/* hreflang alternates (5 languages + x-default) */}
+      {HREFLANGS.map(({ code, lang: l }) => (
+        <link
+          key={code}
+          rel="alternate"
+          hrefLang={code}
+          href={l ? `${CANONICAL_ROOT}?lang=${l}` : CANONICAL_ROOT}
+        />
+      ))}
+
       {/* Open Graph — per language */}
-      <meta property="og:type" content="restaurant" />
+      <meta property="og:type" content="website" />
       <meta property="og:title" content={ogTitle} />
       <meta property="og:description" content={ogDescription} />
       <meta property="og:url" content={ogUrl} />
-      <meta property="og:site_name" content="Xurcun White City Restaurant & Lounge" />
+      <meta property="og:site_name" content="Xurcun" />
       <meta property="og:locale" content={OG_LOCALES[lang as Lang]} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
@@ -144,8 +165,8 @@ export default function SEO({ page = 'home', branchSlug }: SeoProps) {
       <meta name="twitter:image" content={ogImage} />
 
       {/* Theme Color */}
-      <meta name="theme-color" content="#0A0A0A" />
-      <meta name="msapplication-TileColor" content="#0A0A0A" />
+      <meta name="theme-color" content="#2E2A25" />
+      <meta name="msapplication-TileColor" content="#2E2A25" />
 
       {/* Google Search Console Verification */}
       {(() => {

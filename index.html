@@ -70,10 +70,13 @@
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     <link rel="apple-touch-icon" href="/assets/favicon.svg" />
 
-    <!-- ═══ Hreflang REMOVED — HashRouter SPA limitation ═══ -->
-    <!-- Hash URLs (/#/az, #/en, etc.) are NOT independently crawlable by Google. -->
-    <!-- Only https://thewoo.az/ is indexed. If path-based multilingual routing is -->
-    <!-- added in the future, restore proper hreflang links here. -->
+    <!-- ═══ Hreflang — language served via crawlable ?lang= query param ═══ -->
+    <link rel="alternate" hreflang="az" href="https://xurcun.az/?lang=az" />
+    <link rel="alternate" hreflang="ru" href="https://xurcun.az/?lang=ru" />
+    <link rel="alternate" hreflang="en" href="https://xurcun.az/?lang=en" />
+    <link rel="alternate" hreflang="tr" href="https://xurcun.az/?lang=tr" />
+    <link rel="alternate" hreflang="ar" href="https://xurcun.az/?lang=ar" />
+    <link rel="alternate" hreflang="x-default" href="https://xurcun.az/" />
 
     <!-- ═══ Open Graph (Facebook, WhatsApp, LinkedIn) ═══ -->
     <meta property="og:type" content="website" />
@@ -85,6 +88,10 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="az_AZ" />
+    <meta property="og:locale:alternate" content="ru_RU" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:locale:alternate" content="tr_TR" />
+    <meta property="og:locale:alternate" content="ar_AR" />
 
     <!-- ═══ Twitter Cards ═══ -->
     <meta name="twitter:card" content="summary_large_image" />
