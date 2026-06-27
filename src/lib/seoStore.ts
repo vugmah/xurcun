@@ -60,7 +60,7 @@ export function dbRowToSeoSettings(row: any): SeoPageSettings {
     ogDescriptionRu: row.ogDescriptionRu ?? "",
     ogDescriptionEn: row.ogDescriptionEn ?? "",
     ogDescriptionTr: row.ogDescriptionTr ?? "",
-    ogImage: row.ogImage ?? "https://xurcun.az/assets/hero-bg.jpg",
+    ogImage: row.ogImage ?? "https://xurcun.az/brand/logo-gold.png",
   };
 }
 
@@ -108,7 +108,7 @@ export function autoGenerateSeo(pageId: string): SeoPageSettings {
     keywordsAz: p.kwAz, keywordsRu: p.kwRu, keywordsEn: p.kwEn, keywordsTr: p.kwTr,
     ogTitleAz: p.titleAz, ogTitleRu: p.titleRu, ogTitleEn: p.titleEn, ogTitleTr: p.titleTr,
     ogDescriptionAz: p.descAz, ogDescriptionRu: p.descRu, ogDescriptionEn: p.descEn, ogDescriptionTr: p.descTr,
-    ogImage: "https://xurcun.az/assets/hero-bg.jpg",
+    ogImage: "https://xurcun.az/brand/logo-gold.png",
   };
 }
 
@@ -119,18 +119,18 @@ const PAGE_TEMPLATES: Record<string, {
   kwAz: string; kwRu: string; kwEn: string; kwTr: string;
 }> = {
   home: {
-    titleAz: "Xurcun White City | Bakı Premium Restoran, Lounge və Qəlyan",
-    titleRu: "Xurcun White City | Премиальный ресторан, лаунж и кальян в Баку",
-    titleEn: "Xurcun White City | Premium Restaurant, Lounge & Shisha in Baku",
-    titleTr: "Xurcun White City | Bakü Premium Restoran, Lounge ve Nargile",
-    descAz: "Xurcun White City — White City-də yerləşən premium restoran və lounge. Müasir Azərbaycan mətbəxi, Avropa ləzzətləri, imza kokteyllər və premium qəlyan təcrübəsi.",
-    descRu: "Xurcun White City — премиальный ресторан и лаунж в White City, Баку. Современная азербайджанская кухня, европейские блюда, фирменные коктейли и премиальный кальян.",
-    descEn: "Xurcun White City is a premium restaurant and lounge in White City, Baku, offering modern Azerbaijani cuisine, European dishes, signature cocktails and premium shisha.",
-    descTr: "Xurcun White City, Bakü White City'de modern Azerbaycan mutfağı, Avrupa lezzetleri, imza kokteyller ve premium nargile deneyimi sunan premium bir restoran ve lounge'dur.",
-    kwAz: "restoran bakı, lounge bakı, premium restoran, qəlyan bakı, kokteyl bar, xurcun",
-    kwRu: "ресторан баку, лаунж баку, премиальный ресторан, кальян баку, коктейль бар",
-    kwEn: "baku restaurant, baku lounge, premium restaurant, shisha baku, cocktail bar",
-    kwTr: "baku restoran, baku lounge, premium restoran, nargile baku, kokteyl bar",
+    titleAz: "Xurcun | Premium quru meyvə, qoz-fındıq, şirniyyat və hədiyyə butiki — Bakı",
+    titleRu: "Xurcun | Премиальные сухофрукты, орехи, сладости и подарки — Баку",
+    titleEn: "Xurcun | Premium dried fruit, nuts, sweets and gift boutique — Baku",
+    titleTr: "Xurcun | Premium kuru meyve, çerez, tatlı ve hediye butiği — Bakü",
+    descAz: "Xurcun — Azərbaycanın premium quru meyvə, qoz-fındıq, çərəz, şokolad, lokum, paxlava və əl işi hədiyyə qutuları butiki. 2015-dən bəri, Bakıda 11 mağaza. «Keyfiyyətə vurğunuq».",
+    descRu: "Xurcun — премиальный бутик сухофруктов, орехов, сладостей, шоколада, лукума и подарочных наборов ручной работы. С 2015 года, 11 магазинов в Баку. «Преданы качеству».",
+    descEn: "Xurcun is Azerbaijan's premium boutique for dried fruit, nuts, sweets, chocolate, Turkish delight and handcrafted gift boxes. Since 2015, 11 stores in Baku. Fond of Quality.",
+    descTr: "Xurcun — Azerbaycan'ın premium kuru meyve, çerez, tatlı, çikolata, lokum ve el yapımı hediye kutuları butiği. 2015'ten beri, Bakü'de 11 mağaza. Kaliteye gönül verdik.",
+    kwAz: "quru meyvə bakı, qoz-fındıq, çərəz, lokum, paxlava, hədiyyə qutusu, şirniyyat, xurcun",
+    kwRu: "сухофрукты баку, орехи, лукум, пахлава, подарочные наборы, сладости, xurcun",
+    kwEn: "dried fruit baku, nuts, turkish delight, baklava, gift box, sweets, xurcun",
+    kwTr: "kuru meyve baku, çerez, lokum, baklava, hediye kutusu, tatlı, xurcun",
   },
   menu: {
     titleAz: "Menyu | Xurcun White City — Yemək, İçki və Qəlyan",

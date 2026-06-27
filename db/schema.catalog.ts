@@ -108,7 +108,7 @@ export const productVariants = mysqlTable("product_variants", {
 
 // ───────────────────────────────────────────────────────────────
 // ŞUBELER  (QR menü hedefi — her şubeye kendi WhatsApp numarası)
-//   QR linki: https://xurcun.com/menu/<slug>
+//   QR linki: https://xurcun.az/menu/<slug>
 // ───────────────────────────────────────────────────────────────
 export const branches = mysqlTable("branches", {
   id: serial("id"),
