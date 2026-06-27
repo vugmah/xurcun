@@ -59,7 +59,7 @@ async function captureToPng(el: HTMLElement, opts: { scale?: number; backgroundC
     }
   }
 
-  /* ─── STEP 0: Convert ALL <img> elements to base64 data URIs ───
+  /* ─── STEP 0: Convert ALL image elements to base64 data URIs ───
      External URLs (http, /path) fail inside SVG foreignObject when the SVG
      is loaded from a blob URL (CORS/security restrictions). By converting
      every image to a data URI, the SVG becomes entirely self-contained. */
