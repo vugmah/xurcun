@@ -65,8 +65,8 @@ export function trackMetaStandard(eventName: string, params: Record<string, unkn
   const domain = getDomain();
 
   w.fbq("track", eventName, {
-    content_name: "Xurcun White City",
-    content_category: "Restaurant / Lounge",
+    content_name: "Xurcun",
+    content_category: "Retail / Boutique",
     event_source_url: domain + window.location.pathname,
     ...params,
     page_path: window.location.pathname,
@@ -87,8 +87,8 @@ export function trackMetaCustom(eventName: string, params: Record<string, unknow
   const domain = getDomain();
 
   w.fbq("trackCustom", eventName, {
-    content_name: "Xurcun White City",
-    content_category: "Restaurant / Lounge",
+    content_name: "Xurcun",
+    content_category: "Retail / Boutique",
     event_source_url: domain + window.location.pathname,
     ...params,
     page_path: window.location.pathname,

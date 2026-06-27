@@ -809,7 +809,7 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
 })();
 
 // Health check endpoint (MUST come BEFORE tRPC and catch-all routes)
-app.get("/health", (c) => c.json({ status: "ok", service: "xurcun-white-city", time: Date.now() }, 200));
+app.get("/health", (c) => c.json({ status: "ok", service: "xurcun", time: Date.now() }, 200));
 
 // tRPC handler
 app.use("/api/trpc/*", async (c) => {

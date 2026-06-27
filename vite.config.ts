@@ -13,8 +13,8 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/api': { target: 'https://thewoo.az', changeOrigin: true },
-      '/trpc': { target: 'https://thewoo.az', changeOrigin: true },
+      '/api': { target: 'https://xurcun.az', changeOrigin: true },
+      '/trpc': { target: 'https://xurcun.az', changeOrigin: true },
     },
   },
   resolve: {
