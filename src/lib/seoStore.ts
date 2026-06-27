@@ -306,178 +306,42 @@ export async function resetPageSeo(pageId: string): Promise<void> {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   DYNAMIC MENU-BASED SEO BUILDER
-   Reads active menu products and builds natural SEO content.
+   DYNAMIC SEO BUILDER (boutique)
+   Natural boutique SEO copy per page — dried fruit, nuts, sweets,
+   gift boxes. No restaurant/menu data (that was a thewoo leftover).
    ═══════════════════════════════════════════════════════════════ */
-
-import { alacarteData, beverageData, shishaData } from "./menuData.static";
-import { getMenuEdit, isItemAvailableAtBranch } from "./menuStore";
 
 interface DynamicSeoResult {
   descriptionAz: string; descriptionRu: string; descriptionEn: string; descriptionTr: string;
   keywordsAz: string; keywordsRu: string; keywordsEn: string; keywordsTr: string;
 }
 
-/** Build natural sentence fragments from item names — no stuffing */
-function joinNames(names: string[], max: number, lang: string): string {
-  const limited = names.slice(0, max);
-  if (lang === "az") return limited.join(", ") + (names.length > max ? ` və daha ${names.length - max}+ çeşid` : "");
-  if (lang === "ru") return limited.join(", ") + (names.length > max ? ` и ещё ${names.length - max}+ видов` : "");
-  if (lang === "tr") return limited.join(", ") + (names.length > max ? ` ve ${names.length - max}+ çeşit daha` : "");
-  return limited.join(", ") + (names.length > max ? ` and ${names.length - max}+ more varieties` : "");
-}
-
-/** Get active item names for a menu section, filtered by branch */
-function getActiveItemNames(
-  categories: typeof alacarteData,
-  tab: "food" | "beverage" | "shisha",
-  branchSlug: string,
-  lang: string,
-  maxItems: number
-): string[] {
-  const names: string[] = [];
-  categories.forEach((cat) => {
-    const catTitle = cat.title_az;
-    (cat.items || []).forEach((item) => {
-      const edit = getMenuEdit(tab, catTitle, item.name_az);
-      // Check active
-      if (edit?.is_active === false) return;
-      // Check branch availability
-      if (!isItemAvailableAtBranch(tab, branchSlug, catTitle, item.name_az)) return;
-      // Get name in correct language
-      const name = lang === "tr" && (item as any).name_tr
-        ? (item as any).name_tr
-        : lang === "ru" && item.name_ru
-        ? item.name_ru
-        : lang === "en" && item.name_en
-        ? item.name_en
-        : item.name_az;
-      if (name && !names.includes(name)) names.push(name);
-    });
-  });
-  return names.slice(0, maxItems);
-}
-
-/** Build dynamic SEO from actual menu data */
+/** Build dynamic SEO — boutique product positioning. */
 export function buildDynamicMenuSeo(
   pageId: string,
   branchSlug?: string,
-  dbSettings?: SeoSettings
+  _dbSettings?: SeoSettings
 ): Partial<DynamicSeoResult> {
   const branch = branchSlug || "white-city";
   const branchName = branch === "white-city" ? "White City" : "Seabreeze Marina";
 
-  const foodNamesAz = getActiveItemNames(alacarteData, "food", branch, "az", 8);
-  const foodNamesRu = getActiveItemNames(alacarteData, "food", branch, "ru", 8);
-  const foodNamesEn = getActiveItemNames(alacarteData, "food", branch, "en", 8);
-  const foodNamesTr = getActiveItemNames(alacarteData, "food", branch, "tr", 8);
-
-  const bevNamesAz = getActiveItemNames(beverageData, "beverage", branch, "az", 6);
-  const bevNamesRu = getActiveItemNames(beverageData, "beverage", branch, "ru", 6);
-  const bevNamesEn = getActiveItemNames(beverageData, "beverage", branch, "en", 6);
-  const bevNamesTr = getActiveItemNames(beverageData, "beverage", branch, "tr", 6);
-
-  const shishaNamesAz = shishaData.hookahs
-    .filter((h) => isItemAvailableAtBranch("shisha", branch, "Qəlyan cihazları", h.name_az))
-    .map((h) => h.name_az).slice(0, 5);
-  const shishaNamesRu = shishaData.hookahs
-    .filter((h) => isItemAvailableAtBranch("shisha", branch, "Qəlyan cihazları", h.name_az))
-    .map((h) => h.name_ru || h.name_az).slice(0, 5);
-  const shishaNamesEn = shishaData.hookahs
-    .filter((h) => isItemAvailableAtBranch("shisha", branch, "Qəlyan cihazları", h.name_az))
-    .map((h) => h.name_en || h.name_az).slice(0, 5);
-  const shishaNamesTr = shishaData.hookahs
-    .filter((h) => isItemAvailableAtBranch("shisha", branch, "Qəlyan cihazları", h.name_az))
-    .map((h) => (h as any).name_tr || h.name_az).slice(0, 5);
-
-  const foodCatAz = alacarteData.map((c) => c.title_az).join(", ");
-  const foodCatRu = alacarteData.map((c) => c.title_ru).join(", ");
-  const foodCatEn = alacarteData.map((c) => c.title_en).join(", ");
-
-  const bevCatAz = beverageData.map((c) => c.title_az).join(", ");
-  const bevCatRu = beverageData.map((c) => c.title_ru).join(", ");
-  const bevCatEn = beverageData.map((c) => c.title_en).join(", ");
-
-  // Build page-specific descriptions
-  if (pageId === "home" || pageId === "menu") {
+  if (pageId === "home" || pageId === "menu" || pageId === "catalog") {
     return {
-      descriptionAz: `Xurcun ${branchName} — premium restoran və lounge. Menyumuzda: ${joinNames(foodNamesAz, 5, "az")}. Həmçinin ${joinNames(bevNamesAz, 4, "az")} və premium qəlyan.`,
-      descriptionRu: `Xurcun ${branchName} — премиальный ресторан и лаунж. В меню: ${joinNames(foodNamesRu, 5, "ru")}. Также ${joinNames(bevNamesRu, 4, "ru")} и премиальный кальян.`,
-      descriptionEn: `Xurcun ${branchName} — a premium restaurant and lounge. Our menu features: ${joinNames(foodNamesEn, 5, "en")}. Also ${joinNames(bevNamesEn, 4, "en")} and premium shisha.`,
-      descriptionTr: `Xurcun ${branchName} — premium restoran ve lounge. Menümüzde: ${joinNames(foodNamesTr, 5, "tr")}. Ayrıca ${joinNames(bevNamesTr, 4, "tr")} ve premium nargile.`,
-      keywordsAz: `xurcun ${branchName.toLowerCase()}, premium restoran baku, lounge bakı, ${foodCatAz.toLowerCase()}, ${joinNames(foodNamesAz.slice(0, 4), 4, "az").toLowerCase()}, qəlyan bakı, kokteyl bar`,
-      keywordsRu: `xurcun ${branchName.toLowerCase()}, премиальный ресторан баку, лаунж баку, ${foodCatRu.toLowerCase()}, ${joinNames(foodNamesRu.slice(0, 4), 4, "ru").toLowerCase()}, кальян баку, коктейль бар`,
-      keywordsEn: `xurcun ${branchName.toLowerCase()}, premium restaurant baku, lounge baku, ${foodCatEn.toLowerCase()}, ${joinNames(foodNamesEn.slice(0, 4), 4, "en").toLowerCase()}, shisha baku, cocktail bar`,
-      keywordsTr: `xurcun ${branchName.toLowerCase()}, premium restoran baku, lounge baku, ${foodCatEn.toLowerCase()}, ${joinNames(foodNamesTr.slice(0, 4), 4, "tr").toLowerCase()}, nargile baku, kokteyl bar`,
+      descriptionAz: `Xurcun ${branchName} — premium quru meyvə, qoz-fındıq, çərəz, şokolad, lokum, paxlava və əl işi hədiyyə qutuları butiki. Bakıda keyfiyyətə vurğunuq.`,
+      descriptionRu: `Xurcun ${branchName} — бутик премиальных сухофруктов, орехов, снеков, шоколада, лукума, пахлавы и подарочных наборов ручной работы в Баку.`,
+      descriptionEn: `Xurcun ${branchName} — a premium boutique of dried fruit, nuts, snacks, chocolate, Turkish delight, baklava and handcrafted gift boxes in Baku.`,
+      descriptionTr: `Xurcun ${branchName} — Bakü'de premium kuru meyve, kuruyemiş, çerez, çikolata, lokum, baklava ve el yapımı hediye kutuları butiği.`,
+      keywordsAz: `xurcun ${branchName.toLowerCase()}, quru meyvə bakı, çərəz bakı, qoz-fındıq, hədiyyə qutusu bakı, lokum, paxlava, şokolad butik`,
+      keywordsRu: `xurcun ${branchName.toLowerCase()}, сухофрукты баку, орехи баку, подарочные наборы баку, лукум, пахлава, шоколад бутик`,
+      keywordsEn: `xurcun ${branchName.toLowerCase()}, dried fruit baku, nuts baku, gift box baku, turkish delight, baklava, chocolate boutique`,
+      keywordsTr: `xurcun ${branchName.toLowerCase()}, kuru meyve baku, kuruyemiş baku, hediye kutusu, lokum, baklava, çikolata butik`,
     };
   }
 
-  if (pageId === "food") {
-    return {
-      descriptionAz: `A La Carte menyumuz — ${foodCatAz}. Seçilmiş ləzzətlər: ${joinNames(foodNamesAz, 6, "az")}.`,
-      descriptionRu: `Меню A La Carte — ${foodCatRu}. Избранные блюда: ${joinNames(foodNamesRu, 6, "ru")}.`,
-      descriptionEn: `Our A La Carte menu — ${foodCatEn}. Selected dishes: ${joinNames(foodNamesEn, 6, "en")}.`,
-      descriptionTr: `A La Carte menümüz — ${foodCatEn}. Seçilmiş lezzetler: ${joinNames(foodNamesTr, 6, "tr")}.`,
-      keywordsAz: `a la carte bakı, yemek menyusu, azərbaycan mətbəxi, ${joinNames(foodNamesAz.slice(0, 5), 5, "az").toLowerCase()}, premium restoran`,
-      keywordsRu: `a la carte баку, меню еды, азербайджанская кухня, ${joinNames(foodNamesRu.slice(0, 5), 5, "ru").toLowerCase()}, премиальный ресторан`,
-      keywordsEn: `a la carte baku, food menu, azerbaijani cuisine, ${joinNames(foodNamesEn.slice(0, 5), 5, "en").toLowerCase()}, premium restaurant`,
-      keywordsTr: `a la carte baku, yemek menüsü, azerbaycan mutfağı, ${joinNames(foodNamesTr.slice(0, 5), 5, "tr").toLowerCase()}, premium restoran`,
-    };
-  }
-
-  if (pageId === "beverage") {
-    return {
-      descriptionAz: `İçki menyumuz — ${bevCatAz}. Seçilmiş içkilər: ${joinNames(bevNamesAz, 5, "az")}.`,
-      descriptionRu: `Меню напитков — ${bevCatRu}. Избранные напитки: ${joinNames(bevNamesRu, 5, "ru")}.`,
-      descriptionEn: `Our beverage menu — ${bevCatEn}. Selected drinks: ${joinNames(bevNamesEn, 5, "en")}.`,
-      descriptionTr: `İçecek menümüz — ${bevCatEn}. Seçilmiş içecekler: ${joinNames(bevNamesTr, 5, "tr")}.`,
-      keywordsAz: `kokteyl bar bakı, içki menyusu, şərab, ${joinNames(bevNamesAz.slice(0, 4), 4, "az").toLowerCase()}, premium içki`,
-      keywordsRu: `коктейль бар баку, меню напитков, вино, ${joinNames(bevNamesRu.slice(0, 4), 4, "ru").toLowerCase()}, премиум напитки`,
-      keywordsEn: `cocktail bar baku, beverage menu, wine, ${joinNames(bevNamesEn.slice(0, 4), 4, "en").toLowerCase()}, premium spirits`,
-      keywordsTr: `kokteyl bar baku, içecek menüsü, şarap, ${joinNames(bevNamesTr.slice(0, 4), 4, "tr").toLowerCase()}, premium içecek`,
-    };
-  }
-
-  if (pageId === "shisha") {
-    return {
-      descriptionAz: `Premium qəlyan təcrübəsi — ${joinNames(shishaNamesAz, 4, "az")}. Ən çox seçilən tütün çeşidlərimiz və xüsusi qarışıqlarımızla unudulmaz anlar.`,
-      descriptionRu: `Премиальный кальян — ${joinNames(shishaNamesRu, 4, "ru")}. Незабываемые моменты с нашими популярными табаками и эксклюзивными миксами.`,
-      descriptionEn: `Premium shisha experience — ${joinNames(shishaNamesEn, 4, "en")}. Unforgettable moments with our popular tobaccos and exclusive blends.`,
-      descriptionTr: `Premium nargile deneyimi — ${joinNames(shishaNamesTr, 4, "tr")}. Popüler tütünlerimiz ve özel karışımlarımızla unutulmaz anlar.`,
-      keywordsAz: `qəlyan bakı, premium qəlyan, hookah lounge, ${joinNames(shishaNamesAz.slice(0, 3), 3, "az").toLowerCase()}, nargile`,
-      keywordsRu: `кальян баку, премиальный кальян, hookah lounge, ${joinNames(shishaNamesRu.slice(0, 3), 3, "ru").toLowerCase()}`,
-      keywordsEn: `shisha baku, premium shisha, hookah lounge, ${joinNames(shishaNamesEn.slice(0, 3), 3, "en").toLowerCase()}`,
-      keywordsTr: `nargile baku, premium nargile, hookah lounge, ${joinNames(shishaNamesTr.slice(0, 3), 3, "tr").toLowerCase()}`,
-    };
-  }
-
-  if (pageId === "snack") {
-    return {
-      descriptionAz: `Snack menyu — saat 23:00-dan sonra aktiv. Sürətli və dadlı seçimlər: ${joinNames(foodNamesAz.filter((_, i) => i < 6), 5, "az")}.`,
-      descriptionRu: `Снэк-меню — доступно после 23:00. Быстрые и вкусные закуски: ${joinNames(foodNamesRu.filter((_, i) => i < 6), 5, "ru")}.`,
-      descriptionEn: `Snack menu — available after 23:00. Quick and tasty late-night bites: ${joinNames(foodNamesEn.filter((_, i) => i < 6), 5, "en")}.`,
-      descriptionTr: `Snack menü — 23:00'ten sonra aktif. Hızlı ve lezzetli gece atıştırmalıkları: ${joinNames(foodNamesTr.filter((_, i) => i < 6), 5, "tr")}.`,
-      keywordsAz: `snack menyu, gecə yeməkləri, late night menu, ${joinNames(foodNamesAz.slice(0, 4), 4, "az").toLowerCase()}`,
-      keywordsRu: `снэк меню, ночные закуски, late night menu, ${joinNames(foodNamesRu.slice(0, 4), 4, "ru").toLowerCase()}`,
-      keywordsEn: `snack menu, late night bites, late night food, ${joinNames(foodNamesEn.slice(0, 4), 4, "en").toLowerCase()}`,
-      keywordsTr: `snack menü, gece yiyecekleri, late night menu, ${joinNames(foodNamesTr.slice(0, 4), 4, "tr").toLowerCase()}`,
-    };
-  }
-
-  // QR / default
-  return {
-    descriptionAz: `Xurcun ${branchName} QR menyu — ${joinNames(foodNamesAz, 4, "az")}, ${joinNames(bevNamesAz, 3, "az")} və premium qəlyan sifariş edin.`,
-    descriptionRu: `QR-меню Xurcun ${branchName} — закажите ${joinNames(foodNamesRu, 4, "ru")}, ${joinNames(bevNamesRu, 3, "ru")} и премиальный кальян.`,
-    descriptionEn: `Xurcun ${branchName} QR menu — order ${joinNames(foodNamesEn, 4, "en")}, ${joinNames(bevNamesEn, 3, "en")} and premium shisha.`,
-    descriptionTr: `Xurcun ${branchName} QR menü — ${joinNames(foodNamesTr, 4, "tr")}, ${joinNames(bevNamesTr, 3, "tr")} ve premium nargile sipariş edin.`,
-    keywordsAz: `qr menyu, ${branchName.toLowerCase()}, ${joinNames(foodNamesAz.slice(0, 3), 3, "az").toLowerCase()}, qəlyan, kokteyl`,
-    keywordsRu: `qr меню, ${branchName.toLowerCase()}, ${joinNames(foodNamesRu.slice(0, 3), 3, "ru").toLowerCase()}, кальян, коктейль`,
-    keywordsEn: `qr menu, ${branchName.toLowerCase()}, ${joinNames(foodNamesEn.slice(0, 3), 3, "en").toLowerCase()}, shisha, cocktail`,
-    keywordsTr: `qr menü, ${branchName.toLowerCase()}, ${joinNames(foodNamesTr.slice(0, 3), 3, "tr").toLowerCase()}, nargile, kokteyl`,
-  };
+  // Other pages defer to manual DB SEO / static base templates.
+  return {};
 }
 
-/** Get final SEO for a page: manual (dbRows) > dynamic menu-based > static template */
 export function getFinalPageSeo(
   pageId: string,
   branchSlug?: string,
