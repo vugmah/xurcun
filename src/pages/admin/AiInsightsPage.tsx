@@ -220,7 +220,7 @@ export default function AiInsightsPage() {
           <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
             <div className="px-4 py-3 border-b border-[#222] flex items-center justify-between">
               <h3 className="text-white text-sm font-medium">Top Performing Items</h3>
-              <Link to="/admin/menu" className="text-[#C9A96E] text-xs hover:underline">Go to Menu</Link>
+              <Link to="/admin/catalog" className="text-[#C9A96E] text-xs hover:underline">Go to Menu</Link>
             </div>
             {topItems && topItems.length > 0 ? (
               <div className="divide-y divide-[#222]">

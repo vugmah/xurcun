@@ -18,7 +18,6 @@ import PopupRenderer from "./components/PopupRenderer";
 import AdminLayout from "./pages/admin/AdminLayout";
 const LoginPage = lazy(() => import("./pages/admin/LoginPage"));
 const DashboardPage = lazy(() => import("./pages/admin/DashboardPage"));
-const MenuPage = lazy(() => import("./pages/admin/MenuPage"));
 const CatalogPage = lazy(() => import("./pages/admin/CatalogPage"));
 const CafeMenuPage = lazy(() => import("./pages/admin/CafeMenuPage"));
 const BranchesPage = lazy(() => import("./pages/admin/BranchesPage"));
@@ -90,7 +89,6 @@ function App() {
         <Route path="/admin/login" element={<Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}><LoginPage /></Suspense>} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Suspense fallback={<SectionSkeleton />}><DashboardPage /></Suspense>} />
-          <Route path="menu" element={<Suspense fallback={<SectionSkeleton />}><MenuPage /></Suspense>} />
           <Route path="catalog" element={<Suspense fallback={<SectionSkeleton />}><CatalogPage /></Suspense>} />
           <Route path="cafe" element={<Suspense fallback={<SectionSkeleton />}><CafeMenuPage /></Suspense>} />
           <Route path="branches" element={<Suspense fallback={<SectionSkeleton />}><BranchesPage /></Suspense>} />
