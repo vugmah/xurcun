@@ -284,7 +284,9 @@ export const menuRouter = createRouter({
       // 1. Keep existing menu_items update for backward compatibility
       await db.update(menuItems).set(data).where(eq(menuItems.id, id));
 
-      // 2. NEW: If imageUrl provided, also write to photo_assignments
+      // 2. NEW: If imageUrl provided, also write to photo_assignments.
+      // Best-effort sync: a failure here (e.g. schema drift) must not fail the core update above.
+      try {
       if (input.imageUrl) {
         // Fetch the item being updated to get nameAz and categoryId
         const itemRows = await db
@@ -351,6 +353,9 @@ export const menuRouter = createRouter({
             }
           }
         }
+      }
+      } catch (err) {
+        console.error("[updateItem] photo_assignments sync failed (non-fatal):", err);
       }
 
       return { success: true };

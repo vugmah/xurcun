@@ -346,6 +346,9 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
       UNIQUE KEY unique_assignment (tab, cat_title_az, item_name_az, branch_slug)
     )`);
+  // image_id: the Drizzle schema selects this column, but the original CREATE TABLE
+  // omitted it → menu.updateItem 500'd with "Unknown column 'image_id'". Backfill it.
+  await addColumn("photo_assignments", "image_id", "VARCHAR(100)");
 
   // ── 3. menu_items (base table) ──
   await createTable("menu_items", `
