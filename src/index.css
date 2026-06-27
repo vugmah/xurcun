@@ -150,6 +150,22 @@
   }
 }
 
+/* Admin press feedback — every button confirms the press (emil-design-eng).
+   Scoped to the admin shell; bounded transition (no layout props) keeps hover
+   colours AND the press-scale smooth without animating width/height.
+   Reduced-motion: keep the instant scale but drop the eased motion. */
+[data-admin-root] button:not(:disabled) {
+  transition:
+    color .15s ease, background-color .15s ease, border-color .15s ease,
+    box-shadow .15s ease, opacity .15s ease, transform .12s cubic-bezier(.22, .61, .36, 1);
+}
+[data-admin-root] button:not(:disabled):active {
+  transform: scale(0.98);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-admin-root] button:not(:disabled) { transition-duration: .01ms; }
+}
+
 /* Print preview styles */
 .no-print { display: block; }
 .print-only { display: none; }

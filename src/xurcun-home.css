@@ -4,6 +4,10 @@
   --gold:#9D7C38; --gold-dark:#7E6228; --gold-light:#C2A05A;
   --ink:#2E2A25; --ink-soft:#3a352e; --ink-muted:#6b6457;
   --cream:#EBE5D7; --cream-50:#F6F2E9; --cream-100:#F1ECE0; --line:#D8CFB9; --white:#fff;
+  /* Cream text tints on the dark (ink) surface — bright → faint */
+  --cream-text:#e6ddca; --cream-text-soft:#d8cdb4; --cream-text-muted:#c9bea4; --cream-text-faint:#9c917b;
+  /* Text on a gold fill — near-black for WCAG AA (--ink only hits 3.65:1 on gold) */
+  --on-gold:#14110c;
   --wa:#1f4a34;
   --display:"Rufolo","Cormorant Garamond",serif; --body:"Montserrat",system-ui,sans-serif; --script:"Pinyon Script",cursive;
   --ease:cubic-bezier(.22,.61,.36,1);
@@ -23,27 +27,27 @@
 .xc .ornament img{width:26px; opacity:.85; animation:xc-spin 22s linear infinite}
 @keyframes xc-spin{to{transform:rotate(360deg)}}
 
-.xc .reveal{opacity:0; transform:translateY(34px); transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.xc .reveal{opacity:0; transform:translateY(22px); transition:opacity .65s var(--ease),transform .65s var(--ease)}
 .xc .reveal.in{opacity:1; transform:none}
-.xc .reveal.d1{transition-delay:.08s}.xc .reveal.d2{transition-delay:.16s}.xc .reveal.d3{transition-delay:.24s}
+.xc .reveal.d1{transition-delay:.06s}.xc .reveal.d2{transition-delay:.12s}.xc .reveal.d3{transition-delay:.18s}
 @media(prefers-reduced-motion:reduce){.xc .reveal{opacity:1; transform:none; transition:none}.xc .ornament img,.xc .hero .emb,.xc .luxe-frame img{animation:none}}
 
 .xc .topbar{background:var(--ink); color:var(--cream)}
 .xc .topbar .wrap{display:flex; justify-content:space-between; align-items:center; height:38px; font-size:11px; letter-spacing:.08em}
 .xc .topbar .ph{display:flex; gap:22px; opacity:.8}
 .xc .langs{display:flex; gap:2px}
-.xc .langs button{background:none;border:none;color:var(--cream);font-family:var(--body);padding:3px 9px; border-radius:2px; cursor:pointer; letter-spacing:.12em; font-size:11px; transition:.2s; min-width:38px; min-height:38px; display:inline-flex; align-items:center; justify-content:center}
-.xc .langs button.on,.xc .langs button:hover{background:var(--gold); color:var(--ink)}
+.xc .langs button{background:none;border:none;color:var(--cream);font-family:var(--body);padding:3px 9px; border-radius:2px; cursor:pointer; letter-spacing:.12em; font-size:11px; transition:background-color .2s var(--ease), color .2s var(--ease), transform .12s var(--ease); min-width:38px; min-height:38px; display:inline-flex; align-items:center; justify-content:center}
+.xc .langs button.on,.xc .langs button:hover{background:var(--gold); color:var(--on-gold)}
 
-.xc header{position:sticky; top:0; z-index:50; background:rgba(246,242,233,.86); backdrop-filter:blur(10px); border-bottom:1px solid transparent; transition:.4s var(--ease)}
+.xc header{position:sticky; top:0; z-index:50; background:rgba(246,242,233,.86); backdrop-filter:blur(10px); border-bottom:1px solid transparent; transition:border-color .4s var(--ease), box-shadow .4s var(--ease)}
 .xc header.shrink{border-color:var(--line); box-shadow:0 6px 30px rgba(46,42,37,.07)}
-.xc header .wrap{display:flex; flex-direction:column; align-items:center; padding:20px 32px 14px; gap:14px; transition:.4s var(--ease)}
+.xc header .wrap{display:flex; flex-direction:column; align-items:center; padding:20px 32px 14px; gap:14px; transition:padding .4s var(--ease)}
 .xc header.shrink .wrap{padding:10px 32px 8px}
-.xc .logo{height:58px; transition:.4s var(--ease)}
+.xc .logo{height:58px; transition:height .4s var(--ease)}
 .xc header.shrink .logo{height:40px}
-.xc nav{display:flex; gap:34px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; max-height:40px; overflow:hidden; transition:.4s var(--ease)}
+.xc nav{display:flex; gap:34px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; max-height:40px; overflow:hidden; transition:max-height .4s var(--ease), opacity .4s var(--ease)}
 .xc header.shrink nav{max-height:0; opacity:0}
-.xc nav a{padding:3px 0; border-bottom:1px solid transparent; transition:.25s}
+.xc nav a{padding:3px 0; border-bottom:1px solid transparent; transition:color .25s var(--ease), border-color .25s var(--ease)}
 .xc nav a:hover{color:var(--gold-dark); border-color:var(--gold)}
 
 .xc .hero{position:relative; min-height:86vh; display:flex; align-items:center; background:var(--ink); overflow:hidden}
@@ -56,10 +60,10 @@
 .xc .hero .script{font-family:var(--script); color:var(--gold-light); font-size:clamp(28px,4vw,40px); line-height:1; margin-bottom:8px}
 .xc .hero h1{font-size:clamp(3rem,7vw,6rem); line-height:1; font-weight:600; letter-spacing:.01em; color:#fff}
 .xc .hero h1 em{font-style:italic; color:var(--gold-light); font-weight:500}
-.xc .hero .lead{margin:24px auto 34px; max-width:520px; color:#e6ddca; font-size:16px; font-weight:300}
+.xc .hero .lead{margin:24px auto 34px; max-width:520px; color:var(--cream-text); font-size:16px; font-weight:300}
 .xc .btns{display:flex; gap:16px; justify-content:center; flex-wrap:wrap}
-.xc .btn{display:inline-flex; align-items:center; gap:10px; font-family:var(--body); font-weight:400; font-size:12px; letter-spacing:.2em; text-transform:uppercase; cursor:pointer; border-radius:1px; transition:.3s var(--ease); border:1px solid var(--gold)}
-.xc .btn-gold{background:var(--gold); color:var(--ink); padding:16px 34px}
+.xc .btn{display:inline-flex; align-items:center; gap:10px; font-family:var(--body); font-weight:400; font-size:12px; letter-spacing:.2em; text-transform:uppercase; cursor:pointer; border-radius:1px; transition:background-color .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), transform .16s var(--ease); border:1px solid var(--gold)}
+.xc .btn-gold{background:var(--gold); color:var(--on-gold); padding:16px 34px}
 .xc .btn-ghost{background:transparent; color:var(--cream); border-color:rgba(235,229,215,.5); padding:16px 30px}
 @media(hover:hover) and (pointer:fine){
   .xc .btn-gold:hover{background:var(--gold-light); transform:translateY(-2px)}
@@ -69,7 +73,7 @@
 
 .xc .values{background:var(--ink); color:var(--cream); border-top:1px solid rgba(194,160,90,.2)}
 .xc .values .wrap{display:flex; justify-content:center; gap:54px; padding:20px 32px; font-size:11px; letter-spacing:.26em; text-transform:uppercase; font-weight:300; flex-wrap:wrap}
-.xc .values span{display:flex; align-items:center; gap:12px; color:#d8cdb4}
+.xc .values span{display:flex; align-items:center; gap:12px; color:var(--cream-text-soft)}
 .xc .values span i{width:5px; height:5px; background:var(--gold); transform:rotate(45deg)}
 
 .xc section.sec{padding:84px 0}
@@ -77,9 +81,9 @@
 .xc .sec-head h2{font-size:clamp(30px,4vw,44px); font-weight:600; margin:14px 0 14px}
 
 .xc .cats{display:flex; flex-wrap:wrap; justify-content:center; border:1px solid var(--line); border-radius:2px; overflow:hidden; background:var(--white)}
-.xc .cat{flex:1 1 0; min-width:150px; text-align:center; padding:24px 12px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; cursor:pointer; border-right:1px solid var(--line); transition:.3s var(--ease)}
+.xc .cat{flex:1 1 0; min-width:150px; text-align:center; padding:24px 12px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; cursor:pointer; border-right:1px solid var(--line); transition:background-color .3s var(--ease), color .3s var(--ease), transform .16s var(--ease)}
 .xc .cat:last-child{border-right:none}
-.xc .cat img{width:30px; opacity:.5; display:block; margin:0 auto 12px; transition:.4s var(--ease)}
+.xc .cat img{width:30px; opacity:.5; display:block; margin:0 auto 12px; transition:opacity .4s var(--ease), transform .4s var(--ease)}
 @media(hover:hover) and (pointer:fine){
   .xc .cat:hover{background:var(--ink); color:var(--gold-light)}
   .xc .cat:hover img{opacity:1; transform:translateY(-4px) rotate(45deg)}
@@ -88,7 +92,7 @@
 
 .xc .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:26px}
 .xc .card{background:var(--white); border:1px solid var(--line); overflow:hidden; cursor:pointer; transition:transform .4s var(--ease),box-shadow .4s var(--ease); position:relative}
-.xc .card::after{content:""; position:absolute; inset:0; border:1px solid var(--gold); opacity:0; transition:.4s; pointer-events:none}
+.xc .card::after{content:""; position:absolute; inset:0; border:1px solid var(--gold); opacity:0; transition:opacity .4s var(--ease); pointer-events:none}
 @media(hover:hover) and (pointer:fine){
   .xc .card:hover{transform:translateY(-8px); box-shadow:0 24px 50px rgba(46,42,37,.13)}
   .xc .card:hover::after{opacity:1}
@@ -97,7 +101,7 @@
 .xc .thumb{aspect-ratio:4/5; background:var(--cream-100); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden}
 .xc .thumb img.pimg{width:100%; height:100%; object-fit:cover; transition:transform .7s var(--ease)}
 .xc .thumb .wm{width:70px; opacity:.13}
-.xc .badge{position:absolute; top:0; left:0; background:var(--gold); color:var(--ink); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; padding:5px 12px; z-index:2}
+.xc .badge{position:absolute; top:0; left:0; background:var(--gold); color:var(--on-gold); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; padding:5px 12px; z-index:2}
 .xc .card-b{padding:18px 18px 22px; text-align:center}
 .xc .card-b .pcat{font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-dark)}
 .xc .card-b .pname{font-family:var(--display); font-size:21px; font-weight:600; margin:5px 0 0; line-height:1.15}
@@ -110,7 +114,7 @@
 .xc .luxe .tag{color:var(--gold-light)}
 .xc .luxe h2{color:var(--cream); font-size:clamp(30px,4vw,46px); margin:14px 0 18px; line-height:1.1}
 .xc .luxe h2 em{color:var(--gold-light); font-style:italic}
-.xc .luxe p{color:#c9bea4; font-weight:300; font-size:15px; max-width:420px; margin-bottom:28px}
+.xc .luxe p{color:var(--cream-text-muted); font-weight:300; font-size:15px; max-width:420px; margin-bottom:28px}
 .xc .luxe-frame{justify-self:center; width:100%; max-width:430px; aspect-ratio:1/1; border:1px solid var(--gold); display:flex; align-items:center; justify-content:center; position:relative}
 .xc .luxe-frame::before{content:""; position:absolute; inset:12px; border:1px solid rgba(194,160,90,.35)}
 .xc .luxe-frame img{width:130px; opacity:.85; animation:xc-float 7s ease-in-out infinite}
@@ -122,33 +126,51 @@
 }
 .xc .branch video,.xc .branch .poster{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
 .xc .branch .grad{position:absolute; inset:0; background:linear-gradient(180deg,rgba(46,42,37,0) 42%,rgba(46,42,37,.88)); pointer-events:none}
-.xc .branch .play{position:absolute; top:13px; right:13px; width:34px; height:34px; border:1px solid rgba(235,229,215,.55); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--cream); font-size:12px; transition:.3s}
+.xc .branch .play{position:absolute; top:13px; right:13px; width:34px; height:34px; border:1px solid rgba(235,229,215,.55); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--cream); font-size:12px; transition:opacity .3s var(--ease)}
 .xc .branch:hover .play{opacity:0}
 .xc .bover{position:absolute; left:0; right:0; bottom:0; padding:16px; color:var(--cream)}
 .xc .bover .bn{font-family:var(--display); font-size:21px; font-weight:600; line-height:1.1}
-.xc .bover .ba{font-size:11px; color:#d8cdb4; margin-top:4px}
+.xc .bover .ba{font-size:11px; color:var(--cream-text-soft); margin-top:4px}
 .xc .bover .brow{display:flex; gap:8px; margin-top:12px}
-.xc .bover a{flex:1; text-align:center; font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; padding:8px 5px; border:1px solid rgba(194,160,90,.5); color:var(--gold-light); transition:.25s}
-.xc .bover a:hover{background:var(--gold); color:var(--ink); border-color:var(--gold)}
+.xc .bover a{flex:1; text-align:center; font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; padding:8px 5px; border:1px solid rgba(194,160,90,.5); color:var(--gold-light); transition:background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease), transform .12s var(--ease)}
+.xc .bover a:hover{background:var(--gold); color:var(--on-gold); border-color:var(--gold)}
 .xc .bover a.tel{border-color:rgba(235,229,215,.32); color:var(--cream)}
 
 .xc footer{background:var(--ink); color:var(--cream); position:relative; overflow:hidden}
 .xc footer .bgpat{position:absolute; inset:0; background-image:url(/brand/emblem-gold.png); background-size:70px; opacity:.04}
 .xc footer .wrap{position:relative; display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:44px; padding:64px 32px 34px}
 .xc footer .logo{height:48px; margin-bottom:16px}
-.xc footer h4{font-family:var(--body); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--gold-light); margin-bottom:16px}
-.xc footer ul{list-style:none; font-size:13px; line-height:2.1; color:#c9bea4; font-weight:300}
-.xc footer p{font-size:13px; color:#c9bea4; font-weight:300; max-width:300px}
-.xc .copyright{position:relative; border-top:1px solid rgba(194,160,90,.18); text-align:center; font-size:11px; letter-spacing:.16em; color:#9c917b; padding:18px; text-transform:uppercase}
+.xc footer h3{font-family:var(--body); font-size:11px; font-weight:400; letter-spacing:.22em; text-transform:uppercase; color:var(--gold-light); margin-bottom:16px}
+.xc footer ul{list-style:none; font-size:13px; line-height:2.1; color:var(--cream-text-muted); font-weight:300}
+.xc footer ul a{transition:color .25s var(--ease)}
+.xc footer ul a:hover{color:var(--gold-light)}
+.xc footer p{font-size:13px; color:var(--cream-text-muted); font-weight:300; max-width:300px}
+.xc .copyright{position:relative; border-top:1px solid rgba(194,160,90,.18); text-align:center; font-size:11px; letter-spacing:.16em; color:var(--cream-text-faint); padding:18px; text-transform:uppercase}
 
 /* Press feedback — every tappable element confirms the press (emil-design-eng) */
 .xc .langs button:active,.xc .bover a:active,.xc nav a:active{transform:scale(.96); transition:transform .12s var(--ease)}
+
+/* Skip-to-content — hidden until keyboard focus (uses logical inset so RTL mirrors it) */
+.xc .skip{position:fixed; top:8px; inset-inline-start:8px; z-index:100; background:var(--gold); color:var(--on-gold); padding:10px 18px; font-size:12px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; border-radius:2px; transform:translateY(-160%); transition:transform .2s var(--ease)}
+.xc .skip:focus{transform:none}
+
+/* Long-text resilience — DB-driven names/addresses must wrap, never overflow their box */
+.xc .pname,.xc .bn,.xc .ba,.xc .pcat,.xc .price,.xc .cat,.xc .values span{overflow-wrap:break-word; min-width:0}
+
+/* Anchor offset — sticky header (~100px) must not cover the section it scrolls to */
+.xc :where(#main,#cat,#magazalar,#haqqimizda,#elaqe){scroll-margin-top:96px}
+
+/* Even line lengths on headings; fewer orphans in prose */
+.xc h1,.xc h2,.xc h3{text-wrap:balance}
+.xc .lead,.xc .luxe p,.xc footer p{text-wrap:pretty}
 
 @media(max-width:920px){
   .xc .hero .wrap,.xc .luxe .wrap,.xc footer .wrap{grid-template-columns:1fr; gap:40px}
   .xc .grid{grid-template-columns:repeat(2,1fr)}
   .xc .cat{flex-basis:50%; border-bottom:1px solid var(--line)}
-  .xc nav{flex-wrap:wrap; justify-content:center; gap:18px}
+  /* Nav wraps to two rows on small screens — the desktop shrink clip (max-height:40px)
+     would hide the second row, so keep the full nav visible at all times here. */
+  .xc nav,.xc header.shrink nav{flex-wrap:wrap; justify-content:center; gap:18px; max-height:none; overflow:visible; opacity:1}
 }
 [dir="rtl"] .xc .ornament img{animation:none}
 
@@ -159,8 +181,8 @@
   .xc .topbar .ph{gap:14px; font-size:10.5px}
   .xc header .wrap{padding:14px 18px 10px; gap:10px}
   .xc .logo{height:46px}
-  .xc nav{gap:14px 16px; font-size:11px; letter-spacing:.12em}
-  .xc nav a{padding:8px 4px}
+  .xc nav{gap:6px 16px; font-size:11px; letter-spacing:.12em}
+  .xc nav a{padding:8px 4px; min-height:44px; display:inline-flex; align-items:center}
   .xc .hero{min-height:78vh}
   .xc .hero .emb{width:60px; margin-bottom:16px}
   .xc .hero .lead{font-size:14.5px; margin:18px auto 26px}
