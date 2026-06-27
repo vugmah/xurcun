@@ -90,6 +90,7 @@
   .xc.xcm .mchips a:hover { border-color: var(--gold-light); color: var(--gold-dark); }
 }
 .xc.xcm .mchips a:active { transform: scale(.96); }
+.xc.xcm .mchips a.on { border-color: var(--gold); color: var(--gold-dark); background: var(--cream-100); font-weight: 600; }
 
 /* ── Section ── */
 .xc.xcm .msec { padding-top: 30px; scroll-margin-top: 108px; }
@@ -143,6 +144,16 @@
 }
 @keyframes xcm-spin { to { transform: rotate(360deg); } }
 .xc.xcm .mempty .emb { width: 48px; opacity: .5; margin: 0 auto 16px; display: block; }
+.xc.xcm .mretry {
+  margin-top: 16px; cursor: pointer; font-family: var(--body); font-size: 12.5px; font-weight: 500;
+  letter-spacing: .04em; padding: 10px 20px; border-radius: 999px; min-height: 44px;
+  border: 1px solid var(--gold); background: transparent; color: var(--gold-dark);
+  transition: background-color .2s var(--ease), color .2s var(--ease), transform .12s var(--ease);
+}
+.xc.xcm .mretry:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) {
+  .xc.xcm .mretry:hover { background: var(--gold); color: var(--on-gold); }
+}
 
 /* ── Footer ── */
 .xc.xcm .mfoot { text-align: center; padding: 40px 18px 10px; color: var(--ink-muted); }

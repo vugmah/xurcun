@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
@@ -39,6 +39,8 @@ const S = {
   b_gluten: { az: 'Glutensiz', ru: 'Без глютена', en: 'Gluten-free', tr: 'Glutensiz', ar: 'خالٍ من الغلوتين' },
   b_halal: { az: 'Halal', ru: 'Халяль', en: 'Halal', tr: 'Helal', ar: 'حلال' },
   foot_script: { az: 'Fond of Quality', ru: 'Fond of Quality', en: 'Fond of Quality', tr: 'Fond of Quality', ar: 'Fond of Quality' },
+  err: { az: 'Menyu yüklənmədi.', ru: 'Не удалось загрузить меню.', en: 'Could not load the menu.', tr: 'Menü yüklenemedi.', ar: 'تعذّر تحميل القائمة.' },
+  retry: { az: 'Yenidən cəhd et', ru: 'Повторить', en: 'Try again', tr: 'Tekrar dene', ar: 'إعادة المحاولة' },
 }
 
 const WaIcon = () => (
@@ -67,6 +69,8 @@ export default function QRMenuPage() {
     typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('type') === 'cafe' && hasCafe
       ? 'cafe' : 'catalog'
   const [menuType, setMenuType] = useState<'catalog' | 'cafe'>(initialType)
+  const [activeCat, setActiveCat] = useState<number | null>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
 
   const storeQ = trpc.catalog.storefront.useQuery({ menuType }, { retry: false })
 
@@ -80,6 +84,22 @@ export default function QRMenuPage() {
     byCat.get(cid)!.push(it)
   }
   const sections = cats.filter((c) => (byCat.get(c.id as number)?.length ?? 0) > 0)
+
+  // Scroll-spy: highlight the category chip for the section currently in view.
+  useEffect(() => {
+    const secs = rootRef.current?.querySelectorAll<HTMLElement>('.msec')
+    if (!secs || !secs.length || !('IntersectionObserver' in window)) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        const top = entries.filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
+        if (top) setActiveCat(Number(top.target.id.replace('cat-', '')))
+      },
+      { rootMargin: '-120px 0px -65% 0px' },
+    )
+    secs.forEach((s) => io.observe(s))
+    return () => io.disconnect()
+  }, [sections.length, menuType, lang])
 
   const waDigits = String(branch?.whatsappNumber || branch?.phone || DEFAULT_WA).replace(/[^0-9]/g, '')
   const waLink = (productName: string, priceStr: string) => {
@@ -104,14 +124,14 @@ export default function QRMenuPage() {
   }
 
   return (
-    <div className="xc xcm">
+    <div className="xc xcm" ref={rootRef}>
       {/* Header */}
       <div className="mhead">
         <div className="row">
           <a href="#/"><img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" /></a>
           <div className="mlangs">
             {LANGS.map((l) => (
-              <button key={l.code} className={lang === l.code ? 'on' : ''} onClick={() => setLang(l.code)}>{l.label}</button>
+              <button key={l.code} className={lang === l.code ? 'on' : ''} aria-pressed={lang === l.code} aria-label={l.code.toUpperCase()} onClick={() => setLang(l.code)}>{l.label}</button>
             ))}
           </div>
         </div>
@@ -146,7 +166,7 @@ export default function QRMenuPage() {
         <div className="mchips">
           <div className="scroll">
             {sections.map((c) => (
-              <a key={c.id as number} href={`#cat-${c.id}`}>{pick(c, 'title')}</a>
+              <a key={c.id as number} href={`#cat-${c.id}`} className={activeCat === (c.id as number) ? 'on' : ''} aria-current={activeCat === (c.id as number) ? 'true' : undefined}>{pick(c, 'title')}</a>
             ))}
           </div>
         </div>
@@ -158,7 +178,15 @@ export default function QRMenuPage() {
           <div className="mloading"><div className="mspin" />{t(S.loading)}</div>
         )}
 
-        {!storeQ.isLoading && sections.length === 0 && (
+        {!storeQ.isLoading && storeQ.isError && (
+          <div className="mempty">
+            <img className="emb" src={EMBLEM} alt="" />
+            <div>{t(S.err)}</div>
+            <button className="mretry" onClick={() => storeQ.refetch()}>{t(S.retry)}</button>
+          </div>
+        )}
+
+        {!storeQ.isLoading && !storeQ.isError && sections.length === 0 && (
           <div className="mempty">
             <img className="emb" src={EMBLEM} alt="" />
             <div>{t(S.empty)}</div>
@@ -183,7 +211,7 @@ export default function QRMenuPage() {
                 return (
                   <div className="mcard" key={it.id as number}>
                     <div className="mthumb">
-                      {img ? <img src={img} alt={name} loading="lazy" /> : <img className="ph" src={EMBLEM} alt="" />}
+                      {img ? <img src={img} alt={name} loading="lazy" onError={(e) => { const im = e.currentTarget; im.onerror = null; im.src = EMBLEM; im.className = 'ph' }} /> : <img className="ph" src={EMBLEM} alt="" />}
                     </div>
                     <div className="minfo">
                       <div className="nm">{name}</div>
