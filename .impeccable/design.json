@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-27T00:00:00Z",
+  "title": "Design System: Xurcun",
+  "extensions": {
+    "colorMeta": {
+      "gold": { "role": "primary", "displayName": "Boutique Gold", "canonical": "#9D7C38", "tonalRamp": ["#241B0C", "#3D2F15", "#5C4720", "#7E6228", "#9D7C38", "#C2A05A", "#D8C089", "#EFE3C4"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#2E2A25", "tonalRamp": ["#14110C", "#1F1B16", "#2E2A25", "#3A352E", "#544E44", "#6B6457", "#9C917B", "#C9BEA4"] },
+      "cream-50": { "role": "neutral", "displayName": "Cream", "canonical": "#F6F2E9", "tonalRamp": ["#3A352E", "#6B6457", "#9C917B", "#C9BEA4", "#D8CFB9", "#EBE5D7", "#F1ECE0", "#F6F2E9"] },
+      "whatsapp": { "role": "accent", "displayName": "WhatsApp Green", "canonical": "#1F4A34", "tonalRamp": ["#0C1F15", "#143123", "#1F4A34", "#2C6349", "#3C8261", "#5BA47F", "#8FC4AB", "#C8E3D6"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display (Rufolo)", "purpose": "Hero headline and section titles. Classic high-contrast serif." },
+      "body": { "displayName": "Body (Montserrat / Cairo)", "purpose": "Paragraphs and UI. Never Inter. Cairo for Arabic/RTL." },
+      "script": { "displayName": "Script (Pinyon)", "purpose": "One gilded flourish: hero sub-line, footer. Never body copy." }
+    },
+    "shadows": [
+      { "name": "card-lift", "value": "0 24px 50px rgba(46,42,37,0.13)", "purpose": "Product/branch card on hover, paired with translateY rise." },
+      { "name": "header-shrink", "value": "0 6px 30px rgba(46,42,37,0.07)", "purpose": "Sticky header once scrolled, with backdrop-blur." }
+    ],
+    "motion": [
+      { "name": "ease-brand", "value": "cubic-bezier(0.22,0.61,0.36,1)", "purpose": "Default ease-out for all transitions. No bounce/elastic." },
+      { "name": "press", "value": "transform: scale(0.96); 120ms", "purpose": "Tap/press confirmation on every interactive element." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "600px" },
+      { "name": "tablet", "value": "920px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (Gold)",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "The single gold CTA. Sharp 2px corners, uppercase tracking, lifts on hover.",
+      "html": "<button class=\"ds-btn-gold\">Kataloğa bax</button>",
+      "css": ".ds-btn-gold{background:#9D7C38;color:#14110C;border:1px solid #9D7C38;padding:16px 34px;font-family:'Montserrat',system-ui,sans-serif;font-size:12px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:background .3s cubic-bezier(.22,.61,.36,1),transform .3s cubic-bezier(.22,.61,.36,1)}.ds-btn-gold:hover{background:#C2A05A;transform:translateY(-2px)}.ds-btn-gold:active{transform:scale(.97)}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action on dark ink surfaces. Translucent cream border, fills on hover.",
+      "html": "<div style=\"background:#2E2A25;padding:20px;border-radius:8px\"><button class=\"ds-btn-ghost\">Mağazalar</button></div>",
+      "css": ".ds-btn-ghost{background:transparent;color:#EBE5D7;border:1px solid rgba(235,229,215,.5);padding:16px 30px;font-family:'Montserrat',system-ui,sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:background .3s,color .3s}.ds-btn-ghost:hover{background:#EBE5D7;color:#2E2A25;border-color:#EBE5D7}.ds-btn-ghost:active{transform:scale(.97)}"
+    },
+    {
+      "name": "Category Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "QR-menu category quick-nav. Pill, white at rest, gold when active (scroll-spy).",
+      "html": "<div style=\"display:flex;gap:8px\"><a class=\"ds-chip ds-chip-on\">Lokum</a><a class=\"ds-chip\">Çərəz</a><a class=\"ds-chip\">Şokolad</a></div>",
+      "css": ".ds-chip{font-family:'Montserrat',system-ui,sans-serif;font-size:12px;letter-spacing:.03em;padding:7px 14px;border-radius:999px;border:1px solid #D8CFB9;color:#3A352E;background:#fff;min-height:44px;display:inline-flex;align-items:center;cursor:pointer;transition:border-color .2s,color .2s}.ds-chip:hover{border-color:#C2A05A;color:#7E6228}.ds-chip-on{border-color:#9D7C38;color:#7E6228;background:#F1ECE0;font-weight:500}"
+    },
+    {
+      "name": "WhatsApp Order Button",
+      "kind": "button",
+      "refersTo": "wa-button",
+      "description": "Direct WhatsApp order on the QR menu — pre-fills product, price, branch.",
+      "html": "<a class=\"ds-wa\"><svg viewBox=\"0 0 24 24\" fill=\"currentColor\" width=\"13\" height=\"13\" aria-hidden=\"true\"><path d=\"M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24z\"/></svg>Sifariş</a>",
+      "css": ".ds-wa{display:inline-flex;align-items:center;gap:6px;background:#1F4A34;color:#EAF3EC;font-family:'Montserrat',system-ui,sans-serif;font-size:11.5px;font-weight:500;padding:7px 12px;border-radius:999px;min-height:44px;box-sizing:border-box;cursor:pointer;transition:filter .2s,transform .12s}.ds-wa:hover{filter:brightness(1.12)}.ds-wa:active{transform:scale(.96)}"
+    },
+    {
+      "name": "Ornament Divider",
+      "kind": "custom",
+      "refersTo": "ornament",
+      "description": "Signature gold emblem between two fading rules. Used instead of a section eyebrow.",
+      "html": "<div class=\"ds-orn\"><span></span><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"#9D7C38\" aria-hidden=\"true\"><path d=\"M12 2l4 4-4 4-4-4zM6 8l4 4-4 4-4-4zm12 0l4 4-4 4-4-4zm-6 6l4 4-4 4-4-4z\"/></svg><span></span></div>",
+      "css": ".ds-orn{display:flex;align-items:center;justify-content:center;gap:16px}.ds-orn span{height:1px;width:64px;background:linear-gradient(90deg,transparent,#9D7C38)}.ds-orn span:last-child{background:linear-gradient(90deg,#9D7C38,transparent)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Qızıl Süfrə — The Gilded Table",
+    "overview": "Xurcun is a premium Azerbaijani boutique for dried fruit, nuts, exotic teas, sweets and handcrafted gift boxes (Baku, est. 2015). The interface feels like the boutique: a cream-and-gold table presenting each product with care. Bilingual-first (AZ/RU/EN/TR/AR + RTL), mobile-first on the QR menu, alternating a light cream register with deep ink sections so the gold reads as luxury on both.",
+    "keyCharacteristics": [
+      "Cream surface, gold accent, ink depth — three committed roles.",
+      "Classic serif display (Rufolo) with a clean humanist sans (Montserrat / Cairo).",
+      "Diamond emblem and 'Fond of Quality' slogan are fixed brand assets — never altered.",
+      "Restraint with confident brand moments: gold CTA, ornament divider, framed photo."
+    ],
+    "rules": [
+      { "name": "The Gold-Dark Rule", "body": "Small gold text on cream uses gold-dark #7E6228 (~4.5:1); bright gold #9D7C38 is for large/decorative type only.", "section": "colors" },
+      { "name": "The On-Gold Rule", "body": "Text on any gold fill uses on-gold #14110C (~4.8:1). Ink on gold is 3.65:1 and forbidden.", "section": "colors" },
+      { "name": "The One-Flourish Rule", "body": "Pinyon Script is a garnish: hero sub-line and menu footer only, never body copy.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest; shadow and backdrop-blur are hover/scroll responses, never ambient decoration.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep the diamond emblem and 'Fond of Quality' slogan exactly as supplied — never recolored or re-set.",
+      "Do use gold-dark #7E6228 for small gold text and on-gold #14110C for text on gold fills.",
+      "Do pair Rufolo display with Montserrat body; swap to Amiri + Cairo for Arabic / RTL.",
+      "Do let real product/gift/store photography carry the design.",
+      "Do keep the page flat at rest; reserve shadow and blur for hover and the sticky header."
+    ],
+    "donts": [
+      "Don't use Inter or the warm-neutral 'AI cream + Inter' look; the brand sans is Montserrat / Cairo.",
+      "Don't put ink text on a gold fill (3.65:1) — use on-gold.",
+      "Don't ship dark mode for public pages; dark is the admin panel only.",
+      "Don't place the tracked uppercase eyebrow above every section.",
+      "Don't use gradient text, decorative glassmorphism, bounce/elastic easing, or colored side-stripe borders."
+    ]
+  }
+}
