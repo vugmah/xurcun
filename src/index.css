@@ -50,8 +50,10 @@
   #root {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
+    /* clip (not hidden) prevents horizontal scroll WITHOUT creating a scroll
+       container — `overflow:hidden + overflow-y:auto` here was breaking
+       position:sticky for the menu category chips and the sticky headers. */
+    overflow-x: clip;
     min-width: 0;
   }
 

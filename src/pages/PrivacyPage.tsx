@@ -68,6 +68,48 @@ Your rights:
 
 Contact: info@xurcun.az`,
     },
+    tr: {
+      title: "Gizlilik Politikası",
+      body: `Xurcun White City olarak gizliliğinize önem veriyoruz.
+
+Toplanan veriler:
+- IP adresi (güvenlik ve analiz için hashlenmiş biçimde)
+- Tarayıcı türü ve sürümü
+- Sayfa görüntülemeleri ve tıklamalar (analiz için)
+
+Kullanılan araçlar:
+- Google Analytics 4 — site kullanımını ölçmek için
+- Google Ads — yeniden pazarlama reklamları için
+- Meta Pixel — Facebook/Instagram yeniden pazarlama için
+
+Haklarınız:
+- Çerez onayınızı istediğiniz zaman değiştirebilirsiniz
+- Çerezleri tarayıcınızdan silebilirsiniz
+- Google Ads Kişiselleştirme sayfasından yeniden pazarlamayı kapatabilirsiniz
+
+İletişim: info@xurcun.az`,
+    },
+    ar: {
+      title: "سياسة الخصوصية",
+      body: `في Xurcun White City نحرص على خصوصيتك.
+
+البيانات التي يتم جمعها:
+- عنوان IP (بصيغة مُجزّأة، لأغراض الأمان والتحليلات)
+- نوع المتصفح وإصداره
+- مشاهدات الصفحات والنقرات (لأغراض التحليلات)
+
+الأدوات المستخدمة:
+- Google Analytics 4 — لقياس استخدام الموقع
+- Google Ads — لإعلانات إعادة التسويق
+- Meta Pixel — لإعادة التسويق على Facebook/Instagram
+
+حقوقك:
+- يمكنك تغيير موافقتك على ملفات تعريف الارتباط في أي وقت
+- يمكنك حذف ملفات تعريف الارتباط من متصفحك
+- يمكنك إلغاء إعادة التسويق من صفحة تخصيص إعلانات Google
+
+للتواصل: info@xurcun.az`,
+    },
   };
 
   const c = content[lang] ?? content.en;

@@ -1,14 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
 import '@/xurcun-base.css'
 import '@/xurcun-home.css'
 
 const LOGO = '/brand/logo-gold.png'
+const LOGO_WEBP = '/brand/logo-gold.webp'
 const EMBLEM = '/brand/emblem-gold.png'
-const HERO_IMG = '/images/home/hero.jpg'
+const HERO_IMG = '/images/home/hero.webp' // hero video poster — single-URL attr, webp
 const GIFT_IMG = '/images/home/gift.jpg'
+const GIFT_WEBP = '/images/home/gift.webp'
 const ABOUT_IMG = '/images/home/about.jpg'
+const ABOUT_WEBP = '/images/home/about.webp'
 
 type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar'
 const LANGS: { code: Lang; label: string }[] = [
@@ -145,6 +148,7 @@ export default function HomePage() {
   const t = (m: M) => m[lang] ?? m.az
   const root = useRef<HTMLDivElement>(null)
   const heroVid = useRef<HTMLVideoElement>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   // Branches come from the admin/DB (synced). Fallback to static list if API empty.
   const branchesQ = trpc.branch.getBranches.useQuery(undefined, { retry: false })
@@ -216,8 +220,22 @@ export default function HomePage() {
       const v = b.querySelector('video'); if (!v) return
       const play = () => { v.play().catch(() => {}) }
       const stop = () => { v.pause(); try { v.currentTime = 0 } catch { /* noop */ } }
+      // Touch devices have no hover: tap the card to toggle the clip. preload="none"
+      // means bytes load only on this explicit intent. Taps on the call/maps links pass through.
+      const tap = (e: Event) => {
+        if ((e.target as HTMLElement).closest('a')) return
+        if (v.paused) play(); else stop()
+      }
+      const onPlay = () => b.classList.add('playing')
+      const onPause = () => b.classList.remove('playing')
       b.addEventListener('mouseenter', play); b.addEventListener('mouseleave', stop)
-      cleanups.push(() => { b.removeEventListener('mouseenter', play); b.removeEventListener('mouseleave', stop) })
+      b.addEventListener('click', tap)
+      v.addEventListener('play', onPlay); v.addEventListener('pause', onPause)
+      cleanups.push(() => {
+        b.removeEventListener('mouseenter', play); b.removeEventListener('mouseleave', stop)
+        b.removeEventListener('click', tap)
+        v.removeEventListener('play', onPlay); v.removeEventListener('pause', onPause)
+      })
     })
     return () => { io?.disconnect(); if (safety) clearTimeout(safety); window.removeEventListener('scroll', onScroll); cleanups.forEach((c) => c()) }
   }, [lang, branchesQ.data, catQ.data, featQ.data])
@@ -234,10 +252,23 @@ export default function HomePage() {
         </div>
       </div></div>
 
-      <header>
+      <header className={menuOpen ? 'nav-open' : ''}>
         <div className="wrap">
-          <img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" />
-          <nav aria-label={t(S.aria_nav)}>
+          <picture>
+            <source srcSet={LOGO_WEBP} type="image/webp" />
+            <img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" width={175} height={58} />
+          </picture>
+          <button
+            type="button"
+            className="navtoggle"
+            aria-label={t(S.aria_nav)}
+            aria-controls="primary-nav"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span /><span /><span />
+          </button>
+          <nav id="primary-nav" aria-label={t(S.aria_nav)} onClick={() => setMenuOpen(false)}>
             <a href="#top">{t(S.nav_home)}</a><a href="/catalog">{t(S.nav_catalog)}</a><a href="/catalog">{t(S.nav_gift)}</a>
             <a href="#magazalar">{t(S.nav_stores)}</a><a href="#haqqimizda">{t(S.nav_about)}</a><a href="#elaqe">{t(S.nav_contact)}</a>
           </nav>
@@ -304,7 +335,10 @@ export default function HomePage() {
       <section className="about" id="haqqimizda">
         <div className="wrap">
           <div className="about-media reveal">
-            <img src={ABOUT_IMG} alt={t(S.about_alt)} loading="lazy" decoding="async" />
+            <picture>
+              <source srcSet={ABOUT_WEBP} type="image/webp" />
+              <img src={ABOUT_IMG} alt={t(S.about_alt)} loading="lazy" decoding="async" />
+            </picture>
           </div>
           <div className="about-body reveal d1">
             <div className="tag">{t(S.about_tag)}</div>
@@ -329,7 +363,7 @@ export default function HomePage() {
             <p>{t(S.luxe_p)}</p>
             <a className="btn btn-gold" href="/catalog">{t(S.luxe_cta)}</a>
           </div>
-          <div className="luxe-frame reveal d2"><img className="gimg" src={GIFT_IMG} alt={t(S.gift_alt)} loading="lazy" decoding="async" /></div>
+          <div className="luxe-frame reveal d2"><picture><source srcSet={GIFT_WEBP} type="image/webp" /><img className="gimg" src={GIFT_IMG} alt={t(S.gift_alt)} loading="lazy" decoding="async" /></picture></div>
         </div>
       </div>
 
@@ -342,7 +376,7 @@ export default function HomePage() {
           <div className="mag-grid">
             {branches.map((b, i) => (
               <div className={`branch reveal d${(i % 3) + 1}`} key={b.slug || b.name || i}>
-                <video muted loop playsInline preload="none" poster={`/images/branches/${b.slug}.jpg`}>
+                <video muted loop playsInline preload="none" poster={`/images/branches/${b.slug}.webp`}>
                   <source src={`/videos/${b.slug}.mp4`} type="video/mp4" />
                 </video>
                 <div className="grad" /><div className="play">▶</div>
@@ -362,7 +396,7 @@ export default function HomePage() {
       <footer id="elaqe">
         <div className="bgpat" />
         <div className="wrap">
-          <div className="reveal"><img className="logo" src={LOGO} alt="Xurcun" /><p>{t(S.foot_about)}</p></div>
+          <div className="reveal"><picture><source srcSet={LOGO_WEBP} type="image/webp" /><img className="logo" src={LOGO} alt="Xurcun" width={140} height={48} /></picture><p>{t(S.foot_about)}</p></div>
           <div className="reveal d1"><h3>{t(S.foot_stores)}</h3><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Crescent Mall</li><li>Sea Breeze</li><li>Hava Limanı</li></ul></div>
           <div className="reveal d2"><h3>{t(S.foot_contact)}</h3><ul>
             <li><a href="mailto:info@xurcun.az">info@xurcun.az</a></li>

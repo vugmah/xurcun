@@ -139,8 +139,8 @@ export function CookieConsentBanner() {
               onClick={() => setConsent((c) => ({ ...c, analytics: !c.analytics }))}
               className="mt-0.5"
             >
-              <span className={`inline-block w-9 h-5 rounded-full relative transition-all ${consent.analytics ? "bg-green-400" : "bg-white/20"}`}>
-                <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${consent.analytics ? "right-0.5" : "left-0.5"}`} />
+              <span className={`inline-block w-9 h-5 rounded-full relative transition-colors duration-200 ${consent.analytics ? "bg-green-400" : "bg-white/20"}`}>
+                <span className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform duration-200 ease-out ${consent.analytics ? "translate-x-4" : "translate-x-0"}`} />
               </span>
             </button>
             <div>
@@ -155,8 +155,8 @@ export function CookieConsentBanner() {
               onClick={() => setConsent((c) => ({ ...c, marketing: !c.marketing }))}
               className="mt-0.5"
             >
-              <span className={`inline-block w-9 h-5 rounded-full relative transition-all ${consent.marketing ? "bg-green-400" : "bg-white/20"}`}>
-                <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${consent.marketing ? "right-0.5" : "left-0.5"}`} />
+              <span className={`inline-block w-9 h-5 rounded-full relative transition-colors duration-200 ${consent.marketing ? "bg-green-400" : "bg-white/20"}`}>
+                <span className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform duration-200 ease-out ${consent.marketing ? "translate-x-4" : "translate-x-0"}`} />
               </span>
             </button>
             <div>
@@ -169,7 +169,7 @@ export function CookieConsentBanner() {
             <button onClick={() => setView("main")} className="px-4 py-2 text-xs text-white/50 hover:text-white/80 transition-colors">
               {txt.back}
             </button>
-            <button onClick={handleSaveCustom} className="px-5 py-2 bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A] text-xs font-medium rounded-md transition-colors ml-auto">
+            <button onClick={handleSaveCustom} className="px-5 py-2 bg-[#C9A96E] hover:bg-[#B8985E] active:scale-[0.97] text-[#0A0A0A] text-xs font-medium rounded-md transition-[background-color,transform] duration-150 ease-out ml-auto">
               {txt.save}
             </button>
           </div>
@@ -184,15 +184,17 @@ export function CookieConsentBanner() {
       <div className="max-w-3xl mx-auto px-4 py-4">
         <h3 className="text-white text-base font-medium mb-1">{txt.title}</h3>
         <p className="text-white/50 text-xs mb-4 leading-relaxed">{txt.desc}</p>
-        <div className="flex flex-wrap gap-2">
-          <button onClick={handleAcceptAll} className="px-5 py-2 bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A] text-xs font-medium rounded-md transition-colors">
+        {/* Stacks full-width on mobile (≥44px tap targets); Accept/Reject given
+            equal visual weight per EU cookie guidance, Customize as tertiary. */}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2">
+          <button onClick={handleAcceptAll} className="min-h-[44px] px-5 py-2.5 flex items-center justify-center bg-[#C9A96E] hover:bg-[#B8985E] active:scale-[0.97] text-[#0A0A0A] text-sm font-medium rounded-md transition-[background-color,transform] duration-150 ease-out">
             {txt.acceptAll}
           </button>
-          <button onClick={() => setView("customize")} className="px-5 py-2 bg-[#1A1A1A] hover:bg-[#222] text-white text-xs font-medium rounded-md transition-colors border border-[#333]">
-            {txt.customize}
-          </button>
-          <button onClick={handleReject} className="px-5 py-2 text-white/50 hover:text-white/80 text-xs transition-colors">
+          <button onClick={handleReject} className="min-h-[44px] px-5 py-2.5 flex items-center justify-center bg-[#1A1A1A] hover:bg-[#222] active:scale-[0.97] text-white text-sm font-medium rounded-md border border-[#333] transition-[background-color,transform] duration-150 ease-out">
             {txt.reject}
+          </button>
+          <button onClick={() => setView("customize")} className="min-h-[44px] px-5 py-2.5 flex items-center justify-center text-white/60 hover:text-white text-sm transition-colors">
+            {txt.customize}
           </button>
         </div>
       </div>

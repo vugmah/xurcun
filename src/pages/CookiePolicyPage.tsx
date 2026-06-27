@@ -92,6 +92,64 @@ Use your browser's cookie settings or the cookie banner at the bottom of the sit
 
 Contact: info@xurcun.az`,
     },
+    tr: {
+      title: "Çerez Politikası",
+      body: `Xurcun White City çerezleri ve benzer teknolojileri kullanır.
+
+Çerez kategorileri:
+
+1. Gerekli (Necessary)
+   - Sitenin temel işlevleri için gereklidir
+   - Bu çerezler devre dışı bırakılamaz
+
+2. Analiz (Analytics)
+   - Google Analytics 4 ile site kullanımını ölçer
+   - Kullanıcı davranışını anonim olarak analiz eder
+
+3. Pazarlama (Marketing)
+   - Google Ads yeniden pazarlama
+   - Meta (Facebook/Instagram) Pixel
+   - Bu çerezler yalnızca onay verildiğinde etkinleşir
+
+Onay yönetimi:
+- "Hepsini kabul et" — tüm çerezler aktif
+- "Reddet" — yalnızca gerekli çerezler
+- "Özelleştir" — kategori kategori seçim
+
+Onayınızı değiştirmek:
+Tarayıcınızın çerez ayarlarını veya sitenin alt kısmındaki çerez bannerını kullanın.
+
+İletişim: info@xurcun.az`,
+    },
+    ar: {
+      title: "سياسة ملفات تعريف الارتباط",
+      body: `يستخدم Xurcun White City ملفات تعريف الارتباط والتقنيات المشابهة.
+
+فئات ملفات تعريف الارتباط:
+
+1. الضرورية (Necessary)
+   - مطلوبة للوظائف الأساسية للموقع
+   - لا يمكن تعطيل هذه الملفات
+
+2. التحليلات (Analytics)
+   - تقيس استخدام الموقع عبر Google Analytics 4
+   - تحلل سلوك المستخدم بشكل مجهول
+
+3. التسويق (Marketing)
+   - إعادة التسويق عبر Google Ads
+   - بكسل Meta (Facebook/Instagram)
+   - تُفعّل هذه الملفات فقط عند الموافقة
+
+إدارة الموافقة:
+- "قبول الكل" — جميع الملفات مفعّلة
+- "رفض" — الملفات الضرورية فقط
+- "تخصيص" — اختيار فئة بفئة
+
+تغيير موافقتك:
+استخدم إعدادات ملفات تعريف الارتباط في متصفحك أو شريط ملفات تعريف الارتباط أسفل الموقع.
+
+للتواصل: info@xurcun.az`,
+    },
   };
 
   const c = content[lang] ?? content.en;

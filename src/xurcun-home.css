@@ -4,6 +4,10 @@
 /* Homepage-specific reduced-motion (shared .reveal/.ornament handled in xurcun-base.css) */
 @media(prefers-reduced-motion:reduce){.xc .hero .emb,.xc .luxe-frame img{animation:none}}
 
+/* <picture> wraps webp+fallback sources; display:contents keeps the inner <img>
+   a direct flex/grid child so existing .logo / .gimg / about-media sizing still applies. */
+.xc picture{display:contents}
+
 .xc .topbar{background:var(--ink); color:var(--cream)}
 .xc .topbar .wrap{display:flex; justify-content:space-between; align-items:center; height:38px; font-size:11px; letter-spacing:.08em}
 .xc .topbar .ph{display:flex; gap:22px; opacity:.8}
@@ -108,14 +112,16 @@
   .xc .branch:hover{transform:translateY(-6px); box-shadow:0 24px 50px rgba(46,42,37,.24)}
 }
 .xc .branch video,.xc .branch .poster{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
-.xc .branch .grad{position:absolute; inset:0; background:linear-gradient(180deg,rgba(46,42,37,0) 42%,rgba(46,42,37,.88)); pointer-events:none}
+/* Stronger, earlier ramp so white name/address stays legible over light posters
+   (e.g. White City, Gənclik) — the old single-stop gradient washed out. */
+.xc .branch .grad{position:absolute; inset:0; background:linear-gradient(180deg,rgba(46,42,37,0) 26%,rgba(46,42,37,.42) 52%,rgba(46,42,37,.92)); pointer-events:none}
 .xc .branch .play{position:absolute; top:13px; right:13px; width:34px; height:34px; border:1px solid rgba(235,229,215,.55); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--cream); font-size:12px; transition:opacity .3s var(--ease)}
-.xc .branch:hover .play{opacity:0}
+.xc .branch:hover .play,.xc .branch.playing .play{opacity:0}
 .xc .bover{position:absolute; left:0; right:0; bottom:0; padding:16px; color:var(--cream)}
 .xc .bover .bn{font-family:var(--display); font-size:21px; font-weight:600; line-height:1.1}
 .xc .bover .ba{font-size:11px; color:var(--cream-text-soft); margin-top:4px}
 .xc .bover .brow{display:flex; gap:8px; margin-top:12px}
-.xc .bover a{flex:1; text-align:center; font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; padding:8px 5px; border:1px solid rgba(194,160,90,.5); color:var(--gold-light); transition:background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease), transform .12s var(--ease)}
+.xc .bover a{flex:1; display:inline-flex; align-items:center; justify-content:center; min-height:40px; text-align:center; font-size:12px; letter-spacing:.1em; text-transform:uppercase; padding:10px 6px; border:1px solid rgba(194,160,90,.5); color:var(--gold-light); transition:background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease), transform .12s var(--ease)}
 .xc .bover a:hover{background:var(--gold); color:var(--on-gold); border-color:var(--gold)}
 .xc .bover a.tel{border-color:rgba(235,229,215,.32); color:var(--cream)}
 
@@ -161,6 +167,8 @@
   .xc .wrap{padding:0 18px}
   .xc .topbar .wrap{height:auto; padding:8px 18px; flex-direction:column; gap:6px}
   .xc .topbar .ph{gap:14px; font-size:10.5px}
+  /* Touch targets ≥44px (WCAG 2.5.5) — desktop keeps the compact 38px */
+  .xc .langs button{min-width:44px; min-height:44px}
   .xc header .wrap{padding:14px 18px 10px; gap:10px}
   .xc .logo{height:46px}
   .xc nav{gap:6px 16px; font-size:11px; letter-spacing:.12em}
@@ -187,6 +195,34 @@
 @media(max-width:380px){
   .xc .mag-grid{grid-template-columns:1fr 1fr; gap:9px}
   .xc .bover .bn{font-size:15px}
+}
+
+/* ── Mobile nav: hamburger + slide-down panel (≤768px) ──
+   Reclaims the ~252px the stacked logo+wrapping nav ate above the hero.
+   Overrides the desktop wrap/shrink nav rules above, so it sits last. */
+.xc .navtoggle{display:none}
+@media(max-width:768px){
+  .xc header .wrap{flex-direction:row; justify-content:space-between; align-items:center; padding:12px 18px; gap:12px; position:relative}
+  .xc header.shrink .wrap{padding:10px 18px}
+  .xc .logo{height:42px}
+  .xc header.shrink .logo{height:38px}
+  .xc .navtoggle{display:flex; flex-direction:column; justify-content:center; gap:5px; width:44px; height:44px; padding:10px; background:none; border:0; cursor:pointer; margin-inline-start:auto}
+  .xc .navtoggle span{display:block; height:2px; width:24px; background:var(--ink); border-radius:2px; transition:transform .3s var(--ease), opacity .2s var(--ease)}
+  .xc .nav-open .navtoggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .xc .nav-open .navtoggle span:nth-child(2){opacity:0}
+  .xc .nav-open .navtoggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  /* Panel hidden by default; revealed by .nav-open on <header>.
+     Transform+opacity reveal (no layout-property animation) — the panel is
+     position:absolute so it never reflows the page. */
+  .xc nav,.xc header.shrink nav{position:absolute; top:100%; inset-inline:0; flex-direction:column; flex-wrap:nowrap; gap:0;
+    background:rgba(246,242,233,.98); backdrop-filter:blur(12px); border-top:1px solid var(--line);
+    box-shadow:0 18px 36px rgba(46,42,37,.14); overflow:hidden; max-height:none;
+    opacity:0; visibility:hidden; transform:translateY(-10px);
+    transition:opacity .25s var(--ease), transform .3s var(--ease), visibility .3s var(--ease)}
+  .xc header.nav-open nav,.xc header.shrink.nav-open nav{opacity:1; visibility:visible; transform:translateY(0)}
+  .xc nav a{display:flex; align-items:center; justify-content:center; width:100%; min-height:54px; padding:0 18px;
+    font-size:13px; letter-spacing:.16em; border-bottom:1px solid var(--line); border-radius:0}
+  .xc nav a:last-child{border-bottom:0}
 }
 
 /* ── Arabic / RTL ── (Rufolo & Pinyon lack Arabic glyphs → use Amiri/Cairo;
