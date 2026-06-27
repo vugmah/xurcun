@@ -13,10 +13,10 @@ export const translations = {
 
     // Hero
     hero_label: 'BAKI · AZƏRBAYCAN',
-    hero_subline: 'Restaurant & Lounge',
+    hero_subline: 'Premium Dried Fruit & Gift Boutique',
     hero_cta_menu: 'Menyunu kəşf et',
     hero_cta_reserve: 'Rezervasiya et',
-    marquee_text: 'LƏZZƏT · ATMOSFER · AZƏRBAYCAN MƏTBƏXİ · AVROPA LƏZZƏTLƏRİ · İMZA KOKTEYLLƏR · PREMIUM QƏLYAN · ',
+    marquee_text: 'QURU MEYVƏ · QOZ-FINDIQ · ÇƏRƏZ · ŞOKOLAD · LOKUM · PAXLAVA · HƏDİYYƏ QUTULARI · ',
 
     // About
     about_label: 'HAQQIMIZDA',
@@ -87,13 +87,13 @@ export const translations = {
     events_cta_text: 'Tədbiriniz üçün fərdi həllər və çevik planlaşdırma təklif edirik.',
 
     // Contact / Footer
-    contact_brand: 'Xurcun White City Restaurant & Lounge',
+    contact_brand: 'Xurcun Chain Of Boutiques',
     contact_address: '1-ci Yaşıl Ada küçəsi, Bakı, Azərbaycan',
     contact_hours: 'B.e.–Bazar: 10:00 – 00:00',
     contact_quicklinks: 'Sürətli keçidlər',
     contact_phone: 'Telefon',
     contact_email: 'E-poçt',
-    contact_copyright: '© 2026 Xurcun White City Restaurant & Lounge',
+    contact_copyright: '© 2026 Xurcun Chain Of Boutiques',
     contact_location: 'BAKİ · AZƏRBAYCAN',
     contact_follow: 'Bizi izləyin',
 
@@ -133,10 +133,10 @@ export const translations = {
 
     // Hero
     hero_label: 'БАКУ · АЗЕРБАЙДЖАН',
-    hero_subline: 'Restaurant & Lounge',
+    hero_subline: 'Premium Dried Fruit & Gift Boutique',
     hero_cta_menu: 'Посмотреть меню',
     hero_cta_reserve: 'Забронировать',
-    marquee_text: 'ВКУС · АТМОСФЕРА · АЗЕРБАЙДЖАНСКАЯ КУХНЯ · ЕВРОПЕЙСКИЕ БЛЮДА · ФИРМЕННЫЕ КОКТЕЙЛИ · ПРЕМИАЛЬНЫЙ КАЛЬЯН · ',
+    marquee_text: 'СУХОФРУКТЫ · ОРЕХИ · СНЕКИ · ШОКОЛАД · ЛУКУМ · ПАХЛАВА · ПОДАРОЧНЫЕ НАБОРЫ · ',
 
     // About
     about_label: 'О НАС',
@@ -207,13 +207,13 @@ export const translations = {
     events_cta_text: 'Мы предлагаем индивидуальные решения и гибкое планирование для вашего мероприятия.',
 
     // Contact / Footer
-    contact_brand: 'Xurcun White City Restaurant & Lounge',
+    contact_brand: 'Xurcun Chain Of Boutiques',
     contact_address: 'ул. 1-я Яшыл Ада, Баку, Азербайджан',
     contact_hours: 'Пн–Вс: 10:00 – 00:00',
     contact_quicklinks: 'Быстрые ссылки',
     contact_phone: 'Телефон',
     contact_email: 'E-mail',
-    contact_copyright: '© 2026 Xurcun White City Restaurant & Lounge',
+    contact_copyright: '© 2026 Xurcun Chain Of Boutiques',
     contact_location: 'БАКУ · АЗЕРБАЙДЖАН',
     contact_follow: 'Мы в соцсетях',
 
@@ -253,10 +253,10 @@ export const translations = {
 
     // Hero
     hero_label: 'BAKU · AZERBAIJAN',
-    hero_subline: 'Restaurant & Lounge',
+    hero_subline: 'Premium Dried Fruit & Gift Boutique',
     hero_cta_menu: 'Explore menu',
     hero_cta_reserve: 'Book a table',
-    marquee_text: 'FLAVOR · ATMOSPHERE · AZERBAIJANI CUISINE · EUROPEAN DISHES · SIGNATURE COCKTAILS · PREMIUM SHISHA · ',
+    marquee_text: 'DRIED FRUIT · NUTS · SNACKS · CHOCOLATE · TURKISH DELIGHT · BAKLAVA · GIFT BOXES · ',
 
     // About
     about_label: 'ABOUT',
@@ -327,13 +327,13 @@ export const translations = {
     events_cta_text: 'We offer customized solutions and flexible planning for your event.',
 
     // Contact / Footer
-    contact_brand: 'Xurcun White City Restaurant & Lounge',
+    contact_brand: 'Xurcun Chain Of Boutiques',
     contact_address: '1st Yashil Ada Street, Baku, Azerbaijan',
     contact_hours: 'Mon–Sun: 10:00 – 00:00',
     contact_quicklinks: 'Quick links',
     contact_phone: 'Phone',
     contact_email: 'Email',
-    contact_copyright: '© 2026 Xurcun White City Restaurant & Lounge',
+    contact_copyright: '© 2026 Xurcun Chain Of Boutiques',
     contact_location: 'BAKU · AZERBAIJAN',
     contact_follow: 'Follow us',
 
@@ -373,10 +373,10 @@ export const translations = {
 
     // Hero
     hero_label: 'BAKÜ · AZERBAYCAN',
-    hero_subline: 'Restaurant & Lounge',
+    hero_subline: 'Premium Dried Fruit & Gift Boutique',
     hero_cta_menu: 'Menüyü keşfet',
     hero_cta_reserve: 'Rezervasyon yap',
-    marquee_text: 'LEZZET · ATMOSFER · AZERBAYCAN MUTFAĞI · AVRUPA YEMEKLERİ · İMZA KOKTEYLLERİ · PREMIUM NARGİLE · ',
+    marquee_text: 'KURU MEYVE · KURUYEMİŞ · ÇEREZ · ÇİKOLATA · LOKUM · BAKLAVA · HEDİYE KUTULARI · ',
 
     // About
     about_label: 'HAKKIMIZDA',
@@ -447,13 +447,13 @@ export const translations = {
     events_cta_text: 'Etkinliğiniz için kişiselleştirilmiş çözümler ve esnek planlama sunuyoruz.',
 
     // Contact / Footer
-    contact_brand: 'Xurcun White City Restaurant & Lounge',
+    contact_brand: 'Xurcun Chain Of Boutiques',
     contact_address: '1. Yeşil Ada Sokağı, Bakü, Azerbaycan',
     contact_hours: 'Pzt–Paz: 10:00 – 00:00',
     contact_quicklinks: 'Hızlı bağlantılar',
     contact_phone: 'Telefon',
     contact_email: 'E-posta',
-    contact_copyright: '© 2026 Xurcun White City Restaurant & Lounge',
+    contact_copyright: '© 2026 Xurcun Chain Of Boutiques',
     contact_location: 'BAKÜ · AZERBAYCAN',
     contact_follow: 'Bizi takip edin',
 
@@ -493,10 +493,10 @@ export const translations = {
 
     // Hero
     hero_label: 'باكو · أذربيجان',
-    hero_subline: 'مطعم وصالة',
+    hero_subline: 'بوتيك الفواكه المجففة والهدايا',
     hero_cta_menu: 'استكشف القائمة',
     hero_cta_reserve: 'احجز طاولة',
-    marquee_text: 'النكهة · الأجواء · المطبخ الأذربيجاني · الأطباق الأوروبية · كوكتيلات مميزة · شيشة فاخرة · ',
+    marquee_text: 'فواكه مجففة · مكسرات · وجبات خفيفة · شوكولاتة · لقوم · بقلاوة · علب هدايا · ',
 
     // About
     about_label: 'من نحن',
@@ -567,13 +567,13 @@ export const translations = {
     events_cta_text: 'نقدم حلولًا مخصصة وتخطيطًا مرنًا لمناسبتك.',
 
     // Contact / Footer
-    contact_brand: 'شوركون وايت سيتي — مطعم وصالة',
+    contact_brand: 'شوركون — سلسلة بوتيكات',
     contact_address: 'شارع ياشيل آدا 1، باكو، أذربيجان',
     contact_hours: 'الإثنين–الأحد: 10:00 – 00:00',
     contact_quicklinks: 'روابط سريعة',
     contact_phone: 'الهاتف',
     contact_email: 'البريد الإلكتروني',
-    contact_copyright: '© 2026 شوركون وايت سيتي — مطعم وصالة',
+    contact_copyright: '© 2026 شوركون — سلسلة بوتيكات',
     contact_location: 'باكو · أذربيجان',
     contact_follow: 'تابعنا',
 
