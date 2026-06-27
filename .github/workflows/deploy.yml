@@ -33,7 +33,7 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           npm install -g @railway/cli@latest
-          railway up --service=thewoo-white-city
+          railway up --service=xurcun
       - name: Smoke test
         run: |
           echo "Waiting for deploy to settle..."
@@ -49,4 +49,4 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           echo "Syncing 22 fruit tea photo assignments to DB..."
-          railway run --service=thewoo-white-city "npx tsx api/scripts/sync-22-tea-assignments.ts" || echo "WARN: Tea sync step failed (non-blocking)"
+          railway run --service=xurcun "npx tsx api/scripts/sync-22-tea-assignments.ts" || echo "WARN: Tea sync step failed (non-blocking)"
