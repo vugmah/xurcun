@@ -428,7 +428,7 @@ export default function SeoPage() {
     ["home", "menu", "about", "contact", "reservation"].includes(p.id)
   );
   const menuPages = SEO_PAGES.filter((p) =>
-    ["food", "beverage", "shisha", "snack", "qr"].includes(p.id)
+    ["qr"].includes(p.id)
   );
   const otherPages = SEO_PAGES.filter((p) =>
     ["gallery", "events"].includes(p.id)
