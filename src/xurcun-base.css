@@ -34,4 +34,6 @@
 .xc .reveal.in{opacity:1; transform:none}
 .xc .reveal.d1{transition-delay:.06s}.xc .reveal.d2{transition-delay:.12s}.xc .reveal.d3{transition-delay:.18s}
 @media(prefers-reduced-motion:reduce){.xc .reveal{opacity:1; transform:none; transition:none}.xc .ornament img{animation:none}}
+/* No-JS / non-rendering crawlers never run the reveal observer — keep content visible. */
+@media(scripting:none){.xc .reveal{opacity:1; transform:none}}
 [dir="rtl"] .xc .ornament img{animation:none}
