@@ -220,6 +220,7 @@ app.get("/sitemap.xml", async (c) => {
 
   const routes = [
     { loc: "https://xurcun.az/", priority: "1.0", changefreq: "weekly" },
+    { loc: "https://xurcun.az/catalog", priority: "0.9", changefreq: "weekly" },
     { loc: "https://xurcun.az/menu", priority: "0.9", changefreq: "weekly" },
     { loc: "https://xurcun.az/reservation", priority: "0.6", changefreq: "monthly" },
     { loc: "https://xurcun.az/privacy", priority: "0.3", changefreq: "yearly" },
