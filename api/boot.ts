@@ -477,6 +477,10 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
   await addColumn("menu_categories", "parent_id", "INT");
   await addColumn("menu_categories", "title_tr", "VARCHAR(200)");
   await addColumn("menu_categories", "title_ar", "VARCHAR(200)");
+  // Timestamps: schema (Drizzle) selects these, but the original CREATE TABLE
+  // omitted them → storefront query 500'd with "Unknown column". Backfill them.
+  await addColumn("menu_categories", "created_at", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+  await addColumn("menu_categories", "updated_at", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP");
   // Items: TR/AR name + description (clone lacked them)
   await addColumn("menu_items", "name_tr", "VARCHAR(300)");
   await addColumn("menu_items", "name_ar", "VARCHAR(300)");
