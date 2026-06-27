@@ -35,25 +35,6 @@ export const statsRouter = createRouter({
       .select({ count: sql<number>`count(*)` })
       .from(settings);
 
-    // Count by tab (JOIN with categories)
-    const alacarteItems = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(menuItems)
-      .innerJoin(menuCategories, sql`${menuItems.categoryId} = ${menuCategories.id}`)
-      .where(sql`${menuCategories.menuType} = 'food'`);
-
-    const beverageItems = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(menuItems)
-      .innerJoin(menuCategories, sql`${menuItems.categoryId} = ${menuCategories.id}`)
-      .where(sql`${menuCategories.menuType} = 'beverage'`);
-
-    const shishaItems = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(menuItems)
-      .innerJoin(menuCategories, sql`${menuItems.categoryId} = ${menuCategories.id}`)
-      .where(sql`${menuCategories.menuType} = 'shisha'`);
-
     const totalItems = menuItemCount?.count ?? 0;
     const withPhotos = photoAssignedCount?.count ?? 0;
 
@@ -67,11 +48,6 @@ export const statsRouter = createRouter({
       withoutPhotos: totalItems - withPhotos,
       seoPages: seoCount?.count ?? 0,
       settings: settingsCount?.count ?? 0,
-      byTab: {
-        alacarte: alacarteItems[0]?.count ?? 0,
-        beverages: beverageItems[0]?.count ?? 0,
-        shisha: shishaItems[0]?.count ?? 0,
-      },
     };
   }),
 });

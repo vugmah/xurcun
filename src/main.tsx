@@ -4,14 +4,8 @@ import { BrowserRouter } from "react-router";
 import { HelmetProvider } from "react-helmet-async";
 import { TRPCProvider } from "./providers/trpc";
 import { LanguageProvider } from "./lib/LanguageContext";
-import { restoreNewItems, restoreNewCategories, restoreCategoryEdits } from "./lib/menuStore";
 import App from "./App";
 import "./index.css";
-
-/* Restore admin-edited category names, categories, and products from localStorage */
-restoreCategoryEdits();
-restoreNewCategories();
-restoreNewItems();
 
 // ═══ Chunk load failure detection + safe auto-reload ═══
 let chunkReloadTriggered = false;

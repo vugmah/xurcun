@@ -155,7 +155,7 @@ export const menuRouter = createRouter({
       titleTr: z.string().optional(),
       titleAr: z.string().optional(),
       // "catalog" = məhsul kataloqu · "cafe" = mağaza içi kofe menyusu
-      menuType: z.enum(["catalog", "cafe", "food", "beverage", "shisha", "snack"]),
+      menuType: z.enum(["catalog", "cafe"]),
       parentId: z.number().nullable().optional(), // alt kateqoriya üçün ana id
       isFeatured: z.boolean().optional(),
       sortOrder: z.number().optional(),
@@ -176,7 +176,7 @@ export const menuRouter = createRouter({
       titleEn: z.string().optional(),
       titleTr: z.string().optional(),
       titleAr: z.string().optional(),
-      menuType: z.enum(["catalog", "cafe", "food", "beverage", "shisha", "snack"]).optional(),
+      menuType: z.enum(["catalog", "cafe"]).optional(),
       parentId: z.number().nullable().optional(),
       isFeatured: z.boolean().optional(),
       sortOrder: z.number().optional(),

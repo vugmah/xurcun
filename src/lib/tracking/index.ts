@@ -54,22 +54,6 @@ export function trackPageView() {
   track({ metaEvent: "PageView", googleEvent: "page_view" });
 }
 
-export function trackMenuView(tab: "food" | "beverage" | "shisha" | "all") {
-  const eventMap: Record<string, { metaEvent: string; googleEvent: string; metaCustom?: string }> = {
-    food: { metaEvent: "ViewContent", googleEvent: "food_menu_click", metaCustom: "food_menu_click" },
-    beverage: { metaEvent: "ViewContent", googleEvent: "beverage_menu_click", metaCustom: "beverage_menu_click" },
-    shisha: { metaEvent: "ViewContent", googleEvent: "shisha_menu_click", metaCustom: "shisha_menu_click" },
-    all: { metaEvent: "ViewContent", googleEvent: "menu_click", metaCustom: "menu_click" },
-  };
-  const m = eventMap[tab];
-  if (!m) return;
-  track({
-    metaEvent: m.metaEvent,
-    metaCustom: m.metaCustom,
-    googleEvent: m.googleEvent,
-    params: { content_name: `${tab} menu`, content_category: "Menu" },
-  });
-}
 
 export function trackReservation() {
   track({

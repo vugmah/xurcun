@@ -24,12 +24,8 @@ export const translations = {
     about_cta: 'Daha ətraflı',
 
     // Concept
-    concept_restaurant: 'RESTORAN',
-    concept_restaurant_desc: 'Müasir Azərbaycan mətbəxi və seçilmiş Avropa ləzzətləri',
     concept_bar: 'BAR',
     concept_bar_desc: 'İmza kokteyllər, zəngin içki seçimi və xüsusi hazırlanmış içkilər',
-    concept_lounge: 'LOUNGE',
-    concept_lounge_desc: 'Rahat atmosfer, premium servis və zövqlü axşamlar',
     concept_events: 'XÜSUSİ TƏDBİRLƏR',
     concept_events_desc: 'Ad günləri, korporativ tədbirlər və xüsusi dəvətlər üçün seçilmiş menyular',
 
@@ -41,12 +37,10 @@ export const translations = {
     menu_categories: 'Kateqoriyalar',
     menu_alacarte: 'Yemək menyusu',
     menu_beverages: 'İçki menyusu',
-    menu_shisha: 'Qəlyan menyusu',
 
     // Menu card items (MenuPreview)
     menu_card_food_items: 'Səhər yeməyi · Şorbalar · Salatlar · Başlanğıclar · Əsas yeməklər · Pasta · Desertlər',
     menu_card_bev_items: 'İmza kokteyllər · Klassik kokteyllər · Şərab · Viski · Tekila · Qəhvə · Çay',
-    menu_card_shisha_items: 'Wookah · Quasar · Premium tütün · Klassik tütün · Xüsusi aroma',
 
     // Gallery
     gallery_label: 'QALEREYA',
@@ -57,14 +51,8 @@ export const translations = {
     events_label: 'TƏDBİRLƏR',
     events_title: 'Xüsusi Tədbirlər',
     events_intro: 'XURCUN həm sosial, həm də korporativ tədbirlər üçün ideal məkan təqdim edir. Fərdi tədbir həlləri və çevik oturma planları ilə xidmətinizdəyik.',
-    events_capacity_restaurant_label: 'RESTORAN',
-    events_capacity_restaurant_title: 'XURCUN Restoranı',
-    events_capacity_restaurant_desc: 'Müasir dəbdəbə və zərif atmosferi bir araya gətirən restoran hissəsi həm sosial, həm də korporativ tədbirlər üçün ideal məkan təqdim edir. Komfortlu, premium səviyyəli xidmət konsepti ilə fəaliyyət göstərir.',
     events_capacity_restaurant_guests: '55 qonağa qədər tutum',
-    events_capacity_lounge_label: 'LOUNGE',
-    events_capacity_lounge_title: 'XURCUN Lounge',
     events_capacity_lounge_desc: 'Şəhərin dinamik atmosferini zərif interyer və premium lounge konsepti ilə birləşdirir. Sosial görüşlər, qapalı tədbirlər, networking gecələri və eksklüziv günləriniz üçün uyğun məkandır.',
-    events_capacity_lounge_guests: '60 nəfərlik dining tutumuna malikdir',
     events_seating_title: 'Oturma Planı Seçimləri',
     events_seating_ushape: 'U-Shape düzülüş',
     events_seating_theatre: 'Teatral düzülüş',
@@ -107,12 +95,10 @@ export const translations = {
     maps_open_button: 'Xəritədə aç',
 
     // Menu page notes
-    service_note: 'Qeyd: 10% xidmət haqqı hesabınıza əlavə olunacaq',
     allergy_note: 'Zəhmət olmasa, qida allergiyası ilə bağlı məlumat üçün personalımıza müraciət edin.',
     currency: 'AZN',
 
     // Shisha note
-    shisha_note: 'Menyuda göstərilməyən tütün çeşidləri üçün qəlyançımızdan məlumat ala bilərsiniz. İstəyinizə uyğun olaraq fərqli tütün qarışıqları ilə xüsusi qəlyan hazırlaya bilərik.',
 
     // Item tags
     tag_new: 'NEW',
@@ -144,12 +130,8 @@ export const translations = {
     about_cta: 'Подробнее',
 
     // Concept
-    concept_restaurant: 'РЕСТОРАН',
-    concept_restaurant_desc: 'Современная азербайджанская кухня и избранные европейские блюда',
     concept_bar: 'БАР',
     concept_bar_desc: 'Фирменные коктейли, широкий выбор напитков и авторская подача',
-    concept_lounge: 'LOUNGE',
-    concept_lounge_desc: 'Уютная атмосфера, премиальный сервис и приятные вечера',
     concept_events: 'ЧАСТНЫЕ МЕРОПРИЯТИЯ',
     concept_events_desc: 'Дни рождения, корпоративы и особые события с индивидуальным меню',
 
@@ -161,12 +143,10 @@ export const translations = {
     menu_categories: 'Категории',
     menu_alacarte: 'Меню блюд',
     menu_beverages: 'Напитки',
-    menu_shisha: 'Кальянное меню',
 
     // Menu card items
     menu_card_food_items: 'Завтраки · Супы · Салаты · Закуски · Основные блюда · Паста · Десерты',
     menu_card_bev_items: 'Фирменные коктейли · Классические коктейли · Вино · Виски · Текила · Кофе · Чай',
-    menu_card_shisha_items: 'Wookah · Quasar · Премиальный табак · Классический табак · Особые ароматы',
 
     // Gallery
     gallery_label: 'ГАЛЕРЕЯ',
@@ -177,14 +157,8 @@ export const translations = {
     events_label: 'СОБЫТИЯ',
     events_title: 'Особые мероприятия',
     events_intro: 'XURCUN — идеальное место для как социальных, так и корпоративных мероприятий. Мы предлагаем индивидуальные решения для мероприятий и гибкие планы рассадки.',
-    events_capacity_restaurant_label: 'РЕСТОРАН',
-    events_capacity_restaurant_title: 'Ресторан XURCUN',
-    events_capacity_restaurant_desc: 'Ресторан, сочетающий современную роскошь и изысканную атмосферу, предлагает идеальное место для проведения как социальных, так и корпоративных мероприятий. Работает с концепцией комфортного премиального обслуживания.',
     events_capacity_restaurant_guests: 'Вместимость до 55 гостей',
-    events_capacity_lounge_label: 'LAUNGE',
-    events_capacity_lounge_title: 'Lounge XURCUN',
     events_capacity_lounge_desc: 'Сочетает динамичную атмосферу города с элегантным интерьером и премиальной lounge-концепцией. Идеальное место для социальных встреч, закрытых мероприятий, вечеров нетворкинга и эксклюзивных событий.',
-    events_capacity_lounge_guests: 'Вместимость до 60 гостей для dining',
     events_seating_title: 'Варианты рассадки',
     events_seating_ushape: 'U-Shape рассадка',
     events_seating_theatre: 'Театральный стиль',
@@ -227,12 +201,10 @@ export const translations = {
     maps_open_button: 'Открыть на карте',
 
     // Menu page notes
-    service_note: 'Примечание: к счету добавляется 10% сервисный сбор',
     allergy_note: 'Пожалуйста, сообщите персоналу о любых пищевых аллергиях.',
     currency: 'AZN',
 
     // Shisha note
-    shisha_note: 'Если вы не нашли нужный табак в меню, уточните наличие у нашего кальянного мастера. Мы можем приготовить кальян с различными табачными миксами по вашему вкусу.',
 
     // Item tags
     tag_new: 'NEW',
@@ -264,12 +236,8 @@ export const translations = {
     about_cta: 'Read more',
 
     // Concept
-    concept_restaurant: 'RESTAURANT',
-    concept_restaurant_desc: 'Modern Azerbaijani cuisine and selected European dishes',
     concept_bar: 'BAR',
     concept_bar_desc: 'Signature cocktails, a curated beverage selection and crafted drinks',
-    concept_lounge: 'LOUNGE',
-    concept_lounge_desc: 'Comfortable atmosphere, premium service and refined evenings',
     concept_events: 'PRIVATE EVENTS',
     concept_events_desc: 'Birthdays, corporate events and private gatherings with special menus',
 
@@ -281,12 +249,10 @@ export const translations = {
     menu_categories: 'Categories',
     menu_alacarte: 'Food menu',
     menu_beverages: 'Beverage menu',
-    menu_shisha: 'Shisha menu',
 
     // Menu card items
     menu_card_food_items: 'Breakfast · Soups · Salads · Starters · Main dishes · Pasta · Desserts',
     menu_card_bev_items: 'Signature cocktails · Classic cocktails · Wine · Whisky · Tequila · Coffee · Tea',
-    menu_card_shisha_items: 'Wookah · Quasar · Premium tobacco · Classic tobacco · Special aroma',
 
     // Gallery
     gallery_label: 'GALLERY',
@@ -297,14 +263,8 @@ export const translations = {
     events_label: 'EVENTS',
     events_title: 'Private Events',
     events_intro: 'XURCUN offers the perfect venue for both social and corporate events. We are at your service with customized event solutions and flexible seating plans.',
-    events_capacity_restaurant_label: 'RESTAURANT',
-    events_capacity_restaurant_title: 'XURCUN Restaurant',
-    events_capacity_restaurant_desc: 'The restaurant area, combining modern luxury and refined atmosphere, offers an ideal venue for both social and corporate events. Operates with a comfortable, premium-level service concept.',
     events_capacity_restaurant_guests: 'Capacity for up to 55 guests',
-    events_capacity_lounge_label: 'LOUNGE',
-    events_capacity_lounge_title: 'XURCUN Lounge',
     events_capacity_lounge_desc: 'Combines the city\'s dynamic atmosphere with elegant interiors and a premium lounge concept. A suitable venue for social gatherings, private events, networking evenings and exclusive occasions.',
-    events_capacity_lounge_guests: 'Dining capacity for up to 60 guests',
     events_seating_title: 'Seating Layout Options',
     events_seating_ushape: 'U-Shape Setup',
     events_seating_theatre: 'Theatre Style',
@@ -347,12 +307,10 @@ export const translations = {
     maps_open_button: 'Open in Google Maps',
 
     // Menu page notes
-    service_note: 'Note: A 10% service charge will be added to your bill',
     allergy_note: 'Please inform our staff about any food allergies.',
     currency: 'AZN',
 
     // Shisha note
-    shisha_note: 'For tobacco options not listed on the menu, please ask our shisha team. We can prepare a custom shisha with different tobacco blends according to your taste.',
 
     // Item tags
     tag_new: 'NEW',
@@ -384,12 +342,8 @@ export const translations = {
     about_cta: 'Daha fazla bilgi',
 
     // Concept
-    concept_restaurant: 'RESTORAN',
-    concept_restaurant_desc: 'Modern Azerbaycan mutfağı ve seçilmiş Avrupa lezzetleri',
     concept_bar: 'BAR',
     concept_bar_desc: 'İmza kokteyller, zengin içki seçimi ve özel hazırlanmış içecekler',
-    concept_lounge: 'LOUNGE',
-    concept_lounge_desc: 'Rahat atmosfer, premium servis ve keyifli akşamlar',
     concept_events: 'ÖZEL ETKİNLİKLER',
     concept_events_desc: 'Doğum günleri, kurumsal etkinlikler ve özel davetler için özel menüler',
 
@@ -401,12 +355,10 @@ export const translations = {
     menu_categories: 'Kategoriler',
     menu_alacarte: 'Yemek menüsü',
     menu_beverages: 'İçecek menüsü',
-    menu_shisha: 'Nargile menüsü',
 
     // Menu card items
     menu_card_food_items: 'Kahvaltı · Çorbalar · Salatalar · Başlangıçlar · Ana yemekler · Makarna · Tatlılar',
     menu_card_bev_items: 'İmza kokteyller · Klasik kokteyller · Şarap · Viski · Tekila · Kahve · Çay',
-    menu_card_shisha_items: 'Wookah · Quasar · Premium tütün · Klasik tütün · Özel aroma',
 
     // Gallery
     gallery_label: 'GALERİ',
@@ -417,14 +369,8 @@ export const translations = {
     events_label: 'ETKİNLİKLER',
     events_title: 'Özel Etkinlikler',
     events_intro: 'XURCUN hem sosyal hem de kurumsal etkinlikler için ideal bir mekan sunar. Kişiselleştirilmiş etkinlik çözümleri ve esnek oturma planları ile hizmetinizdeyiz.',
-    events_capacity_restaurant_label: 'RESTORAN',
-    events_capacity_restaurant_title: 'XURCUN Restoranı',
-    events_capacity_restaurant_desc: 'Modern lüks ve zarif atmosferi bir araya getiren restoran bölümü hem sosyal hem de kurumsal etkinlikler için ideal mekan sunar. Konforlu, premium seviyede hizmet konsepti ile faaliyet gösterir.',
     events_capacity_restaurant_guests: '55 misafirine kadar kapasite',
-    events_capacity_lounge_label: 'LOUNGE',
-    events_capacity_lounge_title: 'XURCUN Lounge',
     events_capacity_lounge_desc: 'Şehrin dinamik atmosferini zarif iç mekanlar ve premium lounge konseptiyle birleştirir. Sosyal buluşmalar, özel etkinlikler, networking akşamları ve özel davetler için uygun mekandır.',
-    events_capacity_lounge_guests: '60 misafirlik dining kapasitesine sahiptir',
     events_seating_title: 'Oturma Düzeni Seçenekleri',
     events_seating_ushape: 'U-Shape Düzen',
     events_seating_theatre: 'Tiyatro Tarzı',
@@ -467,12 +413,10 @@ export const translations = {
     maps_open_button: 'Haritada aç',
 
     // Menu page notes
-    service_note: 'Not: Faturanıza %10 servis ücreti eklenecektir',
     allergy_note: 'Lütfen herhangi bir gıda alerjiniz hakkında personelimizi bilgilendirin.',
     currency: 'AZN',
 
     // Shisha note
-    shisha_note: 'Menüde görmediğiniz tütün çeşitleri için nargile ekibimizden bilgi alabilirsiniz. İsteğinize uygun farklı tütün karışımlarıyla özel nargile hazırlayabiliriz.',
 
     // Item tags
     tag_new: 'NEW',
@@ -504,12 +448,8 @@ export const translations = {
     about_cta: 'اقرأ المزيد',
 
     // Concept
-    concept_restaurant: 'المطعم',
-    concept_restaurant_desc: 'مطبخ أذربيجاني حديث وأطباق أوروبية مختارة',
     concept_bar: 'البار',
     concept_bar_desc: 'كوكتيلات مميزة وتشكيلة مشروبات منتقاة',
-    concept_lounge: 'الصالة',
-    concept_lounge_desc: 'أجواء مريحة وخدمة فاخرة وأمسيات راقية',
     concept_events: 'المناسبات الخاصة',
     concept_events_desc: 'أعياد الميلاد والفعاليات المؤسسية والتجمعات الخاصة بقوائم مخصصة',
 
@@ -521,12 +461,10 @@ export const translations = {
     menu_categories: 'الفئات',
     menu_alacarte: 'قائمة الطعام',
     menu_beverages: 'قائمة المشروبات',
-    menu_shisha: 'قائمة الشيشة',
 
     // Menu card items
     menu_card_food_items: 'فطور · شوربات · سلطات · مقبلات · أطباق رئيسية · معكرونة · حلويات',
     menu_card_bev_items: 'كوكتيلات مميزة · كوكتيلات كلاسيكية · نبيذ · ويسكي · تيكيلا · قهوة · شاي',
-    menu_card_shisha_items: 'ووكا · كوازار · تبغ فاخر · تبغ كلاسيكي · نكهات خاصة',
 
     // Gallery
     gallery_label: 'المعرض',
@@ -537,14 +475,8 @@ export const translations = {
     events_label: 'المناسبات',
     events_title: 'المناسبات الخاصة',
     events_intro: 'يوفر شوركون المكان المثالي للفعاليات الاجتماعية والمؤسسية. نحن في خدمتكم بحلول مخصصة وخطط جلوس مرنة.',
-    events_capacity_restaurant_label: 'المطعم',
-    events_capacity_restaurant_title: 'مطعم شوركون',
-    events_capacity_restaurant_desc: 'تجمع منطقة المطعم بين الفخامة العصرية والأجواء الراقية، وتوفر مكانًا مثاليًا للفعاليات الاجتماعية والمؤسسية بمستوى خدمة فاخر ومريح.',
     events_capacity_restaurant_guests: 'تتسع لما يصل إلى 55 ضيفًا',
-    events_capacity_lounge_label: 'الصالة',
-    events_capacity_lounge_title: 'صالة شوركون',
     events_capacity_lounge_desc: 'تمزج بين أجواء المدينة الحيوية والتصاميم الأنيقة ومفهوم الصالة الفاخرة. مكان مناسب للتجمعات والفعاليات الخاصة وأمسيات التواصل والمناسبات الحصرية.',
-    events_capacity_lounge_guests: 'تتسع لتناول الطعام لما يصل إلى 60 ضيفًا',
     events_seating_title: 'خيارات ترتيب الجلوس',
     events_seating_ushape: 'ترتيب على شكل U',
     events_seating_theatre: 'ترتيب مسرحي',
@@ -587,12 +519,10 @@ export const translations = {
     maps_open_button: 'افتح في خرائط Google',
 
     // Menu page notes
-    service_note: 'ملاحظة: ستتم إضافة رسوم خدمة بنسبة 10% إلى فاتورتك',
     allergy_note: 'يرجى إبلاغ موظفينا بأي حساسية تجاه الطعام.',
     currency: 'AZN',
 
     // Shisha note
-    shisha_note: 'للحصول على خيارات تبغ غير مدرجة في القائمة، يرجى سؤال فريق الشيشة لدينا. يمكننا تحضير شيشة مخصصة بخلطات تبغ مختلفة حسب ذوقك.',
 
     // Item tags
     tag_new: 'جديد',
