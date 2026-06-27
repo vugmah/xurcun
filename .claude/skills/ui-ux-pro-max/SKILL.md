@@ -84,6 +84,43 @@ Reference these guidelines when:
 - `color-guidance` - Use accessible color palettes
 - `data-table` - Provide table alternative for accessibility
 
+## Anti-Slop: Dials & AI Tells
+
+The biggest quality lever is avoiding the templated LLM default. Before building, calibrate three dials from the brief instead of defaulting to the middle; before shipping, refuse the tells below.
+
+### The Three Dials (set explicitly per project)
+
+| Dial | Low (1) | High (10) | Pick low when… | Pick high when… |
+|------|---------|-----------|----------------|------------------|
+| **Variance** | symmetric grid | broken / asymmetric | tool, dashboard, scannable | brand, editorial, voice-driven |
+| **Motion** | static, hover only | scroll-driven, physics | content-first, dense | hero, campaign, storytelling |
+| **Density** | art gallery, airy | cockpit, info-dense | landing, marketing | data tools, operator UI |
+
+State the chosen values in one line ("Variance 7 / Motion 4 / Density 3") so the layout, motion, and spacing follow from a deliberate read, not a reflex. The reflex is mid-everything; pick what the brief forces.
+
+### Forbidden patterns (the AI tells)
+
+**Visual**
+- No AI-purple gradients as default. Use a neutral base (Zinc/Slate/Stone) + one high-contrast accent, saturation < 80%.
+- No neon/outer glows, no pure `#000000`, no gradient text on large headings.
+- No three equal feature cards, no centered hero over dark mesh as the default.
+- Lock one accent color per page; audit every component before ship.
+
+**Typography**
+- Inter is not a default; reach for Geist/Outfit/Satoshi/Cabinet Grotesk unless the brief is neutral/public-sector.
+- No oversized floaty H1 (clamp max ≤ ~6rem); display tracking floor ≥ -0.04em.
+- Serif only when explicitly editorial/luxury/brand-required.
+
+**Layout**
+- Hero fits the initial viewport (headline ≤ 2 lines, top padding ≤ `pt-24`), nav one line at desktop (≤ 80px).
+- No 3+ consecutive image+text zigzag sections; no two sections repeat the same layout family.
+- Bento grids: N items = N cells, no empty cells. Use `grid` over flex `calc()` math, `min-h-[100dvh]` not `h-screen`.
+
+**Copy (re-read every visible string before ship)**
+- Zero em-dashes (`—`); the single biggest copy tell. Use periods, commas, parentheses, colons, or a real hyphen.
+- No filler verbs (Elevate, Seamless, Unleash, Supercharge), no placeholder names (John Doe, Acme, Nexus), no fake-precise stats (99.99%, 10x, 1M+).
+- Logo walls use real SVG logos (Simple Icons CDN), not text wordmarks. Icons from a real set (Phosphor/Tabler/Radix), not hand-rolled SVG.
+
 ## How to Use
 
 Search specific domains using the CLI tool below.
