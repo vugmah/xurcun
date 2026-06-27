@@ -7,6 +7,7 @@ const LOGO = '/brand/logo-gold.png'
 const EMBLEM = '/brand/emblem-gold.png'
 const HERO_IMG = '/images/home/hero.jpg'
 const GIFT_IMG = '/images/home/gift.jpg'
+const ABOUT_IMG = '/images/home/about.jpg'
 
 type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar'
 const LANGS: { code: Lang; label: string }[] = [
@@ -76,6 +77,32 @@ const S = {
   },
   aria_nav: { az: 'Əsas naviqasiya', ru: 'Основная навигация', en: 'Main navigation', tr: 'Ana navigasyon', ar: 'التنقل الرئيسي' },
   aria_lang: { az: 'Dil seçimi', ru: 'Выбор языка', en: 'Language', tr: 'Dil seçimi', ar: 'اختيار اللغة' },
+  about_tag: { az: 'Haqqımızda', ru: 'О нас', en: 'About us', tr: 'Hakkımızda', ar: 'من نحن' },
+  about_title: {
+    az: 'Azərbaycanın dad imzası', ru: 'Вкус Азербайджана', en: 'Azerbaijan’s signature of taste',
+    tr: 'Azerbaycan’ın lezzet imzası', ar: 'بصمة طعم أذربيجان',
+  },
+  about_p1: {
+    az: 'Xurcun 2015-ci ildə təsis edilib — bu gün təbii quru meyvə, qoz-fındıq, ekzotik çaylar və şirniyyatların sürətlə böyüyən butik şəbəkəsidir.',
+    ru: 'Xurcun основан в 2015 году — сегодня это быстрорастущая сеть бутиков натуральных сухофруктов, орехов, экзотических чаёв и сладостей.',
+    en: 'Founded in 2015, Xurcun is today a fast-growing chain of boutiques for natural dried fruits, nuts, exotic teas and sweets.',
+    tr: '2015’te kurulan Xurcun, bugün doğal kuru meyve, çerez, egzotik çaylar ve tatlıların hızla büyüyen butik zinciridir.',
+    ar: 'تأسست Xurcun عام 2015، وهي اليوم سلسلة بوتيكات سريعة النمو للفواكه المجففة الطبيعية والمكسرات والشاي والحلويات.',
+  },
+  about_p2: {
+    az: 'Bütün məhsullarımız orqanik və təbiidir, konservant yoxdur; qlütensiz seçimlər də mövcuddur. «Keyfiyyətə vurğunuq» sadəcə şüar deyil — hər qutuya qoyduğumuz vəddir. Qonaqlar Azərbaycanın dadını dünyaya aparmaq üçün Xurcun-u seçir.',
+    ru: 'Вся наша продукция органическая и натуральная, без консервантов; есть и безглютеновые варианты. «Преданы качеству» — не просто слоган, а обещание в каждой коробке. Гости выбирают Xurcun, чтобы увезти вкус Азербайджана с собой.',
+    en: 'All our products are organic and natural, with no preservatives, and gluten-free options too. “Fond of Quality” is not just a slogan — it is the promise in every box. Guests choose Xurcun to carry the taste of Azerbaijan home.',
+    tr: 'Tüm ürünlerimiz organik ve doğaldır, koruyucu içermez; glutensiz seçenekler de vardır. “Kaliteye gönül verdik” yalnızca bir slogan değil — her kutuya koyduğumuz sözdür. Misafirler Azerbaycan’ın lezzetini yanlarında götürmek için Xurcun’u seçer.',
+    ar: 'جميع منتجاتنا عضوية وطبيعية وخالية من المواد الحافظة، مع خيارات خالية من الغلوتين. «شغوفون بالجودة» ليس مجرد شعار — بل وعدٌ في كل علبة. يختار الضيوف Xurcun ليحملوا نكهة أذربيجان معهم.',
+  },
+  about_alt: {
+    az: 'Xurcun mağazasında məhsulların tərəzidə çəkilməsi',
+    ru: 'Взвешивание продукции в бутике Xurcun',
+    en: 'Weighing products at a Xurcun boutique counter',
+    tr: 'Xurcun mağazasında ürünlerin tartılması',
+    ar: 'وزن المنتجات في متجر Xurcun',
+  },
 } satisfies Record<string, M>
 
 const CATS: M[] = [
@@ -273,7 +300,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="luxe" id="haqqimizda">
+      <section className="about" id="haqqimizda">
+        <div className="wrap">
+          <div className="about-media reveal">
+            <img src={ABOUT_IMG} alt={t(S.about_alt)} loading="lazy" decoding="async" />
+          </div>
+          <div className="about-body reveal d1">
+            <div className="tag">{t(S.about_tag)}</div>
+            <h2>{t(S.about_title)}</h2>
+            <p>{t(S.about_p1)}</p>
+            <p>{t(S.about_p2)}</p>
+            <div className="about-stats">
+              <span>{t(S.v_est)}</span>
+              <span>{t(S.v_natural)}</span>
+              <span>{t(S.stores_label)}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="luxe">
         <div className="bgpat" />
         <div className="wrap">
           <div className="reveal">
