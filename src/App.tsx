@@ -6,6 +6,7 @@ const QRMenuPage = lazy(() => import("./pages/QRMenuPage"));
 import ReservationPage from "./pages/ReservationPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import CookiePolicyPage from "./pages/CookiePolicyPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { useAutoPageView } from "./hooks/useTracking";
 import { initCopyProtection } from "./lib/copyProtection";
@@ -121,7 +122,7 @@ function App() {
         </Route>
 
         {/* Fallback — unknown routes → home page */}
-        <Route path="*" element={<HomePage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <CookieConsentBanner />
     </>

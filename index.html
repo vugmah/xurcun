@@ -91,7 +91,7 @@
     <meta property="og:locale:alternate" content="ru_RU" />
     <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:locale:alternate" content="tr_TR" />
-    <meta property="og:locale:alternate" content="ar_AR" />
+    <meta property="og:locale:alternate" content="ar_AE" />
 
     <!-- ═══ Twitter Cards ═══ -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -108,20 +108,8 @@
     <!-- ═══ Meta Domain Verification (dinamik - admin panelden yuklenir) ═══ -->
     <meta name="facebook-domain-verification" id="meta-domain-verification-tag" content="" />
 
-    <!-- ═══ HashRouter redirect: / → /#/ ONLY (MUST be first script) ═══ -->
-    <script>
-      (function() {
-        var loc = window.location;
-        var path = loc.pathname;
-        var hash = loc.hash;
-        // Already has hash route → skip
-        if (hash && hash.length > 1) return;
-        // Not root path → skip (server serves index.html, HashRouter handles /)
-        if (path !== '/' && path !== '') return;
-        // Redirect: / → /#/
-        loc.replace(loc.protocol + '//' + loc.host + '/#' + (loc.search || ''));
-      })();
-    </script>
+    <!-- HashRouter "/ → /#" redirect removed — app now uses BrowserRouter (path-based URLs).
+         Legacy "#/..." links are handled by the shim in src/main.tsx. -->
 
     <!-- ═══ Canonical Domain for Tracking (used by initTracking.ts) ═══ -->
     <script>

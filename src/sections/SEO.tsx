@@ -12,7 +12,7 @@ const OG_LOCALES: Record<Lang, string> = {
   ru: 'ru_RU',
   en: 'en_US',
   tr: 'tr_TR',
-  ar: 'ar_AR',
+  ar: 'ar_AE',
 }
 
 /* ─── hreflang alternates — site serves each language via ?lang= (crawlable) ─── */
