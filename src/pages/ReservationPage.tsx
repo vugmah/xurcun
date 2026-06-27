@@ -25,7 +25,7 @@ function getWhatsappUrl(phone: string, branchName: string, lang: string): string
 }
 
 export default function ReservationPage() {
-  const { t, lang } = useLanguage();
+  const { lang } = useLanguage();
   const settings = getTrackingSettings();
   const seabreezePhone = settings.seabreezeWhatsapp?.trim();
 
@@ -37,21 +37,21 @@ export default function ReservationPage() {
   return (
     <>
       <SEO page="reservation" />
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-[#F6F2E9] text-[#2E2A25]">
       {/* Header */}
-      <div className="border-b border-[#222]">
+      <div className="border-b border-[#D8CFB9]">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
-          <a href="/" className="text-white/40 hover:text-white">
+          <a href="/" className="text-[#6B6457] hover:text-[#2E2A25] transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </a>
-          <h1 className="font-display text-lg text-[#C9A96E]">
+          <h1 className="text-lg text-[#7E6228]" style={{ fontFamily: 'Rufolo, "Cormorant Garamond", serif', fontWeight: 600 }}>
             {lang === "az" ? "Rezervasiya" : lang === "tr" ? "Rezervasyon" : lang === "ru" ? "Бронирование" : "Reservation"}
           </h1>
         </div>
       </div>
 
       <div className="max-w-lg mx-auto px-4 py-8">
-        <p className="text-white/60 text-sm text-center mb-8">
+        <p className="text-[#6B6457] text-sm text-center mb-8">
           {lang === "az"
             ? "Rezervasiya üçün filial seçin və WhatsApp üzərən bizimlə əlaqə saxlayın."
             : lang === "tr"
@@ -65,15 +65,15 @@ export default function ReservationPage() {
           {branches.map((branch) => (
             <div
               key={branch.slug}
-              className="bg-[#111] border border-[#222] rounded-xl p-5"
+              className="bg-white border border-[#D8CFB9] rounded-xl p-5"
             >
               <div className="flex items-start gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-[#C9A96E]/10 flex items-center justify-center shrink-0">
-                  <MapPin className="w-4 h-4 text-[#C9A96E]" />
+                <div className="w-10 h-10 rounded-full bg-[#9D7C38]/10 flex items-center justify-center shrink-0">
+                  <MapPin className="w-4 h-4 text-[#7E6228]" />
                 </div>
                 <div>
-                  <h3 className="text-white font-medium">{branch.name}</h3>
-                  <p className="text-white/40 text-xs">{branch.address}</p>
+                  <h3 className="text-[#2E2A25] font-medium">{branch.name}</h3>
+                  <p className="text-[#6B6457] text-xs">{branch.address}</p>
                 </div>
               </div>
 
@@ -82,13 +82,13 @@ export default function ReservationPage() {
                   href={getWhatsappUrl(branch.phone, branch.name, lang)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-3 bg-green-500/10 border border-green-500/30 rounded-lg text-green-400 text-sm font-medium hover:bg-green-500/20 transition-all"
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-[#1F4A34] rounded-lg text-[#eaf3ec] text-sm font-medium hover:brightness-110 transition-all"
                 >
                   <Phone className="w-4 h-4" />
                   WhatsApp — {branch.phone}
                 </a>
               ) : (
-                <div className="flex items-center justify-center gap-2 w-full py-3 bg-white/5 border border-[#222] rounded-lg text-white/30 text-sm">
+                <div className="flex items-center justify-center gap-2 w-full py-3 bg-[#F1ECE0] border border-[#D8CFB9] rounded-lg text-[#6B6457] text-sm">
                   <Phone className="w-4 h-4" />
                   {lang === "az"
                     ? "WhatsApp nömrəsi quraşdırılmayıb"
@@ -103,9 +103,9 @@ export default function ReservationPage() {
           ))}
         </div>
 
-        <div className="mt-8 pt-6 border-t border-[#222] text-center">
-          <p className="font-display text-sm text-[#C9A96E]/40 tracking-[0.1em]">XURCUN</p>
-          <p className="text-[10px] text-white/20 mt-1">
+        <div className="mt-8 pt-6 border-t border-[#D8CFB9] text-center">
+          <p className="text-sm text-[#7E6228] tracking-[0.1em]" style={{ fontFamily: 'Rufolo, "Cormorant Garamond", serif', fontWeight: 600 }}>XURCUN</p>
+          <p className="text-[10px] text-[#6B6457]/70 mt-1">
             {lang === "az" ? "Hər iki filialda xidmətinizdəyik" : lang === "tr" ? "Her iki şubede hizmetinizdeyiz" : lang === "ru" ? "Мы работаем в обоих филиалах" : "Serving you at both branches"}
           </p>
         </div>

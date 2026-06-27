@@ -1,11 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500&family=Pinyon+Script&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600&display=swap');
-
-@font-face{font-family:"Rufolo";src:url(/fonts/RufoloLight.woff) format("woff");font-weight:300;font-style:normal;font-display:swap}
-@font-face{font-family:"Rufolo";src:url(/fonts/Rufolo.woff) format("woff");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"Rufolo";src:url(/fonts/Rufolo-Italic.woff) format("woff");font-weight:400;font-style:italic;font-display:swap}
-@font-face{font-family:"Rufolo";src:url(/fonts/Rufolo-Bold.woff) format("woff");font-weight:600 700;font-style:normal;font-display:swap}
-@font-face{font-family:"Rufolo";src:url(/fonts/Rufolo-BoldItalic.woff) format("woff");font-weight:600 700;font-style:italic;font-display:swap}
-@font-face{font-family:"Rufolo";src:url(/fonts/RufoloBlack.woff) format("woff");font-weight:800 900;font-style:normal;font-display:swap}
+/* Fonts (Google + Rufolo @font-face) are loaded globally — see index.html <link> and index.css. */
 
 .xc{
   --gold:#9D7C38; --gold-dark:#7E6228; --gold-light:#C2A05A;
@@ -20,6 +13,7 @@
 .xc *{box-sizing:border-box; margin:0; padding:0}
 .xc h1,.xc h2,.xc h3,.xc .serif{font-family:var(--display); font-weight:600}
 .xc a{color:inherit; text-decoration:none}
+.xc :where(a,button,input,select,textarea,[tabindex]):focus-visible{outline:2px solid var(--gold); outline-offset:2px; border-radius:2px}
 .xc .wrap{max-width:1200px; margin:0 auto; padding:0 32px}
 .xc .muted{color:var(--ink-muted)} .xc .gold{color:var(--gold)}
 .xc .tag{font-size:11px; letter-spacing:.32em; text-transform:uppercase; font-weight:400; color:var(--gold-dark)}
@@ -38,7 +32,7 @@
 .xc .topbar .wrap{display:flex; justify-content:space-between; align-items:center; height:38px; font-size:11px; letter-spacing:.08em}
 .xc .topbar .ph{display:flex; gap:22px; opacity:.8}
 .xc .langs{display:flex; gap:2px}
-.xc .langs button{background:none;border:none;color:var(--cream);font-family:var(--body);padding:3px 9px; border-radius:2px; cursor:pointer; letter-spacing:.12em; font-size:11px; transition:.2s}
+.xc .langs button{background:none;border:none;color:var(--cream);font-family:var(--body);padding:3px 9px; border-radius:2px; cursor:pointer; letter-spacing:.12em; font-size:11px; transition:.2s; min-width:38px; min-height:38px; display:inline-flex; align-items:center; justify-content:center}
 .xc .langs button.on,.xc .langs button:hover{background:var(--gold); color:var(--ink)}
 
 .xc header{position:sticky; top:0; z-index:50; background:rgba(246,242,233,.86); backdrop-filter:blur(10px); border-bottom:1px solid transparent; transition:.4s var(--ease)}
@@ -50,7 +44,7 @@
 .xc nav{display:flex; gap:34px; font-size:12px; letter-spacing:.18em; text-transform:uppercase; max-height:40px; overflow:hidden; transition:.4s var(--ease)}
 .xc header.shrink nav{max-height:0; opacity:0}
 .xc nav a{padding:3px 0; border-bottom:1px solid transparent; transition:.25s}
-.xc nav a:hover{color:var(--gold); border-color:var(--gold)}
+.xc nav a:hover{color:var(--gold-dark); border-color:var(--gold)}
 
 .xc .hero{position:relative; min-height:86vh; display:flex; align-items:center; background:var(--ink); overflow:hidden}
 .xc .hero video,.xc .hero .heroimg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.55}
@@ -153,6 +147,7 @@
   .xc header .wrap{padding:14px 18px 10px; gap:10px}
   .xc .logo{height:46px}
   .xc nav{gap:14px 16px; font-size:11px; letter-spacing:.12em}
+  .xc nav a{padding:8px 4px}
   .xc .hero{min-height:78vh}
   .xc .hero .emb{width:60px; margin-bottom:16px}
   .xc .hero .lead{font-size:14.5px; margin:18px auto 26px}

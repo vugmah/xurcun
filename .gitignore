@@ -38,3 +38,5 @@ build/
 # Test coverage
 coverage/
 .nyc_output/
+# Graphify output
+graphify-out/

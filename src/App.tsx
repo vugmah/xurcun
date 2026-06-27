@@ -80,7 +80,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login/admin" element={<Navigate to="/admin/login" replace />} />
-        <Route path="/menu/:branchSlug?" element={<Suspense fallback={<div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#C9A96E] border-t-transparent rounded-full animate-spin" /></div>}><QRMenuPage /></Suspense>} />
+        <Route path="/menu/:branchSlug?" element={<Suspense fallback={<div className="min-h-screen bg-[#F6F2E9] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#9D7C38] border-t-transparent rounded-full animate-spin" /></div>}><QRMenuPage /></Suspense>} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/cookie-policy" element={<CookiePolicyPage />} />

@@ -75,10 +75,10 @@ Contact: info@xurcun.az`,
   return (
     <>
       <SEO page="privacy" />
-    <div className="min-h-screen bg-[#0A0A0A] text-white py-20 px-6">
+    <div className="min-h-screen bg-[#F6F2E9] text-[#2E2A25] py-20 px-6">
       <div className="max-w-2xl mx-auto">
-        <h1 className="font-display text-3xl text-[#C9A96E] mb-8">{c.title}</h1>
-        <div className="font-body text-sm text-white/70 leading-relaxed whitespace-pre-line">
+        <h1 className="text-3xl text-[#7E6228] mb-8" style={{ fontFamily: 'Rufolo, "Cormorant Garamond", serif', fontWeight: 600 }}>{c.title}</h1>
+        <div className="font-body text-sm text-[#3A352E] leading-relaxed whitespace-pre-line">
           {c.body}
         </div>
       </div>
