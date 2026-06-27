@@ -63,7 +63,7 @@ export default function QrPage() {
           <QrCard key={`${b.id}-cat`} name={b.name ?? ""} type="Katalog" url={`${base}/menu/${b.slug}`} />
         ))}
         {branches.filter((b) => b.hasCafe).map((b) => (
-          <QrCard key={`${b.id}-cafe`} name={`${b.name} · Kafe`} type="☕ Kafe Menyu" url={`${base}/menu/${b.slug}/kafe`} />
+          <QrCard key={`${b.id}-cafe`} name={`${b.name} · Kafe`} type="☕ Kafe Menyu" url={`${base}/menu/${b.slug}?type=cafe`} />
         ))}
         {branches.length === 0 && <div className="text-xs text-[#928876]">Filial yoxdur.</div>}
       </div>
