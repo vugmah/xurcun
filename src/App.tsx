@@ -32,7 +32,6 @@ const SettingsPage = lazy(() => import("./pages/admin/SettingsPage"));
 const AiAuditorPage = lazy(() => import("./pages/admin/AiAuditorPage"));
 const AiInsightsPage = lazy(() => import("./pages/admin/AiInsightsPage"));
 const PrintPreviewPage = lazy(() => import("./pages/admin/PrintPreviewPage"));
-const ShishaDiscountPage = lazy(() => import("./pages/admin/ShishaDiscountPage"));
 const PopupCampaignsPage = lazy(() => import("./pages/admin/PopupCampaignsPage"));
 
 /** Section skeleton — shows inside the admin content area only */
@@ -114,7 +113,6 @@ function App() {
               </AdminErrorBoundary>
             </Suspense>
           } />
-          <Route path="shisha-discount" element={<Suspense fallback={<SectionSkeleton />}><ShishaDiscountPage /></Suspense>} />
           <Route path="popups" element={<Suspense fallback={<SectionSkeleton />}><PopupCampaignsPage /></Suspense>} />
           <Route path="menu/print-preview" element={<Suspense fallback={<SectionSkeleton />}><PrintPreviewPage /></Suspense>} />
         </Route>

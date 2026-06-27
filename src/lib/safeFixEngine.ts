@@ -14,7 +14,6 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 import { getAvailableImages } from "./imageStore";
-import { getAllShishaDiscounts } from "./shishaDiscountStore";
 
 /* ─── Issue severity + lifecycle ─── */
 export type FixSeverity = "auto" | "low" | "medium" | "high";
@@ -251,25 +250,8 @@ function detectSecurityIssues(): DetectedIssue[] {
 
 /* ─── 3. QR Menu ─── */
 function detectQRIssues(): DetectedIssue[] {
-  const issues: DetectedIssue[] = [];
-  const branches = ["white-city", "seabreeze-marina"];
-
-  branches.forEach((slug) => {
-    const discount = getAllShishaDiscounts()[slug];
-    if (discount?.enabled && (!discount.activeFrom || !discount.activeUntil)) {
-      issues.push(makeIssue({
-        id: `qr-discount-${slug}`,
-        title: `Shisha discount time range incomplete (${slug})`,
-        description: `Discount is enabled but time range is not fully configured for ${slug}.`,
-        severity: "medium",
-        category: "qr",
-        page: "QR Menu",
-        recommendation: "Set both activeFrom and activeUntil times in Shisha Discount settings.",
-      }));
-    }
-  });
-
-  return issues;
+  // Shisha discount checks removed (boutique does not sell hookah).
+  return [];
 }
 
 /* ─── 4. Export ─── */

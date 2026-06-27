@@ -4,26 +4,21 @@ import {
   getBranches, saveBranches,
 } from "@/lib/generalSettings";
 import { autoGenerateSeo, type SeoPageSettings } from "@/lib/seoStore";
-import {
-  getShishaDiscount, saveShishaDiscount,
-  type ShishaDiscountConfig,
-} from "@/lib/shishaDiscountStore";
 import { clearTrackingDbCache } from "@/lib/trackingSettings";
 import { trpc } from "@/providers/trpc";
 import {
   Save, Check, Globe, Phone, Mail, MapPin, Utensils,
   Settings, BarChart3, Search, Server, RotateCcw,
-  Plus, Trash2, X, Sparkles, Tag,
+  Plus, Trash2, X, Sparkles,
 } from "lucide-react";
 
-type SectionKey = "site" | "contact" | "branches" | "reservation" | "seo" | "tracking" | "mail" | "shisha-discount";
+type SectionKey = "site" | "contact" | "branches" | "reservation" | "seo" | "tracking" | "mail";
 
 const SECTIONS: { key: SectionKey; label: string; icon: typeof Settings }[] = [
   { key: "site", label: "Site", icon: Globe },
   { key: "contact", label: "Əlaqə", icon: Phone },
   { key: "branches", label: "Filiallar", icon: MapPin },
   { key: "reservation", label: "Rezervasiya", icon: Utensils },
-  { key: "shisha-discount", label: "Qəlyan Endirim", icon: Tag },
   { key: "seo", label: "SEO", icon: Search },
   { key: "tracking", label: "Tracking", icon: BarChart3 },
   { key: "mail", label: "Mail", icon: Server },
@@ -229,118 +224,9 @@ export default function SettingsPage() {
           </div>
         </div>
       )}
-
-      {/* ═══ SHISHA DISCOUNT ═══ */}
-      {activeSection === "shisha-discount" && (
-        <ShishaDiscountSettings onSaved={() => setSaved(true)} />
-      )}
     </div>
   );
 }
-
-/* ═══════════════════════════════════════════
-   SHISHA DISCOUNT SETTINGS — branch-specific
-   ═══════════════════════════════════════════ */
-
-function ShishaDiscountSettings({ onSaved }: { onSaved: () => void }) {
-  const branches = getBranches();
-  const [configs, setConfigs] = useState<Record<string, ShishaDiscountConfig>>(() => {
-    const map: Record<string, ShishaDiscountConfig> = {};
-    for (const b of branches) {
-      map[b.slug] = getShishaDiscount(b.slug);
-    }
-    return map;
-  });
-
-  const updateBranch = (slug: string, patch: Partial<ShishaDiscountConfig>) => {
-    setConfigs((prev) => {
-      const next = { ...prev, [slug]: { ...prev[slug], ...patch } };
-      saveShishaDiscount(slug, next[slug]);
-      return next;
-    });
-    onSaved();
-  };
-
-  return (
-    <div className="space-y-4">
-      <div className="bg-[#111] border border-[#222] rounded-xl p-5">
-        <h2 className="text-white font-medium text-sm mb-1 flex items-center gap-2">
-          <Tag className="w-4 h-4 text-[#C9A96E]" /> Qəlyan Endirim — Filial başına
-        </h2>
-        <p className="text-white/40 text-xs mb-4">Hər filial üçün ayrı endirim faizi, aktiv saatı və ON/OFF ayarı.</p>
-
-        {branches.filter((b) => b.isActive).map((b) => {
-          const cfg = configs[b.slug] || { enabled: false, percent: 50, activeFrom: "13:00", activeUntil: "18:00" };
-          return (
-            <div key={b.slug} className="mb-5 p-4 bg-[#0A0A0A] border border-[#222] rounded-lg">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-white text-sm font-medium">{b.name}</h3>
-                <span className={`text-[10px] px-2 py-0.5 rounded ${cfg.enabled ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-400"}`}>
-                  {cfg.enabled ? "Aktiv" : "Deaktiv"}
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-white/60 text-xs">Endirim Aktiv</span>
-                  <button
-                    onClick={() => updateBranch(b.slug, { enabled: !cfg.enabled })}
-                    className={`relative w-10 h-5 rounded-full transition-colors ${cfg.enabled ? "bg-[#C9A96E]" : "bg-[#333]"}`}
-                  >
-                    <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${cfg.enabled ? "left-5" : "left-0.5"}`} />
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3">
-                  <div>
-                    <label className="block text-white/40 text-xs mb-1">Endirim Faizi (%)</label>
-                    <input
-                      type="number"
-                      min={0}
-                      max={100}
-                      value={cfg.percent}
-                      onChange={(e) => updateBranch(b.slug, { percent: Math.min(100, Math.max(0, parseInt(e.target.value) || 0)) })}
-                      className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white/40 text-xs mb-1">Başlama Saatı</label>
-                    <input
-                      type="time"
-                      value={cfg.activeFrom}
-                      onChange={(e) => updateBranch(b.slug, { activeFrom: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white/40 text-xs mb-1">Bitmə Saatı</label>
-                    <input
-                      type="time"
-                      value={cfg.activeUntil}
-                      onChange={(e) => updateBranch(b.slug, { activeUntil: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30"
-                    />
-                  </div>
-                </div>
-
-                <p className="text-white/25 text-[10px]">
-                  {cfg.enabled
-                    ? `${cfg.percent}% endirim ${cfg.activeFrom}–${cfg.activeUntil} arası aktivdir. Baku vaxtı UTC+4.`
-                    : "Endirim deaktiv — normal qiymətlər göstəriləcək."}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════
-   BRANCH SETTINGS (CRUD)
-   ═══════════════════════════════════════════ */
-
 function BranchSettings({ onUpdate }: { onUpdate: () => void }) {
   const [branches, setBranches] = useState<BranchItem[]>(getBranches);
   const [editing, setEditing] = useState<BranchItem | null>(null);
