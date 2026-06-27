@@ -175,7 +175,7 @@ export default function HomePage() {
       return {
         name: pick(o, 'name'),
         cat: pick(o, 'catTitle'),
-        price: o.priceVisible === false ? '' : (o.price ? `${o.price as string} ₼` : ''),
+        price: o.priceVisible === false ? '' : (o.price ? `${o.price as string} ₼${o.unit ? ` / ${o.unit as string}` : ''}` : ''),
         img: (o.imageUrl as string) || undefined,
         isNew: !!o.isNew,
       }

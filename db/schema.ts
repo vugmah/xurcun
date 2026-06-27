@@ -30,7 +30,8 @@ export const menuItems = mysqlTable("menu_items", {
   nameAr: varchar("name_ar", { length: 300 }),
   price: varchar("price", { length: 50 }),
   priceVisible: boolean("price_visible").default(true), // qiymət gizlət/göstər
-  unit: varchar("unit", { length: 50 }), // "500 q", "ədəd" vb. (opsional)
+  unit: varchar("unit", { length: 50 }), // qiymət vahidi: "100 q", "ədəd" (opsional)
+  minOrder: varchar("min_order", { length: 50 }), // minimum sifariş: "250 q" vb. (opsional)
   descAz: text("desc_az"),
   descRu: text("desc_ru"),
   descEn: text("desc_en"),

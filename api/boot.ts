@@ -485,9 +485,10 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
   await addColumn("menu_items", "name_ar", "VARCHAR(300)");
   await addColumn("menu_items", "desc_tr", "TEXT");
   await addColumn("menu_items", "desc_ar", "TEXT");
-  // Items: price visibility + unit
+  // Items: price visibility + unit + minimum order
   await addColumn("menu_items", "price_visible", "BOOLEAN DEFAULT true");
   await addColumn("menu_items", "unit", "VARCHAR(50)");
+  await addColumn("menu_items", "min_order", "VARCHAR(50)");
   // Branches: per-branch WhatsApp, maps, store video, cafe flag, sort
   await addColumn("branches", "whatsapp_number", "VARCHAR(30)");
   await addColumn("branches", "map_url", "VARCHAR(500)");

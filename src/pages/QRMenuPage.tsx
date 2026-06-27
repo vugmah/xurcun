@@ -205,7 +205,10 @@ export default function QRMenuPage() {
                 const name = pick(it, 'name')
                 const desc = pick(it, 'desc')
                 const unit = it.unit as string | undefined
-                const priceStr = (it.priceVisible === false || !it.price) ? '' : `${it.price as string} ₼`
+                const minOrder = it.minOrder as string | undefined
+                // Price is shown per its unit (e.g. "10 ₼ / 100 q") — this carries the
+                // per-100g vitrine convention through to both the card and the order message.
+                const priceStr = (it.priceVisible === false || !it.price) ? '' : `${it.price as string} ₼${unit ? ` / ${unit}` : ''}`
                 const img = it.imageUrl as string | undefined
                 const badges = badgesFor(it)
                 return (
@@ -216,7 +219,7 @@ export default function QRMenuPage() {
                     <div className="minfo">
                       <div className="nm">{name}</div>
                       {desc && <div className="ds">{desc}</div>}
-                      {unit && <div className="unit">{unit}</div>}
+                      {minOrder && <div className="unit">Min. {minOrder}</div>}
                       {badges.length > 0 && (
                         <div className="mbadges">
                           {badges.map((b, i) => <span className={`mbadge ${b.cls ?? ''}`} key={i}>{b.label}</span>)}

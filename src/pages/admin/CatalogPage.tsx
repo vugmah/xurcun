@@ -159,7 +159,7 @@ function ProductPanel({
                 <td className="px-4 py-2.5">
                   <div className="text-[#ECE6DA]">{it.nameAz}</div>
                   <div className="text-[11px] text-[#6c6353]">
-                    {it.price ? `${it.price} ₼` : "—"} · {it.priceVisible === false ? "qiymət gizli" : "qiymət görünür"}
+                    {it.price ? `${it.price} ₼${it.unit ? ` / ${it.unit}` : ""}` : "—"} · {it.priceVisible === false ? "qiymət gizli" : "qiymət görünür"}
                   </div>
                 </td>
                 <td className="px-4 py-2.5 text-right">
@@ -187,6 +187,8 @@ function ProductForm({
     isNewItem ? emptyMulti() : { az: item.descAz ?? "", ru: item.descRu ?? "", en: item.descEn ?? "", tr: item.descTr ?? "", ar: item.descAr ?? "" },
   );
   const [price, setPrice] = useState(item.price ?? "");
+  const [unit, setUnit] = useState(item.unit ?? "");
+  const [minOrder, setMinOrder] = useState(item.minOrder ?? "");
   const [priceVisible, setPriceVisible] = useState(item.priceVisible !== false);
   const [isNew, setIsNew] = useState(!!item.isNew);
   const [isActive, setIsActive] = useState(item.isActive !== false);
@@ -227,6 +229,8 @@ function ProductForm({
       descTr: desc.tr.trim() || undefined,
       descAr: desc.ar.trim() || undefined,
       price: price.trim() || undefined,
+      unit: unit.trim() || undefined,
+      minOrder: minOrder.trim() || undefined,
       priceVisible,
       imageUrl: imageUrl.trim() || undefined,
       isNew,
@@ -278,8 +282,32 @@ function ProductForm({
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className={labelCls}>Qiymət (₼)</label>
-          <input className={inputCls} value={price} onChange={(e) => setPrice(e.target.value)} placeholder="220.00" />
+          <input className={inputCls} value={price} onChange={(e) => setPrice(e.target.value)} placeholder="8.50" inputMode="decimal" />
         </div>
+        <div>
+          <label className={labelCls}>Vahid</label>
+          <input className={inputCls} value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="100 q, ədəd, 250 q…" list="xc-unit-options" />
+          <datalist id="xc-unit-options">
+            <option value="100 q" />
+            <option value="250 q" />
+            <option value="500 q" />
+            <option value="1 kq" />
+            <option value="ədəd" />
+          </datalist>
+          <p className="text-[10px] text-[#928876] mt-1">Qiymət göstərilən vahidə görədir. Çəki məhsulları üçün adətən <b>100 q</b> (məs. 10 ₼ / 100 q), ədədlilər üçün <b>ədəd</b>.</p>
+        </div>
+      </div>
+
+      <div>
+        <label className={labelCls}>Minimum sifariş (opsional)</label>
+        <input className={inputCls} value={minOrder} onChange={(e) => setMinOrder(e.target.value)} placeholder="məs. 250 q" list="xc-minorder-options" />
+        <datalist id="xc-minorder-options">
+          <option value="250 q" />
+          <option value="500 q" />
+          <option value="1 kq" />
+          <option value="1 ədəd" />
+        </datalist>
+        <p className="text-[10px] text-[#928876] mt-1">Müştəri kartında "Min. 250 q" kimi görünür. Boş buraxsanız göstərilmir.</p>
       </div>
 
       <ImageUpload
@@ -307,7 +335,7 @@ function Toggle({ on, set, label }: { on: boolean; set: (v: boolean) => void; la
   return (
     <button onClick={() => set(!on)} className="flex items-center gap-2.5">
       <span className={`w-9 h-5 rounded-full relative transition ${on ? "bg-[#9D7C38]" : "bg-[#403930]"}`}>
-        <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${on ? "right-0.5" : "left-0.5"}`} />
+        <span className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform duration-200 ease-out ${on ? "translate-x-4" : "translate-x-0"}`} />
       </span>
       <span className="text-xs text-[#ECE6DA]">{label}</span>
     </button>

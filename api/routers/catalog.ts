@@ -35,7 +35,7 @@ export const catalogRouter = createRouter({
         id: menuItems.id,
         nameAz: menuItems.nameAz, nameRu: menuItems.nameRu, nameEn: menuItems.nameEn,
         nameTr: menuItems.nameTr, nameAr: menuItems.nameAr,
-        price: menuItems.price, priceVisible: menuItems.priceVisible,
+        price: menuItems.price, priceVisible: menuItems.priceVisible, unit: menuItems.unit,
         imageUrl: menuItems.imageUrl, isNew: menuItems.isNew,
         catTitleAz: menuCategories.titleAz, catTitleRu: menuCategories.titleRu,
         catTitleEn: menuCategories.titleEn, catTitleTr: menuCategories.titleTr, catTitleAr: menuCategories.titleAr,
