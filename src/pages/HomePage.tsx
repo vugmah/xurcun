@@ -142,9 +142,8 @@ const BRANCHES: Branch[] = [
 ]
 
 const maps = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
-// Tap-to-call: strip any formatting so tel: always dials; branches without a number fall back to the central line.
-const MAIN_TEL = '+994502121811'
-const telHref = (n?: string) => `tel:${(n || MAIN_TEL).replace(/[^\d+]/g, '')}`
+// Tap-to-call: strip any formatting so each branch's own number always dials.
+const telHref = (n: string) => `tel:${n.replace(/[^\d+]/g, '')}`
 
 export default function HomePage() {
   const { lang, setLang } = useLanguage()
@@ -386,7 +385,7 @@ export default function HomePage() {
                 <div className="bover">
                   <div className="bn">{b.name}</div><div className="ba">{b.addr}</div>
                   <div className="brow">
-                    <a className="tel" href={telHref(b.tel)} aria-label={`${t(S.call)}: ${b.name}`}>{t(S.call)}</a>
+                    {b.tel && <a className="tel" href={telHref(b.tel)} aria-label={`${t(S.call)}: ${b.name}`}>{t(S.call)}</a>}
                     <a href={maps(b.q)} target="_blank" rel="noopener noreferrer" aria-label={`${b.name} — Google Maps`}>Google Maps</a>
                   </div>
                 </div>
