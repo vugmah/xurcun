@@ -74,10 +74,12 @@ function CategoryPanel({
 }: { cats: any[]; menuType: "catalog" | "cafe"; selCat: number | null; onSelect: (id: number) => void; onChanged: () => void }) {
   const [adding, setAdding] = useState(false);
   const [titleAz, setTitleAz] = useState("");
+  const [parentId, setParentId] = useState<number | null>(null);
   const create = trpc.menu.createCategory.useMutation({
-    onSuccess: () => { setTitleAz(""); setAdding(false); onChanged(); },
+    onSuccess: () => { setTitleAz(""); setParentId(null); setAdding(false); onChanged(); },
   });
   const translate = trpc.translate.toAll.useMutation();
+  const topCats = cats.filter((c) => c.parentId == null);
 
   const save = async () => {
     if (!titleAz.trim()) return;
@@ -85,6 +87,7 @@ function CategoryPanel({
     try { t = await translate.mutateAsync({ text: titleAz, source: "az" }); } catch { /* fallback to az */ }
     create.mutate({
       menuType,
+      parentId: parentId ?? undefined,
       titleAz: t.az || titleAz,
       titleRu: t.ru || titleAz,
       titleEn: t.en || titleAz,
@@ -104,6 +107,11 @@ function CategoryPanel({
         <div className="p-3 border-b border-[#2a241d] space-y-2">
           <input className={inputCls} placeholder="Kateqoriya adı (AZ)" value={titleAz}
             onChange={(e) => setTitleAz(e.target.value)} />
+          <select className={inputCls} value={parentId ?? ""}
+            onChange={(e) => setParentId(e.target.value ? Number(e.target.value) : null)}>
+            <option value="">— Ana kateqoriya (üst səviyyə) —</option>
+            {topCats.map((c) => <option key={c.id} value={c.id}>{c.titleAz} — alt kateqoriya</option>)}
+          </select>
           <button className={btnGold} disabled={create.isPending || translate.isPending} onClick={save}>
             {translate.isPending ? "Tərcümə olunur…" : create.isPending ? "Yadda saxlanılır…" : "Yarat (AI tərcümə)"}
           </button>
@@ -113,8 +121,10 @@ function CategoryPanel({
         {cats.length === 0 && <div className="px-4 py-6 text-xs text-[#928876]">Hələ katalog kateqoriyası yoxdur.</div>}
         {cats.map((c) => (
           <button key={c.id} onClick={() => onSelect(c.id)}
+            style={{ paddingLeft: c.parentId != null ? 28 : undefined }}
             className={`w-full text-left px-4 py-2.5 text-sm border-b border-[#221d17] transition ${
               selCat === c.id ? "bg-[rgba(194,160,90,.14)] text-[#C2A05A]" : "hover:bg-white/5 text-[#cfc6b3]"}`}>
+            {c.parentId != null && <span className="text-[#6c6353] mr-1">└</span>}
             {c.titleAz} <span className="text-[#6c6353]">· {c.itemCount ?? 0}</span>
           </button>
         ))}

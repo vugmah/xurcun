@@ -238,7 +238,7 @@ export default function HomePage() {
         <div className="wrap">
           <img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" />
           <nav aria-label={t(S.aria_nav)}>
-            <a href="#top">{t(S.nav_home)}</a><a href="#cat">{t(S.nav_catalog)}</a><a href="#cat">{t(S.nav_gift)}</a>
+            <a href="#top">{t(S.nav_home)}</a><a href="/catalog">{t(S.nav_catalog)}</a><a href="/catalog">{t(S.nav_gift)}</a>
             <a href="#magazalar">{t(S.nav_stores)}</a><a href="#haqqimizda">{t(S.nav_about)}</a><a href="#elaqe">{t(S.nav_contact)}</a>
           </nav>
         </div>
@@ -255,7 +255,7 @@ export default function HomePage() {
           <h1>{t(S.hero_h1a)} <em>{t(S.hero_h1em)}</em></h1>
           <p className="lead">{t(S.hero_lead)}</p>
           <div className="btns">
-            <a className="btn btn-gold" href="#cat">{t(S.cta_catalog)}</a>
+            <a className="btn btn-gold" href="/catalog">{t(S.cta_catalog)}</a>
             <a className="btn btn-ghost" href="#magazalar">{t(S.cta_stores)}</a>
           </div>
         </div>
@@ -327,7 +327,7 @@ export default function HomePage() {
             <div className="tag">{t(S.luxe_tag)}</div>
             <h2>{t(S.luxe_h1a)}<br /><em>{t(S.luxe_h1em)}</em></h2>
             <p>{t(S.luxe_p)}</p>
-            <a className="btn btn-gold" href="#cat">{t(S.luxe_cta)}</a>
+            <a className="btn btn-gold" href="/catalog">{t(S.luxe_cta)}</a>
           </div>
           <div className="luxe-frame reveal d2"><img className="gimg" src={GIFT_IMG} alt={t(S.gift_alt)} loading="lazy" decoding="async" /></div>
         </div>

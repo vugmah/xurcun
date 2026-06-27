@@ -1,0 +1,293 @@
+import { useState, useEffect, useRef, useMemo } from 'react'
+import { useLanguage } from '@/lib/LanguageContext'
+import { trpc } from '@/providers/trpc'
+import '@/xurcun-base.css'
+import '@/xurcun-catalog.css'
+
+const LOGO = '/brand/logo-gold.png'
+const EMBLEM = '/brand/emblem-gold.png'
+const WA = '994502121811' // ümumi sifariş WhatsApp nömrəsi
+
+type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar'
+const LANGS: { code: Lang; label: string }[] = [
+  { code: 'az', label: 'AZ' }, { code: 'ru', label: 'RU' }, { code: 'en', label: 'EN' },
+  { code: 'tr', label: 'TR' }, { code: 'ar', label: 'AR' },
+]
+
+type M = Record<Lang, string>
+const S = {
+  title: { az: 'Kataloq', ru: 'Каталог', en: 'Catalogue', tr: 'Katalog', ar: 'الكتالوج' },
+  lead: {
+    az: 'Bəyəndiyiniz məhsulları seçin, səbətə əlavə edin və WhatsApp ilə bizə göndərin.',
+    ru: 'Выберите товары, добавьте в корзину и отправьте нам в WhatsApp.',
+    en: 'Pick the products you like, add them to the cart and send us your list on WhatsApp.',
+    tr: 'Beğendiğiniz ürünleri seçin, sepete ekleyin ve WhatsApp ile bize gönderin.',
+    ar: 'اختر المنتجات التي تعجبك، أضفها إلى السلة وأرسل قائمتك عبر واتساب.',
+  },
+  loading: { az: 'Kataloq yüklənir…', ru: 'Загрузка каталога…', en: 'Loading catalogue…', tr: 'Katalog yükleniyor…', ar: 'جارٍ تحميل الكتالوج…' },
+  err: { az: 'Kataloq yüklənmədi.', ru: 'Не удалось загрузить каталог.', en: 'Could not load the catalogue.', tr: 'Katalog yüklenemedi.', ar: 'تعذّر تحميل الكتالوج.' },
+  retry: { az: 'Yenidən cəhd et', ru: 'Повторить', en: 'Try again', tr: 'Tekrar dene', ar: 'إعادة المحاولة' },
+  empty: { az: 'Bu kataloqda hələ məhsul yoxdur.', ru: 'В каталоге пока нет товаров.', en: 'No products in the catalogue yet.', tr: 'Katalogda henüz ürün yok.', ar: 'لا توجد منتجات في الكتالوج بعد.' },
+  add: { az: 'Səbətə', ru: 'В корзину', en: 'Add', tr: 'Sepete', ar: 'أضف' },
+  cart: { az: 'Səbət', ru: 'Корзина', en: 'Cart', tr: 'Sepet', ar: 'السلة' },
+  cart_empty: { az: 'Səbət boşdur.', ru: 'Корзина пуста.', en: 'Your cart is empty.', tr: 'Sepet boş.', ar: 'السلة فارغة.' },
+  total: { az: 'Cəmi', ru: 'Итого', en: 'Total', tr: 'Toplam', ar: 'الإجمالي' },
+  send_wa: { az: 'WhatsApp ilə göndər', ru: 'Отправить в WhatsApp', en: 'Send on WhatsApp', tr: 'WhatsApp ile gönder', ar: 'إرسال عبر واتساب' },
+  clear: { az: 'Təmizlə', ru: 'Очистить', en: 'Clear', tr: 'Temizle', ar: 'مسح' },
+  ask_price: { az: 'Qiymət üçün soruşun', ru: 'Цена по запросу', en: 'Price on request', tr: 'Fiyat için sorun', ar: 'السعر عند الطلب' },
+  wa_intro: { az: 'Salam! Bu məhsulları sifariş etmək istəyirəm:', ru: 'Здравствуйте! Хочу заказать эти товары:', en: 'Hello! I would like to order these products:', tr: 'Merhaba! Bu ürünleri sipariş etmek istiyorum:', ar: 'مرحبًا! أود طلب هذه المنتجات:' },
+  pcs: { az: 'əd.', ru: 'шт.', en: 'pcs', tr: 'ad.', ar: 'قطعة' },
+  close: { az: 'Bağla', ru: 'Закрыть', en: 'Close', tr: 'Kapat', ar: 'إغلاق' },
+} satisfies Record<string, M>
+
+type Cat = { id: number; parentId: number | null; sortOrder?: number } & Record<string, unknown>
+type Item = { id: number; categoryId: number } & Record<string, unknown>
+
+const WaIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.523 5.26l-.999 3.648 3.965-1.06z" />
+  </svg>
+)
+
+const priceNum = (p: unknown) => {
+  const n = parseFloat(String(p ?? '').replace(/[^0-9.]/g, ''))
+  return Number.isFinite(n) ? n : 0
+}
+
+export default function CatalogPage() {
+  const { lang, setLang } = useLanguage()
+  const t = (m: M) => m[lang] ?? m.az
+  const suffix = lang === 'az' ? 'Az' : lang === 'ru' ? 'Ru' : lang === 'en' ? 'En' : lang === 'tr' ? 'Tr' : 'Ar'
+  const pick = (o: Record<string, unknown>, base: string) => (o[base + suffix] || o[base + 'Az'] || '') as string
+
+  const [cart, setCart] = useState<Record<number, number>>({})
+  const [cartOpen, setCartOpen] = useState(false)
+  const [activeCat, setActiveCat] = useState<number | null>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  const storeQ = trpc.catalog.storefront.useQuery({ menuType: 'catalog' }, { retry: false })
+  const cats = (storeQ.data?.categories ?? []) as unknown as Cat[]
+  const items = (storeQ.data?.items ?? []) as unknown as Item[]
+
+  const itemsByCat = useMemo(() => {
+    const m = new Map<number, Item[]>()
+    for (const it of items) {
+      if (!m.has(it.categoryId)) m.set(it.categoryId, [])
+      m.get(it.categoryId)!.push(it)
+    }
+    return m
+  }, [items])
+
+  const itemById = useMemo(() => {
+    const m = new Map<number, Item>()
+    for (const it of items) m.set(it.id, it)
+    return m
+  }, [items])
+
+  // Top-level categories that have any products (directly or via a subcategory).
+  const tree = useMemo(() => {
+    const tops = cats.filter((c) => c.parentId == null).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+    const subsOf = (pid: number) => cats.filter((c) => c.parentId === pid).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+    return tops
+      .map((top) => {
+        const directItems = itemsByCat.get(top.id) ?? []
+        const subs = subsOf(top.id)
+          .map((s) => ({ cat: s, items: itemsByCat.get(s.id) ?? [] }))
+          .filter((s) => s.items.length > 0)
+        return { cat: top, directItems, subs }
+      })
+      .filter((g) => g.directItems.length > 0 || g.subs.length > 0)
+  }, [cats, itemsByCat])
+
+  // Scroll-spy: highlight the chip for the section currently in view.
+  useEffect(() => {
+    const secs = rootRef.current?.querySelectorAll<HTMLElement>('.csec')
+    if (!secs || !secs.length || !('IntersectionObserver' in window)) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        const top = entries.filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
+        if (top) setActiveCat(Number(top.target.id.replace('cat-', '')))
+      },
+      { rootMargin: '-120px 0px -65% 0px' },
+    )
+    secs.forEach((s) => io.observe(s))
+    return () => io.disconnect()
+  }, [tree.length, lang])
+
+  const setQty = (id: number, q: number) =>
+    setCart((c) => {
+      const next = { ...c }
+      if (q <= 0) delete next[id]
+      else next[id] = q
+      return next
+    })
+
+  const cartLines = Object.entries(cart)
+    .map(([id, qty]) => ({ item: itemById.get(Number(id)), qty }))
+    .filter((l): l is { item: Item; qty: number } => !!l.item)
+  const cartCount = cartLines.reduce((s, l) => s + l.qty, 0)
+  const cartTotal = cartLines.reduce(
+    (s, l) => s + (l.item.priceVisible === false ? 0 : priceNum(l.item.price) * l.qty),
+    0,
+  )
+
+  const waLink = () => {
+    const lines = [t(S.wa_intro), '']
+    for (const l of cartLines) {
+      const nm = pick(l.item as Record<string, unknown>, 'name')
+      const pr = l.item.priceVisible === false || !l.item.price ? '' : ` — ${l.item.price} ₼`
+      lines.push(`• ${nm} × ${l.qty}${pr}`)
+    }
+    if (cartTotal > 0) lines.push('', `${t(S.total)}: ${cartTotal.toFixed(2)} ₼`)
+    return `https://wa.me/${WA}?text=${encodeURIComponent(lines.join('\n'))}`
+  }
+
+  const ProductCard = ({ it }: { it: Item }) => {
+    const name = pick(it as Record<string, unknown>, 'name')
+    const desc = pick(it as Record<string, unknown>, 'desc')
+    const img = it.imageUrl as string | undefined
+    const priceStr = it.priceVisible === false || !it.price ? '' : `${it.price as string} ₼`
+    const qty = cart[it.id] ?? 0
+    return (
+      <div className="ccard">
+        <div className="cthumb">
+          {img
+            ? <img src={img} alt={name} loading="lazy" onError={(e) => { const im = e.currentTarget; im.onerror = null; im.src = EMBLEM; im.className = 'ph' }} />
+            : <img className="ph" src={EMBLEM} alt="" />}
+        </div>
+        <div className="cinfo">
+          <div className="nm">{name}</div>
+          {desc && <div className="ds">{desc}</div>}
+          <div className="prow">
+            <span className="pr">{priceStr || t(S.ask_price)}</span>
+            {qty === 0 ? (
+              <button className="cadd" onClick={() => setQty(it.id, 1)}>+ {t(S.add)}</button>
+            ) : (
+              <div className="cstep" role="group" aria-label={name}>
+                <button onClick={() => setQty(it.id, qty - 1)} aria-label="−">−</button>
+                <span>{qty}</span>
+                <button onClick={() => setQty(it.id, qty + 1)} aria-label="+">+</button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="xc xcc" ref={rootRef}>
+      <div className="chead">
+        <div className="row">
+          <a href="/"><img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" /></a>
+          <div className="clangs" role="group" aria-label="Dil">
+            {LANGS.map((l) => (
+              <button key={l.code} className={lang === l.code ? 'on' : ''} aria-pressed={lang === l.code} aria-label={l.code.toUpperCase()} onClick={() => setLang(l.code)}>{l.label}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="cwrap">
+        <div className="chero">
+          <img className="emb" src={EMBLEM} alt="" />
+          <span className="tag">{t(S.title)}</span>
+          <h1>{t(S.title)}</h1>
+          <p className="lead">{t(S.lead)}</p>
+          <div className="ornament"><img src={EMBLEM} alt="" /></div>
+        </div>
+      </div>
+
+      {tree.length > 0 && (
+        <div className="cchips">
+          <div className="scroll">
+            {tree.map((g) => (
+              <a key={g.cat.id} href={`#cat-${g.cat.id}`} className={activeCat === g.cat.id ? 'on' : ''} aria-current={activeCat === g.cat.id ? 'true' : undefined}>{pick(g.cat as Record<string, unknown>, 'title')}</a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="cwrap cbody">
+        {storeQ.isLoading && <div className="cstate"><div className="cspin" />{t(S.loading)}</div>}
+
+        {!storeQ.isLoading && storeQ.isError && (
+          <div className="cstate"><img className="emb" src={EMBLEM} alt="" /><div>{t(S.err)}</div>
+            <button className="cretry" onClick={() => storeQ.refetch()}>{t(S.retry)}</button>
+          </div>
+        )}
+
+        {!storeQ.isLoading && !storeQ.isError && tree.length === 0 && (
+          <div className="cstate"><img className="emb" src={EMBLEM} alt="" /><div>{t(S.empty)}</div></div>
+        )}
+
+        {tree.map((g) => (
+          <section className="csec" id={`cat-${g.cat.id}`} key={g.cat.id}>
+            <div className="csec-head"><h2>{pick(g.cat as Record<string, unknown>, 'title')}</h2><span className="line" /></div>
+            {g.directItems.length > 0 && (
+              <div className="cgrid">{g.directItems.map((it) => <ProductCard key={it.id} it={it} />)}</div>
+            )}
+            {g.subs.map((s) => (
+              <div className="csub" key={s.cat.id}>
+                <h3>{pick(s.cat as Record<string, unknown>, 'title')}</h3>
+                <div className="cgrid">{s.items.map((it) => <ProductCard key={it.id} it={it} />)}</div>
+              </div>
+            ))}
+          </section>
+        ))}
+
+        <div className="cfoot">
+          <div className="script">Fond of Quality</div>
+          <div className="cp">© {new Date().getFullYear()} Xurcun · <a href="/">xurcun.az</a></div>
+        </div>
+      </div>
+
+      {cartCount > 0 && !cartOpen && (
+        <button className="cbar" onClick={() => setCartOpen(true)}>
+          <span className="cbar-l"><span className="cbar-badge">{cartCount}</span>{t(S.cart)}</span>
+          {cartTotal > 0 && <span className="cbar-r">{cartTotal.toFixed(2)} ₼</span>}
+        </button>
+      )}
+
+      {cartOpen && (
+        <div className="csheet-wrap" role="dialog" aria-modal="true" aria-label={t(S.cart)}>
+          <div className="csheet-bg" onClick={() => setCartOpen(false)} />
+          <div className="csheet">
+            <div className="csheet-head">
+              <h2>{t(S.cart)}</h2>
+              <button className="cx" aria-label={t(S.close)} onClick={() => setCartOpen(false)}>×</button>
+            </div>
+            <div className="csheet-body">
+              {cartLines.length === 0 && <div className="cstate"><div>{t(S.cart_empty)}</div></div>}
+              {cartLines.map((l) => {
+                const nm = pick(l.item as Record<string, unknown>, 'name')
+                const priceStr = l.item.priceVisible === false || !l.item.price ? t(S.ask_price) : `${l.item.price as string} ₼`
+                return (
+                  <div className="cline" key={l.item.id}>
+                    <div className="cline-i">
+                      <div className="nm">{nm}</div>
+                      <div className="pr">{priceStr}</div>
+                    </div>
+                    <div className="cstep">
+                      <button onClick={() => setQty(l.item.id, l.qty - 1)} aria-label="−">−</button>
+                      <span>{l.qty}</span>
+                      <button onClick={() => setQty(l.item.id, l.qty + 1)} aria-label="+">+</button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            {cartLines.length > 0 && (
+              <div className="csheet-foot">
+                {cartTotal > 0 && <div className="ctotal"><span>{t(S.total)}</span><b>{cartTotal.toFixed(2)} ₼</b></div>}
+                <a className="cwa" href={waLink()} target="_blank" rel="noopener noreferrer"><WaIcon />{t(S.send_wa)}</a>
+                <button className="cclear" onClick={() => { setCart({}); setCartOpen(false) }}>{t(S.clear)}</button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

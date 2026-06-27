@@ -19,6 +19,7 @@ colors:
   cream-text-muted: "#C9BEA4"
   cream-text-faint: "#9C917B"
   whatsapp: "#1F4A34"
+  whatsapp-on: "#EAF3EC"
 typography:
   display:
     fontFamily: "Rufolo, Cormorant Garamond, Georgia, serif"
@@ -48,6 +49,7 @@ typography:
 rounded:
   sm: "2px"
   card: "12px"
+  control: "6px"
   pill: "999px"
 spacing:
   xs: "8px"
