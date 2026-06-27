@@ -11,6 +11,8 @@
 .xc .topbar{background:var(--ink); color:var(--cream)}
 .xc .topbar .wrap{display:flex; justify-content:space-between; align-items:center; height:38px; font-size:11px; letter-spacing:.08em}
 .xc .topbar .ph{display:flex; gap:22px; opacity:.8}
+.xc .topbar .ph a{color:inherit; text-decoration:none}
+@media(hover:hover){.xc .topbar .ph a:hover{text-decoration:underline}}
 .xc .langs{display:flex; gap:2px}
 .xc .langs button{background:none;border:none;color:var(--cream);font-family:var(--body);padding:3px 9px; border-radius:2px; cursor:pointer; letter-spacing:.12em; font-size:11px; transition:background-color .2s var(--ease), color .2s var(--ease), transform .12s var(--ease); min-width:38px; min-height:38px; display:inline-flex; align-items:center; justify-content:center}
 .xc .langs button.on,.xc .langs button:hover{background:var(--gold); color:var(--on-gold)}
