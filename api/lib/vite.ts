@@ -12,26 +12,35 @@ const SITE = "https://xurcun.az";
 // the homepage meta; without this, every deep route (/catalog, /menu, …) was served
 // with the homepage <title> and canonical=/ — telling Google they duplicate the home
 // page. Homepage itself ("/") is served by serveStatic, so it keeps its static meta.
-const ROUTE_META: Record<string, { title: string; desc?: string }> = {
+type RouteMeta = { title: string; desc?: string; h1: string; intro?: string };
+
+const ROUTE_META: Record<string, RouteMeta> = {
   "/catalog": {
     title: "Kataloq | Xurcun — Quru meyvə, çərəz & hədiyyə",
     desc: "Xurcun kataloqu — quru meyvə, qoz-fındıq, çərəz, lokum, şokolad və hədiyyə qutuları. Bəyəndiyinizi seçin, WhatsApp ilə sifariş edin.",
+    h1: "Xurcun Kataloqu — quru meyvə, çərəz, lokum və hədiyyə",
+    intro: "Premium quru meyvə, qoz-fındıq, çərəz, lokum, şokolad və əl işi hədiyyə qutuları. Bəyəndiyinizi seçin, WhatsApp ilə sifariş edin.",
   },
   "/menu": {
     title: "Menyu | Xurcun — Quru meyvə, çərəz və hədiyyə",
     desc: "Xurcun QR menyusu — quru meyvə, qoz-fındıq, çərəz, lokum, şirniyyat və hədiyyə çeşidləri. Telefondan baxın, WhatsApp ilə sifariş edin.",
+    h1: "Xurcun Menyu — quru meyvə, çərəz və hədiyyə",
+    intro: "Mağaza menyusu — quru meyvə, qoz-fındıq, çərəz, lokum və şirniyyat çeşidləri. WhatsApp ilə sifariş edin.",
   },
-  "/privacy": { title: "Məxfilik Siyasəti | Xurcun" },
-  "/cookie-policy": { title: "Cookie Siyasəti | Xurcun" },
+  "/privacy": { title: "Məxfilik Siyasəti | Xurcun", h1: "Məxfilik Siyasəti — Xurcun" },
+  "/cookie-policy": { title: "Cookie Siyasəti | Xurcun", h1: "Cookie Siyasəti — Xurcun" },
 };
+
+const SR_ONLY =
+  "position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0";
 
 function escapeHtml(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-// Rewrite title + canonical + og:url/title/description for a deep route. Unknown routes
-// (no override and not /menu/<slug>) keep the homepage meta — harmless, since they
-// render the homepage via the SPA "*" fallback anyway.
+// Rewrite title + canonical + og + the sr-only SEO shell (h1/intro) for a deep route.
+// Unknown routes (no override and not /menu/<slug>) keep the homepage meta/shell —
+// harmless, since they render the homepage via the SPA "*" fallback anyway.
 function injectRouteMeta(html: string, pathname: string): string {
   const meta = ROUTE_META[pathname] ?? (pathname.startsWith("/menu/") ? ROUTE_META["/menu"] : null);
   if (!meta) return html;
@@ -48,6 +57,8 @@ function injectRouteMeta(html: string, pathname: string): string {
       .replace(/(<meta name="description" content=")[^"]*(")/, `$1${desc}$2`)
       .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${desc}$2`);
   }
+  const shell = `<!--seo-shell--><div style="${SR_ONLY}"><h1>${escapeHtml(meta.h1)}</h1>${meta.intro ? `<p>${escapeHtml(meta.intro)}</p>` : ""}</div><!--/seo-shell-->`;
+  out = out.replace(/<!--seo-shell-->[\s\S]*?<!--\/seo-shell-->/, shell);
   return out;
 }
 

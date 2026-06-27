@@ -116,6 +116,54 @@ export default function CatalogPage() {
     return () => io.disconnect()
   }, [tree.length, lang])
 
+  // Product structured data — an ItemList of Products injected as JSON-LD. Google reads
+  // JS-injected structured data, so this auto-populates as catalog products are added.
+  useEffect(() => {
+    const ID = 'xc-catalog-jsonld'
+    const products = items
+      .map((it, i) => {
+        const o = it as unknown as Record<string, unknown>
+        const name = pick(o, 'name')
+        if (!name) return null
+        const node: Record<string, unknown> = { '@type': 'Product', position: i + 1, name }
+        const img = o.imageUrl as string | undefined
+        if (img) node.image = img.startsWith('http') ? img : `https://xurcun.az${img}`
+        const desc = pick(o, 'desc')
+        if (desc) node.description = desc
+        if (o.priceVisible !== false && o.price) {
+          const amount = priceNum(o.price)
+          if (amount > 0) {
+            node.offers = {
+              '@type': 'Offer',
+              price: String(amount),
+              priceCurrency: 'AZN',
+              availability: 'https://schema.org/InStock',
+              ...(o.unit ? { description: `Qiymət / ${o.unit as string}` } : {}),
+            }
+          }
+        }
+        return node
+      })
+      .filter(Boolean)
+    const json = {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Xurcun Kataloqu',
+      url: 'https://xurcun.az/catalog',
+      numberOfItems: products.length,
+      itemListElement: products,
+    }
+    let el = document.getElementById(ID) as HTMLScriptElement | null
+    if (!el) {
+      el = document.createElement('script')
+      el.id = ID
+      el.type = 'application/ld+json'
+      document.head.appendChild(el)
+    }
+    el.textContent = JSON.stringify(json)
+    return () => { document.getElementById(ID)?.remove() }
+  }, [items, lang])
+
   const setQty = (id: number, q: number) =>
     setCart((c) => {
       const next = { ...c }
