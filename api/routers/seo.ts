@@ -359,36 +359,36 @@ function getTemplates(lang: string) {
     restaurant: string;
   }> = {
     az: {
-      title: (b, c) => `${b} menyusu – ${c ? c + " və daha çox" : "dadlı yeməklər"} | Xurcun`,
+      title: (b, c) => `${b} menyusu – ${c ? c + " və daha çox" : "seçmə məhsullar"} | Xurcun`,
       description: (b, cats, items) =>
-        `${b} filialımızda ${cats ? cats + " kateqoriyalarından " : ""}ən seçkin yeməklər: ${items || "mükəmməl dad"}. Xurcun – unikal atmosfer və mükəmməl xidmət.`,
+        `${b} filialımızda ${cats ? cats + " kateqoriyalarından " : ""}ən seçmə məhsullar: ${items || "mükəmməl dad"}. Xurcun – unikal atmosfer və mükəmməl xidmət.`,
       fallbackTitle: (p) => `Xurcun – ${p}`,
-      fallbackDesc: (p) => `Xurcun restoranı – ${p} səhifəsi. Zəngin menyu, unikal atmosfer və mükəmməl xidmət.`,
-      restaurant: "restoran, menyu, yemək, Xurcun",
+      fallbackDesc: (p) => `Xurcun butiki – ${p} səhifəsi. Zəngin çeşid, təbii dadlar və premium keyfiyyət.`,
+      restaurant: "quru meyvə, çərəz, lokum, hədiyyə, Xurcun",
     },
     ru: {
-      title: (b, c) => `Меню ${b} – ${c ? c + " и многое другое" : "вкусные блюда"} | Xurcun`,
+      title: (b, c) => `Меню ${b} – ${c ? c + " и многое другое" : "отборные товары"} | Xurcun`,
       description: (b, cats, items) =>
-        `В филиале ${b} лучшие блюда ${cats ? "из категорий " + cats + ". " : ""}${items || "превосходный вкус"}. Xurcun – уникальная атмосфера и отличный сервис.`,
+        `В филиале ${b} лучшие товары ${cats ? "из категорий " + cats + ". " : ""}${items || "превосходный вкус"}. Xurcun – уникальная атмосфера и отличный сервис.`,
       fallbackTitle: (p) => `Xurcun – ${p}`,
-      fallbackDesc: (p) => `Ресторан Xurcun – страница ${p}. Богатое меню, уникальная атмосфера и отличный сервис.`,
-      restaurant: "ресторан, меню, еда, Xurcun",
+      fallbackDesc: (p) => `Бутик Xurcun – страница ${p}. Богатый ассортимент, натуральные вкусы и премиальное качество.`,
+      restaurant: "сухофрукты, орехи, лукум, подарки, Xurcun",
     },
     tr: {
-      title: (b, c) => `${b} menüsü – ${c ? c + " ve daha fazlası" : "lezzetli yemekler"} | Xurcun`,
+      title: (b, c) => `${b} menüsü – ${c ? c + " ve daha fazlası" : "seçme ürünler"} | Xurcun`,
       description: (b, cats, items) =>
-        `${b} şubemizde ${cats ? cats + " kategorilerinden " : ""}en seçkin lezzetler: ${items || "mükemmel tat"}. Xurcun – eşsiz atmosfer ve mükemmel hizmet.`,
+        `${b} şubemizde ${cats ? cats + " kategorilerinden " : ""}en seçme ürünler: ${items || "mükemmel tat"}. Xurcun – eşsiz atmosfer ve mükemmel hizmet.`,
       fallbackTitle: (p) => `Xurcun – ${p}`,
-      fallbackDesc: (p) => `Xurcun restoranı – ${p} sayfası. Zengin menü, eşsiz atmosfer ve mükemmel hizmet.`,
-      restaurant: "restoran, menü, yemek, Xurcun",
+      fallbackDesc: (p) => `Xurcun butiği – ${p} sayfası. Zengin çeşit, doğal lezzetler ve premium kalite.`,
+      restaurant: "kuru meyve, çerez, lokum, hediye, Xurcun",
     },
     en: {
-      title: (b, c) => `${b} menu – ${c ? c + " and more" : "delicious dishes"} | Xurcun`,
+      title: (b, c) => `${b} menu – ${c ? c + " and more" : "selected products"} | Xurcun`,
       description: (b, cats, items) =>
-        `At our ${b} branch, enjoy the finest ${cats ? cats + " selections" : "dishes"}: ${items || "exceptional taste"}. Xurcun – unique atmosphere and excellent service.`,
+        `At our ${b} branch, enjoy the finest ${cats ? cats + " selections" : "products"}: ${items || "exceptional taste"}. Xurcun – unique atmosphere and excellent service.`,
       fallbackTitle: (p) => `Xurcun – ${p}`,
-      fallbackDesc: (p) => `Xurcun restaurant – ${p} page. Rich menu, unique atmosphere and excellent service.`,
-      restaurant: "restaurant, menu, food, Xurcun",
+      fallbackDesc: (p) => `Xurcun boutique – ${p} page. Rich selection, natural flavours and premium quality.`,
+      restaurant: "dried fruit, nuts, turkish delight, gifts, Xurcun",
     },
   };
 
