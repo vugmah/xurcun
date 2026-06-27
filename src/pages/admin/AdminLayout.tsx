@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, Outlet } from "react-router";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import AdminErrorBoundary from "@/components/AdminErrorBoundary";
 import {
-  LayoutDashboard, Globe, Image, LogOut, ChevronLeft,
+  LayoutDashboard, Globe, LogOut, ChevronLeft,
   Mail, Megaphone, Menu, X, Settings, Bot,
   Lightbulb, MessageSquare, ShoppingBag, MapPin, QrCode, Coffee,
 } from "lucide-react";
@@ -14,7 +14,6 @@ const navGroups: { group: string; items: NavItem[] }[] = [
   { group: "Ümumi", items: [{ path: "/admin", icon: LayoutDashboard, label: "İdarə paneli" }] },
   { group: "Kataloq", items: [
     { path: "/admin/catalog", icon: ShoppingBag, label: "Kataloq" },
-    { path: "/admin/media", icon: Image, label: "Media" },
   ] },
   { group: "Mağaza & QR", items: [
     { path: "/admin/branches", icon: MapPin, label: "Mağazalar" },
