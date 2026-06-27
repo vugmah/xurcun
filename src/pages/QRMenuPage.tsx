@@ -66,7 +66,7 @@ export default function QRMenuPage() {
   // menuType (kataloq/kafe). Yalnız kafe olan filiallarda toggle göstərilir.
   // URL ?type=cafe ilə də açıla bilər.
   const initialType: 'catalog' | 'cafe' =
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('type') === 'cafe' && hasCafe
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('type') === 'cafe'
       ? 'cafe' : 'catalog'
   const [menuType, setMenuType] = useState<'catalog' | 'cafe'>(initialType)
   const [activeCat, setActiveCat] = useState<number | null>(null)
