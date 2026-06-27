@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { trpc } from "@/providers/trpc";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 const inputCls = "w-full bg-[#16120e] border border-[#352d24] rounded-lg px-3 py-2 text-sm text-[#ECE6DA] outline-none focus:border-[#9D7C38]";
 const labelCls = "block text-[11px] uppercase tracking-wider text-[#928876] mb-1.5";
@@ -108,7 +109,13 @@ function BranchForm({ branch, onClose, onSaved }: { branch: Branch; onClose: () 
           <div><label className={labelCls}>WhatsApp nömrəsi</label><input className={inputCls} value={f.whatsappNumber ?? ""} onChange={(e) => set("whatsappNumber", e.target.value)} placeholder="994xxxxxxxxx" /></div>
         </div>
         <div><label className={labelCls}>Google Maps URL</label><input className={inputCls} value={f.mapUrl ?? ""} onChange={(e) => set("mapUrl", e.target.value)} /></div>
-        <div><label className={labelCls}>Video URL (/videos/...)</label><input className={inputCls} value={f.videoUrl ?? ""} onChange={(e) => set("videoUrl", e.target.value)} placeholder={`/videos/${f.slug || "slug"}.mp4`} /></div>
+        <ImageUpload
+          value={f.videoUrl ?? ""}
+          onChange={(v) => set("videoUrl", v)}
+          accept="video/*"
+          label="Mağaza videosu"
+          hint="Qısa MP4 (maks ~9MB). Və ya hazır /videos/… yolunu yapışdır."
+        />
         <div className="flex flex-wrap gap-5">
           <Toggle on={f.isActive !== false} set={(v) => set("isActive", v)} label="Aktiv" />
           <Toggle on={!!f.hasCafe} set={(v) => set("hasCafe", v)} label="Mağaza içi kafe" />

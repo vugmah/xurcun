@@ -90,18 +90,20 @@ app.post("/api/upload", async (c) => {
     return c.json({ error: "No file provided" }, 400);
   }
 
-  // File type validation (MIME + extension)
-  const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-  const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".gif"];
+  // File type validation (MIME + extension) — images + short web videos
+  const imageMimeTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+  const videoMimeTypes = ["video/mp4", "video/webm", "video/quicktime"];
+  const allowedMimeTypes = [...imageMimeTypes, ...videoMimeTypes];
+  const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".mp4", ".webm", ".mov"];
 
   if (!allowedMimeTypes.includes(file.type)) {
-    return c.json({ error: "Invalid file type. Only JPEG, PNG, WebP, GIF allowed." }, 400);
+    return c.json({ error: "Invalid file type. Only images (JPEG/PNG/WebP/GIF) or videos (MP4/WebM/MOV) allowed." }, 400);
   }
 
   const originalName = file.name.toLowerCase();
   const ext = path.extname(originalName);
   if (!allowedExtensions.includes(ext)) {
-    return c.json({ error: "Invalid file extension. Only .jpg, .jpeg, .png, .webp, .gif allowed." }, 400);
+    return c.json({ error: "Invalid file extension." }, 400);
   }
 
   // Block dangerous extensions
@@ -110,10 +112,15 @@ app.post("/api/upload", async (c) => {
     return c.json({ error: "Dangerous file type rejected." }, 400);
   }
 
-  // File size limit
-  const maxSize = 5 * 1024 * 1024; // 5MB
+  // File size limit — images 5MB, videos up to the 10MB body cap
+  const isVideo = videoMimeTypes.includes(file.type);
+  const maxSize = (isVideo ? 9.5 : 5) * 1024 * 1024;
   if (file.size > maxSize) {
-    return c.json({ error: "File too large. Max 5MB." }, 400);
+    return c.json({
+      error: isVideo
+        ? "Video too large. Max ~9MB — please use a short, compressed clip."
+        : "File too large. Max 5MB.",
+    }, 400);
   }
 
   // Sanitize filename - remove any path traversal
@@ -166,8 +173,24 @@ app.post("/api/upload", async (c) => {
     }
   }
 
-  /* Supabase not configured */
-  return c.json({ success: false, error: "SUPABASE_NOT_CONFIGURED" }, 503);
+  /* ─── Local-disk fallback (when Supabase isn't configured) ───
+     NOTE: on Railway the container filesystem is ephemeral — files written
+     here survive until the next redeploy. For permanent storage either
+     configure Supabase (SUPABASE_URL/SERVICE_KEY/BUCKET) or mount a Railway
+     volume at the `uploads/` path. This fallback keeps the admin usable. */
+  try {
+    await writeFile(filepath, buffer);
+    return c.json({
+      success: true,
+      filename,
+      url: `/uploads/${filename}`,
+      size: file.size,
+      source: "local",
+    });
+  } catch (diskErr: any) {
+    console.error("[Upload] Local disk error:", diskErr);
+    return c.json({ success: false, error: diskErr.message || "Upload failed" }, 500);
+  }
 });
 
 // Serve uploaded files

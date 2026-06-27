@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { trpc } from "@/providers/trpc";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 type Lang = "az" | "ru" | "en" | "tr" | "ar";
 const LANGS: Lang[] = ["az", "ru", "en", "tr", "ar"];
@@ -269,11 +270,14 @@ function ProductForm({
           <label className={labelCls}>Qiymət (₼)</label>
           <input className={inputCls} value={price} onChange={(e) => setPrice(e.target.value)} placeholder="220.00" />
         </div>
-        <div>
-          <label className={labelCls}>Şəkil URL</label>
-          <input className={inputCls} value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://…" />
-        </div>
       </div>
+
+      <ImageUpload
+        value={imageUrl}
+        onChange={setImageUrl}
+        label="Məhsul şəkli"
+        hint="JPEG/PNG/WebP · maks 5MB"
+      />
 
       <div className="flex flex-wrap gap-4">
         <Toggle on={priceVisible} set={setPriceVisible} label="Qiyməti göstər" />
