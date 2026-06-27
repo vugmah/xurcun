@@ -64,6 +64,9 @@ const S = {
   },
   foot_stores: { az: 'Mağazalar', ru: 'Магазины', en: 'Stores', tr: 'Mağazalar', ar: 'المتاجر' },
   foot_contact: { az: 'Əlaqə', ru: 'Контакты', en: 'Contact', tr: 'İletişim', ar: 'اتصل بنا' },
+  skip: { az: 'Əsas məzmuna keç', ru: 'К основному содержанию', en: 'Skip to content', tr: 'İçeriğe geç', ar: 'انتقل إلى المحتوى' },
+  aria_nav: { az: 'Əsas naviqasiya', ru: 'Основная навигация', en: 'Main navigation', tr: 'Ana navigasyon', ar: 'التنقل الرئيسي' },
+  aria_lang: { az: 'Dil seçimi', ru: 'Выбор языка', en: 'Language', tr: 'Dil seçimi', ar: 'اختيار اللغة' },
 } satisfies Record<string, M>
 
 const CATS: M[] = [
@@ -107,47 +110,65 @@ export default function HomePage() {
 
   // Branches come from the admin/DB (synced). Fallback to static list if API empty.
   const branchesQ = trpc.branch.getBranches.useQuery(undefined, { retry: false })
-  const branches: Branch[] = (branchesQ.data && branchesQ.data.length)
-    ? branchesQ.data.map((b) => ({
-        slug: b.slug ?? '', name: b.name ?? '', addr: b.address ?? '', tel: b.phone ?? undefined, q: `Xurcun ${b.name ?? ''} Baku`,
-      }))
-    : BRANCHES
+  const branchesFromDb: Branch[] = (branchesQ.data ?? [])
+    .map((b) => ({
+      slug: b.slug ?? '', name: b.name ?? '', addr: b.address ?? '', tel: b.phone ?? undefined, q: `Xurcun ${b.name ?? ''} Baku`,
+    }))
+    .filter((b) => b.name) // a branch with no name can't render a usable card
+  const branches: Branch[] = branchesFromDb.length ? branchesFromDb : BRANCHES
 
   // Categories + featured products from the admin/DB (synced). Fallback to static.
   const suffix = lang === 'az' ? 'Az' : lang === 'ru' ? 'Ru' : lang === 'en' ? 'En' : lang === 'tr' ? 'Tr' : 'Ar'
   const pick = (o: Record<string, unknown>, base: string) => (o[base + suffix] || o[base + 'Az'] || '') as string
 
   const catQ = trpc.catalog.categories.useQuery(undefined, { retry: false })
-  const catLabels: string[] = (catQ.data && catQ.data.length)
-    ? catQ.data.map((c) => pick(c as Record<string, unknown>, 'title'))
-    : CATS.map((c) => t(c))
+  // Drop empty/untranslated rows so the DB never renders blank category cells; fall back to static.
+  const catFromDb = (catQ.data ?? []).map((c) => pick(c as Record<string, unknown>, 'title')).filter(Boolean)
+  const catLabels: string[] = catFromDb.length ? catFromDb : CATS.map((c) => t(c))
 
   const featQ = trpc.catalog.featured.useQuery(undefined, { retry: false })
-  const featured: { name: string; cat: string; price: string; img?: string; isNew: boolean }[] =
-    (featQ.data && featQ.data.length)
-      ? featQ.data.map((p) => {
-          const o = p as Record<string, unknown>
-          return {
-            name: pick(o, 'name'),
-            cat: pick(o, 'catTitle'),
-            price: o.priceVisible === false ? '' : (o.price ? `${o.price as string} ₼` : ''),
-            img: (o.imageUrl as string) || undefined,
-            isNew: !!o.isNew,
-          }
-        })
-      : FEATURED.map((p) => ({ name: p.name, cat: t(CATS[p.cat]), price: p.price, img: p.img, isNew: !!p.isNew }))
+  const featFromDb = (featQ.data ?? [])
+    .map((p) => {
+      const o = p as Record<string, unknown>
+      return {
+        name: pick(o, 'name'),
+        cat: pick(o, 'catTitle'),
+        price: o.priceVisible === false ? '' : (o.price ? `${o.price as string} ₼` : ''),
+        img: (o.imageUrl as string) || undefined,
+        isNew: !!o.isNew,
+      }
+    })
+    .filter((p) => p.name) // a product with no name in any language is unusable
+  const featured = featFromDb.length
+    ? featFromDb
+    : FEATURED.map((p) => ({ name: p.name, cat: t(CATS[p.cat]), price: p.price, img: p.img, isNew: !!p.isNew }))
 
   useEffect(() => {
     const el = root.current
     if (!el) return
-    const io = new IntersectionObserver(
-      (es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } }),
-      { threshold: 0.16 },
-    )
-    el.querySelectorAll('.reveal').forEach((n) => io.observe(n))
+    const reveals = el.querySelectorAll('.reveal')
+    let io: IntersectionObserver | null = null
+    let safety: number | undefined
+    if ('IntersectionObserver' in window) {
+      io = new IntersectionObserver(
+        (es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io?.unobserve(e.target) } }),
+        { threshold: 0.16 },
+      )
+      reveals.forEach((n) => io!.observe(n))
+      // Safety net: never leave content stuck at opacity:0 if a reveal never fires
+      // (backgrounded tab, very tall viewport, observer throttling).
+      safety = window.setTimeout(() => reveals.forEach((n) => n.classList.add('in')), 1500)
+    } else {
+      reveals.forEach((n) => n.classList.add('in'))
+    }
     const hdr = el.querySelector('header')
-    const onScroll = () => hdr?.classList.toggle('shrink', window.scrollY > 60)
-    window.addEventListener('scroll', onScroll)
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => { hdr?.classList.toggle('shrink', window.scrollY > 60); ticking = false })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
     const cleanups: (() => void)[] = []
     el.querySelectorAll<HTMLDivElement>('.branch').forEach((b) => {
       const v = b.querySelector('video'); if (!v) return
@@ -156,16 +177,17 @@ export default function HomePage() {
       b.addEventListener('mouseenter', play); b.addEventListener('mouseleave', stop)
       cleanups.push(() => { b.removeEventListener('mouseenter', play); b.removeEventListener('mouseleave', stop) })
     })
-    return () => { io.disconnect(); window.removeEventListener('scroll', onScroll); cleanups.forEach((c) => c()) }
+    return () => { io?.disconnect(); if (safety) clearTimeout(safety); window.removeEventListener('scroll', onScroll); cleanups.forEach((c) => c()) }
   }, [lang, branchesQ.data, catQ.data, featQ.data])
 
   return (
     <div className="xc" ref={root}>
-      <div className="topbar"><div className="wrap">
+      <a className="skip" href="#main">{t(S.skip)}</a>
+      <div className="topbar" id="top"><div className="wrap">
         <div className="ph"><span>info@xurcun.az</span><span>+994 50 212 18 11</span></div>
-        <div className="langs">
+        <div className="langs" role="group" aria-label={t(S.aria_lang)}>
           {LANGS.map((l) => (
-            <button key={l.code} className={lang === l.code ? 'on' : ''} onClick={() => setLang(l.code)}>{l.label}</button>
+            <button key={l.code} className={lang === l.code ? 'on' : ''} aria-pressed={lang === l.code} aria-label={l.code.toUpperCase()} onClick={() => setLang(l.code)}>{l.label}</button>
           ))}
         </div>
       </div></div>
@@ -173,14 +195,14 @@ export default function HomePage() {
       <header>
         <div className="wrap">
           <img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" />
-          <nav>
-            <a href="#">{t(S.nav_home)}</a><a href="#cat">{t(S.nav_catalog)}</a><a href="#cat">{t(S.nav_gift)}</a>
-            <a href="#magazalar">{t(S.nav_stores)}</a><a href="#">{t(S.nav_about)}</a><a href="#">{t(S.nav_contact)}</a>
+          <nav aria-label={t(S.aria_nav)}>
+            <a href="#top">{t(S.nav_home)}</a><a href="#cat">{t(S.nav_catalog)}</a><a href="#cat">{t(S.nav_gift)}</a>
+            <a href="#magazalar">{t(S.nav_stores)}</a><a href="#haqqimizda">{t(S.nav_about)}</a><a href="#elaqe">{t(S.nav_contact)}</a>
           </nav>
         </div>
       </header>
 
-      <section className="hero">
+      <section className="hero" id="main">
         <div className="bgpat" /><div className="veil" />
         <div className="wrap">
           <img className="emb" src={EMBLEM} alt="" />
@@ -203,7 +225,7 @@ export default function HomePage() {
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="ornament"><img src={EMBLEM} alt="" /></div>
-            <h2>{t(S.cat_title)}</h2><div className="tag">{t(S.cat_label)}</div>
+            <h2>{t(S.cat_title)}</h2>
           </div>
           <div className="cats reveal d1">
             {catLabels.map((label, i) => (<div className="cat" key={i}><img src={EMBLEM} alt="" />{label}</div>))}
@@ -215,14 +237,17 @@ export default function HomePage() {
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="ornament"><img src={EMBLEM} alt="" /></div>
-            <h2>{t(S.feat_title)}</h2><div className="tag">{t(S.feat_label)}</div>
+            <h2>{t(S.feat_title)}</h2>
           </div>
           <div className="grid">
             {featured.map((p, i) => (
               <div className={`card reveal d${(i % 3) + 1}`} key={i}>
                 <div className="thumb">
                   {p.isNew && <span className="badge">{t(S.yeni)}</span>}
-                  {p.img ? <img className="pimg" src={p.img} alt={p.name} /> : <img className="wm" src={EMBLEM} alt="" />}
+                  {p.img ? (
+                    <img className="pimg" src={p.img} alt={p.name} loading="lazy" decoding="async"
+                      onError={(e) => { const img = e.currentTarget; img.onerror = null; img.src = EMBLEM; img.className = 'wm' }} />
+                  ) : <img className="wm" src={EMBLEM} alt="" loading="lazy" decoding="async" />}
                 </div>
                 <div className="card-b"><div className="pcat">{p.cat}</div><div className="pname">{p.name}</div>{p.price && <div className="price">{p.price}</div>}</div>
               </div>
@@ -231,7 +256,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="luxe">
+      <div className="luxe" id="haqqimizda">
         <div className="bgpat" />
         <div className="wrap">
           <div className="reveal">
@@ -252,7 +277,7 @@ export default function HomePage() {
           </div>
           <div className="mag-grid">
             {branches.map((b, i) => (
-              <div className={`branch reveal d${(i % 3) + 1}`} key={b.slug}>
+              <div className={`branch reveal d${(i % 3) + 1}`} key={b.slug || b.name || i}>
                 <video muted loop playsInline preload="none" poster={`/images/branches/${b.slug}.jpg`}>
                   <source src={`/videos/${b.slug}.mp4`} type="video/mp4" />
                 </video>
@@ -260,8 +285,8 @@ export default function HomePage() {
                 <div className="bover">
                   <div className="bn">{b.name}</div><div className="ba">{b.addr}</div>
                   <div className="brow">
-                    {b.tel && <a className="tel" href={`tel:${b.tel}`}>{t(S.call)}</a>}
-                    <a href={maps(b.q)} target="_blank" rel="noopener noreferrer">Google Maps</a>
+                    {b.tel && <a className="tel" href={`tel:${b.tel}`} aria-label={`${t(S.call)}: ${b.name}`}>{t(S.call)}</a>}
+                    <a href={maps(b.q)} target="_blank" rel="noopener noreferrer" aria-label={`${b.name} — Google Maps`}>Google Maps</a>
                   </div>
                 </div>
               </div>
@@ -270,12 +295,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer>
+      <footer id="elaqe">
         <div className="bgpat" />
         <div className="wrap">
           <div className="reveal"><img className="logo" src={LOGO} alt="Xurcun" /><p>{t(S.foot_about)}</p></div>
-          <div className="reveal d1"><h4>{t(S.foot_stores)}</h4><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Crescent Mall</li><li>Sea Breeze</li><li>Hava Limanı</li></ul></div>
-          <div className="reveal d2"><h4>{t(S.foot_contact)}</h4><ul><li>info@xurcun.az</li><li>+994 50 212 18 11</li><li>Instagram · Facebook</li><li>xurcun.az</li></ul></div>
+          <div className="reveal d1"><h3>{t(S.foot_stores)}</h3><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Crescent Mall</li><li>Sea Breeze</li><li>Hava Limanı</li></ul></div>
+          <div className="reveal d2"><h3>{t(S.foot_contact)}</h3><ul>
+            <li><a href="mailto:info@xurcun.az">info@xurcun.az</a></li>
+            <li><a href="tel:+994502121811">+994 50 212 18 11</a></li>
+            <li><a href="https://instagram.com/xurcun" target="_blank" rel="noopener noreferrer">Instagram</a> · <a href="https://fb.com/xurcun" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+            <li><a href="https://xurcun.az">xurcun.az</a></li>
+          </ul></div>
         </div>
         <div className="copyright">© 2026 Xurcun · Bütün hüquqlar qorunur</div>
       </footer>
