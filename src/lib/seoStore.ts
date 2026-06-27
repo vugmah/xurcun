@@ -119,10 +119,10 @@ const PAGE_TEMPLATES: Record<string, {
   kwAz: string; kwRu: string; kwEn: string; kwTr: string;
 }> = {
   home: {
-    titleAz: "Xurcun | Premium quru meyvə, qoz-fındıq, şirniyyat və hədiyyə butiki — Bakı",
-    titleRu: "Xurcun | Премиальные сухофрукты, орехи, сладости и подарки — Баку",
-    titleEn: "Xurcun | Premium dried fruit, nuts, sweets and gift boutique — Baku",
-    titleTr: "Xurcun | Premium kuru meyve, çerez, tatlı ve hediye butiği — Bakü",
+    titleAz: "Xurcun | Premium quru meyvə, çərəz & hədiyyə — Bakı",
+    titleRu: "Xurcun | Сухофрукты, орехи, сладости и подарки — Баку",
+    titleEn: "Xurcun | Premium dried fruit, nuts & gifts — Baku",
+    titleTr: "Xurcun | Premium kuru meyve, çerez & hediye — Bakü",
     descAz: "Xurcun — Azərbaycanın premium quru meyvə, qoz-fındıq, çərəz, şokolad, lokum, paxlava və əl işi hədiyyə qutuları butiki. 2015-dən bəri, Bakıda 11 mağaza. «Keyfiyyətə Vurğunuq!».",
     descRu: "Xurcun — премиальный бутик сухофруктов, орехов, сладостей, шоколада, лукума и подарочных наборов ручной работы. С 2015 года, 11 магазинов в Баку. «Fond of Quality».",
     descEn: "Xurcun is Azerbaijan's premium boutique for dried fruit, nuts, sweets, chocolate, Turkish delight and handcrafted gift boxes. Since 2015, 11 stores in Baku. Fond of Quality.",
@@ -131,6 +131,20 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "сухофрукты баку, орехи, лукум, пахлава, подарочные наборы, сладости, xurcun",
     kwEn: "dried fruit baku, nuts, turkish delight, baklava, gift box, sweets, xurcun",
     kwTr: "kuru meyve baku, çerez, lokum, baklava, hediye kutusu, tatlı, xurcun",
+  },
+  catalog: {
+    titleAz: "Kataloq | Xurcun — Quru meyvə, çərəz & hədiyyə",
+    titleRu: "Каталог | Xurcun — Сухофрукты, орехи и подарки",
+    titleEn: "Catalogue | Xurcun — Dried fruit, nuts & gifts",
+    titleTr: "Katalog | Xurcun — Kuru meyve, çerez ve hediye",
+    descAz: "Xurcun kataloqu — quru meyvə, qoz-fındıq, çərəz, lokum, şokolad və hədiyyə qutuları. Bəyəndiyinizi seçin, WhatsApp ilə sifariş edin.",
+    descRu: "Каталог Xurcun — сухофрукты, орехи, лукум, шоколад и подарочные наборы. Выбирайте и заказывайте в WhatsApp.",
+    descEn: "Xurcun catalogue — dried fruit, nuts, Turkish delight, chocolate and gift boxes. Pick what you like and order on WhatsApp.",
+    descTr: "Xurcun kataloğu — kuru meyve, çerez, lokum, çikolata ve hediye kutuları. Beğendiğinizi seçin, WhatsApp ile sipariş verin.",
+    kwAz: "kataloq, quru meyvə kataloqu, çərəz, lokum, hədiyyə, xurcun bakı",
+    kwRu: "каталог, сухофрукты, орехи, лукум, подарки, xurcun баку",
+    kwEn: "catalogue, dried fruit, nuts, turkish delight, gifts, xurcun baku",
+    kwTr: "katalog, kuru meyve, çerez, lokum, hediye, xurcun baku",
   },
   menu: {
     titleAz: "Menyu | Xurcun — Quru meyvə, çərəz və hədiyyə",

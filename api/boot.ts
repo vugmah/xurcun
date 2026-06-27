@@ -6,7 +6,7 @@ import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
 import { getDb, getPool } from "./queries/connection";
-import { menuCategories, menuItems, photos, seoSettings, photoAssignments } from "../db/schema";
+import { menuCategories, menuItems, photos, seoSettings, photoAssignments, branches } from "../db/schema";
 import { writeFile, mkdir, readFile } from "fs/promises";
 import path from "path";
 import { eq, asc } from "drizzle-orm";
@@ -225,6 +225,22 @@ app.get("/sitemap.xml", async (c) => {
     { loc: "https://xurcun.az/privacy", priority: "0.3", changefreq: "yearly" },
     { loc: "https://xurcun.az/cookie-policy", priority: "0.3", changefreq: "yearly" },
   ];
+
+  // Per-branch QR-menu pages (/menu/<slug>) — one crawlable URL per active store.
+  // Best-effort: a DB failure must not break the sitemap; fall back to static routes.
+  try {
+    const db = getDb();
+    const rows = await db
+      .select({ slug: branches.slug })
+      .from(branches)
+      .where(eq(branches.isActive, true))
+      .orderBy(asc(branches.sortOrder));
+    for (const b of rows) {
+      if (b.slug) routes.push({ loc: `https://xurcun.az/menu/${b.slug}`, priority: "0.7", changefreq: "weekly" });
+    }
+  } catch (err) {
+    console.error("[sitemap] branch fetch failed (serving static routes only):", err);
+  }
 
   const urls = routes
     .map(

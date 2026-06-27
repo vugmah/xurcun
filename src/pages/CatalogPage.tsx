@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
+import SEO from '@/sections/SEO'
 import '@/xurcun-base.css'
 import '@/xurcun-catalog.css'
 
@@ -178,6 +179,7 @@ export default function CatalogPage() {
 
   return (
     <div className="xc xcc" ref={rootRef}>
+      <SEO page="catalog" />
       <div className="chead">
         <div className="row">
           <a href="/"><img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" /></a>
