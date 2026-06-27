@@ -61,7 +61,7 @@
   }
 
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Cairo', sans-serif;
     background-color: var(--obsidian);
     color: var(--alabaster);
     min-height: 100%;
@@ -91,7 +91,7 @@
   }
 
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Cairo', sans-serif;
   }
 
   .font-mono {

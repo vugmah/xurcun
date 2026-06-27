@@ -25,11 +25,15 @@
 .xc.xcm .mlangs button {
   background: none; border: 0; cursor: pointer; font-family: var(--body);
   font-size: 11px; letter-spacing: .06em; color: var(--ink-muted);
-  padding: 5px 7px; border-radius: 6px; transition: all .2s var(--ease);
+  padding: 5px 7px; border-radius: 6px;
+  transition: color .2s var(--ease), background-color .2s var(--ease), transform .12s var(--ease);
   min-width: 44px; min-height: 44px;
   display: inline-flex; align-items: center; justify-content: center;
 }
-.xc.xcm .mlangs button:hover { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) {
+  .xc.xcm .mlangs button:hover { color: var(--ink); }
+}
+.xc.xcm .mlangs button:active { transform: scale(.94); }
 .xc.xcm .mlangs button.on { color: var(--gold-dark); font-weight: 600; background: var(--cream-100); }
 
 /* ── Branch hero ── */
@@ -54,8 +58,10 @@
   flex: 1; cursor: pointer; font-family: var(--body); font-size: 12.5px; font-weight: 500;
   letter-spacing: .04em; padding: 9px 14px; border-radius: 999px;
   border: 1px solid var(--line); background: var(--white); color: var(--ink-muted);
-  transition: all .25s var(--ease); min-height: 44px;
+  transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease), transform .12s var(--ease);
+  min-height: 44px;
 }
+.xc.xcm .mtabs button:active { transform: scale(.97); }
 .xc.xcm .mtabs button.on {
   background: var(--ink); color: var(--cream); border-color: var(--ink);
 }
@@ -76,10 +82,14 @@
 .xc.xcm .mchips a {
   flex: 0 0 auto; font-size: 12px; letter-spacing: .03em; white-space: nowrap;
   padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line);
-  color: var(--ink-soft); background: var(--white); transition: all .2s var(--ease);
+  color: var(--ink-soft); background: var(--white);
+  transition: border-color .2s var(--ease), color .2s var(--ease), transform .12s var(--ease);
   min-height: 44px; display: inline-flex; align-items: center;
 }
-.xc.xcm .mchips a:hover { border-color: var(--gold-light); color: var(--gold-dark); }
+@media (hover: hover) and (pointer: fine) {
+  .xc.xcm .mchips a:hover { border-color: var(--gold-light); color: var(--gold-dark); }
+}
+.xc.xcm .mchips a:active { transform: scale(.96); }
 
 /* ── Section ── */
 .xc.xcm .msec { padding-top: 30px; scroll-margin-top: 108px; }
@@ -116,9 +126,13 @@
   font-family: var(--body); font-size: 11.5px; font-weight: 500; letter-spacing: .02em;
   padding: 7px 12px; border-radius: 999px; border: 0; white-space: nowrap;
   min-height: 44px; box-sizing: border-box;
-  background: var(--wa); color: #eaf3ec; transition: filter .2s var(--ease);
+  background: var(--wa); color: #eaf3ec;
+  transition: filter .2s var(--ease), transform .12s var(--ease);
 }
-.xc.xcm .mwa:hover { filter: brightness(1.12); }
+@media (hover: hover) and (pointer: fine) {
+  .xc.xcm .mwa:hover { filter: brightness(1.12); }
+}
+.xc.xcm .mwa:active { transform: scale(.96); }
 .xc.xcm .mwa svg { width: 13px; height: 13px; }
 
 /* ── States ── */
