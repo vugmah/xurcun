@@ -84,11 +84,11 @@ const S = {
     tr: 'Azerbaycan’ın lezzet imzası', ar: 'بصمة طعم أذربيجان',
   },
   about_p1: {
-    az: 'Xurcun 2015-ci ildə təsis edilib — bu gün təbii quru meyvə, qoz-fındıq, ekzotik çaylar və şirniyyatların sürətlə böyüyən butik şəbəkəsidir.',
-    ru: 'Xurcun основан в 2015 году — сегодня это быстрорастущая сеть бутиков натуральных сухофруктов, орехов, экзотических чаёв и сладостей.',
-    en: 'Founded in 2015, Xurcun is today a fast-growing chain of boutiques for natural dried fruits, nuts, exotic teas and sweets.',
-    tr: '2015’te kurulan Xurcun, bugün doğal kuru meyve, çerez, egzotik çaylar ve tatlıların hızla büyüyen butik zinciridir.',
-    ar: 'تأسست Xurcun عام 2015، وهي اليوم سلسلة بوتيكات سريعة النمو للفواكه المجففة الطبيعية والمكسرات والشاي والحلويات.',
+    az: 'Xurcun 2015-ci ildə Vüqar Məhərrəmov tərəfindən təsis edilib — bu gün təbii quru meyvə, qoz-fındıq, ekzotik çaylar və şirniyyatların sürətlə böyüyən butik şəbəkəsidir.',
+    ru: 'Xurcun основан в 2015 году Вугаром Магеррамовым — сегодня это быстрорастущая сеть бутиков натуральных сухофруктов, орехов, экзотических чаёв и сладостей.',
+    en: 'Founded in 2015 by Vugar Maharramov, Xurcun is today a fast-growing chain of boutiques for natural dried fruits, nuts, exotic teas and sweets.',
+    tr: '2015’te Vugar Maharramov tarafından kurulan Xurcun, bugün doğal kuru meyve, çerez, egzotik çaylar ve tatlıların hızla büyüyen butik zinciridir.',
+    ar: 'تأسست Xurcun عام 2015 على يد فوغار محرموف، وهي اليوم سلسلة بوتيكات سريعة النمو للفواكه المجففة الطبيعية والمكسرات والشاي والحلويات.',
   },
   about_p2: {
     az: 'Bütün məhsullarımız orqanik və təbiidir, konservant yoxdur; qlütensiz seçimlər də mövcuddur. «Keyfiyyətə vurğunuq» sadəcə şüar deyil — hər qutuya qoyduğumuz vəddir. Qonaqlar Azərbaycanın dadını dünyaya aparmaq üçün Xurcun-u seçir.',
