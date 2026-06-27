@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
-import '@/xurcun-home.css'
+import '@/xurcun-base.css'
 import '@/xurcun-menu.css'
 
 const LOGO = '/brand/logo-gold.png'

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
+import '@/xurcun-base.css'
 import '@/xurcun-home.css'
 
 const LOGO = '/brand/logo-gold.png'

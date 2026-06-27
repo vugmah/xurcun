@@ -1,36 +1,8 @@
-/* Fonts (Google + Rufolo @font-face) are loaded globally — see index.html <link> and index.css. */
+/* Xurcun homepage styles. Tokens + .xc base primitives (.tag, .ornament, .reveal, reset,
+   focus) live in xurcun-base.css — imported before this file. This file is homepage-only. */
 
-.xc{
-  --gold:#9D7C38; --gold-dark:#7E6228; --gold-light:#C2A05A;
-  --ink:#2E2A25; --ink-soft:#3a352e; --ink-muted:#6b6457;
-  --cream:#EBE5D7; --cream-50:#F6F2E9; --cream-100:#F1ECE0; --line:#D8CFB9; --white:#fff;
-  /* Cream text tints on the dark (ink) surface — bright → faint */
-  --cream-text:#e6ddca; --cream-text-soft:#d8cdb4; --cream-text-muted:#c9bea4; --cream-text-faint:#9c917b;
-  /* Text on a gold fill — near-black for WCAG AA (--ink only hits 3.65:1 on gold) */
-  --on-gold:#14110c;
-  --wa:#1f4a34;
-  --display:"Rufolo","Cormorant Garamond",serif; --body:"Montserrat",system-ui,sans-serif; --script:"Pinyon Script",cursive;
-  --ease:cubic-bezier(.22,.61,.36,1);
-  font-family:var(--body); color:var(--ink); background:var(--cream-50);
-  line-height:1.65; font-weight:300; -webkit-font-smoothing:antialiased;
-}
-.xc *{box-sizing:border-box; margin:0; padding:0}
-.xc h1,.xc h2,.xc h3,.xc .serif{font-family:var(--display); font-weight:600}
-.xc a{color:inherit; text-decoration:none}
-.xc :where(a,button,input,select,textarea,[tabindex]):focus-visible{outline:2px solid var(--gold); outline-offset:2px; border-radius:2px}
-.xc .wrap{max-width:1200px; margin:0 auto; padding:0 32px}
-.xc .muted{color:var(--ink-muted)} .xc .gold{color:var(--gold)}
-.xc .tag{font-size:11px; letter-spacing:.32em; text-transform:uppercase; font-weight:400; color:var(--gold-dark)}
-.xc .ornament{display:flex; align-items:center; justify-content:center; gap:16px; margin:0 auto}
-.xc .ornament::before,.xc .ornament::after{content:""; height:1px; width:64px; background:linear-gradient(90deg,transparent,var(--gold))}
-.xc .ornament::after{background:linear-gradient(90deg,var(--gold),transparent)}
-.xc .ornament img{width:26px; opacity:.85; animation:xc-spin 22s linear infinite}
-@keyframes xc-spin{to{transform:rotate(360deg)}}
-
-.xc .reveal{opacity:0; transform:translateY(22px); transition:opacity .65s var(--ease),transform .65s var(--ease)}
-.xc .reveal.in{opacity:1; transform:none}
-.xc .reveal.d1{transition-delay:.06s}.xc .reveal.d2{transition-delay:.12s}.xc .reveal.d3{transition-delay:.18s}
-@media(prefers-reduced-motion:reduce){.xc .reveal{opacity:1; transform:none; transition:none}.xc .ornament img,.xc .hero .emb,.xc .luxe-frame img{animation:none}}
+/* Homepage-specific reduced-motion (shared .reveal/.ornament handled in xurcun-base.css) */
+@media(prefers-reduced-motion:reduce){.xc .hero .emb,.xc .luxe-frame img{animation:none}}
 
 .xc .topbar{background:var(--ink); color:var(--cream)}
 .xc .topbar .wrap{display:flex; justify-content:space-between; align-items:center; height:38px; font-size:11px; letter-spacing:.08em}
@@ -184,8 +156,6 @@
      would hide the second row, so keep the full nav visible at all times here. */
   .xc nav,.xc header.shrink nav{flex-wrap:wrap; justify-content:center; gap:18px; max-height:none; overflow:visible; opacity:1}
 }
-[dir="rtl"] .xc .ornament img{animation:none}
-
 /* ── Mobile ── */
 @media(max-width:600px){
   .xc .wrap{padding:0 18px}

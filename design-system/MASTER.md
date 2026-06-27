@@ -30,6 +30,10 @@
 | Krem | `--cream` | `#EBE5D7` |
 | Xətt/border | `--line` | `#D8CFB9` |
 | WhatsApp yaşıl | `--wa` | `#1F4A34` |
+| Krem (kart fon) | `--cream-100` | `#F1ECE0` |
+| Ağ | `--white` | `#FFFFFF` |
+| **Qızıl fonda mətn** (AA) | `--on-gold` | `#14110C` |
+| Krem mətn (tünd fonda, parlaq→sönük) | `--cream-text` / `-soft` / `-muted` / `-faint` | `#E6DDCA` · `#D8CDB4` · `#C9BEA4` · `#9C917B` |
 
 ### Secondary — Tünd mövzu (admin paneli)
 | Rol | Hex |
@@ -44,6 +48,7 @@
 ### Kontrast qaydaları (WCAG AA)
 - Açıq fonda **kiçik mətn** üçün qızıl = `--gold-dark #7E6228` (≈ 4.5:1+).
 - `--gold #9D7C38` açıq fonda yalnız **böyük/dekorativ** mətndə (≈ 3.7:1).
+- **Qızıl fonda mətn** (düymə, badge, aktiv dil): `--on-gold #14110C` (≈ 4.8:1). `--ink` qızıl üstündə yalnız 3.65:1 — istifadə etmə.
 - Tünd fonda `--gold-light #C2A05A` rahat keçir.
 
 ---
@@ -63,7 +68,16 @@
 
 ---
 
-## 4. Komponent tokenləri
+## 4. CSS arxitekturası
+
+- **`src/xurcun-base.css`** — vahid təməl: bütün `.xc` tokenləri + base reset, tipografiya,
+  `:focus-visible`, `.tag`, `.ornament`, `.reveal`, RTL ornament. **Tokenlərin tək mənbəyi.**
+- **`src/xurcun-home.css`** — yalnız ana səhifəyə xas (hero, kart, luxe, about, footer…).
+- **`src/xurcun-menu.css`** — yalnız QR menyuya xas.
+- Hər `.xc` səhifəsi əvvəlcə `xurcun-base.css`, sonra öz səhifə faylını import edir.
+  (Belə menyu səhifəsi ana səhifənin CSS-ini çəkmir.)
+
+## 5. Komponent tokenləri
 
 - Radius: düymələr `999px` (pill) / kartlar `2–12px`; `--radius` shadcn üçün.
 - Easing: `--ease: cubic-bezier(.22,.61,.36,1)`; keçidlər 150–300ms.
@@ -72,7 +86,7 @@
 
 ---
 
-## 5. Accessibility / Performans checklist
+## 6. Accessibility / Performans checklist
 
 - [x] `:focus-visible` qlobal fokus halqası (index.css + .xc)
 - [x] Toxunma hədəfləri ≥44px (QR menyu, dil/nav)
@@ -84,7 +98,7 @@
 
 ---
 
-## 6. Tamamlanmış brend birləşdirmələri
+## 7. Tamamlanmış brend birləşdirmələri
 
 1. ✅ **Tünd → Krem public səhifələr** — Rezervasiya / Privacy / Cookie səhifələri
    krem brend mövzuya keçirildi (`#F6F2E9` fon, `#7E6228` başlıq, Rufolo, WA yaşılı
@@ -95,7 +109,7 @@
    Yalnız `sections/SEO.tsx` qaldı (aktiv istifadədə). `#D4A853` ember-gold artıq yoxdur.
 3. ✅ Səpələnmiş qızıl `#C9A96E` → brend `#C2A05A` (admin = home = vahid).
 
-## 7. Qalan gələcək işlər
+## 8. Qalan gələcək işlər
 - [ ] Şəkillər WebP + `srcset` + lazy (performans).
 - [ ] Admin paneli tünddür — qəsdən belədir (idarəetmə üçün), public-dən ayrı.
 - [ ] Orphan ola biləcək lib faylları (məs. `aboutText.ts`) — silinmiş section-lardan

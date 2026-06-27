@@ -1,5 +1,5 @@
 /* Xurcun QR menyu — mobil-əvvəl premium katalog/kafe menyusu.
-   Brend tokenləri (.xc) xurcun-home.css-dən gəlir; bu fayl yalnız menyu görünüşüdür. */
+   Brend tokenləri (.xc) xurcun-base.css-dən gəlir; bu fayl yalnız menyu görünüşüdür. */
 
 .xc.xcm {
   min-height: 100vh;
