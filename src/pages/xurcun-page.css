@@ -1,0 +1,44 @@
+/* Shared layout for simple brand pages (About, FAQ). Tokens come from xurcun-base.css. */
+.xc.xcpage { min-height: 100vh; background: radial-gradient(120% 60% at 50% 0%, var(--cream-50), var(--cream)) fixed; display: flex; flex-direction: column; }
+
+.xc.xcpage .xcp-head { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 18px; background: color-mix(in srgb, var(--cream-50) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.xc.xcpage .xcp-head img.logo { height: 34px; width: auto; display: block; }
+.xc.xcpage .xcp-langs { display: flex; gap: 1px; }
+.xc.xcpage .xcp-langs button { background: none; border: 0; cursor: pointer; font-family: var(--body); font-size: 11px; letter-spacing: .06em; color: var(--ink-muted); padding: 5px 7px; border-radius: 6px; min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; transition: color .2s var(--ease), background-color .2s var(--ease); }
+@media (hover: hover) and (pointer: fine) { .xc.xcpage .xcp-langs button:hover { color: var(--ink); } }
+.xc.xcpage .xcp-langs button.on { color: var(--gold-dark); font-weight: 600; background: var(--cream-100); }
+
+.xc.xcpage .xcp-wrap { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 40px 22px 64px; }
+.xc.xcpage .xcp-wrap .tag { display: block; margin-bottom: 8px; }
+.xc.xcpage .xcp-wrap h1 { font-size: clamp(28px, 6vw, 40px); line-height: 1.1; color: var(--ink); }
+.xc.xcpage .xcp-wrap .ornament { margin: 16px 0 24px; justify-content: flex-start; }
+.xc.xcpage .xcp-wrap .ornament img { width: 22px; }
+[dir="rtl"] .xc.xcpage .xcp-wrap .ornament { justify-content: flex-end; }
+.xc.xcpage .xcp-lead { font-size: 15.5px; line-height: 1.75; color: var(--ink-soft); margin-bottom: 18px; text-wrap: pretty; max-width: 65ch; }
+
+.xc.xcpage .xcp-h2 { font-size: clamp(20px, 4vw, 26px); color: var(--ink); margin: 36px 0 16px; }
+.xc.xcpage .xcp-facts { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.xc.xcpage .xcp-facts li { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; font-size: 14px; color: var(--ink); position: relative; padding-left: 38px; }
+.xc.xcpage .xcp-facts li::before { content: "◆"; position: absolute; left: 16px; top: 16px; color: var(--gold); font-size: 12px; }
+[dir="rtl"] .xc.xcpage .xcp-facts li { padding-left: 18px; padding-right: 38px; }
+[dir="rtl"] .xc.xcpage .xcp-facts li::before { left: auto; right: 16px; }
+
+.xc.xcpage .xcp-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 40px; }
+.xc.xcpage .xcp-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 14px 30px; border-radius: 6px; background: var(--gold); color: var(--on-gold); font-family: var(--body); font-weight: 600; font-size: 14px; letter-spacing: .02em; transition: background-color .2s var(--ease), transform .12s var(--ease); }
+@media (hover: hover) and (pointer: fine) { .xc.xcpage .xcp-btn:hover { background: var(--gold-light); } }
+.xc.xcpage .xcp-btn:active { transform: scale(.98); }
+.xc.xcpage .xcp-link { color: var(--gold-dark); font-weight: 500; font-size: 14px; }
+
+/* FAQ accordion */
+.xc.xcpage .xcp-faq { margin-top: 8px; }
+.xc.xcpage .xcp-faq details { border-bottom: 1px solid var(--line); }
+.xc.xcpage .xcp-faq summary { list-style: none; cursor: pointer; padding: 18px 36px 18px 2px; font-family: var(--display); font-size: 18px; color: var(--ink); position: relative; }
+.xc.xcpage .xcp-faq summary::-webkit-details-marker { display: none; }
+.xc.xcpage .xcp-faq summary::after { content: "+"; position: absolute; right: 6px; top: 16px; font-size: 22px; color: var(--gold-dark); transition: transform .2s var(--ease); }
+.xc.xcpage .xcp-faq details[open] summary::after { transform: rotate(45deg); }
+[dir="rtl"] .xc.xcpage .xcp-faq summary { padding: 18px 2px 18px 36px; }
+[dir="rtl"] .xc.xcpage .xcp-faq summary::after { right: auto; left: 6px; }
+.xc.xcpage .xcp-faq .ans { padding: 0 2px 18px; font-size: 15px; line-height: 1.7; color: var(--ink-muted); max-width: 65ch; }
+
+.xc.xcpage .xcp-foot { text-align: center; padding: 24px 18px 30px; font-size: 12.5px; color: var(--ink-muted); border-top: 1px solid var(--line); }
+.xc.xcpage .xcp-foot a { color: var(--gold-dark); }

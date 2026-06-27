@@ -224,6 +224,8 @@ app.get("/sitemap.xml", async (c) => {
     { loc: "https://xurcun.az/menu", priority: "0.9", changefreq: "weekly" },
     { loc: "https://xurcun.az/privacy", priority: "0.3", changefreq: "yearly" },
     { loc: "https://xurcun.az/cookie-policy", priority: "0.3", changefreq: "yearly" },
+    { loc: "https://xurcun.az/about", priority: "0.6", changefreq: "monthly" },
+    { loc: "https://xurcun.az/faq", priority: "0.5", changefreq: "monthly" },
   ];
 
   // Per-branch QR-menu pages (/menu/<slug>) — one crawlable URL per active store.
@@ -260,6 +262,32 @@ ${urls}
       "Cache-Control": "public, max-age=3600",
     },
   });
+});
+
+// llms.txt — concise, quotable brand summary for AI crawlers (AEO/GEO).
+app.get("/llms.txt", (c) => {
+  const content = `# Xurcun Chain of Boutiques
+> Premium Azerbaijani boutique chain for dried fruit, nuts, exotic teas, sweets,
+> chocolate, Turkish delight, baklava and handcrafted gift boxes.
+> Founded 2015 in Baku by Vugar Maharramov. 11 stores. Slogan: "Fond of Quality".
+> Languages: Azerbaijani, Russian, English, Turkish, Arabic. Currency: AZN.
+
+## Key pages
+- [Home](https://xurcun.az/): brand overview, store list, contact
+- [Catalogue](https://xurcun.az/catalog): products by category, order via WhatsApp
+- [About](https://xurcun.az/about): company story and facts
+- [FAQ](https://xurcun.az/faq): common questions and answers
+- [QR Menu](https://xurcun.az/menu): in-store product menu
+
+## Facts
+- Founded: 2015. Founder: Vugar Maharramov. Stores: 11 (Baku).
+- Contact: +994 50 212 18 11, info@xurcun.az
+- Categories: Dried Fruit, Nuts & Snacks, Tea & Spices, Chocolate, Turkish Delight, Baklava, Gifts
+- Products are natural, preservative-free; gluten-free options available.
+- Locations include: Port Baku Mall, Ganjlik Mall, Crescent Mall, Sea Breeze,
+  Səməd Vurğun, Azadlıq, Hüseyn Cavid, Khatai, White City, Heydar Aliyev Airport.
+`;
+  return new Response(content, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
 });
 
 // Robots.txt endpoint

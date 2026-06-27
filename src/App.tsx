@@ -6,6 +6,8 @@ const QRMenuPage = lazy(() => import("./pages/QRMenuPage"));
 const CatalogStorefront = lazy(() => import("./pages/CatalogPage"));
 import PrivacyPage from "./pages/PrivacyPage";
 import CookiePolicyPage from "./pages/CookiePolicyPage";
+import AboutPage from "./pages/AboutPage";
+import FaqPage from "./pages/FaqPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { useAutoPageView } from "./hooks/useTracking";
@@ -82,6 +84,8 @@ function App() {
         <Route path="/catalog" element={<Suspense fallback={<div className="min-h-screen bg-[#F6F2E9] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#9D7C38] border-t-transparent rounded-full animate-spin" /></div>}><CatalogStorefront /></Suspense>} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/faq" element={<FaqPage />} />
         <Route path="/admin/login" element={<Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}><LoginPage /></Suspense>} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Suspense fallback={<SectionSkeleton />}><DashboardPage /></Suspense>} />
