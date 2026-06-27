@@ -91,7 +91,7 @@ export default function AdminLayout() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#14110e] text-white overflow-x-hidden">
+    <div dir="ltr" className="min-h-screen bg-[#14110e] text-white overflow-x-hidden">
       {/* ─── Mobile Overlay ─── */}
       {sidebarOpen && (
         <div

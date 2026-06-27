@@ -25,7 +25,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#14110e" }}>
+    <div dir="ltr" className="min-h-screen flex items-center justify-center px-4" style={{ background: "#14110e" }}>
       <div className="w-full max-w-md">
         <div className="rounded-2xl p-8 border" style={{ background: "#1d1915", borderColor: "#352d24" }}>
           <div className="text-center mb-8">
