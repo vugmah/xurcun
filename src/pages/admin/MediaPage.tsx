@@ -12,7 +12,7 @@ import {
   getAvailableImages, getImageUrl, getAssignedImageIds,
   clearAllAssignments, getAssignedImage,
 } from "@/lib/imageStore";
-import { alacarteData, beverageData, shishaData } from "@/lib/menuData.static";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 /* ═══════════════════════════════════════════════════════════
    TYPES
@@ -829,10 +829,10 @@ export default function MediaPage() {
 
       {/* ═════════════════ Food Photo Assignment Section ═════════════════ */}
       <div className="pt-8 border-t border-[#222] mt-8">
-        <h2 className="text-lg font-bold text-white">Yemək Şəkilləri</h2>
-        <p className="text-white/50 text-sm mt-1">Məhsul şəkillərini təyin et və ya dəyiş</p>
+        <h2 className="text-lg font-bold text-white">Məhsul Şəkilləri</h2>
+        <p className="text-white/50 text-sm mt-1">Kataloq məhsullarının şəkillərini yüklə və ya dəyiş</p>
       </div>
-      <FoodPhotoAssignment allPhotos={allPhotos} />
+      <FoodPhotoAssignment />
     </div>
   );
 }
@@ -1124,331 +1124,124 @@ function PhotoPickerModal({
    FOOD PHOTO ASSIGNMENT — Product list with visual picker
    ═══════════════════════════════════════════════════════════ */
 
-function FoodPhotoAssignment({ allPhotos }: { allPhotos: PhotoItem[] }) {
-  const [assignVersion, setAssignVersion] = useState(0);
+/* ─── Catalog product image manager (boutique) ───
+   Lists DB catalog products and lets the admin upload/replace each product's
+   image. Writes straight to menu_items.imageUrl via menu.updateItem, so the
+   change is what the public catalog renders. */
+function FoodPhotoAssignment() {
+  const utils = trpc.useUtils();
   const [searchProd, setSearchProd] = useState("");
   const [selectedCat, setSelectedCat] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"assign" | "unassigned">("assign");
-  const [flashKey, setFlashKey] = useState<string | null>(null);
-  const [pickerProd, setPickerProd] = useState<{ name: string; cat: string; tab: string } | null>(null);
 
-  const bump = () => setAssignVersion((v) => v + 1);
-  const flash = (key: string) => { setFlashKey(key); setTimeout(() => setFlashKey((k) => k === key ? null : k), 600); };
+  const catalogQ = trpc.catalog.storefront.useQuery({ menuType: "catalog" });
+  const cats = (catalogQ.data?.categories ?? []) as any[];
+  const items = (catalogQ.data?.items ?? []) as any[];
 
-  /* Extract image ID from URL or ID — /food-photos/4w7a8050.webp → 4w7a8050 */
-  const extractId = (url: string): string => {
-    return normalizeImageId(url);
-  };
+  const catTitleById = useMemo(() => {
+    const m = new Map<number, string>();
+    cats.forEach((c) => m.set(c.id, c.titleAz));
+    return m;
+  }, [cats]);
 
-  /* Build image options from DB photos + static fallback while preserving the real URL */
-  const photoOptions = useMemo(() => {
-    const byId = new Map<string, FoodPhotoOption>();
-    allPhotos.forEach((photo) => {
-      const imageUrl = photo.url || photo.filename || "";
-      const imageId = extractId(imageUrl);
-      if (!imageId || byId.has(imageId)) return;
-      byId.set(imageId, {
-        imageId,
-        imageUrl: resolveFoodPhotoUrl(imageUrl, imageId),
-        label: imageUrl.split("?")[0].split("/").pop() || imageId,
-      });
-    });
-    getAvailableImages().forEach((imageId) => {
-      if (byId.has(imageId)) return;
-      byId.set(imageId, {
-        imageId,
-        imageUrl: getImageUrl(imageId),
-        label: imageId,
-      });
-    });
-    return Array.from(byId.values());
-  }, [allPhotos]);
+  const updateItem = trpc.menu.updateItem.useMutation({
+    onSuccess: () => { utils.catalog.storefront.invalidate(); },
+  });
 
-  const products = useMemo(() => {
-    const list: { name: string; cat: string; tab: string }[] = [];
-    alacarteData.forEach((cat) => { cat.items?.forEach((item: any) => { list.push({ name: item.name_az || item.name || "—", cat: cat.title_az, tab: "food" }); }); });
-    beverageData.forEach((cat) => { cat.items?.forEach((item: any) => { list.push({ name: item.name_az || item.name || "—", cat: cat.title_az, tab: "beverage" }); }); });
-    const hookahs = (shishaData as any).hookahs || [];
-    hookahs.forEach((item: any) => { list.push({ name: item.name_az || item.name || "—", cat: "Qəlyan cihazları", tab: "shisha" }); });
-    return list;
-  }, []);
+  const products = useMemo(
+    () =>
+      items.map((it) => ({
+        id: it.id as number,
+        name: (it.nameAz as string) || "—",
+        cat: catTitleById.get(it.categoryId) || "—",
+        imageUrl: (it.imageUrl as string) || "",
+      })),
+    [items, catTitleById],
+  );
+
+  const categories = useMemo(() => cats.map((c) => c.titleAz as string), [cats]);
 
   const filteredProducts = useMemo(() => {
     let list = products;
     if (selectedCat) list = list.filter((p) => p.cat === selectedCat);
-    if (searchProd.trim()) { const q = searchProd.toLowerCase(); list = list.filter((p) => p.name.toLowerCase().includes(q)); }
+    if (searchProd.trim()) {
+      const q = searchProd.toLowerCase();
+      list = list.filter((p) => p.name.toLowerCase().includes(q));
+    }
     return list;
   }, [products, selectedCat, searchProd]);
 
-  const categories = useMemo(() => {
-    const cats = new Set<string>();
-    alacarteData.forEach((c) => cats.add(c.title_az));
-    beverageData.forEach((c) => cats.add(c.title_az));
-    cats.add("Qəlyan cihazları");
-    return [...cats];
-  }, []);
-
-  const utils = trpc.useUtils();
-  const { data: dbAssignmentsData, isLoading: dbLoading, error: dbError } = trpc.photoAssignments.list.useQuery(undefined);
-  const assignPhotoApi = trpc.photoAssignments.assign.useMutation({
-    onSuccess: () => { utils.photoAssignments.list.invalidate(); utils.stats.invalidate(); bump(); },
-  });
-  const removePhotoApi = trpc.photoAssignments.remove.useMutation({
-    onSuccess: () => { utils.photoAssignments.list.invalidate(); utils.stats.invalidate(); bump(); },
-  });
-
-  function extractAssignments(data: unknown): Record<string, string> {
-    if (!data || typeof data !== "object") return {};
-    const d = data as any;
-    const src = d.assignments;
-    if (!src || typeof src !== "object") return {};
-    const map: Record<string, string> = {};
-    for (const [key, val] of Object.entries(src)) {
-      if (val && typeof val === "object") map[key] = (val as any).imageId || "";
-    }
-    return map;
-  }
-
-  function extractAssignmentUrls(data: unknown): Record<string, string> {
-    if (!data || typeof data !== "object") return {};
-    const d = data as any;
-    const src = d.assignments;
-    if (!src || typeof src !== "object") return {};
-    const map: Record<string, string> = {};
-    for (const [key, val] of Object.entries(src)) {
-      if (val && typeof val === "object") map[key] = (val as any).imageUrl || "";
-    }
-    return map;
-  }
-
-  const [assignmentMap, setAssignmentMap] = useState<Record<string, string>>({});
-  const [assignmentUrlMap, setAssignmentUrlMap] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    if (dbAssignmentsData) {
-      setAssignmentMap(extractAssignments(dbAssignmentsData));
-      setAssignmentUrlMap(extractAssignmentUrls(dbAssignmentsData));
-    }
-  }, [dbAssignmentsData]);
-
-  const assignments = useMemo(() => { return { ...assignmentMap }; }, [assignmentMap, assignVersion]);
-
-  const unassigned = useMemo(() => {
-    const assignedIds = new Set(Object.values(assignments).filter(Boolean).map(normalizeImageId));
-    return photoOptions.filter((photo) => !assignedIds.has(photo.imageId));
-  }, [assignments, photoOptions]);
-
-  const productImageId = (name: string, cat: string, tab: string): string | null => {
-    const key = `${tab}:${cat}:${name}`;
-    const stateId = assignmentMap[key];
-    if (stateId) return extractId(stateId);
-    const normUrl = getAssignedImage(tab, cat, name);
-    if (normUrl) return extractId(normUrl);
-    return null;
-  };
-
-  const productImageUrl = (name: string, cat: string, tab: string): string | null => {
-    const key = `${tab}:${cat}:${name}`;
-    const imageId = productImageId(name, cat, tab);
-    if (!imageId) return null;
-    const savedUrl = assignmentUrlMap[key];
-    if (savedUrl) return resolveFoodPhotoUrl(savedUrl, imageId);
-    return photoOptions.find((photo) => photo.imageId === imageId)?.imageUrl || getImageUrl(imageId);
-  };
-
-  useEffect(() => {
-    import("@/lib/imageStore").then((mod) => {
-      if (mod.clearOptimisticAssignments) mod.clearOptimisticAssignments();
-    });
-    if (dbAssignmentsData && typeof dbAssignmentsData === "object") {
-      const raw = dbAssignmentsData as any;
-      const assignments = raw.assignments;
-      if (assignments && typeof assignments === "object") {
-        import("@/lib/imageStore").then((mod) => {
-          if (mod.syncAssignments) mod.syncAssignments(assignments);
-        });
-      }
-    }
-  }, [dbAssignmentsData]);
-
-  const handleAssign = (prod: { name: string; cat: string; tab: string }, photo: FoodPhotoOption | null) => {
-    const imageId = photo?.imageId || "";
-    import("@/lib/imageStore").then((mod) => {
-      if (mod.writeOptimisticAssignment) {
-        mod.writeOptimisticAssignment(prod.tab, prod.cat, prod.name, imageId || null);
-      }
-    });
-    bump();
-    flash(`${prod.tab}:${prod.cat}:${prod.name}`);
-    if (photo) {
-      assignPhotoApi.mutate({
-        tab: prod.tab, catTitleAz: prod.cat, itemNameAz: prod.name,
-        imageId: photo.imageId, imageUrl: photo.imageUrl, branchSlug: "white-city",
-      });
-    } else {
-      removePhotoApi.mutate({
-        tab: prod.tab, catTitleAz: prod.cat, itemNameAz: prod.name, branchSlug: "white-city",
-      });
-    }
-  };
-
-  const pickerCurrentId = pickerProd ? productImageId(pickerProd.name, pickerProd.cat, pickerProd.tab) : null;
+  const withImage = useMemo(() => products.filter((p) => p.imageUrl).length, [products]);
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-3 text-white/40 text-xs">
-          <span>{photoOptions.length} şəkil</span><span className="w-px h-3 bg-white/10" />
-          <span className="text-green-400/70">{Object.keys(assignments).length} təyin edilib</span><span className="w-px h-3 bg-white/10" />
-          <span className="text-amber-400/70">{unassigned.length} təyin edilməyib</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => { if (!confirm("Bütün şəkil təyinatları silinsin? Bu əməliyyat geri alına bilməz.")) return; clearAllAssignments(); bump(); }}
-            className="p-1.5 rounded text-white/15 hover:text-red-400 hover:bg-red-400/5 transition-all" title="Bütün təyinatları sil"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-          </button>
-          <div className="flex gap-1.5">
-            <button onClick={() => setActiveTab("assign")} className={`px-3 py-1.5 rounded-md text-[11px] font-medium border transition-all ${activeTab === "assign" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/[0.03] text-white/30 border-white/[0.06] hover:border-white/10"}`}>Təyin Et</button>
-            <button onClick={() => setActiveTab("unassigned")} className={`px-3 py-1.5 rounded-md text-[11px] font-medium border transition-all ${activeTab === "unassigned" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/[0.03] text-white/30 border-white/[0.06] hover:border-white/10"}`}>Təyin Edilməyib <span className="ml-1 opacity-60">{unassigned.length}</span></button>
-          </div>
-        </div>
+      <div className="flex items-center gap-3 text-white/40 text-xs">
+        <span>{products.length} məhsul</span>
+        <span className="w-px h-3 bg-white/10" />
+        <span className="text-green-400/70">{withImage} şəkilli</span>
+        <span className="w-px h-3 bg-white/10" />
+        <span className="text-amber-400/70">{products.length - withImage} şəkilsiz</span>
       </div>
 
-      <PhotoPickerModal
-        isOpen={!!pickerProd} onClose={() => setPickerProd(null)}
-        imageOptions={photoOptions} assignments={assignments}
-        currentImageId={pickerCurrentId}
-        onSelect={(photo) => { if (pickerProd) handleAssign(pickerProd, photo); }}
-        productName={pickerProd?.name || ""}
-      />
-
-      {dbLoading && (
+      {catalogQ.isLoading && (
         <div className="text-amber-400/70 text-xs bg-amber-400/5 border border-amber-400/10 rounded-lg p-2 flex items-center gap-2">
-          <Loader2 className="w-3 h-3 animate-spin" /> photoAssignments.list yuklenir...
+          <Loader2 className="w-3 h-3 animate-spin" /> Kataloq yüklənir…
         </div>
       )}
-      {dbError && (
+      {catalogQ.error && (
         <div className="text-red-400 text-xs bg-red-400/5 border border-red-400/10 rounded-lg p-2">
-          <p className="font-semibold">API XETASI:</p>
-          <p className="mt-1">{dbError.message}</p>
-          <p className="mt-1 text-white/30">Shape: {dbError.shape ? JSON.stringify(dbError.shape).slice(0,200) : "none"}</p>
+          <p className="font-semibold">API XƏTASI:</p>
+          <p className="mt-1">{catalogQ.error.message}</p>
         </div>
       )}
-      {!dbLoading && !dbError && dbAssignmentsData && (
-        <div className="text-green-400/70 text-xs bg-green-400/5 border border-green-400/10 rounded-lg p-2">
-          <span>API OK</span><span className="mx-2">|</span>
-          <span>{Object.keys(dbAssignmentsData.assignments ?? {}).length} teyin edilib</span><span className="mx-2">|</span>
-          <span>Ilk 3: {Object.keys(dbAssignmentsData.assignments ?? {}).slice(0,3).join(", ") || "bos"}</span>
-        </div>
-      )}
-
-      {photoOptions.length === 0 && (
+      {!catalogQ.isLoading && !catalogQ.error && products.length === 0 && (
         <div className="p-6 bg-amber-400/5 border border-amber-400/10 rounded-xl">
-          <p className="text-amber-400/70 text-xs font-medium">Şəkil kitabxanası boşdur</p>
-          <p className="text-white/30 text-[11px] mt-1">Yeni şəkillər idxal ediləndə bura əlavə olunacaq.</p>
+          <p className="text-amber-400/70 text-xs font-medium">Kataloqda məhsul yoxdur</p>
+          <p className="text-white/30 text-[11px] mt-1">
+            Əvvəlcə Kataloq səhifəsindən məhsul əlavə et, sonra burada şəkillərini idarə et.
+          </p>
         </div>
       )}
 
-      {activeTab === "assign" ? (
-        <>
-          <div className="flex gap-2 flex-wrap">
-            <div className="relative flex-1 min-w-[140px]">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-white/20" />
-              <input value={searchProd} onChange={(e) => setSearchProd(e.target.value)} placeholder="Məhsul axtar..." className="w-full pl-7 pr-3 py-1.5 bg-[#0A0A0A] border border-[#222] text-white text-xs rounded-md focus:outline-none focus:border-[#C9A96E] transition-colors" />
-            </div>
-            <select value={selectedCat || ""} onChange={(e) => setSelectedCat(e.target.value || null)} className="px-2 py-1.5 bg-[#0A0A0A] border border-[#222] text-white text-xs rounded-md focus:outline-none focus:border-[#C9A96E]">
-              <option value="">Bütün kateqoriyalar</option>
-              {categories.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </div>
-          <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
-            {filteredProducts.length === 0 ? (
-              <div className="p-8 text-center text-white/20 text-xs">Məhsul tapılmadı</div>
-            ) : (
-              filteredProducts.map((prod, idx) => {
-                const currentImg = productImageUrl(prod.name, prod.cat, prod.tab);
-                const prodKey = `${prod.tab}:${prod.cat}:${prod.name}`;
-                const isFlashing = flashKey === prodKey;
-                const hasImage = !!currentImg;
-                return (
-                  <div key={prodKey} className={`flex items-center gap-3 px-4 py-2.5 transition-all duration-300 ${idx < filteredProducts.length - 1 ? "border-b border-[#222]" : ""} ${isFlashing ? "bg-green-500/5" : "hover:bg-white/[0.015]"}`}>
-                    <div className={`w-11 h-11 shrink-0 rounded-lg overflow-hidden border ${hasImage ? "border-white/[0.06]" : "border-white/[0.03]"} bg-[#0A0A0A]`}>
-                      {hasImage ? (
-                        <img src={currentImg} alt="" className="w-full h-full object-cover" loading="lazy" decoding="async" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
-                      ) : (
-                        <div className="w-full h-full bg-[#161616]" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white/80 text-[13px] leading-tight truncate">{prod.name}</p>
-                      <p className="text-white/20 text-[10px] mt-0.5">{prod.cat}</p>
-                    </div>
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      {hasImage && (
-                        <button onClick={() => handleAssign(prod, null)} className="p-2 rounded-lg text-white/15 hover:text-red-400 hover:bg-red-400/5 transition-all" title="Şəkli sil">
-                          <Unlink className="w-3.5 h-3.5" />
-                        </button>
-                      )}
-                      <button
-                        onClick={() => photoOptions.length > 0 && setPickerProd(prod)}
-                        disabled={photoOptions.length === 0}
-                        className={`px-3 py-1.5 rounded-lg text-[11px] font-medium border transition-all flex items-center gap-1.5 ${
-                          photoOptions.length === 0 ? "bg-white/[0.02] text-white/15 border-white/[0.04] cursor-not-allowed"
-                          : hasImage ? "bg-white/[0.03] text-white/40 border-white/[0.06] hover:border-[#C9A96E]/30 hover:text-[#C9A96E]"
-                          : "bg-[#C9A96E]/10 text-[#C9A96E] border-[#C9A96E]/20 hover:bg-[#C9A96E]/15"
-                        }`}
-                      >
-                        <Image className="w-3 h-3" />
-                        {photoOptions.length === 0 ? "Şəkil yoxdur" : hasImage ? "Dəyiş" : "Təyin et"}
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </>
-      ) : (
-        <div className="space-y-3">
-          <p className="text-white/30 text-xs">{unassigned.length} şəkil təyin edilməyib</p>
-          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2">
-            {unassigned.map((photo) => (
-              <div key={`${photo.imageId}:${photo.imageUrl}`} className="bg-[#111] border border-[#222] rounded-xl overflow-hidden hover:border-[#333] transition-colors">
-                <div className="aspect-square bg-[#0A0A0A] overflow-hidden">
-                  <img
-                    src={photo.imageUrl}
-                    alt=""
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                      const img = e.currentTarget;
-                      const current = img.currentSrc || img.src;
-                      const next = foodPhotoFallbacks(photo).find((candidate) => {
-                        try {
-                          return new URL(candidate, window.location.origin).href !== current;
-                        } catch {
-                          return candidate !== current;
-                        }
-                      });
-                      if (next) {
-                        img.src = next;
-                        return;
-                      }
-                      img.style.display = "none";
-                    }}
-                  />
-                </div>
-                <div className="px-2 py-1.5">
-                  <p className="text-white/25 text-[9px] truncate font-mono">{photo.label}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+      <div className="flex gap-2 flex-wrap">
+        <div className="relative flex-1 min-w-[140px]">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-white/20" />
+          <input
+            value={searchProd}
+            onChange={(e) => setSearchProd(e.target.value)}
+            placeholder="Məhsul axtar…"
+            className="w-full pl-7 pr-3 py-1.5 bg-[#0A0A0A] border border-[#222] text-white text-xs rounded-md focus:outline-none focus:border-[#C9A96E] transition-colors"
+          />
         </div>
-      )}
+        <select
+          value={selectedCat || ""}
+          onChange={(e) => setSelectedCat(e.target.value || null)}
+          className="px-2 py-1.5 bg-[#0A0A0A] border border-[#222] text-white text-xs rounded-md focus:outline-none focus:border-[#C9A96E]"
+        >
+          <option value="">Bütün kateqoriyalar</option>
+          {categories.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        {filteredProducts.length === 0 && products.length > 0 ? (
+          <div className="p-8 text-center text-white/20 text-xs bg-[#111] border border-[#222] rounded-xl">
+            Məhsul tapılmadı
+          </div>
+        ) : (
+          filteredProducts.map((prod) => (
+            <div key={prod.id} className="bg-[#111] border border-[#222] rounded-xl px-4 py-3">
+              <ImageUpload
+                value={prod.imageUrl}
+                onChange={(url) => updateItem.mutate({ id: prod.id, imageUrl: url })}
+                label={`${prod.name}  ·  ${prod.cat}`}
+                accept="image/*"
+              />
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }

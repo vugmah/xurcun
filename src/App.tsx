@@ -22,6 +22,7 @@ const CafeMenuPage = lazy(() => import("./pages/admin/CafeMenuPage"));
 const BranchesPage = lazy(() => import("./pages/admin/BranchesPage"));
 const QrPage = lazy(() => import("./pages/admin/QrPage"));
 const SeoPage = lazy(() => import("./pages/admin/SeoPage"));
+const MediaPage = lazy(() => import("./pages/admin/MediaPage"));
 const MailSettingsPage = lazy(() => import("./pages/admin/MailSettingsPage"));
 const InboxPage = lazy(() => import("./pages/admin/InboxPage"));
 const GoogleAdsPage = lazy(() => import("./pages/admin/GoogleAdsPage"));
@@ -91,6 +92,7 @@ function App() {
           <Route path="branches" element={<Suspense fallback={<SectionSkeleton />}><BranchesPage /></Suspense>} />
           <Route path="qr" element={<Suspense fallback={<SectionSkeleton />}><QrPage /></Suspense>} />
           <Route path="seo" element={<Suspense fallback={<SectionSkeleton />}><SeoPage /></Suspense>} />
+          <Route path="media" element={<Suspense fallback={<SectionSkeleton />}><MediaPage /></Suspense>} />
           <Route path="tracking" element={<Navigate to="/admin/settings" replace />} />
           <Route path="mail-settings" element={<Suspense fallback={<SectionSkeleton />}><MailSettingsPage /></Suspense>} />
           <Route path="inbox" element={<Suspense fallback={<SectionSkeleton />}><InboxPage /></Suspense>} />
