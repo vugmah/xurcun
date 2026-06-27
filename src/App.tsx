@@ -4,7 +4,6 @@ import AdminErrorBoundary from "@/components/AdminErrorBoundary";
 import HomePage from "./pages/HomePage";
 const QRMenuPage = lazy(() => import("./pages/QRMenuPage"));
 const CatalogStorefront = lazy(() => import("./pages/CatalogPage"));
-import ReservationPage from "./pages/ReservationPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import CookiePolicyPage from "./pages/CookiePolicyPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -83,7 +82,6 @@ function App() {
         <Route path="/login/admin" element={<Navigate to="/admin/login" replace />} />
         <Route path="/menu/:branchSlug?" element={<Suspense fallback={<div className="min-h-screen bg-[#F6F2E9] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#9D7C38] border-t-transparent rounded-full animate-spin" /></div>}><QRMenuPage /></Suspense>} />
         <Route path="/catalog" element={<Suspense fallback={<div className="min-h-screen bg-[#F6F2E9] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#9D7C38] border-t-transparent rounded-full animate-spin" /></div>}><CatalogStorefront /></Suspense>} />
-        <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/cookie-policy" element={<CookiePolicyPage />} />
         <Route path="/admin/login" element={<Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}><LoginPage /></Suspense>} />
