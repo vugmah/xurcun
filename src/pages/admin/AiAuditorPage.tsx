@@ -112,12 +112,12 @@ function QuickActions({ issue }: { issue: AuditIssue }) {
         </>
       )}
       {(issue.category === "Admin" || issue.category === "Badges" || issue.category === "Pricing") && (
-        <a href="/admin/menu" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/admin/catalog" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
           <ShoppingBag className="w-2.5 h-2.5" /> Go to Product
         </a>
       )}
       {issue.category === "Branch" && (
-        <a href="/admin/menu" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/admin/catalog" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
           <Tag className="w-2.5 h-2.5" /> Go to Category
         </a>
       )}
