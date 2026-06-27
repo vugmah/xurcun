@@ -5,7 +5,7 @@ import { initTrackingAsync } from "@/lib/tracking/initTracking";
 
 /** Check if current page is admin */
 function isAdminPage(): boolean {
-  return typeof window !== "undefined" && window.location.hash.startsWith("#/admin");
+  return typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
 }
 
 /** Initialize tracking on first mount (public pages only).

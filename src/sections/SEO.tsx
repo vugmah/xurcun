@@ -32,17 +32,14 @@ interface SeoProps {
   branchSlug?: string
 }
 
-function getHashPath(): string {
-  const hash = window.location.hash
-  if (hash && hash.length > 1) {
-    return hash.slice(1).split('?')[0] || '/'
-  }
+function getCurrentPath(): string {
+  // BrowserRouter: the route lives in the pathname (was window.location.hash).
   return window.location.pathname || '/'
 }
 
 export default function SEO({ page = 'home', branchSlug }: SeoProps) {
   const { lang } = useLanguage()
-  const currentPath = getHashPath()
+  const currentPath = getCurrentPath()
 
   /* ─── 1. Path-based SEO (seoPages table) — most granular ─── */
   const { data: pathSeo } = trpc.seo.getByPath.useQuery(
@@ -118,7 +115,8 @@ export default function SEO({ page = 'home', branchSlug }: SeoProps) {
     ogTitle       = (seo[`ogTitle${suffix}` as keyof typeof seo] as string) || title
     ogDescription = (seo[`ogDescription${suffix}` as keyof typeof seo] as string) || description
     ogImage       = seo.ogImage || 'https://xurcun.az/assets/og-default.jpg'
-    canonicalUrl  = CANONICAL_ROOT
+    // Self-referential canonical (BrowserRouter: path is meaningful).
+    canonicalUrl  = currentPath === '/' ? CANONICAL_ROOT : `https://xurcun.az${currentPath}`
   }
 
   const ogUrl = canonicalUrl

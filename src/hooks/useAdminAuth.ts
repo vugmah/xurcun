@@ -33,7 +33,7 @@ export function useAdminAuth() {
       removeLastActivity();
       setAdminKeyState(null);
       setIsAuthenticated(false);
-      window.location.hash = "#/admin/login";
+      window.location.assign("/admin/login");
     }
   }, []);
 
@@ -106,7 +106,7 @@ export function useAdminAuth() {
     removeLastActivity();
     setAdminKeyState(null);
     setIsAuthenticated(false);
-    window.location.hash = "#/admin/login";
+    window.location.assign("/admin/login");
   }, []);
 
   return {
