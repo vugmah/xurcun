@@ -211,9 +211,9 @@ function flushSync() {
 
 /** Get current branch slug from URL */
 function getCurrentBranchSlug(): string {
-  const hash = window.location.hash;
-  if (hash.includes("/menu/")) {
-    return hash.split("/menu/")[1]?.split("/")[0] || "white-city";
+  const path = window.location.pathname;
+  if (path.includes("/menu/")) {
+    return path.split("/menu/")[1]?.split("/")[0] || "white-city";
   }
   return "white-city";
 }
@@ -225,9 +225,9 @@ function getCurrentLang(): string {
 
 /** Detect source from URL */
 function detectSource(): "qr" | "homepage" | "admin" {
-  const hash = window.location.hash;
-  if (hash.includes("/admin")) return "admin";
-  if (hash.includes("/menu/")) return "qr";
+  const path = window.location.pathname;
+  if (path.includes("/admin")) return "admin";
+  if (path.includes("/menu/")) return "qr";
   return "qr";
 }
 

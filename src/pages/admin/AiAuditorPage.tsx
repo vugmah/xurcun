@@ -106,27 +106,27 @@ function QuickActions({ issue }: { issue: AuditIssue }) {
     <div className="flex flex-wrap gap-1.5 mt-2">
       {issue.category === "QR Menu" && (
         <>
-          <a href="#/menu/white-city" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+          <a href="/menu/white-city" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
             <QrCode className="w-2.5 h-2.5" /> Open QR
           </a>
         </>
       )}
       {(issue.category === "Admin" || issue.category === "Badges" || issue.category === "Pricing") && (
-        <a href="#/admin/menu" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/admin/menu" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
           <ShoppingBag className="w-2.5 h-2.5" /> Go to Product
         </a>
       )}
       {issue.category === "Branch" && (
-        <a href="#/admin/menu" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/admin/menu" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
           <Tag className="w-2.5 h-2.5" /> Go to Category
         </a>
       )}
       {issue.category === "Layout" || issue.category === "Images" ? (
-        <a href="#/admin/media" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/admin/media" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
           <Image className="w-2.5 h-2.5" /> Open Media
         </a>
       ) : null}
-      <a href="#/admin/print" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+      <a href="/admin/print" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
         <Printer className="w-2.5 h-2.5" /> Open PDF Preview
       </a>
     </div>
@@ -843,10 +843,10 @@ function QrReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) {
 
       {/* Quick QR links */}
       <div className="flex gap-2 flex-wrap">
-        <a href="#/menu/white-city" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/menu/white-city" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
           <QrCode className="w-3 h-3" /> White City QR
         </a>
-        <a href="#/menu/seabreeze-marina" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/menu/seabreeze-marina" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
           <QrCode className="w-3 h-3" /> Seabreeze QR
         </a>
         <RecheckButton onRecheck={() => recheck("qr")} rechecking={rechecking} lastRecheck={lastRecheck} />
@@ -959,7 +959,7 @@ function ExportCheckTab() {
         <button onClick={() => setCompareMode("none")} className={`px-3 py-1.5 rounded text-xs border transition-all ${compareMode === "none" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"}`}>All</button>
         <button onClick={() => setCompareMode("pdf")} className={`px-3 py-1.5 rounded text-xs border transition-all ${compareMode === "pdf" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"}`}>PDF Only</button>
         <button onClick={() => setCompareMode("pptx")} className={`px-3 py-1.5 rounded text-xs border transition-all ${compareMode === "pptx" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"}`}>PPTX Only</button>
-        <a href="#/admin/print" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all ml-auto">
+        <a href="/admin/print" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all ml-auto">
           <Printer className="w-3 h-3" /> Open Print Preview
         </a>
       </div>

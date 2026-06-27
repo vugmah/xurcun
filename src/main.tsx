@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { HashRouter } from "react-router";
+import { BrowserRouter } from "react-router";
 import { HelmetProvider } from "react-helmet-async";
 import { TRPCProvider } from "./providers/trpc";
 import { LanguageProvider } from "./lib/LanguageContext";
@@ -69,6 +69,14 @@ window.addEventListener("unhandledrejection", (e) => {
   }).catch(() => { /* silently fail */ });
 };
 
+// ═══ Legacy hash-URL redirect (old QR codes / links used /#/path) ═══
+// Migrated HashRouter → BrowserRouter. Old links like xurcun.az/#/menu/branch
+// must still work, so rewrite "#/..." to a real path before React mounts.
+if (window.location.hash.startsWith("#/")) {
+  const target = window.location.hash.slice(1); // "/menu/branch?lang=az"
+  window.history.replaceState(null, "", target || "/");
+}
+
 // ═══ Render app ═══
 const rootEl = document.getElementById("root");
 if (!rootEl) {
@@ -76,7 +84,7 @@ if (!rootEl) {
 } else {
   createRoot(rootEl).render(
     <StrictMode>
-      <HashRouter>
+      <BrowserRouter>
         <HelmetProvider>
           <TRPCProvider>
             <LanguageProvider>
@@ -84,7 +92,7 @@ if (!rootEl) {
             </LanguageProvider>
           </TRPCProvider>
         </HelmetProvider>
-      </HashRouter>
+      </BrowserRouter>
     </StrictMode>
   );
 }

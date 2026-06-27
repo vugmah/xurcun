@@ -55,25 +55,24 @@ function recordShown(popupId: number) {
  * Detect current page placement for popup targeting.
  * Returns: "homepage" | "qr" | "other"
  *
- * Uses window.location.hash because the app uses HashRouter.
- *   Homepage: "" | "#" | "#/"
- *   QR menu:  "#/menu/..."
- *   Admin:    "#/admin/..."
+ * Uses window.location.pathname (BrowserRouter).
+ *   Homepage: "/"
+ *   QR menu:  "/menu/..."
+ *   Admin:    "/admin/..."
  */
 function getCurrentPlacement(): "homepage" | "qr" | "other" {
-  const hash = window.location.hash || "";
-  if (hash === "" || hash === "#" || hash === "#/") return "homepage";
-  if (hash.startsWith("#/menu/")) return "qr";
+  const path = window.location.pathname || "/";
+  if (path === "/") return "homepage";
+  if (path === "/menu" || path.startsWith("/menu/")) return "qr";
   return "other";
 }
 
 /**
- * Detect current branch slug from the hash route.
- * For QR pages: "#/menu/white-city" → "white-city"
+ * Detect current branch slug from the route.
+ * For QR pages: "/menu/white-city" → "white-city"
  */
 function getCurrentBranch(): string | undefined {
-  const hash = window.location.hash || "";
-  const parts = hash.replace("#", "").split("/").filter(Boolean);
+  const parts = (window.location.pathname || "/").split("/").filter(Boolean);
   // parts[0] = "menu", parts[1] = branch slug
   if (parts[0] === "menu" && parts[1]) return parts[1];
   return undefined;
@@ -95,8 +94,7 @@ function getCurrentLang(): string | undefined {
  */
 function passesTargeting(campaign: PopupCampaign): boolean {
   // ── 1. Admin exclusion — NEVER show on admin routes ──
-  const hash = window.location.hash || "";
-  if (hash.startsWith("#/admin")) return false;
+  if ((window.location.pathname || "").startsWith("/admin")) return false;
 
   // ── 2. Placement targeting ──
   const placement = campaign.placement ?? "all";
@@ -235,7 +233,7 @@ export default function PopupRenderer() {
 
   // ── FINAL GUARD: don't render if no active popup or on admin route ──
   if (!activePopup) return null;
-  if ((window.location.hash || "").startsWith("#/admin")) return null;
+  if ((window.location.pathname || "").startsWith("/admin")) return null;
 
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) handleClose(); }}>

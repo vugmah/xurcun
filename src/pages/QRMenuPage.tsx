@@ -128,7 +128,7 @@ export default function QRMenuPage() {
       {/* Header */}
       <div className="mhead">
         <div className="row">
-          <a href="#/"><img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" /></a>
+          <a href="/"><img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" /></a>
           <div className="mlangs">
             {LANGS.map((l) => (
               <button key={l.code} className={lang === l.code ? 'on' : ''} aria-pressed={lang === l.code} aria-label={l.code.toUpperCase()} onClick={() => setLang(l.code)}>{l.label}</button>
@@ -238,7 +238,7 @@ export default function QRMenuPage() {
 
         <div className="mfoot">
           <div className="script">{t(S.foot_script)}</div>
-          <div className="cp">© {new Date().getFullYear()} Xurcun · <a href="#/">xurcun.az</a></div>
+          <div className="cp">© {new Date().getFullYear()} Xurcun · <a href="/">xurcun.az</a></div>
         </div>
       </div>
     </div>

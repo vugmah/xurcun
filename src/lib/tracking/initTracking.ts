@@ -163,7 +163,7 @@ function initMetaPixelScript(pixelId: string, domainVerificationCode?: string) {
 
 /** Check if current page is admin */
 function isAdminPage(): boolean {
-  return typeof window !== "undefined" && window.location.hash.startsWith("#/admin");
+  return typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
 }
 
 /** Main init — call once on app mount. Loads scripts based on admin settings. */

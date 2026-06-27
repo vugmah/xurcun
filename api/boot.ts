@@ -212,24 +212,30 @@ app.get("/uploads/*", async (c) => {
   }
 });
 
-// Sitemap.xml endpoint — single homepage URL only
-// NOTE: HashRouter SPA — only root URL is crawlable by Google.
-// All /az/, /ru/, /en/, /tr/ path-based URLs and /menu/# hash URLs
-// are NOT independently indexable. Submit only homepage to sitemap.
+// Sitemap.xml endpoint — real crawlable URLs (BrowserRouter, path-based routing).
+// Branch menu pages (/menu/<slug>) can be appended here once branch slugs are
+// queried; for now the canonical public routes are listed.
 app.get("/sitemap.xml", async (c) => {
   const today = new Date().toISOString().split("T")[0];
 
+  const routes = [
+    { loc: "https://xurcun.az/", priority: "1.0", changefreq: "weekly" },
+    { loc: "https://xurcun.az/menu", priority: "0.9", changefreq: "weekly" },
+    { loc: "https://xurcun.az/reservation", priority: "0.6", changefreq: "monthly" },
+    { loc: "https://xurcun.az/privacy", priority: "0.3", changefreq: "yearly" },
+    { loc: "https://xurcun.az/cookie-policy", priority: "0.3", changefreq: "yearly" },
+  ];
+
+  const urls = routes
+    .map(
+      (r) =>
+        `  <url>\n    <loc>${r.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`
+    )
+    .join("\n");
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- NOTE: This SPA uses client-side hash routing (/#/). Only the root
-       URL is listed — Google indexes the homepage and discovers content
-       via internal links. Hash routes are NOT independently crawlable. -->
-  <url>
-    <loc>https://xurcun.az/</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+${urls}
 </urlset>`;
 
   return new Response(xml, {
@@ -790,13 +796,8 @@ app.use("/api/trpc/*", async (c) => {
     createContext,
   });
 });
-// Admin redirect — HashRouter requires #/ prefix
-// Redirect /admin/* to /#/admin/* so React HashRouter handles routing
-app.get("/admin", (c) => c.redirect("/#/admin"));
-app.get("/admin/*", (c) => {
-  const sub = c.req.path.replace("/admin", "");
-  return c.redirect("/#/admin" + sub);
-});
+// NOTE: /admin and /admin/* are served by the SPA (BrowserRouter) via the
+// static-file notFound fallback in serveStaticFiles — no redirect needed.
 
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
 
