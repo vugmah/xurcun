@@ -5,6 +5,8 @@ import '@/xurcun-home.css'
 
 const LOGO = '/brand/logo-gold.png'
 const EMBLEM = '/brand/emblem-gold.png'
+const HERO_IMG = '/images/home/hero.jpg'
+const GIFT_IMG = '/images/home/gift.jpg'
 
 type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar'
 const LANGS: { code: Lang; label: string }[] = [
@@ -65,6 +67,13 @@ const S = {
   foot_stores: { az: 'Mağazalar', ru: 'Магазины', en: 'Stores', tr: 'Mağazalar', ar: 'المتاجر' },
   foot_contact: { az: 'Əlaqə', ru: 'Контакты', en: 'Contact', tr: 'İletişim', ar: 'اتصل بنا' },
   skip: { az: 'Əsas məzmuna keç', ru: 'К основному содержанию', en: 'Skip to content', tr: 'İçeriğe geç', ar: 'انتقل إلى المحتوى' },
+  gift_alt: {
+    az: 'Qızıl lentlə bağlanmış əl işi XURCUN hədiyyə qutusu',
+    ru: 'Подарочная коробка XURCUN ручной работы с золотой лентой',
+    en: 'Handcrafted XURCUN gift box tied with a gold ribbon',
+    tr: 'Altın kurdeleli el yapımı XURCUN hediye kutusu',
+    ar: 'علبة هدايا XURCUN مصنوعة يدويًا بشريط ذهبي',
+  },
   aria_nav: { az: 'Əsas naviqasiya', ru: 'Основная навигация', en: 'Main navigation', tr: 'Ana navigasyon', ar: 'التنقل الرئيسي' },
   aria_lang: { az: 'Dil seçimi', ru: 'Выбор языка', en: 'Language', tr: 'Dil seçimi', ar: 'اختيار اللغة' },
 } satisfies Record<string, M>
@@ -107,6 +116,7 @@ export default function HomePage() {
   const { lang, setLang } = useLanguage()
   const t = (m: M) => m[lang] ?? m.az
   const root = useRef<HTMLDivElement>(null)
+  const heroVid = useRef<HTMLVideoElement>(null)
 
   // Branches come from the admin/DB (synced). Fallback to static list if API empty.
   const branchesQ = trpc.branch.getBranches.useQuery(undefined, { retry: false })
@@ -146,6 +156,10 @@ export default function HomePage() {
   useEffect(() => {
     const el = root.current
     if (!el) return
+    // Hero video plays only when motion is welcome; otherwise the poster still stands in.
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      heroVid.current?.play().catch(() => {})
+    }
     const reveals = el.querySelectorAll('.reveal')
     let io: IntersectionObserver | null = null
     let safety: number | undefined
@@ -203,6 +217,9 @@ export default function HomePage() {
       </header>
 
       <section className="hero" id="main">
+        <video className="herovid" ref={heroVid} poster={HERO_IMG} muted loop playsInline preload="metadata" aria-hidden="true">
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
         <div className="bgpat" /><div className="veil" />
         <div className="wrap">
           <img className="emb" src={EMBLEM} alt="" />
@@ -265,7 +282,7 @@ export default function HomePage() {
             <p>{t(S.luxe_p)}</p>
             <a className="btn btn-gold" href="#cat">{t(S.luxe_cta)}</a>
           </div>
-          <div className="luxe-frame reveal d2"><img src={EMBLEM} alt="" /></div>
+          <div className="luxe-frame reveal d2"><img className="gimg" src={GIFT_IMG} alt={t(S.gift_alt)} loading="lazy" decoding="async" /></div>
         </div>
       </div>
 
