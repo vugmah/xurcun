@@ -39,6 +39,8 @@ const S = {
   wa_intro: { az: 'Salam! Bu məhsulları sifariş etmək istəyirəm:', ru: 'Здравствуйте! Хочу заказать эти товары:', en: 'Hello! I would like to order these products:', tr: 'Merhaba! Bu ürünleri sipariş etmek istiyorum:', ar: 'مرحبًا! أود طلب هذه المنتجات:' },
   pcs: { az: 'əd.', ru: 'шт.', en: 'pcs', tr: 'ad.', ar: 'قطعة' },
   close: { az: 'Bağla', ru: 'Закрыть', en: 'Close', tr: 'Kapat', ar: 'إغلاق' },
+  pay: { az: 'Ödəniləcək məbləğ', ru: 'Сумма к оплате', en: 'Amount to pay', tr: 'Ödenecek tutar', ar: 'المبلغ المطلوب' },
+  order_title: { az: 'Sifariş forması', ru: 'Бланк заказа', en: 'Order form', tr: 'Sipariş formu', ar: 'نموذج الطلب' },
 } satisfies Record<string, M>
 
 type Cat = { id: number; parentId: number | null; sortOrder?: number } & Record<string, unknown>
@@ -181,15 +183,104 @@ export default function CatalogPage() {
     0,
   )
 
-  const waLink = () => {
+  const waText = () => {
     const lines = [t(S.wa_intro), '']
     for (const l of cartLines) {
       const nm = pick(l.item as Record<string, unknown>, 'name')
       const pr = l.item.priceVisible === false || !l.item.price ? '' : ` — ${l.item.price} ₼`
       lines.push(`• ${nm} × ${l.qty}${pr}`)
     }
-    if (cartTotal > 0) lines.push('', `${t(S.total)}: ${cartTotal.toFixed(2)} ₼`)
-    return `https://wa.me/${WA}?text=${encodeURIComponent(lines.join('\n'))}`
+    if (cartTotal > 0) lines.push('', `${t(S.pay)}: ${cartTotal.toFixed(2)} ₼`)
+    return lines.join('\n')
+  }
+  const waLink = () => `https://wa.me/${WA}?text=${encodeURIComponent(waText())}`
+
+  const [busy, setBusy] = useState(false)
+
+  // Branded PNG order form — previews inline in WhatsApp; shared via the device share sheet.
+  const buildOrderBlob = async (): Promise<Blob | null> => {
+    if (typeof document === 'undefined') return null
+    try { await (document.fonts?.ready ?? Promise.resolve()) } catch { /* fonts optional */ }
+    const locale = ({ az: 'az-AZ', ru: 'ru-RU', en: 'en-GB', tr: 'tr-TR', ar: 'ar' } as Record<string, string>)[lang] || 'az-AZ'
+    const dateStr = new Date().toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' })
+    const logo = new Image()
+    logo.src = LOGO
+    await new Promise<void>((res) => { logo.onload = () => res(); logo.onerror = () => res() })
+
+    const W = 720, pad = 48, rowH = 58
+    const ratio = logo.naturalWidth ? logo.naturalHeight / logo.naturalWidth : 0.32
+    const logoW = 160, logoH = Math.round(logoW * ratio)
+    const hasTotal = cartTotal > 0
+    const headerH = pad + logoH + 12 + 30 + 26 + 28
+    const H = headerH + cartLines.length * rowH + (hasTotal ? 70 : 14) + 64
+    const scale = 2
+    const cv = document.createElement('canvas')
+    cv.width = W * scale; cv.height = Math.ceil(H) * scale
+    const ctx = cv.getContext('2d')
+    if (!ctx) return null
+    ctx.scale(scale, scale)
+    ctx.fillStyle = '#F6F2E9'; ctx.fillRect(0, 0, W, H)
+    ctx.fillStyle = '#9D7C38'; ctx.fillRect(0, 0, W, 6)
+    let y = pad
+    if (logo.naturalWidth) { ctx.drawImage(logo, (W - logoW) / 2, y, logoW, logoH); y += logoH + 6 }
+    else { ctx.fillStyle = '#2E2A25'; ctx.font = '600 32px "Rufolo", Georgia, serif'; ctx.textAlign = 'center'; ctx.fillText('XURCUN', W / 2, y + 30); y += 44 }
+    ctx.textAlign = 'center'; ctx.fillStyle = '#7E6228'; ctx.font = '400 11px Montserrat, sans-serif'
+    ctx.fillText('F O N D   O F   Q U A L I T Y', W / 2, y + 4); y += 26
+    ctx.strokeStyle = '#D8CFB9'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(W - pad, y); ctx.stroke(); y += 30
+    ctx.textAlign = 'left'; ctx.fillStyle = '#2E2A25'; ctx.font = '600 22px "Rufolo", Georgia, serif'
+    ctx.fillText(t(S.order_title), pad, y)
+    ctx.textAlign = 'right'; ctx.fillStyle = '#6b6457'; ctx.font = '400 13px Montserrat, sans-serif'
+    ctx.fillText(dateStr, W - pad, y - 2); y += 28
+    const ell = (str: string, max: number) => {
+      if (ctx.measureText(str).width <= max) return str
+      let r = str
+      while (r.length > 1 && ctx.measureText(r + '…').width > max) r = r.slice(0, -1)
+      return r + '…'
+    }
+    for (const l of cartLines) {
+      const nm = pick(l.item as Record<string, unknown>, 'name')
+      const visible = !(l.item.priceVisible === false || !l.item.price)
+      const sub = priceNum(l.item.price) * l.qty
+      ctx.textAlign = 'left'; ctx.fillStyle = '#2E2A25'; ctx.font = '600 17px Montserrat, sans-serif'
+      ctx.fillText(ell(nm, W * 0.6), pad, y + 18)
+      ctx.fillStyle = '#6b6457'; ctx.font = '400 13px Montserrat, sans-serif'
+      ctx.fillText(visible ? `${l.qty} × ${l.item.price} ₼` : `${t(S.pcs)}: ${l.qty}`, pad, y + 38)
+      ctx.textAlign = 'right'
+      if (visible) { ctx.fillStyle = '#2E2A25'; ctx.font = '600 17px Montserrat, sans-serif'; ctx.fillText(`${sub.toFixed(2)} ₼`, W - pad, y + 26) }
+      else { ctx.fillStyle = '#6b6457'; ctx.font = '400 14px Montserrat, sans-serif'; ctx.fillText(t(S.ask_price), W - pad, y + 26) }
+      y += rowH
+      ctx.strokeStyle = '#E6DEC9'; ctx.beginPath(); ctx.moveTo(pad, y - 14); ctx.lineTo(W - pad, y - 14); ctx.stroke()
+    }
+    if (hasTotal) {
+      y += 18
+      ctx.textAlign = 'left'; ctx.fillStyle = '#2E2A25'; ctx.font = '600 16px Montserrat, sans-serif'
+      ctx.fillText(t(S.pay), pad, y + 8)
+      ctx.textAlign = 'right'; ctx.fillStyle = '#7E6228'; ctx.font = '700 24px "Rufolo", Georgia, serif'
+      ctx.fillText(`${cartTotal.toFixed(2)} ₼`, W - pad, y + 12)
+    }
+    ctx.textAlign = 'center'; ctx.fillStyle = '#6b6457'; ctx.font = '400 13px Montserrat, sans-serif'
+    ctx.fillText('+994 50 212 18 11   ·   xurcun.az', W / 2, H - 24)
+    return await new Promise<Blob | null>((res) => cv.toBlob((b) => res(b), 'image/png', 0.95))
+  }
+
+  const shareOrder = async () => {
+    if (busy || cartLines.length === 0) return
+    setBusy(true)
+    try {
+      const blob = await buildOrderBlob()
+      const nav = navigator as Navigator & { canShare?: (d?: unknown) => boolean; share?: (d: unknown) => Promise<void> }
+      if (blob) {
+        const file = new File([blob], 'xurcun-sifaris.png', { type: 'image/png' })
+        if (nav.canShare && nav.canShare({ files: [file] }) && nav.share) {
+          try { await nav.share({ files: [file], text: waText(), title: 'Xurcun' }); return }
+          catch (e) { if ((e as { name?: string })?.name === 'AbortError') return }
+        }
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a'); a.href = url; a.download = 'xurcun-sifaris.png'; a.click()
+        setTimeout(() => URL.revokeObjectURL(url), 5000)
+      }
+      window.open(waLink(), '_blank', 'noopener')
+    } finally { setBusy(false) }
   }
 
   const ProductCard = ({ it }: { it: Item }) => {
@@ -312,7 +403,9 @@ export default function CatalogPage() {
               {cartLines.length === 0 && <div className="cstate"><div>{t(S.cart_empty)}</div></div>}
               {cartLines.map((l) => {
                 const nm = pick(l.item as Record<string, unknown>, 'name')
-                const priceStr = l.item.priceVisible === false || !l.item.price ? t(S.ask_price) : `${l.item.price as string} ₼`
+                const visible = !(l.item.priceVisible === false || !l.item.price)
+                const sub = priceNum(l.item.price) * l.qty
+                const priceStr = !visible ? t(S.ask_price) : l.qty > 1 ? `${l.qty} × ${l.item.price} ₼ = ${sub.toFixed(2)} ₼` : `${l.item.price as string} ₼`
                 return (
                   <div className="cline" key={l.item.id}>
                     <div className="cline-i">
@@ -330,8 +423,8 @@ export default function CatalogPage() {
             </div>
             {cartLines.length > 0 && (
               <div className="csheet-foot">
-                {cartTotal > 0 && <div className="ctotal"><span>{t(S.total)}</span><b>{cartTotal.toFixed(2)} ₼</b></div>}
-                <a className="cwa" href={waLink()} target="_blank" rel="noopener noreferrer"><WaIcon />{t(S.send_wa)}</a>
+                {cartTotal > 0 && <div className="ctotal"><span>{t(S.pay)}</span><b>{cartTotal.toFixed(2)} ₼</b></div>}
+                <button type="button" className="cwa" onClick={shareOrder} disabled={busy}><WaIcon />{t(S.send_wa)}</button>
                 <button className="cclear" onClick={() => { setCart({}); setCartOpen(false) }}>{t(S.clear)}</button>
               </div>
             )}
