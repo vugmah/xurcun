@@ -127,7 +127,7 @@ export default function SEO({ page = 'home', branchSlug }: SeoProps) {
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <meta name="author" content="Xurcun" />
+      <meta name="author" content="Xurcun Chain Of Boutiques" />
       <meta name="robots" content={robotsContent} />
       <meta name="googlebot" content={robotsContent} />
 
@@ -149,7 +149,7 @@ export default function SEO({ page = 'home', branchSlug }: SeoProps) {
       <meta property="og:title" content={ogTitle} />
       <meta property="og:description" content={ogDescription} />
       <meta property="og:url" content={ogUrl} />
-      <meta property="og:site_name" content="Xurcun" />
+      <meta property="og:site_name" content="Xurcun Chain Of Boutiques" />
       <meta property="og:locale" content={OG_LOCALES[lang as Lang]} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
