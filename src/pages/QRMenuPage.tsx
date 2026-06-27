@@ -147,7 +147,7 @@ export default function QRMenuPage() {
             <div className="addr">
               <span>{branchAddr}</span>
               {branchMap && <a href={branchMap} target="_blank" rel="noopener noreferrer">{t(S.map)}</a>}
-              {branchPhone && <a href={`tel:${branchPhone.replace(/\s/g, '')}`}>{t(S.call)}</a>}
+              <a href={`tel:${(branchPhone || '+994502121811').replace(/[^\d+]/g, '')}`}>{t(S.call)}</a>
             </div>
           )}
           <div className="ornament"><img src={EMBLEM} alt="" /></div>
