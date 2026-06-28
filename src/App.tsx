@@ -8,6 +8,8 @@ import PrivacyPage from "./pages/PrivacyPage";
 import CookiePolicyPage from "./pages/CookiePolicyPage";
 import AboutPage from "./pages/AboutPage";
 import FaqPage from "./pages/FaqPage";
+import BlogPage from "./pages/BlogPage";
+import BlogPostPage from "./pages/BlogPostPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { useAutoPageView } from "./hooks/useTracking";
@@ -86,6 +88,8 @@ function App() {
         <Route path="/cookie-policy" element={<CookiePolicyPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/faq" element={<FaqPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/admin/login" element={<Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}><LoginPage /></Suspense>} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Suspense fallback={<SectionSkeleton />}><DashboardPage /></Suspense>} />
