@@ -37,3 +37,14 @@
 /* No-JS / non-rendering crawlers never run the reveal observer — keep content visible. */
 @media(scripting:none){.xc .reveal{opacity:1; transform:none}}
 [dir="rtl"] .xc .ornament img{animation:none}
+
+/* ── Arabic / RTL — site-wide (Rufolo/Pinyon lack Arabic glyphs → Amiri/Cairo;
+   Arabic has no uppercase and letter-spacing breaks letter-joining).
+   Defined here in base so catalog, menu, about, faq & blog all inherit it. ── */
+[dir="rtl"] .xc{ --display:"Amiri",serif; --body:"Cairo","Montserrat",system-ui,sans-serif; --script:"Amiri",serif; font-weight:400 }
+[dir="rtl"] .xc h1,[dir="rtl"] .xc h2,[dir="rtl"] .xc h3,[dir="rtl"] .xc .serif,[dir="rtl"] .xc .script{ font-style:normal }
+[dir="rtl"] .xc h3,
+[dir="rtl"] .xc nav,
+[dir="rtl"] .xc button,
+[dir="rtl"] .xc .tag,
+[dir="rtl"] .xc .btn{ letter-spacing:normal !important; text-transform:none !important }
