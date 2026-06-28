@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router'
 import { useLanguage } from '@/lib/LanguageContext'
-import { getBlogPost } from '@/lib/blogPosts'
+import { getBlogPost, pickL } from '@/lib/blogPosts'
 import NotFoundPage from './NotFoundPage'
 import '@/xurcun-base.css'
 import './xurcun-page.css'
@@ -31,15 +31,18 @@ export default function BlogPostPage() {
 
   const url = `${SITE}/blog/${post.slug}`
   const img = `${SITE}${post.cover}`
+  const title = pickL(post.title, lang)
+  const desc = pickL(post.desc, lang)
+  const h1 = pickL(post.h1, lang)
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: post.h1,
-    description: post.desc,
+    headline: h1,
+    description: desc,
     image: img,
     datePublished: post.date,
     dateModified: post.date,
-    inLanguage: 'az',
+    inLanguage: lang,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     author: { '@type': 'Organization', name: 'Xurcun' },
     publisher: {
@@ -52,12 +55,12 @@ export default function BlogPostPage() {
   return (
     <div className="xc xcpage">
       <Helmet>
-        <title>{post.title}</title>
-        <meta name="description" content={post.desc} />
+        <title>{title}</title>
+        <meta name="description" content={desc} />
         <link rel="canonical" href={url} />
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.desc} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={desc} />
         <meta property="og:url" content={url} />
         <meta property="og:image" content={img} />
         <meta name="twitter:image" content={img} />
@@ -75,18 +78,18 @@ export default function BlogPostPage() {
 
       <main className="xcp-wrap">
         <nav className="xcp-crumb" aria-label="Breadcrumb">
-          <a href="/blog">{t(S.blog)}</a> <span>/</span> <span>{post.h1}</span>
+          <a href="/blog">{t(S.blog)}</a> <span>/</span> <span>{h1}</span>
         </nav>
-        <h1>{post.h1}</h1>
+        <h1>{h1}</h1>
         <div className="ornament"><img src={EMBLEM} alt="" /></div>
 
         <article className="xcp-article">
-          <img className="cover" src={post.cover} alt={post.h1} />
-          <p className="xcp-lead">{post.lead}</p>
+          <img className="cover" src={post.cover} alt={h1} />
+          <p className="xcp-lead">{pickL(post.lead, lang)}</p>
           {post.sections.map((sec, i) => (
             <section key={i}>
-              <h2>{sec.h2}</h2>
-              {sec.body.map((p, j) => <p key={j}>{p}</p>)}
+              <h2>{pickL(sec.h2, lang)}</h2>
+              {sec.body.map((b, j) => <p key={j}>{pickL(b, lang)}</p>)}
             </section>
           ))}
         </article>

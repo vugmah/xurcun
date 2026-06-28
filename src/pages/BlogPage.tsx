@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '@/lib/LanguageContext'
-import { BLOG_POSTS } from '@/lib/blogPosts'
+import { BLOG_POSTS, pickL } from '@/lib/blogPosts'
 import '@/xurcun-base.css'
 import './xurcun-page.css'
 
@@ -25,6 +25,7 @@ const S = {
     ar: 'أدلة عن الهدايا، صواني الزفاف، العلب الفاخرة، الشوكولاتة، البقلاوة والحلقوم.',
   },
   catalog: { az: 'Kataloqa bax', ru: 'Смотреть каталог', en: 'View catalogue', tr: 'Kataloğa bak', ar: 'تصفح الكتالوج' },
+  more: { az: 'Oxu →', ru: 'Читать →', en: 'Read →', tr: 'Oku →', ar: 'اقرأ →' },
 }
 
 export default function BlogPage() {
@@ -58,11 +59,11 @@ export default function BlogPage() {
         <div className="xcp-bloglist">
           {BLOG_POSTS.map((p) => (
             <a className="xcp-blogcard" href={`/blog/${p.slug}`} key={p.slug}>
-              <div className="thumb"><img src={p.cover} alt={p.h1} loading="lazy" /></div>
+              <div className="thumb"><img src={p.cover} alt={pickL(p.h1, lang)} loading="lazy" /></div>
               <div className="meta">
-                <h2>{p.h1}</h2>
-                <p>{p.lead}</p>
-                <span className="more">Oxu →</span>
+                <h2>{pickL(p.h1, lang)}</h2>
+                <p>{pickL(p.lead, lang)}</p>
+                <span className="more">{t(S.more)}</span>
               </div>
             </a>
           ))}
