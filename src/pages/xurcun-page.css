@@ -61,3 +61,9 @@
 .xc.xcpage .xcp-article .cover{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;border:1px solid var(--line);margin-bottom:22px}
 .xc.xcpage .xcp-article h2{font-size:22px;color:var(--ink);margin:28px 0 10px}
 .xc.xcpage .xcp-article p{font-size:15.5px;line-height:1.7;color:var(--ink-soft);margin:0 0 14px}
+
+/* ── Blog RTL (Arabic) ── */
+[dir="rtl"] .xc.xcpage .xcp-article{text-align:right}
+[dir="rtl"] .xc.xcpage .xcp-blogcard .meta{text-align:right}
+[dir="rtl"] .xc.xcpage .xcp-blogcard .more{align-self:flex-start}
+[dir="rtl"] .xc.xcpage .xcp-crumb span{margin:0 4px}
