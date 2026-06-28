@@ -286,10 +286,22 @@ export function serveStaticFiles(app: App) {
     if (pathname.startsWith("/api") || isAsset) {
       return c.json({ error: "Not Found" }, 404);
     }
+    // Known SPA routes return 200; unknown paths still serve the SPA shell (so
+    // the in-app 404 page renders) but with a real 404 status, so stale/old URLs
+    // don't linger as soft-404s (200 + wrong content) in search.
+    const KNOWN = new Set([
+      "/", "/catalog", "/menu", "/blog", "/about", "/faq",
+      "/corporate", "/privacy", "/cookie-policy",
+    ]);
+    const isKnown =
+      KNOWN.has(pathname) ||
+      pathname.startsWith("/menu/") ||
+      pathname.startsWith("/blog/") ||
+      pathname.startsWith("/admin");
     try {
       const indexPath = path.resolve(distPath, "index.html");
       const content = fs.readFileSync(indexPath, "utf-8");
-      return c.html(await buildRouteHtml(content, pathname));
+      return c.html(await buildRouteHtml(content, pathname), isKnown ? 200 : 404);
     } catch (err) {
       console.error("[static] Failed to serve index.html:", err);
       return c.text("Service temporarily unavailable. Please try again shortly.", 503);

@@ -62,6 +62,27 @@ app.use('*', async (c: any, next: any) => {
   }
 });
 
+// ── Legacy migration redirects (301) ──
+// The previous xurcun.az was a Ticimax shop; Google still has /en/category/*,
+// /product/*, /login etc. indexed. 301 them to the new site to preserve crawl
+// equity and kill soft-404s. Also fold www → apex so both don't get indexed.
+app.use("*", async (c: any, next: any) => {
+  const host = (c.req.header("host") || "").toLowerCase();
+  if (host.startsWith("www.")) {
+    const u = new URL(c.req.url);
+    return c.redirect(`https://xurcun.az${u.pathname}${u.search}`, 301);
+  }
+  const p = new URL(c.req.url).pathname;
+  if (!p.startsWith("/api") && !p.startsWith("/admin") && !p.startsWith("/uploads")) {
+    if (p === "/login" || p === "/login/") return c.redirect("/", 301);
+    if (/^\/(en|ru|tr|ar)(\/|$)/.test(p) ||
+        /^\/(category|catygory|categories|product|products)(\/|$)/.test(p)) {
+      return c.redirect("/catalog", 301);
+    }
+  }
+  await next();
+});
+
 // Body limit: 10MB max upload
 app.use(bodyLimit({ maxSize: 10 * 1024 * 1024 }));
 
