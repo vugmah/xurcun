@@ -8,6 +8,7 @@ import {
   getHomepageImageSrc,
   type HomepageImageEdit,
 } from "@/lib/homepageImageStore";
+import { getAdminKey } from "@/lib/adminAuthStorage";
 
 export default function HomepagePhotosPage() {
   const [, setTick] = useState(0);
@@ -73,7 +74,7 @@ export default function HomepagePhotosPage() {
         const ctx = canvas.getContext("2d");
         ctx?.drawImage(img, 0, 0, w, h);
 
-        /* Upload to Supabase Storage via API — NO localStorage fallback */
+        /* Upload to the server (Railway volume) via /api/upload */
         canvas.toBlob(async (blob) => {
           if (!blob) {
             alert("Görsel işlenemedi. Lütfen tekrar deneyin.");
@@ -82,10 +83,14 @@ export default function HomepagePhotosPage() {
           const formData = new FormData();
           formData.append("file", blob, "upload.jpg");
           try {
-            const res = await fetch("/api/upload", { method: "POST", body: formData });
+            const res = await fetch("/api/upload", {
+              method: "POST",
+              headers: { "x-admin-key": getAdminKey() || "" },
+              body: formData,
+            });
             const data = await res.json();
             if (data.success && data.url) {
-              /* Save Supabase public URL */
+              /* Save the returned file URL */
               saveHomepageImageEdit(key, { image_url: data.url });
             } else {
               alert("Yükleme başarısız: " + (data.error || "Bilinmeyen hata"));
