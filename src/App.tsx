@@ -31,6 +31,7 @@ const SeoPage = lazy(() => import("./pages/admin/SeoPage"));
 const MediaPage = lazy(() => import("./pages/admin/MediaPage"));
 const MailSettingsPage = lazy(() => import("./pages/admin/MailSettingsPage"));
 const InboxPage = lazy(() => import("./pages/admin/InboxPage"));
+const OrdersPage = lazy(() => import("./pages/admin/OrdersPage"));
 const GoogleAdsPage = lazy(() => import("./pages/admin/GoogleAdsPage"));
 const HomepagePhotosPage = lazy(() => import("./pages/admin/HomepagePhotosPage"));
 const SettingsPage = lazy(() => import("./pages/admin/SettingsPage"));
@@ -105,6 +106,7 @@ function App() {
           <Route path="tracking" element={<Navigate to="/admin/settings" replace />} />
           <Route path="mail-settings" element={<Suspense fallback={<SectionSkeleton />}><MailSettingsPage /></Suspense>} />
           <Route path="inbox" element={<Suspense fallback={<SectionSkeleton />}><InboxPage /></Suspense>} />
+          <Route path="orders" element={<Suspense fallback={<SectionSkeleton />}><OrdersPage /></Suspense>} />
           <Route path="google-ads" element={<Suspense fallback={<SectionSkeleton />}><GoogleAdsPage /></Suspense>} />
           <Route path="social" element={<Navigate to="/admin/settings" replace />} />
           <Route path="homepage-photos" element={<Suspense fallback={<SectionSkeleton />}><HomepagePhotosPage /></Suspense>} />

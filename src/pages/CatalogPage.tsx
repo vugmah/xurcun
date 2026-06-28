@@ -77,6 +77,7 @@ export default function CatalogPage() {
   const rootRef = useRef<HTMLDivElement>(null)
 
   const storeQ = trpc.catalog.storefront.useQuery({ menuType: 'catalog' }, { retry: false })
+  const submitOrder = trpc.orders.submit.useMutation()
   const cats = (storeQ.data?.categories ?? []) as unknown as Cat[]
   const items = (storeQ.data?.items ?? []) as unknown as Item[]
 
@@ -298,6 +299,20 @@ export default function CatalogPage() {
   const shareOrder = async () => {
     if (busy || cartLines.length === 0) return
     setBusy(true)
+    // Capture the order for the admin (best-effort; never blocks the WhatsApp share)
+    try {
+      submitOrder.mutate({
+        source: 'catalog',
+        lang,
+        total: cartTotal > 0 ? cartTotal.toFixed(2) : undefined,
+        items: cartLines.map((l) => ({
+          itemId: l.item.id,
+          name: pick(l.item as Record<string, unknown>, 'name') || 'Məhsul',
+          qty: l.qty,
+          price: l.item.priceVisible === false || !l.item.price ? undefined : String(l.item.price),
+        })),
+      })
+    } catch { /* ignore — capture is best-effort */ }
     try {
       const blob = await buildOrderBlob()
       const nav = navigator as Navigator & { canShare?: (d?: unknown) => boolean; share?: (d: unknown) => Promise<void> }

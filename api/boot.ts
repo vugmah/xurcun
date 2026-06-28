@@ -606,6 +606,33 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
   await createIndex("product_variants", "idx_product_variants_item", "item_id");
   await createIndex("menu_categories", "idx_menu_categories_parent", "parent_id");
 
+  // ── Orders + order items (admin order tracking) ──
+  await createTable("orders", `
+    CREATE TABLE IF NOT EXISTS orders (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      status VARCHAR(20) NOT NULL DEFAULT 'new',
+      source VARCHAR(20) DEFAULT 'manual',
+      customer_name VARCHAR(200),
+      customer_phone VARCHAR(50),
+      note TEXT,
+      total VARCHAR(50),
+      lang VARCHAR(5) DEFAULT 'az',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )`);
+  await createIndex("orders", "idx_orders_status", "status");
+  await createTable("order_items", `
+    CREATE TABLE IF NOT EXISTS order_items (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      order_id INT NOT NULL,
+      item_id INT,
+      name VARCHAR(200) NOT NULL,
+      qty INT NOT NULL DEFAULT 1,
+      price VARCHAR(50),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`);
+  await createIndex("order_items", "idx_order_items_order", "order_id");
+
   // ── 7d. XURCUN CATALOG CATEGORIES (real categories from xurcun.com) ──
   // Idempotent: only inserts a category if it does not already exist.
   // Does NOT touch restaurant ("food"/"beverage"/…) categories — those are a

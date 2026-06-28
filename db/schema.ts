@@ -467,3 +467,27 @@ export const approvedBadges = mysqlTable("approved_badges", {
   // Timestamps
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+// ── Orders: customer gift-box / catalog inquiries, tracked in the admin ──
+export const orders = mysqlTable("orders", {
+  id: serial("id"),
+  status: varchar("status", { length: 20 }).notNull().default("new"), // new | contacted | completed | cancelled
+  source: varchar("source", { length: 20 }).default("manual"),        // manual | catalog | corporate
+  customerName: varchar("customer_name", { length: 200 }),
+  customerPhone: varchar("customer_phone", { length: 50 }),
+  note: text("note"),
+  total: varchar("total", { length: 50 }),
+  lang: varchar("lang", { length: 5 }).default("az"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const orderItems = mysqlTable("order_items", {
+  id: serial("id"),
+  orderId: int("order_id").notNull(),
+  itemId: int("item_id"),
+  name: varchar("name", { length: 200 }).notNull(),
+  qty: int("qty").notNull().default(1),
+  price: varchar("price", { length: 50 }),
+  createdAt: timestamp("created_at").defaultNow(),
+});
