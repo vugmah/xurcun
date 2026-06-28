@@ -32,11 +32,8 @@ export interface GeneralSettings {
   whiteCityMapsUrl: string;
   seabreezeAddress: string;
   seabreezeMapsUrl: string;
-  // Reservation
   whiteCityWhatsapp: string;
   seabreezeWhatsapp: string;
-  reservationActive: boolean;
-  reservationButtonActive: boolean;
   // SEO
   googleSiteVerification: string;
   googleReviewUrl: string;
@@ -73,8 +70,6 @@ const DEFAULTS: GeneralSettings = {
   seabreezeMapsUrl: "",
   whiteCityWhatsapp: "994502130555",
   seabreezeWhatsapp: "",
-  reservationActive: true,
-  reservationButtonActive: true,
   googleSiteVerification: "",
   googleReviewUrl: "",
   defaultSeoTitle: "Xurcun | Premium quru meyvə, çərəz və hədiyyə butiki — Bakı",

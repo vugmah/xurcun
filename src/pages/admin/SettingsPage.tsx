@@ -7,18 +7,17 @@ import { autoGenerateSeo, type SeoPageSettings } from "@/lib/seoStore";
 import { clearTrackingDbCache } from "@/lib/trackingSettings";
 import { trpc } from "@/providers/trpc";
 import {
-  Save, Check, Globe, Phone, Mail, MapPin, Utensils,
+  Save, Check, Globe, Phone, Mail, MapPin,
   Settings, BarChart3, Search, Server, RotateCcw,
   Plus, Trash2, X, Sparkles,
 } from "lucide-react";
 
-type SectionKey = "site" | "contact" | "branches" | "reservation" | "seo" | "tracking" | "mail";
+type SectionKey = "site" | "contact" | "branches" | "seo" | "tracking" | "mail";
 
 const SECTIONS: { key: SectionKey; label: string; icon: typeof Settings }[] = [
   { key: "site", label: "Site", icon: Globe },
   { key: "contact", label: "Əlaqə", icon: Phone },
   { key: "branches", label: "Filiallar", icon: MapPin },
-  { key: "reservation", label: "Rezervasiya", icon: Utensils },
   { key: "seo", label: "SEO", icon: Search },
   { key: "tracking", label: "Tracking", icon: BarChart3 },
   { key: "mail", label: "Mail", icon: Server },
@@ -173,19 +172,6 @@ export default function SettingsPage() {
       {/* ═══ BRANCHES (CRUD) ═══ */}
       {activeSection === "branches" && (
         <BranchSettings onUpdate={() => setSaved(true)} />
-      )}
-
-      {/* ═══ RESERVATION ═══ */}
-      {activeSection === "reservation" && (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-5">
-          <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><Utensils className="w-4 h-4 text-[#C9A96E]" /> Rezervasiya</h2>
-          <Field label="White City WhatsApp" value={form.whiteCityWhatsapp} onChange={(v) => update({ whiteCityWhatsapp: v })} placeholder="994502130550" />
-          <Field label="Seabreeze WhatsApp" value={form.seabreezeWhatsapp} onChange={(v) => update({ seabreezeWhatsapp: v })} placeholder="994501234567" help="Boş buraxılarsa Seabreeze rezervasiya deaktiv olar." />
-          <div className="mt-4 pt-4 border-t border-[#222] space-y-1">
-            <Toggle label="Rezervasiya formu aktiv" value={form.reservationActive} onChange={(v) => update({ reservationActive: v })} />
-            <Toggle label="Rezervasiya düyməsi aktiv" value={form.reservationButtonActive} onChange={(v) => update({ reservationButtonActive: v })} />
-          </div>
-        </div>
       )}
 
       {/* ═══ SEO ═══ */}
