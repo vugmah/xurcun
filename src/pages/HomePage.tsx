@@ -398,7 +398,7 @@ export default function HomePage() {
       <footer id="elaqe">
         <div className="bgpat" />
         <div className="wrap">
-          <div className="reveal"><picture><source srcSet={LOGO_WEBP} type="image/webp" /><img className="logo" src={LOGO} alt="Xurcun" width={140} height={48} /></picture><p>{t(S.foot_about)}</p></div>
+          <div className="reveal"><picture><source srcSet={LOGO_WEBP} type="image/webp" /><img className="logo" src={LOGO} alt="Xurcun" width={140} height={48} /></picture><p>{t(S.foot_about)}</p><p className="foot-links"><a href="/about">{t(S.nav_about)}</a> · <a href="/faq">FAQ</a> · <a href="/catalog">{t(S.nav_catalog)}</a></p></div>
           <div className="reveal d1"><h3>{t(S.foot_stores)}</h3><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Crescent Mall</li><li>Sea Breeze</li><li>Hava Limanı</li></ul></div>
           <div className="reveal d2"><h3>{t(S.foot_contact)}</h3><ul>
             <li><a href="mailto:info@xurcun.az">info@xurcun.az</a></li>
