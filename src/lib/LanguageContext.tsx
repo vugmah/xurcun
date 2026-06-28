@@ -36,7 +36,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('xurcun_lang', detected)
       return detected
     }
-    return 'az'
+    // Unrecognized device language (e.g. de/fr/zh) — fall back to English,
+    // the most universal choice for an international visitor.
+    return 'en'
   }
 
   const [lang, setLangState] = useState<Language>(getInitialLang)
