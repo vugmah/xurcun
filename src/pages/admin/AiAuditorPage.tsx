@@ -44,7 +44,7 @@ const AUDIT_CHECKS: AuditIssue[] = [
   { id: "a9", title: "Branch-specific pricing works", severity: "high", page: "QR Menu", description: "White City and Seabreeze show correct prices.", suggestion: "Test both branch URLs.", autoFixable: false, category: "QR Menu" },
   { id: "a10", title: "Card/List layout auto-detects correctly", severity: "medium", page: "QR Menu", description: "Categories with 50%+ images show cards; others list.", suggestion: "Review each category's effective layout.", autoFixable: false, category: "QR Menu" },
   { id: "a11", title: "SEO meta tags present", severity: "medium", page: "All Pages", description: "Title, description, og:image on all pages.", suggestion: "Check <head> tags.", autoFixable: false, category: "SEO" },
-  { id: "a12", title: "JSON-LD structured data", severity: "medium", page: "All Pages", description: "Organization + Restaurant schema on homepage.", suggestion: "Validate with Google Rich Results Test.", autoFixable: false, category: "SEO" },
+  { id: "a12", title: "JSON-LD structured data", severity: "medium", page: "All Pages", description: "Organization + Store schema on homepage.", suggestion: "Validate with Google Rich Results Test.", autoFixable: false, category: "SEO" },
   { id: "a13", title: "Sitemap and robots.txt accessible", severity: "medium", page: "SEO", description: "/sitemap.xml and /robots.txt return 200.", suggestion: "Verify files in public/ directory.", autoFixable: false, category: "SEO" },
   { id: "a14", title: "Image compression applied", severity: "low", page: "Performance", description: "Admin uploads resize to max 1200px JPEG 0.85.", suggestion: "Test image upload with large file.", autoFixable: false, category: "Performance" },
   { id: "a15", title: "Admin loads under 1 second", severity: "high", page: "Admin", description: "Admin shell visible immediately, no full-page loading.", suggestion: "Verify skeleton UI, not blocking spinner.", autoFixable: false, category: "Performance" },
@@ -61,7 +61,7 @@ const SEO_CHECKS = [
   { id: "s2", label: "Meta description present", weight: 10 },
   { id: "s3", label: "OG tags (image, title, desc)", weight: 10 },
   { id: "s4", label: "JSON-LD Organization schema", weight: 10 },
-  { id: "s5", label: "JSON-LD Restaurant schema", weight: 10 },
+  { id: "s5", label: "JSON-LD Store schema", weight: 10 },
   { id: "s6", label: "Sitemap.xml accessible", weight: 8 },
   { id: "s7", label: "Robots.txt accessible", weight: 7 },
   { id: "s8", label: "Language hreflang tags", weight: 8 },
@@ -144,7 +144,6 @@ const QR_CHECKS: AuditIssue[] = [
   { id: "q2", title: "NEW badge visible on new items", severity: "medium", page: "QR Menu", description: "Products marked is_new show red NEW badge.", suggestion: "Check seed/localStorage has is_new flags.", autoFixable: false, category: "Badges" },
   { id: "q3", title: "Branch price differences shown correctly", severity: "high", page: "QR Menu", description: "White City vs Seabreeze prices differ where set.", suggestion: "Set different branch prices in admin and verify.", autoFixable: false, category: "Pricing" },
   { id: "q4", title: "Unavailable items hidden per branch", severity: "high", page: "QR Menu", description: "Items marked unavailable at a branch do not appear.", suggestion: "Toggle availability and test.", autoFixable: false, category: "Branch" },
-  { id: "q5", title: "Snack menu appears 23:00–08:00", severity: "medium", page: "QR Menu", description: "Late-night snack tab auto-activates during night hours.", suggestion: "Use ?testTime=23 to simulate.", autoFixable: false, category: "Time" },
   { id: "q6", title: "Product descriptions exist", severity: "low", page: "QR Menu", description: "Most items have description in at least 2 languages.", suggestion: "Add descriptions via admin edit form.", autoFixable: false, category: "Content" },
   { id: "q7", title: "Card layout renders well on mobile", severity: "medium", page: "QR Menu", description: "2-column card grid doesn't overflow on 375px screens.", suggestion: "Test on smallest mobile viewport.", autoFixable: false, category: "Layout" },
   { id: "q8", title: "List layout text not truncated", severity: "medium", page: "QR Menu", description: "Product names and prices fully visible in list rows.", suggestion: "Check longest product names.", autoFixable: false, category: "Layout" },
@@ -586,7 +585,7 @@ function PhotoReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) 
             { section: "Hero Background", status: "Consider updating", priority: "medium" },
             { section: "Gallery", status: "Add more lifestyle shots", priority: "low" },
             { section: "Product Images", status: "Some items missing photos", priority: "high" },
-            { section: "Shisha Devices", status: "Add close-up shots", priority: "medium" },
+            { section: "Hədiyyə qutuları", status: "Add close-up shots", priority: "medium" },
           ].map((s) => (
             <div key={s.section} className="flex items-center justify-between p-2 bg-[#0A0A0A] rounded">
               <span className="text-white/60 text-xs">{s.section}</span>

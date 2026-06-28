@@ -55,7 +55,7 @@ const DEFAULT_SUGGESTIONS: SuggestionRecord[] = [
     severity: "high",
     affectedPage: "Tüm Sayfalar",
     oldValue: "<meta name=\"description\"> yok",
-    newValue: "Premium hookah lounge & restaurant description eklendi",
+    newValue: "Premium boutique (quru meyvə & hədiyyə) təsviri əlavə edildi",
     status: "pending",
   },
   {
@@ -99,7 +99,7 @@ const DEFAULT_SUGGESTIONS: SuggestionRecord[] = [
     severity: "high",
     affectedPage: "Ana Sayfa",
     oldValue: "Schema.org markup yok",
-    newValue: "Restaurant + Organization schema eklendi",
+    newValue: "Store + Organization schema əlavə edildi",
     status: "applied",
   },
   {
@@ -185,7 +185,7 @@ const DEFAULT_SUGGESTIONS: SuggestionRecord[] = [
     title: "WhatsApp Conversions API entegrasyonu",
     category: "Tracking",
     severity: "medium",
-    affectedPage: "Rezervasyon",
+    affectedPage: "Korporativ",
     oldValue: undefined,
     newValue: undefined,
     status: "pending",

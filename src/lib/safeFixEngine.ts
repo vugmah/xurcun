@@ -269,7 +269,7 @@ function detectSEOIssues(): DetectedIssue[] {
     issues.push(makeIssue({
       id: "seo-title",
       title: "Page title missing or default",
-      description: `Current title: "${ps.titleText}". Should be branded restaurant title.`,
+      description: `Current title: "${ps.titleText}". Should be a branded boutique title.`,
       severity: "high",
       category: "seo",
       page: "All",
@@ -374,7 +374,7 @@ function detectSEOIssues(): DetectedIssue[] {
       severity: "medium",
       category: "seo",
       page: "Homepage",
-      recommendation: "Add Restaurant + Organization schema via Admin > SEO > Structured Data.",
+      recommendation: "Add Store + Organization schema via Admin > SEO > Structured Data.",
     }));
   }
 
