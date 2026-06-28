@@ -5,6 +5,9 @@
 
 .xc{
   --gold:#9D7C38; --gold-dark:#7E6228; --gold-light:#C2A05A;
+  /* A11y contrast guardrail: --gold is 3.5:1 on cream / 3.6:1 on dark ink — fails WCAG AA
+     for SMALL text. For small text/links use --gold-dark on light (5.1:1) or --gold-light
+     on dark (5.7:1); reserve --gold for large/bold headings, borders & icons. */
   --ink:#2E2A25; --ink-soft:#3a352e; --ink-muted:#6b6457;
   --cream:#EBE5D7; --cream-50:#F6F2E9; --cream-100:#F1ECE0; --line:#D8CFB9; --white:#fff;
   /* Cream text tints on the dark (ink) surface — bright → faint */

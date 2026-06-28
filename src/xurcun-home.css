@@ -169,6 +169,7 @@
   .xc .wrap{padding:0 18px}
   .xc .topbar .wrap{height:auto; padding:8px 18px; flex-direction:column; gap:6px}
   .xc .topbar .ph{gap:14px; font-size:10.5px}
+  .xc .topbar .ph a{min-height:44px; display:inline-flex; align-items:center}
   /* Touch targets ≥44px (WCAG 2.5.5) — desktop keeps the compact 38px */
   .xc .langs button{min-width:44px; min-height:44px}
   .xc header .wrap{padding:14px 18px 10px; gap:10px}
