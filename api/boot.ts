@@ -226,6 +226,13 @@ app.get("/sitemap.xml", async (c) => {
     { loc: "https://xurcun.az/cookie-policy", priority: "0.3", changefreq: "yearly" },
     { loc: "https://xurcun.az/about", priority: "0.6", changefreq: "monthly" },
     { loc: "https://xurcun.az/faq", priority: "0.5", changefreq: "monthly" },
+    { loc: "https://xurcun.az/blog", priority: "0.6", changefreq: "weekly" },
+    { loc: "https://xurcun.az/blog/toy-xoncasi", priority: "0.6", changefreq: "monthly" },
+    { loc: "https://xurcun.az/blog/bayram-hediyyeleri", priority: "0.6", changefreq: "monthly" },
+    { loc: "https://xurcun.az/blog/premium-hediyye-qutulari", priority: "0.6", changefreq: "monthly" },
+    { loc: "https://xurcun.az/blog/sokolad", priority: "0.6", changefreq: "monthly" },
+    { loc: "https://xurcun.az/blog/paxlava", priority: "0.6", changefreq: "monthly" },
+    { loc: "https://xurcun.az/blog/lokum", priority: "0.6", changefreq: "monthly" },
   ];
 
   // Per-branch QR-menu pages (/menu/<slug>) — one crawlable URL per active store.
