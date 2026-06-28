@@ -107,7 +107,6 @@ export default function ProductDetailPage() {
         <title>{`${name} | Xurcun — ${catName || t(S.catalog)}`}</title>
         <meta name="description" content={(desc || `${name} — Xurcun premium ${catName || ''}`).slice(0, 160)} />
         <link rel="canonical" href={canonical} />
-        <meta property="og:type" content="product" />
         <meta property="og:title" content={`${name} | Xurcun`} />
         <meta property="og:description" content={(desc || name).slice(0, 160)} />
         {imgAbs && <meta property="og:image" content={imgAbs} />}

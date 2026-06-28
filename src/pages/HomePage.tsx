@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
 import '@/xurcun-base.css'
@@ -246,7 +245,6 @@ export default function HomePage() {
 
   return (
     <div className="xc" ref={root}>
-      <Helmet><meta property="og:type" content="website" /></Helmet>
       <a className="skip" href="#main">{t(S.skip)}</a>
       <div className="topbar" id="top"><div className="wrap">
         <div className="ph"><a href="mailto:info@xurcun.az" dir="ltr">info@xurcun.az</a><a href="tel:+994502121811" dir="ltr">+994 50 212 18 11</a></div>

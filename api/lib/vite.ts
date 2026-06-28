@@ -136,6 +136,7 @@ function injectRouteMeta(html: string, pathname: string, meta: RouteMeta): strin
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${canonical}$2`)
     .replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${canonical}$2`)
+    .replace(/(<meta property="og:type" content=")[^"]*(")/, `$1${pathname.startsWith("/catalog/") ? "product" : "website"}$2`)
     .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${title}$2`)
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${title}$2`);
   if (meta.desc) {

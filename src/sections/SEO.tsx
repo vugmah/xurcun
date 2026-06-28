@@ -144,8 +144,7 @@ export default function SEO({ page = 'home', branchSlug }: SeoProps) {
         />
       ))}
 
-      {/* Open Graph — per language */}
-      <meta property="og:type" content="website" />
+      {/* Open Graph — per language (og:type set server-side in injectRouteMeta) */}
       <meta property="og:title" content={ogTitle} />
       <meta property="og:description" content={ogDescription} />
       <meta property="og:url" content={ogUrl} />
