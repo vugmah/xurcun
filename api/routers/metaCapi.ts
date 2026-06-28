@@ -3,7 +3,7 @@
  * Server-side event forwarding to Meta for deduplication with browser Pixel
  */
 import { z } from "zod";
-import { createRouter, publicMutation } from "../middleware";
+import { createRouter, trackingMutation } from "../middleware";
 import { createHash } from "crypto";
 
 function sha256(str: string): string {
@@ -11,7 +11,7 @@ function sha256(str: string): string {
 }
 
 export const metaCapiRouter = createRouter({
-  sendEvent: publicMutation
+  sendEvent: trackingMutation
     .input(z.object({
       eventName: z.string(),
       eventTime: z.number(),

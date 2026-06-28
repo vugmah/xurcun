@@ -279,8 +279,13 @@ export function serveStaticFiles(app: App) {
     if (pathname.startsWith("/api") || isAsset) {
       return c.json({ error: "Not Found" }, 404);
     }
-    const indexPath = path.resolve(distPath, "index.html");
-    const content = fs.readFileSync(indexPath, "utf-8");
-    return c.html(await buildRouteHtml(content, pathname));
+    try {
+      const indexPath = path.resolve(distPath, "index.html");
+      const content = fs.readFileSync(indexPath, "utf-8");
+      return c.html(await buildRouteHtml(content, pathname));
+    } catch (err) {
+      console.error("[static] Failed to serve index.html:", err);
+      return c.text("Service temporarily unavailable. Please try again shortly.", 503);
+    }
   });
 }

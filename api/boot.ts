@@ -10,6 +10,7 @@ import { menuCategories, menuItems, photos, seoSettings, photoAssignments, branc
 import { writeFile, mkdir, readFile } from "fs/promises";
 import path from "path";
 import { eq, asc } from "drizzle-orm";
+import { clientIp, verifyAdminKey } from "./lib/adminAuth";
 
 const UPLOAD_DIR = path.resolve(process.cwd(), "uploads");
 
@@ -68,19 +69,15 @@ import { uploadLimiter } from "./middleware/rateLimit";
 
 // File upload endpoint (admin only - protected by x-admin-key header + rate limit)
 app.post("/api/upload", async (c) => {
-  // Rate limiting
-  const ip = c.req.header("x-forwarded-for") || "unknown";
+  // Rate limiting (keyed on the real Cloudflare client IP)
+  const ip = clientIp((n) => c.req.header(n));
   const rateResult = uploadLimiter.check(`upload-${ip}`);
   if (!rateResult.allowed) {
     return c.json({ error: `Rate limited. Retry after ${rateResult.retryAfter}s` }, 429);
   }
 
-  const adminKey = c.req.header("x-admin-key");
-  const secret = process.env.ADMIN_SECRET_KEY;
-  if (!secret) {
-    return c.json({ error: "Server misconfiguration" }, 500);
-  }
-  if (!adminKey || adminKey !== secret) {
+  // Constant-time admin-key check
+  if (!verifyAdminKey(c.req.header("x-admin-key"))) {
     return c.json({ error: "Unauthorized" }, 401);
   }
 
@@ -195,7 +192,12 @@ app.post("/api/upload", async (c) => {
 
 // Serve uploaded files
 app.get("/uploads/*", async (c) => {
-  const filepath = path.join(UPLOAD_DIR, c.req.path.replace("/uploads/", ""));
+  // Contain the path inside UPLOAD_DIR — block ../ traversal.
+  const rel = decodeURIComponent(c.req.path.replace(/^\/uploads\//, ""));
+  const filepath = path.resolve(UPLOAD_DIR, rel);
+  if (filepath !== UPLOAD_DIR && !filepath.startsWith(UPLOAD_DIR + path.sep)) {
+    return c.json({ error: "File not found" }, 404);
+  }
   try {
     const file = await readFile(filepath);
     const ext = path.extname(filepath).toLowerCase();
@@ -794,12 +796,37 @@ app.use("/api/trpc/*", async (c) => {
 
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
 
+// Catch-all error handler so a thrown handler never crashes the request.
+app.onError((err: any, c: any) => {
+  console.error("[server] Unhandled route error:", err?.stack || err);
+  if (c.req.path.startsWith("/api")) {
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+  return c.text("Something went wrong. Please try again shortly.", 500);
+});
+
 export default app;
 
 if (env.isProduction) {
   const { serve } = await import("@hono/node-server");
   const { serveStaticFiles } = await import("./lib/vite");
   serveStaticFiles(app);
+
+  // Keep the process alive on stray errors instead of crashing the whole server.
+  process.on("unhandledRejection", (reason) => {
+    console.error("[server] Unhandled promise rejection:", reason);
+  });
+  process.on("uncaughtException", (err) => {
+    console.error("[server] Uncaught exception:", err);
+  });
+  // Drain the DB pool cleanly on redeploy so Railway's connection cap isn't leaked.
+  const shutdown = async (sig: string) => {
+    console.log(`[server] ${sig} received — draining DB pool and exiting.`);
+    try { await getPool().end(); } catch { /* pool already closed */ }
+    process.exit(0);
+  };
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
 
   const port = parseInt(process.env.PORT || "3000");
   serve({ fetch: app.fetch, port }, () => {

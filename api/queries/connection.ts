@@ -29,6 +29,11 @@ function getPoolConfig() {
 export function getDb() {
   if (!instance) {
     poolInstance = createPool({ uri: env.databaseUrl, ...getPoolConfig() });
+    // A stray pool 'error' event (idle connection dropped by MySQL) would
+    // otherwise be unhandled and crash Node. Log and let mysql2 recover.
+    (poolInstance as any).on?.("error", (err: any) => {
+      console.error("[db] Pool error (non-fatal):", err?.code || err?.message || err);
+    });
     const drizzleAny: any = drizzle;
     instance = drizzleAny(poolInstance, { schema: fullSchema, mode: "default" }) as MySql2Database<typeof fullSchema>;
   }

@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router";
 import { lazy, Suspense } from "react";
 import AdminErrorBoundary from "@/components/AdminErrorBoundary";
+import RootErrorBoundary from "@/components/RootErrorBoundary";
 import HomePage from "./pages/HomePage";
 const QRMenuPage = lazy(() => import("./pages/QRMenuPage"));
 const CatalogStorefront = lazy(() => import("./pages/CatalogPage"));
@@ -77,7 +78,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <RootErrorBoundary>
       <PopupRenderer />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -127,7 +128,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <CookieConsentBanner />
-    </>
+    </RootErrorBoundary>
   );
 }
 
