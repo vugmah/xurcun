@@ -340,7 +340,7 @@ export default function CatalogPage() {
       <div className="ccard">
         <div className="cthumb">
           {img
-            ? <img src={img} alt={name} loading="lazy" onError={(e) => { const im = e.currentTarget; im.onerror = null; im.src = EMBLEM; im.className = 'ph' }} />
+            ? <img src={img} alt={name} loading="lazy" decoding="async" onError={(e) => { const im = e.currentTarget; im.onerror = null; im.src = EMBLEM; im.className = 'ph' }} />
             : <img className="ph" src={EMBLEM} alt="" />}
         </div>
         <div className="cinfo">

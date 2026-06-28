@@ -214,7 +214,7 @@ export default function QRMenuPage() {
                 return (
                   <div className="mcard" key={it.id as number}>
                     <div className="mthumb">
-                      {img ? <img src={img} alt={name} loading="lazy" onError={(e) => { const im = e.currentTarget; im.onerror = null; im.src = EMBLEM; im.className = 'ph' }} /> : <img className="ph" src={EMBLEM} alt="" />}
+                      {img ? <img src={img} alt={name} loading="lazy" decoding="async" onError={(e) => { const im = e.currentTarget; im.onerror = null; im.src = EMBLEM; im.className = 'ph' }} /> : <img className="ph" src={EMBLEM} alt="" />}
                     </div>
                     <div className="minfo">
                       <div className="nm">{name}</div>
