@@ -41,6 +41,11 @@ const S = {
   close: { az: 'Bağla', ru: 'Закрыть', en: 'Close', tr: 'Kapat', ar: 'إغلاق' },
   pay: { az: 'Ödəniləcək məbləğ', ru: 'Сумма к оплате', en: 'Amount to pay', tr: 'Ödenecek tutar', ar: 'المبلغ المطلوب' },
   order_title: { az: 'Sifariş forması', ru: 'Бланк заказа', en: 'Order form', tr: 'Sipariş formu', ar: 'نموذج الطلب' },
+  searchPh: { az: 'Məhsul axtar…', ru: 'Поиск товара…', en: 'Search products…', tr: 'Ürün ara…', ar: 'ابحث عن منتج…' },
+  fHalal: { az: 'Halal', ru: 'Халяль', en: 'Halal', tr: 'Helal', ar: 'حلال' },
+  fGluten: { az: 'Qlütensiz', ru: 'Без глютена', en: 'Gluten-free', tr: 'Glutensiz', ar: 'خالٍ من الغلوتين' },
+  fSugar: { az: 'Şəkərsiz', ru: 'Без сахара', en: 'Sugar-free', tr: 'Şekersiz', ar: 'خالٍ من السكر' },
+  noRes: { az: 'Axtarışa uyğun məhsul tapılmadı.', ru: 'Ничего не найдено.', en: 'No products match your search.', tr: 'Aramanıza uygun ürün bulunamadı.', ar: 'لا توجد منتجات مطابقة لبحثك.' },
 } satisfies Record<string, M>
 
 type Cat = { id: number; parentId: number | null; sortOrder?: number } & Record<string, unknown>
@@ -66,6 +71,9 @@ export default function CatalogPage() {
   const [cart, setCart] = useState<Record<number, number>>({})
   const [cartOpen, setCartOpen] = useState(false)
   const [activeCat, setActiveCat] = useState<number | null>(null)
+  const [q, setQ] = useState('')
+  const [diet, setDiet] = useState<Set<string>>(() => new Set())
+  const toggleDiet = (k: string) => setDiet((p) => { const n = new Set(p); n.has(k) ? n.delete(k) : n.add(k); return n })
   const rootRef = useRef<HTMLDivElement>(null)
 
   const storeQ = trpc.catalog.storefront.useQuery({ menuType: 'catalog' }, { retry: false })
@@ -101,6 +109,30 @@ export default function CatalogPage() {
       })
       .filter((g) => g.directItems.length > 0 || g.subs.length > 0)
   }, [cats, itemsByCat])
+
+  // Search + dietary filter. When inactive, displayTree === tree.
+  const filtering = q.trim().length > 0 || diet.size > 0
+  const displayTree = useMemo(() => {
+    if (!filtering) return tree
+    const needle = q.trim().toLowerCase()
+    const matchItem = (it: Item) => {
+      const o = it as Record<string, unknown>
+      if (diet.has('halal') && !o.isHalal) return false
+      if (diet.has('gluten') && !o.isGlutenFree) return false
+      if (diet.has('sugar') && !o.isSugarFree) return false
+      if (!needle) return true
+      const hay = ['nameAz', 'nameRu', 'nameEn', 'nameTr', 'nameAr', 'descriptionAz', 'descriptionEn']
+        .map((k) => String(o[k] ?? '')).join(' ').toLowerCase()
+      return hay.includes(needle)
+    }
+    return tree
+      .map((g) => ({
+        ...g,
+        directItems: g.directItems.filter(matchItem),
+        subs: g.subs.map((s) => ({ ...s, items: s.items.filter(matchItem) })).filter((s) => s.items.length > 0),
+      }))
+      .filter((g) => g.directItems.length > 0 || g.subs.length > 0)
+  }, [tree, q, diet, filtering])
 
   // Scroll-spy: highlight the chip for the section currently in view.
   useEffect(() => {
@@ -341,9 +373,22 @@ export default function CatalogPage() {
       </div>
 
       {tree.length > 0 && (
+        <div className="cwrap">
+          <div className="cfilter">
+            <input className="csearch" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t(S.searchPh)} aria-label={t(S.searchPh)} />
+            <div className="cdiet" role="group" aria-label="Filter">
+              <button type="button" className={diet.has('halal') ? 'on' : ''} aria-pressed={diet.has('halal')} onClick={() => toggleDiet('halal')}>{t(S.fHalal)}</button>
+              <button type="button" className={diet.has('gluten') ? 'on' : ''} aria-pressed={diet.has('gluten')} onClick={() => toggleDiet('gluten')}>{t(S.fGluten)}</button>
+              <button type="button" className={diet.has('sugar') ? 'on' : ''} aria-pressed={diet.has('sugar')} onClick={() => toggleDiet('sugar')}>{t(S.fSugar)}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {displayTree.length > 0 && (
         <div className="cchips">
           <div className="scroll">
-            {tree.map((g) => (
+            {displayTree.map((g) => (
               <a key={g.cat.id} href={`#cat-${g.cat.id}`} className={activeCat === g.cat.id ? 'on' : ''} aria-current={activeCat === g.cat.id ? 'true' : undefined}>{pick(g.cat as Record<string, unknown>, 'title')}</a>
             ))}
           </div>
@@ -363,7 +408,11 @@ export default function CatalogPage() {
           <div className="cstate"><img className="emb" src={EMBLEM} alt="" /><div>{t(S.empty)}</div></div>
         )}
 
-        {tree.map((g) => (
+        {!storeQ.isLoading && !storeQ.isError && tree.length > 0 && filtering && displayTree.length === 0 && (
+          <div className="cstate"><img className="emb" src={EMBLEM} alt="" /><div>{t(S.noRes)}</div></div>
+        )}
+
+        {displayTree.map((g) => (
           <section className="csec" id={`cat-${g.cat.id}`} key={g.cat.id}>
             <div className="csec-head"><h2>{pick(g.cat as Record<string, unknown>, 'title')}</h2><span className="line" /></div>
             {g.directItems.length > 0 && (
