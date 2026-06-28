@@ -96,6 +96,20 @@ const ROUTE_META: Record<string, RouteMeta> = {
     intro: "Qoz, püstə və meyvəli lokum çeşidi — zövq və hədiyyə üçün zərif təqdimat.",
     crumb: "Lokum",
   },
+  "/blog/quru-meyve-faydalari": {
+    title: "Quru meyvə və qoz-fındığın faydaları | Xurcun",
+    desc: "Quru meyvə və qoz-fındıq niyə faydalıdır: vitaminlər, lif, enerji. Sağlam çərəz seçimi və gündəlik norma. Xurcun, Bakı.",
+    h1: "Quru meyvə və qoz-fındığın faydaları",
+    intro: "Quru meyvə və qoz-fındıq təbii enerji, vitamin və lif mənbəyidir — sağlam və dadlı çərəz seçimi.",
+    crumb: "Quru meyvənin faydası",
+  },
+  "/blog/korporativ-hediyye": {
+    title: "Korporativ hədiyyə bələdçisi | Xurcun — biznes hədiyyələri",
+    desc: "Korporativ hədiyyələr: loqolu premium qutular, bayram dəstləri, çoxsaylı sifariş. Müştəri və əməkdaşlar üçün. Xurcun, Bakı, 11 mağaza.",
+    h1: "Korporativ hədiyyə bələdçisi",
+    intro: "Loqolu, fərdiləşdirilmiş premium korporativ hədiyyə qutuları — müştərilər, tərəfdaşlar və əməkdaşlar üçün.",
+    crumb: "Korporativ hədiyyə",
+  },
   "/privacy": { title: "Məxfilik Siyasəti | Xurcun", h1: "Məxfilik Siyasəti — Xurcun", crumb: "Məxfilik Siyasəti" },
   "/cookie-policy": { title: "Cookie Siyasəti | Xurcun", h1: "Cookie Siyasəti — Xurcun", crumb: "Cookie Siyasəti" },
 };

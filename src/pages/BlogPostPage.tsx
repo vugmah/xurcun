@@ -51,6 +51,14 @@ export default function BlogPostPage() {
       logo: { '@type': 'ImageObject', url: `${SITE}/brand/logo-gold.png` },
     },
   }
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: t(S.blog), item: `${SITE}/blog` },
+      { '@type': 'ListItem', position: 2, name: h1, item: url },
+    ],
+  }
 
   return (
     <div className="xc xcpage">
@@ -65,6 +73,7 @@ export default function BlogPostPage() {
         <meta property="og:image" content={img} />
         <meta name="twitter:image" content={img} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
       </Helmet>
 
       <header className="xcp-head">
