@@ -9,7 +9,7 @@ import { getDb, getPool } from "./queries/connection";
 import { menuCategories, menuItems, photos, seoSettings, photoAssignments, branches } from "../db/schema";
 import { writeFile, mkdir, readFile } from "fs/promises";
 import path from "path";
-import { eq, asc } from "drizzle-orm";
+import { eq, asc, and, inArray } from "drizzle-orm";
 import { clientIp, verifyAdminKey } from "./lib/adminAuth";
 
 const UPLOAD_DIR = path.resolve(process.cwd(), "uploads");
@@ -275,6 +275,34 @@ app.get("/sitemap.xml", async (c) => {
     }
   } catch (err) {
     console.error("[sitemap] branch fetch failed (serving static routes only):", err);
+  }
+
+  // Per-product catalog pages (/catalog/<slug>) — one crawlable URL per active
+  // product so Google discovers product pages via the sitemap (not just manually).
+  try {
+    const db = getDb();
+    const cats = await db
+      .select({ id: menuCategories.id })
+      .from(menuCategories)
+      .where(and(eq(menuCategories.menuType, "catalog"), eq(menuCategories.isActive, true)));
+    const catIds = cats.map((c) => c.id);
+    if (catIds.length) {
+      const items = await db
+        .select({ nameEn: menuItems.nameEn, nameAz: menuItems.nameAz })
+        .from(menuItems)
+        .where(and(inArray(menuItems.categoryId, catIds), eq(menuItems.isActive, true)));
+      const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      const seen = new Set<string>();
+      for (const it of items) {
+        const slug = slugify(String(it.nameEn || it.nameAz || ""));
+        if (slug && !seen.has(slug)) {
+          seen.add(slug);
+          routes.push({ loc: `https://xurcun.az/catalog/${slug}`, priority: "0.7", changefreq: "weekly" });
+        }
+      }
+    }
+  } catch (err) {
+    console.error("[sitemap] catalog products fetch failed:", err);
   }
 
   const urls = routes
