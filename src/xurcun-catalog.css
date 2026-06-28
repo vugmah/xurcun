@@ -114,3 +114,12 @@
   .xc.xcc .cspin { animation: none; }
   .xc.xcc .csheet { animation: none; }
 }
+
+/* ── Search + dietary filter ── */
+.xc.xcc .cfilter { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: center; max-width: 760px; margin: 0 auto; padding: 4px 18px 2px; }
+.xc.xcc .csearch { flex: 1; min-width: 200px; font-family: var(--body); font-size: 14px; color: var(--ink); background: var(--white); border: 1px solid var(--line); border-radius: 999px; padding: 11px 18px; min-height: 44px; box-sizing: border-box; transition: border-color .2s var(--ease); }
+.xc.xcc .csearch:focus { outline: none; border-color: var(--gold); }
+.xc.xcc .cdiet { display: flex; gap: 8px; flex-wrap: wrap; }
+.xc.xcc .cdiet button { font-family: var(--body); font-size: 12.5px; cursor: pointer; background: var(--white); border: 1px solid var(--line); color: var(--ink-muted); border-radius: 999px; padding: 9px 14px; min-height: 40px; transition: background-color .15s var(--ease), color .15s var(--ease), border-color .15s var(--ease); }
+.xc.xcc .cdiet button.on { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
+@media (hover: hover) { .xc.xcc .cdiet button:hover { border-color: var(--gold); color: var(--gold-dark); } .xc.xcc .cdiet button.on:hover { color: var(--on-gold); } }
