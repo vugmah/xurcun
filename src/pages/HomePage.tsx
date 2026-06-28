@@ -27,6 +27,7 @@ const S = {
   nav_stores: { az: 'Mağazalar', ru: 'Магазины', en: 'Stores', tr: 'Mağazalar', ar: 'المتاجر' },
   nav_about: { az: 'Haqqımızda', ru: 'О нас', en: 'About', tr: 'Hakkımızda', ar: 'من نحن' },
   nav_contact: { az: 'Əlaqə', ru: 'Контакты', en: 'Contact', tr: 'İletişim', ar: 'اتصل بنا' },
+  nav_corp: { az: 'Korporativ', ru: 'Корпоративным', en: 'Corporate', tr: 'Kurumsal', ar: 'الشركات' },
   hero_script: { az: 'təbiətin ən seçmə dadları', ru: 'избранные вкусы природы', en: "nature's finest flavours", tr: 'doğanın en seçkin tatları', ar: 'أجود نكهات الطبيعة' },
   hero_h1a: { az: 'Keyfiyyətə', ru: 'Fond of', en: 'Fond of', tr: 'Fond of', ar: 'Fond of' },
   hero_h1em: { az: 'Vurğunuq!', ru: 'Quality', en: 'Quality', tr: 'Quality', ar: 'Quality' },
@@ -398,7 +399,7 @@ export default function HomePage() {
       <footer id="elaqe">
         <div className="bgpat" />
         <div className="wrap">
-          <div className="reveal"><picture><source srcSet={LOGO_WEBP} type="image/webp" /><img className="logo" src={LOGO} alt="Xurcun" width={140} height={48} /></picture><p>{t(S.foot_about)}</p><p className="foot-links"><a href="/about">{t(S.nav_about)}</a> · <a href="/faq">FAQ</a> · <a href="/blog">Blog</a> · <a href="/catalog">{t(S.nav_catalog)}</a></p></div>
+          <div className="reveal"><picture><source srcSet={LOGO_WEBP} type="image/webp" /><img className="logo" src={LOGO} alt="Xurcun" width={140} height={48} /></picture><p>{t(S.foot_about)}</p><p className="foot-links"><a href="/about">{t(S.nav_about)}</a> · <a href="/faq">FAQ</a> · <a href="/blog">Blog</a> · <a href="/corporate">{t(S.nav_corp)}</a> · <a href="/catalog">{t(S.nav_catalog)}</a></p></div>
           <div className="reveal d1"><h3>{t(S.foot_stores)}</h3><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Crescent Mall</li><li>Sea Breeze</li><li>Hava Limanı</li></ul></div>
           <div className="reveal d2"><h3>{t(S.foot_contact)}</h3><ul>
             <li><a href="mailto:info@xurcun.az">info@xurcun.az</a></li>
