@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createRouter, publicQuery, publicMutation, adminQuery, adminMutation } from "../middleware";
+import { createRouter, publicQuery, adminQuery, adminMutation, trackingMutation } from "../middleware";
 import { getDb } from "../queries/connection";
 import { popupCampaigns, popupViews, popupClicks } from "../../db/schema";
 import { eq, and, count } from "drizzle-orm";
@@ -68,7 +68,7 @@ export const popupRouter = createRouter({
     }),
 
   // ─── Public: Track a popup view ───
-  trackView: publicMutation
+  trackView: trackingMutation
     .input(
       z.object({
         campaignId: z.number(),
@@ -85,7 +85,7 @@ export const popupRouter = createRouter({
     }),
 
   // ─── Public: Track a popup click ───
-  trackClick: publicMutation
+  trackClick: trackingMutation
     .input(
       z.object({
         campaignId: z.number(),

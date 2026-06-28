@@ -55,3 +55,6 @@ export const loginLimiter = rateLimit({ maxRequests: 5, windowMs: 15 * 60_000 })
 export const contactLimiter = rateLimit({ maxRequests: 5, windowMs: 10 * 60_000 }); // 5 per 10 min
 export const uploadLimiter = rateLimit({ maxRequests: 10, windowMs: 10 * 60_000 }); // 10 per 10 min
 export const adminLimiter = rateLimit({ maxRequests: 100, windowMs: 60_000 }); // 100 per 1 min
+// Generous cap for public analytics writes (popup views/clicks, Meta CAPI) — high
+// enough for real traffic, low enough to stop a script hammering the DB / Facebook.
+export const trackingLimiter = rateLimit({ maxRequests: 200, windowMs: 10 * 60_000 }); // 200 per 10 min

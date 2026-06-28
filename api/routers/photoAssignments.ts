@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { eq, and } from "drizzle-orm";
-import { createRouter, publicQuery, publicMutation, adminMutation } from "../middleware";
+import { createRouter, publicQuery, adminMutation } from "../middleware";
 import { getDb } from "../queries/connection";
 import { photoAssignments, menuItems } from "../../db/schema";
 
@@ -132,7 +132,7 @@ export const photoAssignmentsRouter = createRouter({
     }),
 
   /* ─── Bulk sync all 22 fruit tea photo assignments ─── */
-  bulkSyncTea: publicMutation
+  bulkSyncTea: adminMutation
     .mutation(async () => {
       const db = getDb();
       const BRANCH = "white-city";
