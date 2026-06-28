@@ -67,3 +67,18 @@
 [dir="rtl"] .xc.xcpage .xcp-blogcard .meta{text-align:right}
 [dir="rtl"] .xc.xcpage .xcp-blogcard .more{align-self:flex-start}
 [dir="rtl"] .xc.xcpage .xcp-crumb span{margin:0 4px}
+
+/* ── Corporate inquiry form ── */
+.xc.xcpage .xcp-form{max-width:560px;margin:8px auto 0;display:flex;flex-direction:column;gap:14px;text-align:left}
+.xc.xcpage .xcp-form .row{display:flex;gap:14px;flex-wrap:wrap}
+.xc.xcpage .xcp-form .row label{flex:1;min-width:180px}
+.xc.xcpage .xcp-form label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--ink-soft);font-family:var(--body)}
+.xc.xcpage .xcp-form input,.xc.xcpage .xcp-form textarea{font-family:var(--body);font-size:15px;color:var(--ink);background:var(--white);border:1px solid var(--line);border-radius:10px;padding:11px 13px;width:100%;box-sizing:border-box;transition:border-color .2s var(--ease)}
+.xc.xcpage .xcp-form input:focus,.xc.xcpage .xcp-form textarea:focus{outline:none;border-color:var(--gold)}
+.xc.xcpage .xcp-form textarea{resize:vertical;min-height:96px}
+.xc.xcpage .xcp-form .xcp-btn{margin-top:6px;border:0;cursor:pointer}
+.xc.xcpage .xcp-form .xcp-btn:disabled{opacity:.6;cursor:default}
+.xc.xcpage .xcp-form .xcp-link{align-self:center;margin-top:2px}
+.xc.xcpage .xcp-formerr{color:#b23b3b;font-size:13.5px;margin:0}
+.xc.xcpage .xcp-formok{max-width:560px;margin:20px auto 0;background:var(--white);border:1px solid var(--gold);border-radius:14px;padding:22px;color:var(--ink-soft);font-size:15.5px;line-height:1.65}
+[dir="rtl"] .xc.xcpage .xcp-form,[dir="rtl"] .xc.xcpage .xcp-form label{text-align:right}

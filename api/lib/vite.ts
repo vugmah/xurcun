@@ -47,6 +47,13 @@ const ROUTE_META: Record<string, RouteMeta> = {
     intro: "Xurcun haqqında ən çox soruşulan suallar: məhsullar, mağazalar, hədiyyə qutuları, çatdırılma və sifariş.",
     crumb: "FAQ",
   },
+  "/corporate": {
+    title: "Korporativ hədiyyə sorğusu | Xurcun",
+    desc: "Korporativ və topdan hədiyyə sorğusu — loqolu premium hədiyyə qutuları. Müştəri, tərəfdaş və əməkdaşlar üçün. Xurcun, Bakı.",
+    h1: "Korporativ hədiyyə sorğusu",
+    intro: "Müştəri, tərəfdaş və əməkdaşlarınız üçün loqolu, fərdiləşdirilmiş premium hədiyyə qutuları. Sorğunuzu göndərin — sizinlə əlaqə saxlayaq.",
+    crumb: "Korporativ",
+  },
   "/blog": {
     title: "Blog | Xurcun — hədiyyə, xonça, şirniyyat bələdçisi",
     desc: "Xurcun blog — toy xonçası, bayram hədiyyələri, premium qutular, şokolad, paxlava və lokum haqqında bələdçilər.",
