@@ -326,6 +326,112 @@ export const BLOG_POSTS: BlogPost[] = [
       },
     ],
   },
+  {
+    slug: "quru-meyve-faydalari",
+    date: "2026-06-28",
+    cover: "/images/home/about.webp",
+    title: {
+      az: "Quru meyvə və qoz-fındığın faydaları | Xurcun",
+      ru: "Польза сухофруктов и орехов | Xurcun",
+      en: "Health benefits of dried fruit and nuts | Xurcun",
+      tr: "Kuru meyve ve çerezin faydaları | Xurcun",
+      ar: "فوائد الفواكه المجففة والمكسرات | Xurcun",
+    },
+    desc: {
+      az: "Quru meyvə və qoz-fındıq niyə faydalıdır: vitaminlər, lif, enerji. Sağlam çərəz seçimi və gündəlik norma. Xurcun, Bakı.",
+      ru: "Чем полезны сухофрукты и орехи: витамины, клетчатка, энергия. Здоровый перекус и суточная норма. Xurcun, Баку.",
+      en: "Why dried fruit and nuts are good for you: vitamins, fibre, energy. A healthy snack and daily portion. Xurcun, Baku.",
+      tr: "Kuru meyve ve çerez neden faydalıdır: vitaminler, lif, enerji. Sağlıklı atıştırmalık ve günlük porsiyon. Xurcun, Bakü.",
+      ar: "لماذا الفواكه المجففة والمكسرات مفيدة: فيتامينات وألياف وطاقة. وجبة صحية وحصة يومية. Xurcun، باكو.",
+    },
+    h1: {
+      az: "Quru meyvə və qoz-fındığın faydaları",
+      ru: "Польза сухофруктов и орехов",
+      en: "The health benefits of dried fruit and nuts",
+      tr: "Kuru meyve ve çerezin faydaları",
+      ar: "فوائد الفواكه المجففة والمكسرات",
+    },
+    lead: {
+      az: "Quru meyvə və qoz-fındıq təbii enerji, vitamin və lif mənbəyidir. Düzgün seçilmiş çərəz həm dadlı, həm də sağlam alternativdir.",
+      ru: "Сухофрукты и орехи — природный источник энергии, витаминов и клетчатки. Правильно подобранный перекус и вкусен, и полезен.",
+      en: "Dried fruit and nuts are a natural source of energy, vitamins and fibre. A well-chosen snack is both tasty and healthy.",
+      tr: "Kuru meyve ve çerez; doğal enerji, vitamin ve lif kaynağıdır. Doğru seçilmiş atıştırmalık hem lezzetli hem sağlıklıdır.",
+      ar: "الفواكه المجففة والمكسرات مصدر طبيعي للطاقة والفيتامينات والألياف. والوجبة المختارة بعناية لذيذة وصحية معًا.",
+    },
+    sections: [
+      {
+        h2: { az: "Əsas faydalar", ru: "Основная польза", en: "Key benefits", tr: "Başlıca faydaları", ar: "أبرز الفوائد" },
+        body: [
+          { az: "Quru meyvələr lif, kalium və antioksidantlarla zəngindir; qoz-fındıq isə sağlam yağlar, zülal və maqnezium mənbəyidir.", ru: "Сухофрукты богаты клетчаткой, калием и антиоксидантами; орехи — источник полезных жиров, белка и магния.", en: "Dried fruit is rich in fibre, potassium and antioxidants; nuts provide healthy fats, protein and magnesium.", tr: "Kuru meyveler lif, potasyum ve antioksidan açısından zengindir; çerezler ise sağlıklı yağ, protein ve magnezyum kaynağıdır.", ar: "الفواكه المجففة غنية بالألياف والبوتاسيوم ومضادات الأكسدة؛ والمكسرات مصدر للدهون الصحية والبروتين والمغنيسيوم." },
+        ],
+      },
+      {
+        h2: { az: "Hansıları seçməli?", ru: "Что выбрать?", en: "What to choose?", tr: "Hangileri seçmeli?", ar: "ماذا تختار؟" },
+        body: [
+          { az: "Şəkər və konservant əlavə edilməmiş, təbii qurudulmuş məhsullara üstünlük verin. Xurcun çeşidi seçmə və təbiidir.", ru: "Отдавайте предпочтение натурально высушенным продуктам без добавленного сахара и консервантов. Ассортимент Xurcun отборный и натуральный.", en: "Prefer naturally dried products without added sugar or preservatives. Xurcun's range is selected and natural.", tr: "Şeker ve koruyucu eklenmemiş, doğal kurutulmuş ürünleri tercih edin. Xurcun çeşidi seçme ve doğaldır.", ar: "فضّل المنتجات المجففة طبيعيًا دون سكر مضاف أو مواد حافظة. تشكيلة Xurcun منتقاة وطبيعية." },
+        ],
+      },
+      {
+        h2: { az: "Gündəlik norma", ru: "Суточная норма", en: "Daily portion", tr: "Günlük porsiyon", ar: "الحصة اليومية" },
+        body: [
+          { az: "Gündə bir ovuc (təxminən 30 q) qoz-fındıq və bir neçə quru meyvə balanslı qida üçün kifayətdir.", ru: "Горсти орехов в день (около 30 г) и нескольких сухофруктов достаточно для сбалансированного питания.", en: "A handful of nuts a day (about 30 g) and a few pieces of dried fruit are enough for a balanced diet.", tr: "Günde bir avuç çerez (yaklaşık 30 g) ve birkaç kuru meyve dengeli beslenme için yeterlidir.", ar: "حفنة من المكسرات يوميًا (نحو 30 غرامًا) وبضع قطع من الفواكه المجففة تكفي لنظام غذائي متوازن." },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "korporativ-hediyye",
+    date: "2026-06-28",
+    cover: "/brand/og-image.jpg",
+    title: {
+      az: "Korporativ hədiyyə bələdçisi | Xurcun — biznes hədiyyələri",
+      ru: "Гид по корпоративным подаркам | Xurcun — бизнес-подарки",
+      en: "Corporate gift guide | Xurcun — business gifts",
+      tr: "Kurumsal hediye rehberi | Xurcun — iş hediyeleri",
+      ar: "دليل الهدايا المؤسسية | Xurcun — هدايا الأعمال",
+    },
+    desc: {
+      az: "Korporativ hədiyyələr: loqolu premium qutular, bayram dəstləri, çoxsaylı sifariş. Müştəri və əməkdaşlar üçün. Xurcun, Bakı, 11 mağaza.",
+      ru: "Корпоративные подарки: премиальные коробки с логотипом, праздничные наборы, оптовые заказы. Для клиентов и сотрудников. Xurcun, Баку.",
+      en: "Corporate gifts: premium boxes with your logo, holiday sets, bulk orders. For clients and staff. Xurcun, Baku, 11 stores.",
+      tr: "Kurumsal hediyeler: logolu premium kutular, bayram setleri, toplu sipariş. Müşteriler ve çalışanlar için. Xurcun, Bakü.",
+      ar: "هدايا مؤسسية: علب فاخرة بشعارك، أطقم للأعياد، طلبات بالجملة. للعملاء والموظفين. Xurcun، باكو، 11 متجرًا.",
+    },
+    h1: {
+      az: "Korporativ hədiyyə bələdçisi",
+      ru: "Гид по корпоративным подаркам",
+      en: "Corporate gift guide",
+      tr: "Kurumsal hediye rehberi",
+      ar: "دليل الهدايا المؤسسية",
+    },
+    lead: {
+      az: "Doğru korporativ hədiyyə brendinizi xatırladır və münasibətləri gücləndirir. Xurcun loqolu, fərdiləşdirilmiş premium qutular hazırlayır — müştərilər, tərəfdaşlar və əməkdaşlar üçün.",
+      ru: "Правильный корпоративный подарок напоминает о вашем бренде и укрепляет отношения. Xurcun готовит премиальные коробки с логотипом и персонализацией — для клиентов, партнёров и сотрудников.",
+      en: "The right corporate gift keeps your brand in mind and strengthens relationships. Xurcun makes premium, logo-branded, personalised boxes for clients, partners and staff.",
+      tr: "Doğru kurumsal hediye markanızı hatırlatır ve ilişkileri güçlendirir. Xurcun; müşteriler, ortaklar ve çalışanlar için logolu, kişiselleştirilmiş premium kutular hazırlar.",
+      ar: "الهدية المؤسسية المناسبة تُبقي علامتك في الأذهان وتقوّي العلاقات. تصنع Xurcun علبًا فاخرة بشعارك ومخصّصة للعملاء والشركاء والموظفين.",
+    },
+    sections: [
+      {
+        h2: { az: "Niyə korporativ hədiyyə?", ru: "Зачем корпоративные подарки?", en: "Why corporate gifts?", tr: "Neden kurumsal hediye?", ar: "لماذا الهدايا المؤسسية؟" },
+        body: [
+          { az: "Bayramlarda və əlamətdar günlərdə hədiyyə sadiqlik yaradır, brendi yaddaşda saxlayır və biznes münasibətlərini möhkəmləndirir.", ru: "Подарки к праздникам и значимым датам формируют лояльность, удерживают бренд в памяти и укрепляют деловые отношения.", en: "Gifts on holidays and milestones build loyalty, keep your brand memorable and strengthen business ties.", tr: "Bayramlarda ve önemli günlerde verilen hediyeler sadakat oluşturur, markayı akılda tutar ve iş ilişkilerini güçlendirir.", ar: "الهدايا في الأعياد والمناسبات تبني الولاء وتُبقي العلامة حاضرة وتعزّز علاقات العمل." },
+        ],
+      },
+      {
+        h2: { az: "Fərdiləşdirmə və loqo", ru: "Персонализация и логотип", en: "Personalisation and logo", tr: "Kişiselleştirme ve logo", ar: "التخصيص والشعار" },
+        body: [
+          { az: "Qutunun tərkibini, ölçüsünü, rəngini seçin; üzərinə şirkət loqonuzu və ya təbrik kartı əlavə edin.", ru: "Выберите состав, размер и цвет коробки; добавьте логотип компании или поздравительную открытку.", en: "Choose the contents, size and colour; add your company logo or a greeting card.", tr: "Kutunun içeriğini, boyutunu ve rengini seçin; şirket logonuzu veya tebrik kartı ekleyin.", ar: "اختر المحتوى والحجم واللون؛ وأضف شعار شركتك أو بطاقة تهنئة." },
+        ],
+      },
+      {
+        h2: { az: "Çoxsaylı sifariş", ru: "Оптовый заказ", en: "Bulk orders", tr: "Toplu sipariş", ar: "الطلب بالجملة" },
+        body: [
+          { az: "10-dan çox dəst üçün xüsusi qiymət və vaxtında çatdırılma. Sifariş üçün +994 50 212 18 11 və ya WhatsApp ilə əlaqə saxlayın.", ru: "Для заказов от 10 наборов — специальные цены и доставка в срок. Для заказа: +994 50 212 18 11 или WhatsApp.", en: "Special pricing and on-time delivery for 10+ sets. To order, contact +994 50 212 18 11 or WhatsApp.", tr: "10+ set için özel fiyat ve zamanında teslimat. Sipariş için +994 50 212 18 11 veya WhatsApp.", ar: "أسعار خاصة وتسليم في الوقت لطلبات 10 مجموعات فأكثر. للطلب: +994 50 212 18 11 أو واتساب." },
+        ],
+      },
+    ],
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
