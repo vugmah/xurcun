@@ -250,7 +250,7 @@ async function catalogShell(): Promise<{ listHtml: string; jsonLd: string }> {
 // Build the per-route HTML for the SPA fallback. Unknown routes (no override and not
 // /menu/<slug>) keep the homepage meta/shell — harmless, since they render the homepage.
 async function buildRouteHtml(html: string, pathname: string): Promise<string> {
-  const meta = ROUTE_META[pathname] ?? (pathname.startsWith("/menu/") ? ROUTE_META["/menu"] : null);
+  const meta = ROUTE_META[pathname] ?? (pathname.startsWith("/menu/") ? ROUTE_META["/menu"] : pathname.startsWith("/catalog/") ? ROUTE_META["/catalog"] : null);
   if (!meta) return html;
   let out = injectRouteMeta(html, pathname, meta);
   out = injectHreflang(out, pathname);
@@ -295,6 +295,7 @@ export function serveStaticFiles(app: App) {
     ]);
     const isKnown =
       KNOWN.has(pathname) ||
+      pathname.startsWith("/catalog/") ||
       pathname.startsWith("/menu/") ||
       pathname.startsWith("/blog/") ||
       pathname.startsWith("/admin");

@@ -8,6 +8,7 @@ import '@/xurcun-catalog.css'
 const LOGO = '/brand/logo-gold.png'
 const EMBLEM = '/brand/emblem-gold.png'
 const WA = '994502121811' // ümumi sifariş WhatsApp nömrəsi
+const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
 
 type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar'
 const LANGS: { code: Lang; label: string }[] = [
@@ -336,15 +337,16 @@ export default function CatalogPage() {
     const img = it.imageUrl as string | undefined
     const priceStr = it.priceVisible === false || !it.price ? '' : `${it.price as string} ₼`
     const qty = cart[it.id] ?? 0
+    const href = `/catalog/${slugify(String((it.nameEn as string) || (it.nameAz as string) || '')) || it.id}`
     return (
       <div className="ccard">
-        <div className="cthumb">
+        <a className="cthumb" href={href} aria-label={name}>
           {img
             ? <img src={img} alt={name} loading="lazy" decoding="async" onError={(e) => { const im = e.currentTarget; im.onerror = null; im.src = EMBLEM; im.className = 'ph' }} />
             : <img className="ph" src={EMBLEM} alt="" />}
-        </div>
+        </a>
         <div className="cinfo">
-          <div className="nm">{name}</div>
+          <a className="nm" href={href}>{name}</a>
           {desc && <div className="ds">{desc}</div>}
           <div className="prow">
             <span className="pr">{priceStr || t(S.ask_price)}</span>

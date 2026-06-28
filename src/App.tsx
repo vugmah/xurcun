@@ -5,6 +5,7 @@ import RootErrorBoundary from "@/components/RootErrorBoundary";
 import HomePage from "./pages/HomePage";
 const QRMenuPage = lazy(() => import("./pages/QRMenuPage"));
 const CatalogStorefront = lazy(() => import("./pages/CatalogPage"));
+const ProductDetailPage = lazy(() => import("./pages/ProductDetailPage"));
 import PrivacyPage from "./pages/PrivacyPage";
 import CookiePolicyPage from "./pages/CookiePolicyPage";
 import AboutPage from "./pages/AboutPage";
@@ -87,6 +88,7 @@ function App() {
         <Route path="/login/admin" element={<Navigate to="/admin/login" replace />} />
         <Route path="/menu/:branchSlug?" element={<Suspense fallback={<div className="min-h-screen bg-[#F6F2E9] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#9D7C38] border-t-transparent rounded-full animate-spin" /></div>}><QRMenuPage /></Suspense>} />
         <Route path="/catalog" element={<Suspense fallback={<div className="min-h-screen bg-[#F6F2E9] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#9D7C38] border-t-transparent rounded-full animate-spin" /></div>}><CatalogStorefront /></Suspense>} />
+        <Route path="/catalog/:slug" element={<Suspense fallback={<div className="min-h-screen bg-[#F6F2E9] flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#9D7C38] border-t-transparent rounded-full animate-spin" /></div>}><ProductDetailPage /></Suspense>} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/cookie-policy" element={<CookiePolicyPage />} />
         <Route path="/about" element={<AboutPage />} />
