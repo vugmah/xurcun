@@ -71,6 +71,47 @@ export const photosRouter = createRouter({
       return { success: true };
     }),
 
+  // Admin: Upsert a single photo keyed by its section (used for homepage image slots)
+  upsertBySection: adminMutation
+    .input(z.object({
+      section: z.string().min(1),
+      url: z.string().min(1),
+      altAz: z.string().optional(),
+      altRu: z.string().optional(),
+      altEn: z.string().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const db = getDb();
+      const existing = await db
+        .select()
+        .from(photos)
+        .where(eq(photos.section, input.section))
+        .limit(1);
+
+      if (existing.length > 0) {
+        await db
+          .update(photos)
+          .set({
+            url: input.url,
+            altAz: input.altAz,
+            altRu: input.altRu,
+            altEn: input.altEn,
+          })
+          .where(eq(photos.id, existing[0].id));
+      } else {
+        await db.insert(photos).values({
+          url: input.url,
+          section: input.section,
+          altAz: input.altAz,
+          altRu: input.altRu,
+          altEn: input.altEn,
+          isActive: true,
+          sortOrder: 0,
+        });
+      }
+      return { success: true };
+    }),
+
   // Admin: Delete photo
   delete: adminMutation
     .input(z.object({ id: z.number() }))

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
 import GiftCardSection from '@/components/GiftCardSection'
@@ -7,13 +7,9 @@ import '@/xurcun-base.css'
 import '@/xurcun-home.css'
 
 const LOGO = '/brand/logo-gold.png'
-const LOGO_WEBP = '/brand/logo-gold.webp'
 const EMBLEM = '/brand/emblem-gold.png'
 const HERO_IMG = '/images/home/hero.webp' // hero video poster — single-URL attr, webp
 const GIFT_IMG = '/images/home/gift.jpg'
-const GIFT_WEBP = '/images/home/gift.webp'
-const ABOUT_IMG = '/images/home/about.jpg'
-const ABOUT_WEBP = '/images/home/about.webp'
 const ANNIV_POSTER = '/images/anniversary.webp' // poster for the anniversary reel
 
 type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar'
@@ -209,6 +205,18 @@ export default function HomePage() {
   const catFromDb = (catQ.data ?? []).map((c) => pick(c as Record<string, unknown>, 'title')).filter(Boolean)
   const catLabels: string[] = catFromDb.length ? catFromDb : CATS.map((c) => t(c))
 
+  // Homepage image overrides (admin CMS). Rows keyed by section `homepage:<key>`.
+  const homeImgsQ = trpc.photos.getAll.useQuery(undefined, { retry: false })
+  const homeMap = useMemo(() => {
+    const m: Record<string, string> = {}
+    const PREFIX = 'homepage:'
+    ;(homeImgsQ.data ?? []).forEach((p) => {
+      if (p.section?.startsWith(PREFIX)) m[p.section.slice(PREFIX.length)] = p.url
+    })
+    return m
+  }, [homeImgsQ.data])
+  const img = (key: string, fallback: string) => homeMap[key] || fallback
+
   const featQ = trpc.catalog.featured.useQuery(undefined, { retry: false })
   const featFromDb = (featQ.data ?? [])
     .map((p) => {
@@ -295,10 +303,7 @@ export default function HomePage() {
 
       <header className={menuOpen ? 'nav-open' : ''}>
         <div className="wrap">
-          <picture>
-            <source srcSet={LOGO_WEBP} type="image/webp" />
-            <img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" width={175} height={58} />
-          </picture>
+          <img className="logo" src={img('logo', LOGO)} alt="Xurcun — Fond of Quality" width={175} height={58} />
           <button
             type="button"
             className="navtoggle"
@@ -317,7 +322,7 @@ export default function HomePage() {
       </header>
 
       <section className="hero" id="main">
-        <video className="herovid" ref={heroVid} poster={HERO_IMG} muted loop playsInline preload="metadata" aria-hidden="true">
+        <video className="herovid" ref={heroVid} poster={img('hero_poster', HERO_IMG)} muted loop playsInline preload="metadata" aria-hidden="true">
           <source src={heroVideo} type="video/mp4" />
         </video>
         <div className="bgpat" /><div className="veil" />
@@ -380,7 +385,7 @@ export default function HomePage() {
       <section className="about" id="haqqimizda">
         <div className="wrap">
           <div className="about-media reveal">
-            <video ref={aboutVid} className="about-vid" muted loop playsInline autoPlay preload="metadata" poster="/images/gv-ribbons.webp" aria-label={t(S.about_alt)}>
+            <video ref={aboutVid} className="about-vid" muted loop playsInline autoPlay preload="metadata" poster={img('about_poster', '/images/gv-ribbons.webp')} aria-label={t(S.about_alt)}>
               <source src="/videos/gv-ribbons-s.mp4" type="video/mp4" />
             </video>
             <button
@@ -423,7 +428,7 @@ export default function HomePage() {
             <p>{t(S.luxe_p)}</p>
             <a className="btn btn-gold" href="/catalog">{t(S.luxe_cta)}</a>
           </div>
-          <div className="luxe-frame reveal d2"><picture><source srcSet={GIFT_WEBP} type="image/webp" /><img className="gimg" src={GIFT_IMG} alt={t(S.gift_alt)} loading="lazy" decoding="async" /></picture></div>
+          <div className="luxe-frame reveal d2"><img className="gimg" src={img('gift', GIFT_IMG)} alt={t(S.gift_alt)} loading="lazy" decoding="async" /></div>
         </div>
       </div>
 
@@ -461,7 +466,7 @@ export default function HomePage() {
           </div>
           <p className="anniv-lead reveal">{t(S.anniv_lead)}</p>
           <div className="anniv-stage reveal">
-            <video controls playsInline preload="none" poster={ANNIV_POSTER}>
+            <video controls playsInline preload="none" poster={img('anniversary_poster', ANNIV_POSTER)}>
               <source src="/videos/anniversary.mp4" type="video/mp4" />
             </video>
           </div>
@@ -471,7 +476,7 @@ export default function HomePage() {
       <footer id="elaqe">
         <div className="bgpat" />
         <div className="wrap">
-          <div className="reveal"><picture><source srcSet={LOGO_WEBP} type="image/webp" /><img className="logo" src={LOGO} alt="Xurcun" width={140} height={48} /></picture><p>{t(S.foot_about)}</p><p className="foot-links"><a href="/about">{t(S.nav_about)}</a> · <a href="/faq">FAQ</a> · <a href="/blog">Blog</a> · <a href="/corporate">{t(S.nav_corp)}</a> · <a href="/gift-card">{t(S.nav_giftcard)}</a> · <a href="/catalog">{t(S.nav_catalog)}</a></p></div>
+          <div className="reveal"><img className="logo" src={img('logo', LOGO)} alt="Xurcun" width={140} height={48} /><p>{t(S.foot_about)}</p><p className="foot-links"><a href="/about">{t(S.nav_about)}</a> · <a href="/faq">FAQ</a> · <a href="/blog">Blog</a> · <a href="/corporate">{t(S.nav_corp)}</a> · <a href="/gift-card">{t(S.nav_giftcard)}</a> · <a href="/catalog">{t(S.nav_catalog)}</a></p></div>
           <div className="reveal d1"><h3>{t(S.foot_stores)}</h3><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Crescent Mall</li><li>Sea Breeze</li><li>Hava Limanı</li></ul></div>
           <div className="reveal d2"><h3>{t(S.foot_contact)}</h3><ul>
             <li><a href="mailto:info@xurcun.az">info@xurcun.az</a></li>

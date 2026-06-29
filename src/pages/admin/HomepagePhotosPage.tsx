@@ -1,64 +1,89 @@
-import { useState, useEffect, useCallback } from "react";
-import { Upload, X, RotateCcw, ImageIcon, Camera, Check, Minus } from "lucide-react";
-import {
-  HOMEPAGE_IMAGE_SLOTS,
-  getHomepageImageEdits,
-  saveHomepageImageEdit,
-  resetHomepageImage,
-  getHomepageImageSrc,
-  type HomepageImageEdit,
-} from "@/lib/homepageImageStore";
+import { useMemo, useState } from "react";
+import { Upload, X, ImageIcon, Camera } from "lucide-react";
+import { HOMEPAGE_IMAGE_SLOTS } from "@/lib/homepageImageStore";
 import { getAdminKey } from "@/lib/adminAuthStorage";
+import { trpc } from "@/providers/trpc";
+
+interface SlotEditForm {
+  url?: string;
+  altAz?: string;
+  altRu?: string;
+  altEn?: string;
+}
 
 export default function HomepagePhotosPage() {
-  const [, setTick] = useState(0);
-  const forceUpdate = useCallback(() => setTick(t => t + 1), []);
-  const edits = getHomepageImageEdits();
+  const utils = trpc.useUtils();
+  const rowsQ = trpc.photos.getAll.useQuery();
+
+  /* Map of homepage rows keyed by slot key (section suffix). */
+  const rowMap = useMemo(() => {
+    const m: Record<string, { id: number; url: string; altAz: string | null; altRu: string | null; altEn: string | null }> = {};
+    const PREFIX = "homepage:";
+    (rowsQ.data ?? []).forEach((p) => {
+      if (p.section?.startsWith(PREFIX)) {
+        m[p.section.slice(PREFIX.length)] = {
+          id: p.id,
+          url: p.url,
+          altAz: p.altAz,
+          altRu: p.altRu,
+          altEn: p.altEn,
+        };
+      }
+    });
+    return m;
+  }, [rowsQ.data]);
+
+  const upsert = trpc.photos.upsertBySection.useMutation({
+    onSuccess: () => utils.photos.getAll.invalidate(),
+  });
+  const del = trpc.photos.delete.useMutation({
+    onSuccess: () => utils.photos.getAll.invalidate(),
+  });
 
   const [editSlot, setEditSlot] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState<HomepageImageEdit>({});
+  const [editForm, setEditForm] = useState<SlotEditForm>({});
 
   const openEdit = (key: string) => {
-    const e = edits[key] || {};
-    const slot = HOMEPAGE_IMAGE_SLOTS.find(s => s.key === key)!;
+    const slot = HOMEPAGE_IMAGE_SLOTS.find((s) => s.key === key)!;
+    const row = rowMap[key];
     setEditForm({
-      image_url: getHomepageImageSrc(key),
-      alt_az: e.alt_az ?? slot.alt_az,
-      alt_ru: e.alt_ru ?? slot.alt_ru,
-      alt_en: e.alt_en ?? slot.alt_en,
-      is_active: e.is_active ?? slot.is_active ?? true,
+      url: row?.url ?? slot.defaultSrc,
+      altAz: row?.altAz ?? "",
+      altRu: row?.altRu ?? "",
+      altEn: row?.altEn ?? "",
     });
     setEditSlot(key);
   };
 
   const handleSave = (key: string) => {
-    const payload: HomepageImageEdit = {
-      image_url: editForm.image_url || undefined,
-      alt_az: editForm.alt_az || undefined,
-      alt_ru: editForm.alt_ru || undefined,
-      alt_en: editForm.alt_en || undefined,
-      is_active: editForm.is_active,
-    };
-    // Remove image_url if it's the default
-    const slot = HOMEPAGE_IMAGE_SLOTS.find(s => s.key === key);
-    if (payload.image_url === slot?.defaultSrc) delete payload.image_url;
-    saveHomepageImageEdit(key, payload);
+    const slot = HOMEPAGE_IMAGE_SLOTS.find((s) => s.key === key);
+    if (!slot) return;
+    upsert.mutate({
+      section: slot.section,
+      url: editForm.url || slot.defaultSrc,
+      altAz: editForm.altAz || undefined,
+      altRu: editForm.altRu || undefined,
+      altEn: editForm.altEn || undefined,
+    });
     setEditSlot(null);
-    forceUpdate();
   };
 
   const handleReset = (key: string) => {
-    resetHomepageImage(key);
+    const row = rowMap[key];
+    if (row) del.mutate({ id: row.id });
     setEditSlot(null);
-    forceUpdate();
   };
 
   const handleUpload = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0]; if (!f) return;
+    const f = e.target.files?.[0];
+    if (!f) return;
     if (f.size > 3 * 1024 * 1024) { alert("Max 3MB"); return; }
 
+    const slot = HOMEPAGE_IMAGE_SLOTS.find((s) => s.key === key);
+    if (!slot) return;
+
     const r = new FileReader();
-    r.onload = ev => {
+    r.onload = (ev) => {
       const img = new Image();
       img.onload = async () => {
         const MAX = 1600;
@@ -90,26 +115,25 @@ export default function HomepagePhotosPage() {
             });
             const data = await res.json();
             if (data.success && data.url) {
-              /* Save the returned file URL */
-              saveHomepageImageEdit(key, { image_url: data.url });
+              const row = rowMap[key];
+              upsert.mutate({
+                section: slot.section,
+                url: data.url,
+                altAz: row?.altAz || undefined,
+                altRu: row?.altRu || undefined,
+                altEn: row?.altEn || undefined,
+              });
             } else {
               alert("Yükleme başarısız: " + (data.error || "Bilinmeyen hata"));
             }
           } catch (err) {
             alert("Yükleme hatası: " + (err instanceof Error ? err.message : "Ağ hatası"));
           }
-          forceUpdate();
         }, "image/jpeg", 0.85);
       };
       img.src = ev.target?.result as string;
     };
     r.readAsDataURL(f);
-  };
-
-  const toggleActive = (key: string) => {
-    const e = edits[key] || {};
-    saveHomepageImageEdit(key, { is_active: !(e.is_active ?? true) });
-    forceUpdate();
   };
 
   return (
@@ -118,43 +142,34 @@ export default function HomepagePhotosPage() {
       <p className="text-[#a89d88] text-xs mb-6">Ana sayfada görünen tüm fotoğraf alanlarını yönetin.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {HOMEPAGE_IMAGE_SLOTS.map(slot => {
-          const currentSrc = getHomepageImageSrc(slot.key);
-          const isActive = (edits[slot.key]?.is_active ?? slot.is_active ?? true);
+        {HOMEPAGE_IMAGE_SLOTS.map((slot) => {
+          const row = rowMap[slot.key];
+          const currentSrc = row?.url ?? slot.defaultSrc;
           const isEditing = editSlot === slot.key;
 
           return (
-            <div key={slot.key} className={`bg-[#1d1915] border rounded-xl overflow-hidden ${isActive ? "border-[#352d24]" : "border-red-400/20 opacity-60"}`}>
+            <div key={slot.key} className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
               {/* Preview */}
               <div className="relative aspect-video bg-[#0A0A0A]">
                 {currentSrc ? (
                   <img
                     src={currentSrc}
-                    alt={slot.alt_en}
+                    alt={slot.alt ?? slot.label}
                     className="w-full h-full object-cover object-center"
-                    onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <ImageIcon className="w-8 h-8 text-white/10" />
                   </div>
                 )}
-                {/* Active badge */}
-                <button
-                  onClick={() => toggleActive(slot.key)}
-                  aria-label={isActive ? "Pasif et" : "Aktif et"}
-                  className={`absolute top-2 right-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all ${isActive ? "bg-green-400/15 text-green-400 border-green-400/30" : "bg-red-400/15 text-red-400 border-red-400/30"}`}
-                >
-                  {isActive ? <Check className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
-                  {isActive ? "Aktif" : "Pasif"}
-                </button>
               </div>
 
               {/* Info */}
               <div className="p-3 space-y-2">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-white text-sm font-medium">{slot.label_tr}</p>
+                    <p className="text-white text-sm font-medium">{slot.label}</p>
                     <p className="text-[#a89d88] text-[10px] font-mono">{slot.key}</p>
                   </div>
                 </div>
@@ -163,15 +178,15 @@ export default function HomepagePhotosPage() {
                   <div className="space-y-2 pt-2 border-t border-[#352d24]">
                     <input
                       aria-label={`Image URL — ${slot.key}`}
-                      value={editForm.image_url || ""}
-                      onChange={e => setEditForm(p => ({ ...p, image_url: e.target.value }))}
-                      placeholder="Image URL veya base64"
+                      value={editForm.url || ""}
+                      onChange={(e) => setEditForm((p) => ({ ...p, url: e.target.value }))}
+                      placeholder="Image URL"
                       className="w-full px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded"
                     />
                     <div className="grid grid-cols-3 gap-1">
-                      <input aria-label={`Alt AZ — ${slot.key}`} value={editForm.alt_az || ""} onChange={e => setEditForm(p => ({ ...p, alt_az: e.target.value }))} placeholder="Alt AZ" className="px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded" />
-                      <input aria-label={`Alt RU — ${slot.key}`} value={editForm.alt_ru || ""} onChange={e => setEditForm(p => ({ ...p, alt_ru: e.target.value }))} placeholder="Alt RU" className="px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded" />
-                      <input aria-label={`Alt EN — ${slot.key}`} value={editForm.alt_en || ""} onChange={e => setEditForm(p => ({ ...p, alt_en: e.target.value }))} placeholder="Alt EN" className="px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded" />
+                      <input aria-label={`Alt AZ — ${slot.key}`} value={editForm.altAz || ""} onChange={(e) => setEditForm((p) => ({ ...p, altAz: e.target.value }))} placeholder="Alt AZ" className="px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded" />
+                      <input aria-label={`Alt RU — ${slot.key}`} value={editForm.altRu || ""} onChange={(e) => setEditForm((p) => ({ ...p, altRu: e.target.value }))} placeholder="Alt RU" className="px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded" />
+                      <input aria-label={`Alt EN — ${slot.key}`} value={editForm.altEn || ""} onChange={(e) => setEditForm((p) => ({ ...p, altEn: e.target.value }))} placeholder="Alt EN" className="px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded" />
                     </div>
                     <div className="flex gap-2 pt-1">
                       <button onClick={() => handleSave(slot.key)} className="px-3 py-1 bg-[#9D7C38] text-[#0A0A0A] text-xs font-medium rounded hover:bg-[#C2A05A]">Kaydet</button>
@@ -183,13 +198,13 @@ export default function HomepagePhotosPage() {
                   <div className="flex gap-2 pt-1">
                     {/* Upload */}
                     <label className="cursor-pointer">
-                      <input type="file" aria-label={`Şəkil yüklə — ${slot.key}`} accept=".jpg,.jpeg,.png,.webp" className="hidden" onChange={e => handleUpload(slot.key, e)} />
+                      <input type="file" aria-label={`Şəkil yüklə — ${slot.key}`} accept=".jpg,.jpeg,.png,.webp" className="hidden" onChange={(e) => handleUpload(slot.key, e)} />
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#C2A05A]/15 text-[#C2A05A] text-[11px] border border-[#C2A05A]/30 hover:bg-[#C2A05A]/20"><Upload className="w-3 h-3" /> Yükle</span>
                     </label>
                     {/* Edit URL/alt */}
                     <button onClick={() => openEdit(slot.key)} className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-white/5 text-white/60 text-[11px] border border-white/10 hover:border-[#555] hover:text-white"><Camera className="w-3 h-3" /> Düzenle</button>
-                    {/* Remove if custom */}
-                    {edits[slot.key]?.image_url && (
+                    {/* Remove override if a DB row exists */}
+                    {row && (
                       <button onClick={() => handleReset(slot.key)} className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-red-400 text-[11px] border border-red-400/20 hover:bg-red-400/10"><X className="w-3 h-3" /> Sil</button>
                     )}
                   </div>
