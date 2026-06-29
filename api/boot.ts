@@ -88,6 +88,16 @@ app.use(bodyLimit({ maxSize: 10 * 1024 * 1024 }));
 
 import { uploadLimiter } from "./middleware/rateLimit";
 
+// Admin-key verification — lets the client login validate the key server-side
+// (constant-time, via verifyAdminKey) instead of comparing against a build-time
+// VITE_ constant that would otherwise be inlined into the public JS bundle.
+app.get("/api/admin/verify", (c) => {
+  if (!verifyAdminKey(c.req.header("x-admin-key"))) {
+    return c.json({ ok: false }, 401);
+  }
+  return c.json({ ok: true });
+});
+
 // File upload endpoint (admin only - protected by x-admin-key header + rate limit)
 app.post("/api/upload", async (c) => {
   // Rate limiting (keyed on the real Cloudflare client IP)

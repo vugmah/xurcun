@@ -13,14 +13,14 @@ export default function LoginPage() {
     return null;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     if (!key.trim()) {
       setError("Zəhmət olmasa admin açar sözünü daxil edin");
       return;
     }
-    if (login(key.trim())) navigate("/admin");
+    if (await login(key.trim())) navigate("/admin");
     else setError("Yanlış admin açar sözü. Yenidən cəhd edin.");
   };
 

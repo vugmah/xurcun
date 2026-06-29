@@ -8,10 +8,6 @@ import {
   removeLastActivity,
 } from "../lib/adminAuthStorage";
 
-// Admin password from environment variable (set at build time)
-// NO fallback — if env is missing, admin login is disabled
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD?.trim();
-
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
 const MAX_LOADING_MS = 300; // Max time to spend in "loading" state
 
@@ -76,29 +72,28 @@ export function useAdminAuth() {
     };
   }, [isAuthenticated, updateActivity, checkSessionTimeout]);
 
-  const login = useCallback((key: string): boolean => {
-    const expected = ADMIN_PASSWORD;
-    // Reject if admin password is not configured
-    if (!expected) {
-      console.error("[AdminAuth] VITE_ADMIN_PASSWORD is not configured");
-      return false;
-    }
-    // Constant-time comparison to prevent timing attacks
-    if (key.length !== expected.length) return false;
-
-    let match = true;
-    for (let i = 0; i < expected.length; i++) {
-      if (key[i] !== expected[i]) match = false;
-    }
-
-    if (match) {
-      setAdminKey(key);
+  const login = useCallback(async (key: string): Promise<boolean> => {
+    const candidate = key.trim();
+    if (!candidate) return false;
+    // Store the key so the request carries it as x-admin-key, then let the SERVER
+    // validate it (constant-time). No build-time secret is compared client-side.
+    setAdminKey(candidate);
+    try {
+      const res = await fetch("/api/admin/verify", {
+        headers: { "x-admin-key": candidate },
+      });
+      if (!res.ok) {
+        removeAdminKey();
+        return false;
+      }
       setLastActivity(Date.now().toString());
-      setAdminKeyState(key);
+      setAdminKeyState(candidate);
       setIsAuthenticated(true);
       return true;
+    } catch {
+      removeAdminKey();
+      return false;
     }
-    return false;
   }, []);
 
   const logout = useCallback(() => {
