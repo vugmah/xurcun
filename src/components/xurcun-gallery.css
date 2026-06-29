@@ -5,9 +5,10 @@
 .xc .tg .tg-hint { font-family: var(--body); font-size: 12.5px; color: var(--gold-dark); margin: 12px 0 0; }
 
 .xc .tg-row {
-  display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+  display: flex; gap: 16px; overflow-x: auto; overflow-y: hidden;
+  overscroll-behavior-x: contain; scroll-snap-type: x proximity;
   padding: 6px max(20px, calc((100% - 1100px) / 2)) 18px;
-  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin; touch-action: pan-x;
 }
 .xc .tg-row::-webkit-scrollbar { height: 6px; }
 .xc .tg-row::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
