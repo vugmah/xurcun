@@ -346,7 +346,7 @@ export default function HomePage() {
         <div className="wrap">
           <div className="about-media reveal">
             <video className="about-vid" muted loop playsInline autoPlay preload="metadata" poster="/images/gv-ribbons.webp" aria-label={t(S.about_alt)}>
-              <source src="/videos/gv-ribbons.mp4" type="video/mp4" />
+              <source src="/videos/gv-ribbons-s.mp4" type="video/mp4" />
             </video>
           </div>
           <div className="about-body reveal d1">

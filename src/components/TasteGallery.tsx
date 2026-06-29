@@ -96,7 +96,7 @@ export default function TasteGallery() {
               preload="none"
               poster={`/images/gv-${tile.key}.webp`}
             >
-              <source src={`/videos/gv-${tile.key}.mp4`} type="video/mp4" />
+              <source src={`/videos/gv-${tile.key}-s.mp4`} type="video/mp4" />
             </video>
             <span className={`tg-sound${soundIdx === i ? ' on' : ''}`} aria-hidden="true"><SoundIcon on={soundIdx === i} /></span>
             <span className="tg-cap">{t(tile.cap)}</span>
