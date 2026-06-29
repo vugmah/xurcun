@@ -431,6 +431,13 @@ export function getFinalPageSeo(
     ogDescriptionRu: pick(manual?.ogDescriptionRu, dynamic.descriptionRu, base.ogDescriptionRu),
     ogDescriptionEn: pick(manual?.ogDescriptionEn, dynamic.descriptionEn, base.ogDescriptionEn),
     ogDescriptionTr: pick(manual?.ogDescriptionTr, dynamic.descriptionTr, base.ogDescriptionTr),
+    // Arabic — was previously omitted here, so SEO.tsx fell back to the AZ title
+    // for ?lang=ar pages (catalog/menu/etc.). Pull from manual DB → base template.
+    titleAr:       pick((manual as any)?.titleAr,       undefined, (base as any).titleAr       ?? base.titleAz),
+    descriptionAr: pick((manual as any)?.descriptionAr, undefined, (base as any).descriptionAr ?? base.descriptionAz),
+    keywordsAr:    pick((manual as any)?.keywordsAr,    undefined, (base as any).keywordsAr    ?? base.keywordsAz),
+    ogTitleAr:       pick((manual as any)?.ogTitleAr,       undefined, (base as any).ogTitleAr       ?? base.ogTitleAz),
+    ogDescriptionAr: pick((manual as any)?.ogDescriptionAr, undefined, (base as any).ogDescriptionAr ?? base.ogDescriptionAz),
     ogImage: pick(manual?.ogImage, undefined, base.ogImage),
   };
 }
