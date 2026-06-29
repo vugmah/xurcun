@@ -184,6 +184,11 @@ function escapeHtml(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+// Mirror the client slug (ProductDetailPage.slugify) so /catalog/<slug> matches.
+function slugify(s: string): string {
+  return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
 // Rewrite title + canonical + og + the sr-only SEO shell (h1/intro) for a deep route.
 function injectRouteMeta(html: string, pathname: string, meta: RouteMeta): string {
   const canonical = SITE + pathname;
@@ -289,7 +294,8 @@ async function catalogShell(): Promise<{ listHtml: string; jsonLd: string }> {
   const li = items
     .map((it) => {
       const pr = priceVisible(it) ? ` — ${it.price} ₼` : "";
-      return `<li>${escapeHtml(nameOf(it))}${escapeHtml(pr)}</li>`;
+      const slug = slugify(it.nameEn || it.nameAz || "") || String(it.id);
+      return `<li><a href="/catalog/${slug}">${escapeHtml(nameOf(it))}</a>${escapeHtml(pr)}</li>`;
     })
     .join("");
   const listHtml = li ? `<ul>${li}</ul>` : "";
@@ -318,15 +324,98 @@ async function catalogShell(): Promise<{ listHtml: string; jsonLd: string }> {
   return { listHtml, jsonLd };
 }
 
+// Look up a single catalog product by its URL slug (slugified EN/AZ name, or numeric id)
+// and build per-product meta + a Product JSON-LD <script>, so non-JS crawlers/AI get the
+// real product (title, description, price offer) instead of the generic catalog meta.
+async function productShell(slug: string): Promise<{ meta: RouteMeta; jsonLd: string } | null> {
+  const db = getDb();
+  const cats = await db
+    .select()
+    .from(menuCategories)
+    .where(and(eq(menuCategories.menuType, "catalog"), eq(menuCategories.isActive, true)));
+  const catIds = cats.map((c) => c.id);
+  if (!catIds.length) return null;
+  const items = await db
+    .select()
+    .from(menuItems)
+    .where(and(inArray(menuItems.categoryId, catIds), eq(menuItems.isActive, true)));
+  const it =
+    items.find((i) => slugify(i.nameEn || i.nameAz || "") === slug) ||
+    items.find((i) => String(i.id) === slug);
+  if (!it) return null;
+  const cat = cats.find((c) => c.id === it.categoryId);
+  const name = it.nameAz || it.nameEn || it.nameRu || it.nameTr || "";
+  const catName = cat ? cat.titleAz || cat.titleEn || "" : "";
+  const desc = (it.descAz || it.descEn || `${name} — Xurcun premium ${catName}`.trim()).slice(0, 300);
+  const url = `${SITE}/catalog/${slug}`;
+  const img = it.imageUrl ? (it.imageUrl.startsWith("http") ? it.imageUrl : SITE + it.imageUrl) : "";
+  const product: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name,
+    description: desc,
+    brand: { "@type": "Brand", name: "Xurcun" },
+    url,
+  };
+  if (img) product.image = [img];
+  if (catName) product.category = catName;
+  if (it.priceVisible !== false && it.price) {
+    product.offers = {
+      "@type": "Offer",
+      price: String(it.price).replace(/[^0-9.]/g, ""),
+      priceCurrency: "AZN",
+      availability: "https://schema.org/InStock",
+      url,
+    };
+  }
+  return {
+    meta: {
+      title: `${name} | Xurcun${catName ? ` — ${catName}` : ""}`,
+      desc: desc.slice(0, 160),
+      h1: name,
+      intro: desc.slice(0, 200),
+      crumb: name,
+    },
+    jsonLd: `<script type="application/ld+json">${JSON.stringify(product)}</script>`,
+  };
+}
+
 // Build the per-route HTML for the SPA fallback. Unknown routes (no override and not
 // /menu/<slug>) keep the homepage meta/shell — harmless, since they render the homepage.
 async function buildRouteHtml(html: string, pathname: string): Promise<string> {
-  const meta = ROUTE_META[pathname] ?? (pathname.startsWith("/menu/") ? ROUTE_META["/menu"] : pathname.startsWith("/catalog/") ? ROUTE_META["/catalog"] : null);
+  let meta = ROUTE_META[pathname] ?? (pathname.startsWith("/menu/") ? ROUTE_META["/menu"] : pathname.startsWith("/catalog/") ? ROUTE_META["/catalog"] : null);
   if (!meta) return html;
+
+  // Deep product page (/catalog/<slug>): resolve the real product for per-product meta + schema.
+  let product: Awaited<ReturnType<typeof productShell>> = null;
+  if (pathname.startsWith("/catalog/")) {
+    try {
+      product = await productShell(decodeURIComponent(pathname.slice("/catalog/".length)));
+    } catch (err) {
+      console.error("[ssr] product shell failed (serving catalog meta):", err);
+    }
+    if (product) meta = product.meta;
+  }
+
   let out = injectRouteMeta(html, pathname, meta);
   out = injectHreflang(out, pathname);
 
-  const extras: string[] = [breadcrumbJsonLd(pathname, meta)];
+  const extras: string[] = [];
+  if (product) {
+    // Home > Kataloq > Product breadcrumb (3 levels) + the Product itself.
+    extras.push(`<script type="application/ld+json">${JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Ana səhifə", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Kataloq", item: `${SITE}/catalog` },
+        { "@type": "ListItem", position: 3, name: meta.crumb, item: SITE + pathname },
+      ],
+    })}</script>`);
+    extras.push(product.jsonLd);
+  } else {
+    extras.push(breadcrumbJsonLd(pathname, meta));
+  }
   if (pathname === "/faq") extras.push(FAQ_JSONLD);
   if (pathname === "/gift-card") extras.push(HOWTO_GIFTCARD);
   if (pathname === "/catalog") {
