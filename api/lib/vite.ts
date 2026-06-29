@@ -82,6 +82,13 @@ const ROUTE_META: Record<string, RouteMeta> = {
     intro: "Heydər Əliyev Beynəlxalq Aeroportunda təyyarəyə minmədən əvvəl hələ də sevdiklərinizə hədiyyə tapmaq imkanınız var. Xurcun-un aeroport butikləri — Terminal 1…",
     crumb: "Aeroportdan hədiyyə",
   },
+  "/blog/xurcun-10-illik": {
+    title: "Xurcun 10 yaşında — 2015-dən bəri keyfiyyətə vurğunuq | Xurcun",
+    desc: "Xurcun 10 illik yubileyini qeyd etdi (2015–2025). Bir mağazadan Bakıda 11 butikə uzanan yol və «Keyfiyyətə Vurğunuq» fəlsəfəsi. Yubiley videosu.",
+    h1: "Xurcun 10 yaşında — bir onillik keyfiyyət",
+    intro: "2025-ci ilin sonunda Xurcun 10 illik yubileyini qeyd etdi. 2015-ci ildə bir mağaza ilə başlayan yol bu gün Bakıda 11 butikə çevrilib. Şüarımız dəyişməyib: Keyfiyyətə Vurğunuq.",
+    crumb: "10 illik yubiley",
+  },
   "/about": {
     title: "Haqqımızda | Xurcun — 2015-dən bəri premium butik",
     desc: "Xurcun — 2015-ci ildə Vüqar Məhərrəmov tərəfindən təsis edilmiş premium quru meyvə, qoz-fındıq, çay, şirniyyat və əl işi hədiyyə butiki. Bakıda 11 mağaza.",

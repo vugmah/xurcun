@@ -93,7 +93,19 @@ export default function BlogPostPage() {
         <div className="ornament"><img src={EMBLEM} alt="" /></div>
 
         <article className="xcp-article">
-          <img className="cover" src={post.cover} alt={h1} />
+          {post.video ? (
+            <video
+              className="cover"
+              src={post.video}
+              poster={post.cover}
+              controls
+              playsInline
+              preload="metadata"
+              style={{ maxWidth: 380, width: '100%', aspectRatio: '9 / 16', display: 'block', margin: '0 auto', borderRadius: 14, background: '#000' }}
+            />
+          ) : (
+            <img className="cover" src={post.cover} alt={h1} />
+          )}
           <p className="xcp-lead">{pickL(post.lead, lang)}</p>
           {post.sections.map((sec, i) => (
             <section key={i}>

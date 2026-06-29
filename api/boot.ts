@@ -264,6 +264,7 @@ app.get("/sitemap.xml", async (c) => {
     { loc: "https://xurcun.az/gift-card", priority: "0.7", changefreq: "monthly" },
     { loc: "https://xurcun.az/blog", priority: "0.6", changefreq: "weekly" },
     { loc: "https://xurcun.az/blog/toy-xoncasi", priority: "0.6", changefreq: "monthly" },
+    { loc: "https://xurcun.az/blog/xurcun-10-illik", priority: "0.7", changefreq: "monthly" },
     { loc: "https://xurcun.az/blog/yeni-il-hediyyeleri", priority: "0.6", changefreq: "monthly" },
     { loc: "https://xurcun.az/blog/hediyye-qutusu-secimi", priority: "0.6", changefreq: "monthly" },
     { loc: "https://xurcun.az/blog/aeroportdan-hediyye", priority: "0.6", changefreq: "monthly" },

@@ -9,6 +9,7 @@ export type BlogPost = {
   slug: string;
   date: string;
   cover: string;
+  video?: string; // optional hero video (cover used as poster)
   title: L;
   desc: L;
   h1: L;
@@ -25,7 +26,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "toy-xoncasi",
     date: "2026-06-28",
-    cover: "/images/home/gift.webp",
+    cover: "/images/gv-ribbons.webp",
     title: {
       az: "Toy xonçası — premium hədiyyə xonçaları | Xurcun",
       ru: "Свадебная хонча — премиальные подарочные подносы | Xurcun",
@@ -135,7 +136,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "premium-hediyye-qutulari",
     date: "2026-06-28",
-    cover: "/brand/og-image.jpg",
+    cover: "/images/gv-giftbox.webp",
     title: {
       az: "Premium hədiyyəlik qutular | Xurcun — əl işi qutular",
       ru: "Премиальные подарочные коробки | Xurcun — ручная работа",
@@ -188,7 +189,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "sokolad",
     date: "2026-06-28",
-    cover: "/images/home/about.webp",
+    cover: "/images/gv-chocolate.webp",
     title: {
       az: "Premium şokolad | Xurcun — süd və qara şokolad",
       ru: "Премиальный шоколад | Xurcun — молочный и тёмный",
@@ -235,7 +236,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "paxlava",
     date: "2026-06-28",
-    cover: "/images/home/about.webp",
+    cover: "/images/gv-mix2.webp",
     title: {
       az: "Paxlava | Xurcun — ənənəvi dad, premium keyfiyyət",
       ru: "Пахлава | Xurcun — традиционный вкус, премиум",
@@ -282,7 +283,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "lokum",
     date: "2026-06-28",
-    cover: "/images/home/gift.webp",
+    cover: "/images/gv-mix.webp",
     title: {
       az: "Lokum (rahat) | Xurcun — çeşidlər və hədiyyə",
       ru: "Лукум (рахат) | Xurcun — виды и подарок",
@@ -329,7 +330,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "quru-meyve-faydalari",
     date: "2026-06-28",
-    cover: "/images/home/about.webp",
+    cover: "/images/gv-driedfruit.webp",
     title: {
       az: "Quru meyvə və qoz-fındığın faydaları | Xurcun",
       ru: "Польза сухофруктов и орехов | Xurcun",
@@ -382,7 +383,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "korporativ-hediyye",
     date: "2026-06-28",
-    cover: "/brand/og-image.jpg",
+    cover: "/images/blog/korporativ-box-1.webp",
     title: {
       az: "Korporativ hədiyyə bələdçisi | Xurcun — biznes hədiyyələri",
       ru: "Гид по корпоративным подаркам | Xurcun — бизнес-подарки",
@@ -509,7 +510,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "bakida-hediyye-hara",
     date: "2026-06-29",
-    cover: "/brand/og-image.jpg",
+    cover: "/images/blog/korporativ-brand-1.webp",
     title: {"az": "Bakıda hədiyyə hara almalı | Xurcun", "ru": "Где купить подарок в Баку | Xurcun", "en": "Where to buy a gift in Baku | Xurcun", "tr": "Bakü'de hediye nereden alınır | Xurcun", "ar": "أين تشتري هدية في باكو | Xurcun"},
     desc: {"az": "Bakıda yaxşı hədiyyə hara almalı? Premium hədiyyə qutuları, quru meyvə, çərəz və şirniyyat. Xurcun-un 11 mağazası və hava limanı filialı.", "ru": "Где купить хороший подарок в Баку? Премиальные подарочные коробки, сухофрукты, орехи и сладости. 11 магазинов Xurcun и филиал в аэропорту.", "en": "Where to buy a good gift in Baku? Premium gift boxes, dried fruit, nuts and sweets. Xurcun's 11 boutiques plus the airport store.", "tr": "Bakü'de iyi bir hediye nereden alınır? Premium hediye kutuları, kuru meyve, çerez ve tatlılar. Xurcun'un 11 mağazası ve havalimanı şubesi.", "ar": "أين تشتري هدية جيدة في باكو؟ علب هدايا فاخرة وفواكه مجففة ومكسرات وحلويات. 11 متجرًا من Xurcun وفرع في المطار."},
     h1: {"az": "Bakıda hədiyyə hara almalı — sakinlər və qonaqlar üçün bələdçi", "ru": "Где купить подарок в Баку — гид для местных и туристов", "en": "Where to buy a gift in Baku — a guide for locals and visitors", "tr": "Bakü'de hediye nereden alınır — yerliler ve misafirler için rehber", "ar": "أين تشتري هدية في باكو — دليل للمقيمين والزوار"},
@@ -519,7 +520,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "baku-suvenir-belecisi",
     date: "2026-06-29",
-    cover: "/images/home/gift.webp",
+    cover: "/images/gv-nuts2.webp",
     title: {"az": "Bakıdan nə aparmaq olar — suvenir bələdçisi | Xurcun", "ru": "Что привезти из Баку — гид по сувенирам | Xurcun", "en": "What to bring back from Baku — souvenir guide | Xurcun", "tr": "Bakü'den ne alınır — hediyelik rehberi | Xurcun", "ar": "ماذا تشتري من باكو — دليل الهدايا التذكارية | Xurcun"},
     desc: {"az": "Bakıdan aparmaq üçün ən gözəl suvenirlər: Azərbaycan quru meyvəsi, qoz-fındıq, paxlava, lokum, çay və əl işi hədiyyə qutuları. Hava limanı mağazaları.", "ru": "Лучшие сувениры из Баку: азербайджанские сухофрукты, орехи, пахлава, лукум, чай и подарочные коробки ручной работы. Бутики в аэропорту.", "en": "The best souvenirs from Baku: Azerbaijani dried fruit, nuts, baklava, Turkish delight, tea and handcrafted gift boxes. Airport boutiques too.", "tr": "Bakü'den alınacak en güzel hediyelikler: Azerbaycan kuru meyvesi, çerez, baklava, lokum, çay ve el yapımı hediye kutuları. Havalimanı mağazaları.", "ar": "أفضل الهدايا التذكارية من باكو: الفواكه المجففة الأذربيجانية والمكسرات والبقلاوة والحلقوم والشاي وعلب الهدايا اليدوية. بوتيكات المطار أيضًا."},
     h1: {"az": "Bakıdan nə aparmaq olar — suvenir bələdçisi", "ru": "Что привезти из Баку — гид по сувенирам", "en": "What to bring back from Baku — a souvenir guide", "tr": "Bakü'den ne alınır — hediyelik rehberi", "ar": "ماذا تشتري من باكو — دليل الهدايا التذكارية"},
@@ -529,7 +530,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "azerbaycan-quru-meyve-belecisi",
     date: "2026-06-29",
-    cover: "/images/home/about.webp",
+    cover: "/images/gv-nuts.webp",
     title: {"az": "Quru meyvə və qoz-fındıq bələdçisi | Xurcun", "ru": "Гид по сухофруктам и орехам | Xurcun", "en": "Dried fruit & nuts buyer's guide | Xurcun", "tr": "Kuru meyve ve çerez rehberi | Xurcun", "ar": "دليل الفواكه المجففة والمكسرات | Xurcun"},
     desc: {"az": "Ərik, əncir, tut, qoz, fındıq, püstə, badam — Azərbaycan quru meyvə və qoz-fındıqlarını necə seçmək, dadmaq və hədiyyə etmək. Xurcun bələdçisi.", "ru": "Курага, инжир, тутовник, грецкий орех, фундук, фисташка, миндаль — как выбрать, дегустировать и дарить. Гид Xurcun.", "en": "Apricot, fig, mulberry, walnut, hazelnut, pistachio, almond — how to choose, taste and gift Azerbaijani dried fruit and nuts. A Xurcun guide.", "tr": "Kayısı, incir, dut, ceviz, fındık, antep fıstığı, badem — nasıl seçilir, tadılır ve hediye edilir. Xurcun rehberi.", "ar": "مشمش، تين، توت، جوز، بندق، فستق، لوز — كيف تختار وتتذوّق وتُهدي الفواكه المجففة والمكسرات. دليل Xurcun."},
     h1: {"az": "Azərbaycan quru meyvə və qoz-fındıq bələdçisi", "ru": "Гид по азербайджанским сухофруктам и орехам", "en": "A guide to Azerbaijani dried fruit and nuts", "tr": "Azerbaycan kuru meyve ve çerez rehberi", "ar": "دليل الفواكه المجففة والمكسرات الأذربيجانية"},
@@ -539,7 +540,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "yeni-il-hediyyeleri",
     date: "2026-06-29",
-    cover: "/images/home/gift.webp",
+    cover: "/images/home/hero.webp",
     title: {"az": "Yeni il hədiyyə ideyaları | Xurcun", "ru": "Идеи новогодних подарков | Xurcun", "en": "New Year gift ideas | Xurcun", "tr": "Yılbaşı hediye fikirleri | Xurcun", "ar": "أفكار هدايا رأس السنة | Xurcun"},
     desc: {"az": "Yeni il və qış bayramları üçün premium hədiyyə ideyaları: quru meyvə, qoz-fındıq, şokolad və lokum qutuları, korporativ hədiyyələr. Xurcun, Bakı.", "ru": "Идеи премиальных подарков на Новый год: коробки с сухофруктами, орехами, шоколадом и лукумом, корпоративные подарки. Xurcun, Баку.", "en": "Premium New Year and winter holiday gift ideas: dried fruit, nut, chocolate and lokum boxes, plus corporate gifts. Xurcun, Baku.", "tr": "Yılbaşı ve kış bayramları için premium hediye fikirleri: kuru meyve, çerez, çikolata ve lokum kutuları, kurumsal hediyeler. Xurcun, Bakü.", "ar": "أفكار هدايا فاخرة لرأس السنة وأعياد الشتاء: علب فواكه مجففة ومكسرات وشوكولاتة وحلقوم وهدايا للشركات. Xurcun، باكو."},
     h1: {"az": "Yeni il hədiyyə ideyaları — qış bayramlarına zövqlü hazırlıq", "ru": "Идеи новогодних подарков — со вкусом встречаем зимние праздники", "en": "New Year gift ideas — a tasteful way to greet the winter holidays", "tr": "Yılbaşı hediye fikirleri — kış bayramlarına zarif bir hazırlık", "ar": "أفكار هدايا رأس السنة — استقبال أنيق لأعياد الشتاء"},
@@ -549,7 +550,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "hediyye-qutusu-secimi",
     date: "2026-06-29",
-    cover: "/brand/og-image.jpg",
+    cover: "/images/blog/korporativ-box-2.webp",
     title: {"az": "Hədiyyə qutusu necə seçilir | Xurcun", "ru": "Как выбрать подарочную коробку | Xurcun", "en": "How to choose a gift box | Xurcun", "tr": "Hediye kutusu nasıl seçilir | Xurcun", "ar": "كيف تختار علبة الهدية | Xurcun"},
     desc: {"az": "Hədiyyə qutusu seçim bələdçisi: münasibətə, büdcəyə və tərkibə görə düzgün qutu, fərdiləşdirmə və təqdimat məsləhətləri. Xurcun, Bakı.", "ru": "Гид по выбору подарочной коробки: подбор по поводу, бюджету и составу, персонализация и оформление. Xurcun, Баку.", "en": "A guide to choosing a gift box: by occasion, budget and contents, plus personalization and presentation tips. Xurcun, Baku.", "tr": "Hediye kutusu seçim rehberi: vesileye, bütçeye ve içeriğe göre seçim, kişiselleştirme ve sunum ipuçları. Xurcun, Bakü.", "ar": "دليل اختيار علبة الهدية: حسب المناسبة والميزانية والمحتوى، مع نصائح التخصيص والتقديم. Xurcun، باكو."},
     h1: {"az": "Hədiyyə qutusu necə seçilir — addım-addım bələdçi", "ru": "Как выбрать подарочную коробку — пошаговый гид", "en": "How to choose the perfect gift box — a step-by-step guide", "tr": "Mükemmel hediye kutusu nasıl seçilir — adım adım rehber", "ar": "كيف تختار علبة الهدية المثالية — دليل خطوة بخطوة"},
@@ -559,12 +560,36 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "aeroportdan-hediyye",
     date: "2026-06-29",
-    cover: "/images/gv-giftbox.webp",
+    cover: "/images/blog/korporativ-brand-2.webp",
     title: {"az": "Bakı aeroportundan hədiyyə — Xurcun", "ru": "Подарки из аэропорта Баку — Xurcun", "en": "Gifts from Baku Airport — Xurcun", "tr": "Bakü havalimanından hediye — Xurcun", "ar": "هدايا من مطار باكو — Xurcun"},
     desc: {"az": "Bakı aeroportundan son dəqiqə hədiyyələri: əsl Azərbaycan quru meyvəsi, çərəz, şirniyyat və hədiyyə qutuları. Xurcun Terminal 1 və Duty Free.", "ru": "Подарки из аэропорта Баку в последнюю минуту: азербайджанские сухофрукты, орехи, сладости и подарочные коробки. Xurcun в Терминале 1 и Duty Free.", "en": "Last-minute gifts from Baku airport: authentic Azerbaijani dried fruit, nuts, sweets and gift boxes. Xurcun in Terminal 1 and Duty Free.", "tr": "Bakü havalimanından son dakika hediyeleri: Azerbaycan kuru meyvesi, çerez, tatlı ve hediye kutuları. Terminal 1 ve Duty Free'de Xurcun.", "ar": "هدايا اللحظة الأخيرة من مطار باكو: فواكه مجففة ومكسرات وحلويات وعلب هدايا أذربيجانية. Xurcun في الصالة 1 والسوق الحرة."},
     h1: {"az": "Bakı aeroportundan hədiyyə — uçuşdan əvvəl son seçim", "ru": "Подарки из аэропорта Баку — последний выбор перед вылетом", "en": "Gifts from Baku airport — your last stop before the flight", "tr": "Bakü havalimanından hediye — uçuştan önce son seçim", "ar": "هدايا من مطار باكو — محطتك الأخيرة قبل الإقلاع"},
     lead: {"az": "Heydər Əliyev Beynəlxalq Aeroportunda təyyarəyə minmədən əvvəl hələ də sevdiklərinizə hədiyyə tapmaq imkanınız var. Xurcun-un aeroport butikləri — Terminal 1-dəki kofe nöqtəsi və Duty Free — əsl Azərbaycan dadını: seçmə quru meyvə, qoz-fındıq, şirniyyat və hazır hədiyyə qutularını bir addım uzaqlıqda təqdim edir.", "ru": "В Международном аэропорту Гейдара Алиева у вас ещё есть время найти подарок близким перед посадкой. Бутики Xurcun в аэропорту — кофе-точка в Терминале 1 и Duty Free — предлагают настоящий вкус Азербайджана: отборные сухофрукты, орехи, сладости и готовые подарочные коробки в одном шаге от вас.", "en": "At Heydar Aliyev International Airport you still have time to find a gift for your loved ones before boarding. Xurcun's airport boutiques — the coffee point in Terminal 1 and Duty Free — bring the authentic taste of Azerbaijan within reach: selected dried fruit, nuts, sweets and ready-made gift boxes.", "tr": "Haydar Aliyev Uluslararası Havalimanı'nda uçağa binmeden önce sevdiklerinize hediye bulmaya hâlâ vaktiniz var. Xurcun'un havalimanı butikleri — Terminal 1'deki kahve noktası ve Duty Free — Azerbaycan'ın gerçek lezzetini bir adım ötenize getiriyor: seçme kuru meyve, çerez, tatlı ve hazır hediye kutuları.", "ar": "في مطار حيدر علييف الدولي، لا يزال أمامك وقت لإيجاد هدية لأحبائك قبل الصعود إلى الطائرة. بوتيكات Xurcun في المطار — نقطة القهوة في الصالة 1 والسوق الحرة — تضع طعم أذربيجان الأصيل في متناولك: فواكه مجففة منتقاة ومكسرات وحلويات وعلب هدايا جاهزة."},
     sections: [{"h2": {"az": "Aeroportda Xurcun-u harada tapmaq olar?", "ru": "Где найти Xurcun в аэропорту?", "en": "Where to find Xurcun at the airport?", "tr": "Havalimanında Xurcun nerede?", "ar": "أين تجد Xurcun في المطار؟"}, "body": [{"az": "Heydər Əliyev Beynəlxalq Aeroportunda Xurcun-un iki nöqtəsi var: Terminal 1-dəki kofe butiki və Duty Free zonasındakı satış nöqtəsi. Hər ikisi uçuşdan əvvəl rahat dayanıb hədiyyə seçmək üçün əlçatandır.", "ru": "В Международном аэропорту Гейдара Алиева у Xurcun две точки: кофе-бутик в Терминале 1 и точка продаж в зоне Duty Free. Обе удобно расположены, чтобы спокойно выбрать подарок перед вылетом.", "en": "Heydar Aliyev International Airport has two Xurcun points: a coffee boutique in Terminal 1 and a sales point in the Duty Free zone. Both are easy to reach for a calm gift pick before your flight.", "tr": "Haydar Aliyev Uluslararası Havalimanı'nda Xurcun'un iki noktası var: Terminal 1'deki kahve butiği ve Duty Free bölgesindeki satış noktası. İkisi de uçuştan önce rahatça hediye seçmek için kolay ulaşılır.", "ar": "يضمّ مطار حيدر علييف الدولي نقطتين لـ Xurcun: بوتيك القهوة في الصالة 1 ونقطة بيع في منطقة السوق الحرة. كلتاهما سهلتا الوصول لاختيار هدية بهدوء قبل رحلتك."}, {"az": "Beləliklə, son anda təyyarəyə tələsərkən belə, əsl yerli ləzzəti özünüzlə aparmaq və ya bir fincan qəhvə ilə gözləmə vaxtınızı xoş keçirmək mümkündür.", "ru": "Так что даже спеша на посадку в последний момент, вы можете взять с собой настоящие местные вкусы или скоротать время ожидания за чашкой кофе.", "en": "So even when you're rushing to board at the last moment, you can take genuine local flavours with you — or spend the wait over a cup of coffee.", "tr": "Böylece son anda uçağa yetişmeye çalışırken bile gerçek yerel lezzetleri yanınıza alabilir ya da bekleme vaktinizi bir fincan kahveyle geçirebilirsiniz.", "ar": "وهكذا، حتى وأنت تسرع للحاق بالطائرة في اللحظة الأخيرة، يمكنك أن تأخذ معك نكهات محلية أصيلة أو تقضي وقت الانتظار مع فنجان قهوة."}]}, {"h2": {"az": "Səyahətçi üçün ən yaxşı suvenirlər", "ru": "Лучшие сувениры для путешественника", "en": "The best souvenirs for a traveller", "tr": "Yolcu için en iyi hediyelikler", "ar": "أفضل التذكارات للمسافر"}, "body": [{"az": "Azərbaycandan aparıla biləcək ən gözəl suvenirlər süfrəyə aiddir: seçmə quru meyvələr, premium qoz-fındıq, ənənəvi paxlava, müxtəlif çeşid lokum və ləziz şokoladlar. Bunlar həm yüngül, həm də uzun səfərə davamlıdır.", "ru": "Лучшие сувениры из Азербайджана — со вкусом: отборные сухофрукты, премиальные орехи, традиционная пахлава, разные виды лукума и изысканный шоколад. Они и лёгкие, и хорошо переносят долгую дорогу.", "en": "The finest souvenirs from Azerbaijan are edible: selected dried fruit, premium nuts, traditional baklava, assorted Turkish delight and fine chocolate. They are light and travel well over a long journey.", "tr": "Azerbaycan'dan götürülecek en güzel hediyelikler sofralık olanlardır: seçme kuru meyve, premium çerez, geleneksel baklava, çeşitli lokum ve lezzetli çikolata. Hem hafiftirler hem de uzun yolculuğa dayanıklı.", "ar": "أجمل التذكارات من أذربيجان هي ما يُؤكل: فواكه مجففة منتقاة ومكسرات فاخرة وبقلاوة تقليدية وأنواع من الحلقوم وشوكولاتة لذيذة. فهي خفيفة وتتحمّل رحلات السفر الطويلة."}, {"az": "Bağlamada gəlin: hazır hədiyyə qutuları zövqlə tərtib olunub, açmağa hazırdır — evdə gözləyən sevdiklərinizə Bakının dadını aparmaq üçün ideal seçimdir.", "ru": "А главное — готовые подарочные коробки оформлены со вкусом и готовы к вручению: идеальный способ привезти вкус Баку тем, кто ждёт вас дома.", "en": "Best of all, the ready-made gift boxes come tastefully arranged and ready to give — an ideal way to carry the taste of Baku to those waiting for you at home.", "tr": "En güzeli, hazır hediye kutuları zevkle düzenlenmiş ve sunulmaya hazırdır — Bakü'nün tadını sizi evde bekleyenlere götürmenin ideal yolu.", "ar": "والأجمل أن علب الهدايا الجاهزة منسّقة بذوق ومستعدّة للإهداء — طريقة مثالية لتحمل طعم باكو إلى من ينتظرونك في البيت."}]}, {"h2": {"az": "Uçuşdan əvvəl rahat hədiyyə seçimi", "ru": "Удобный выбор подарка перед вылетом", "en": "An easy gift choice before your flight", "tr": "Uçuştan önce kolay hediye seçimi", "ar": "اختيار هدية مريح قبل رحلتك"}, "body": [{"az": "Vaxtınız azdırsa, hazır qutulardan birini götürmək kifayətdir — heç bir əvvəlcədən planlaşdırma tələb olunmur. Müxtəlif ölçülər həm kiçik diqqət, həm də daha böyük hədiyyə üçün uyğundur.", "ru": "Если времени мало, достаточно взять одну из готовых коробок — никакого планирования заранее. Разные размеры подойдут и для небольшого знака внимания, и для более крупного подарка.", "en": "If you're short on time, simply grab one of the ready-made boxes — no planning ahead required. Different sizes suit both a small gesture and a larger gift.", "tr": "Vaktiniz azsa hazır kutulardan birini almanız yeterli — önceden plan yapmaya gerek yok. Farklı boyutlar hem küçük bir jest hem de daha büyük bir hediye için uygundur.", "ar": "إن كان وقتك ضيقًا، يكفي أن تأخذ إحدى العلب الجاهزة — دون أي تخطيط مسبق. الأحجام المختلفة تناسب اللفتة الصغيرة والهدية الأكبر على حدّ سواء."}, {"az": "Aeroportda görmədiyiniz çeşidlər üçün isə şəhərdəki butiklərimiz və WhatsApp sifarişi həmişə əlçatandır — Xurcun Bakıda 11 mağaza ilə xidmətinizdədir.", "ru": "А за ассортиментом, которого нет в аэропорту, всегда доступны наши городские бутики и заказ в WhatsApp — Xurcun к вашим услугам с 11 магазинами в Баку.", "en": "And for selections you don't see at the airport, our city boutiques and WhatsApp ordering are always available — Xurcun is at your service with 11 stores across Baku.", "tr": "Havalimanında bulamadığınız çeşitler için şehirdeki butiklerimiz ve WhatsApp siparişi her zaman erişilebilir — Xurcun, Bakü'deki 11 mağazasıyla hizmetinizde.", "ar": "وللأصناف التي لا تجدها في المطار، تبقى بوتيكاتنا في المدينة وطلب واتساب متاحة دائمًا — Xurcun في خدمتك بـ11 متجرًا في أنحاء باكو."}]}],
+  },
+  {
+    slug: "xurcun-10-illik",
+    date: "2025-12-01",
+    cover: "/images/anniversary.webp",
+    video: "/videos/anniversary.mp4",
+    title: {"az": "Xurcun 10 yaşında — 2015-dən bəri keyfiyyətə vurğunuq | Xurcun", "ru": "Xurcun — 10 лет: верность качеству с 2015 года | Xurcun", "en": "Xurcun turns 10 — fond of quality since 2015 | Xurcun", "tr": "Xurcun 10 yaşında — 2015'ten beri kaliteye tutku | Xurcun", "ar": "Xurcun تحتفل بعشر سنوات — شغفٌ بالجودة منذ 2015 | Xurcun"},
+    desc: {"az": "Xurcun 10 illik yubileyini qeyd etdi (2015–2025). Bir mağazadan Bakıda 11 butikə uzanan yol və «Keyfiyyətə Vurğunuq» fəlsəfəsi. Yubiley videosu.", "ru": "Xurcun отметил 10-летие (2015–2025): путь от одного магазина до 11 бутиков в Баку и философия «Верность качеству». Юбилейное видео.", "en": "Xurcun celebrated its 10th anniversary (2015–2025): from one shop to 11 boutiques in Baku and the “Fond of Quality” philosophy. Anniversary video.", "tr": "Xurcun 10. yılını kutladı (2015–2025): tek mağazadan Bakü'de 11 butiğe uzanan yol ve “Kaliteye Tutku” felsefesi. Yıl dönümü videosu.", "ar": "احتفلت Xurcun بمرور 10 سنوات (2015–2025): من متجر واحد إلى 11 بوتيكًا في باكو وفلسفة «شغفٌ بالجودة». فيديو الذكرى."},
+    h1: {"az": "Xurcun 10 yaşında — bir onillik keyfiyyət", "ru": "Xurcun — 10 лет: десятилетие качества", "en": "Xurcun turns 10 — a decade of quality", "tr": "Xurcun 10 yaşında — bir on yıllık kalite", "ar": "Xurcun تُتمّ عامها العاشر — عقدٌ من الجودة"},
+    lead: {"az": "2025-ci ilin sonunda Xurcun 10 illik yubileyini qeyd etdi. 2015-ci ildə Vüqar Məhərrəmovun bir mağaza ilə başladığı yol bu gün Bakıda 11 butikə — o cümlədən hava limanı filialına — çevrilib. Şüarımız dəyişməyib: Keyfiyyətə Vurğunuq.", "ru": "В конце 2025 года Xurcun отметил своё 10-летие. Путь, начатый Вугаром Магеррамовым в 2015 году с одного магазина, сегодня вырос до 11 бутиков в Баку, включая филиал в аэропорту. Наш девиз неизменен: верность качеству.", "en": "At the end of 2025, Xurcun celebrated its 10th anniversary. The journey Vugar Maharramov began in 2015 with a single shop has grown into 11 boutiques across Baku — including an airport branch. Our motto hasn't changed: Fond of Quality.", "tr": "2025'in sonunda Xurcun 10. yılını kutladı. Vugar Maharramov'un 2015'te tek mağazayla başladığı yol, bugün Bakü'de havalimanı şubesi dahil 11 butiğe ulaştı. Sloganımız değişmedi: Kaliteye Tutku.", "ar": "في نهاية عام 2025 احتفلت Xurcun بذكراها العاشرة. الرحلة التي بدأها ووغار محرّموف عام 2015 بمتجر واحد أصبحت اليوم 11 بوتيكًا في باكو، منها فرعٌ في المطار. وشعارنا لم يتغيّر: شغفٌ بالجودة."},
+    sections: [
+      {
+        h2: {"az": "2015-dən bu günə: bir mağazadan şəbəkəyə", "ru": "От одного магазина к сети", "en": "From one shop to a chain", "tr": "Tek mağazadan zincire", "ar": "من متجر واحد إلى سلسلة"},
+        body: [{"az": "Xurcun 2015-ci ildə premium quru meyvə, qoz-fındıq və şirniyyat təklif edən kiçik bir mağaza kimi yarandı. İlk gündən məqsəd sadə idi: ən yaxşı keyfiyyəti zövqlü təqdimatla birləşdirmək.", "ru": "Xurcun начинался в 2015 году как небольшой магазин премиальных сухофруктов, орехов и сладостей. С первого дня цель была проста: соединить лучшее качество с изысканной подачей.", "en": "Xurcun began in 2015 as a small shop offering premium dried fruit, nuts and sweets. From day one the goal was simple: combine the best quality with elegant presentation.", "tr": "Xurcun, 2015'te premium kuru meyve, çerez ve tatlı sunan küçük bir mağaza olarak başladı. İlk günden amaç basitti: en iyi kaliteyi zarif bir sunumla buluşturmak.", "ar": "بدأت Xurcun عام 2015 كمتجر صغير يقدّم الفواكه المجففة الفاخرة والمكسرات والحلويات. ومنذ اليوم الأول كان الهدف بسيطًا: الجمع بين أفضل جودة وتقديم أنيق."}, {"az": "İllər ərzində çeşid genişləndi — şokolad, lokum, paxlava, ekzotik çaylar və əl işi hədiyyə qutuları əlavə olundu. Bu gün Xurcun Bakının tanınan milli brendlərindən biridir.", "ru": "С годами ассортимент расширился — добавились шоколад, лукум, пахлава, экзотические чаи и подарочные наборы ручной работы. Сегодня Xurcun — один из узнаваемых национальных брендов Баку.", "en": "Over the years the range grew — chocolate, Turkish delight, baklava, exotic teas and handcrafted gift boxes were added. Today Xurcun is one of Baku's recognised national brands.", "tr": "Yıllar içinde çeşitler arttı — çikolata, lokum, baklava, egzotik çaylar ve el yapımı hediye kutuları eklendi. Bugün Xurcun, Bakü'nün tanınan ulusal markalarından biridir.", "ar": "ومع مرور السنين توسّعت التشكيلة — أُضيفت الشوكولاتة والحلقوم والبقلاوة والشاي الفاخر وعلب الهدايا اليدوية. واليوم تُعدّ Xurcun من العلامات الوطنية المعروفة في باكو."}],
+      },
+      {
+        h2: {"az": "10 illik yubiley necə qeyd olundu", "ru": "Как отметили 10-летие", "en": "How we marked 10 years", "tr": "10. yılı nasıl kutladık", "ar": "كيف احتفلنا بالعقد الأول"},
+        body: [{"az": "Yubiley münasibətilə komandamız, müştərilərimiz və tərəfdaşlarımızla birlikdə xüsusi bir an yaşadıq. Yuxarıdakı video bu qeydin ab-havasını əks etdirir.", "ru": "По случаю юбилея мы вместе с командой, клиентами и партнёрами пережили особенный момент. Видео выше передаёт атмосферу праздника.", "en": "To mark the anniversary, we shared a special moment with our team, customers and partners. The video above captures the spirit of the celebration.", "tr": "Yıl dönümü vesilesiyle ekibimiz, müşterilerimiz ve iş ortaklarımızla özel bir an yaşadık. Yukarıdaki video bu kutlamanın havasını yansıtıyor.", "ar": "بمناسبة الذكرى عشنا لحظة مميزة مع فريقنا وعملائنا وشركائنا. ويعكس الفيديو أعلاه أجواء هذا الاحتفال."}, {"az": "Bu 10 il yalnız bizim deyil — bizə güvənən hər bir müştərinin nailiyyətidir.", "ru": "Эти 10 лет — достижение не только наше, но и каждого клиента, который нам доверял.", "en": "These 10 years are an achievement not only ours, but of every customer who trusted us.", "tr": "Bu 10 yıl yalnızca bizim değil, bize güvenen her müşterinin başarısıdır.", "ar": "هذه السنوات العشر ليست إنجازنا وحدنا، بل إنجاز كل عميل وثق بنا."}],
+      },
+      {
+        h2: {"az": "Təşəkkür və qarşıdakı illər", "ru": "Благодарность и будущее", "en": "Thank you, and what's next", "tr": "Teşekkür ve gelecek", "ar": "شكرًا وما هو قادم"},
+        body: [{"az": "10 il boyu bizə etibar etdiyiniz üçün təşəkkür edirik. Hər bayram süfrəsi, hər hədiyyə və hər toy xonçasında yanınızda olmaq bizim üçün qürurdur.", "ru": "Спасибо за доверие на протяжении 10 лет. Быть рядом на каждом праздничном столе, в каждом подарке и каждой свадебной хонче — для нас гордость.", "en": "Thank you for your trust over these 10 years. Being part of every holiday table, every gift and every wedding xonça is our pride.", "tr": "10 yıl boyunca güvendiğiniz için teşekkür ederiz. Her bayram sofrasında, her hediyede ve her düğün honçasında yanınızda olmak bizim için gurur kaynağı.", "ar": "شكرًا لثقتكم على مدى عشر سنوات. ووجودنا في كل مائدة عيد وكل هدية وكل صينية عرس هو مصدر فخر لنا."}, {"az": "Qarşıdakı illərdə də eyni vədlə davam edirik — keyfiyyətdən güzəştə getmədən. Bizi Bakıdakı 11 butikimizdə və ya WhatsApp ilə tapa bilərsiniz.", "ru": "В следующие годы продолжим с тем же обещанием — без компромиссов в качестве. Нас можно найти в 11 бутиках в Баку или через WhatsApp.", "en": "In the years ahead we continue with the same promise — no compromise on quality. Find us at our 11 boutiques in Baku or on WhatsApp.", "tr": "Önümüzdeki yıllarda da aynı sözle devam ediyoruz — kaliteden ödün vermeden. Bize Bakü'deki 11 butiğimizden ya da WhatsApp'tan ulaşabilirsiniz.", "ar": "وفي السنوات القادمة نواصل بالوعد نفسه — دون أي تنازل عن الجودة. تجدوننا في بوتيكاتنا الـ11 في باكو أو عبر واتساب."}],
+      },
+    ],
   },
 ];
 
