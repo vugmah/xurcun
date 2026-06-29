@@ -2,6 +2,7 @@
 .xc .tg { padding: 56px 0; }
 .xc .tg .tg-head { text-align: center; margin-bottom: 28px; padding: 0 20px; }
 .xc .tg .tg-head h2 { font-family: var(--display); font-size: clamp(24px, 4.5vw, 34px); font-weight: 600; color: var(--ink); margin: 8px 0 0; }
+.xc .tg .tg-hint { font-family: var(--body); font-size: 12.5px; color: var(--gold-dark); margin: 12px 0 0; }
 
 .xc .tg-row {
   display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
@@ -13,10 +14,22 @@
 
 .xc .tg-tile {
   flex: 0 0 168px; aspect-ratio: 9 / 16; position: relative; overflow: hidden;
+  border: 0; padding: 0; margin: 0; appearance: none; cursor: pointer; display: block;
   border-radius: 18px; scroll-snap-align: start; background: var(--ink);
   box-shadow: 0 12px 30px rgba(46, 42, 37, .22);
   transition: transform .4s var(--ease), box-shadow .4s var(--ease);
 }
+.xc .tg-tile:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* sound toggle chip (top corner) */
+.xc .tg-sound {
+  position: absolute; top: 10px; right: 10px; z-index: 3; width: 32px; height: 32px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  color: #fff; background: rgba(20, 17, 12, .42); border: 1px solid rgba(255, 255, 255, .45);
+  backdrop-filter: blur(3px); transition: background-color .2s var(--ease);
+}
+.xc .tg-sound.on { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
+[dir="rtl"] .xc .tg-sound { right: auto; left: 10px; }
 @media (hover: hover) { .xc .tg-tile:hover { transform: translateY(-6px); box-shadow: 0 20px 42px rgba(46, 42, 37, .3); } }
 @media (max-width: 600px) { .xc .tg-tile { flex-basis: 140px; } }
 
