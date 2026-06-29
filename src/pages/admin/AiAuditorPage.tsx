@@ -5,6 +5,7 @@ import {
   Upload, Camera, Globe, ChevronDown, ChevronUp,
   AlertOctagon, Info, Trash2, Utensils, RefreshCw,
   FileDown, Printer, ShoppingBag, Tag, Wrench, Play, Ban,
+  Check, Minus, X,
 } from "lucide-react";
 import {
   getAiConfig, getSuggestions, saveSuggestion, updateSuggestionStatus,
@@ -106,27 +107,27 @@ function QuickActions({ issue }: { issue: AuditIssue }) {
     <div className="flex flex-wrap gap-1.5 mt-2">
       {issue.category === "QR Menu" && (
         <>
-          <a href="/menu/white-city" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+          <a href="/menu/white-city" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
             <QrCode className="w-2.5 h-2.5" /> Open QR
           </a>
         </>
       )}
       {(issue.category === "Admin" || issue.category === "Badges" || issue.category === "Pricing") && (
-        <a href="/admin/catalog" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/admin/catalog" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
           <ShoppingBag className="w-2.5 h-2.5" /> Go to Product
         </a>
       )}
       {issue.category === "Branch" && (
-        <a href="/admin/catalog" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/admin/catalog" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
           <Tag className="w-2.5 h-2.5" /> Go to Category
         </a>
       )}
       {issue.category === "Layout" || issue.category === "Images" ? (
-        <a href="/admin/media" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/admin/media" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
           <Image className="w-2.5 h-2.5" /> Open Media
         </a>
       ) : null}
-      <a href="/admin/print" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+      <a href="/admin/print" className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] bg-white/5 text-white/50 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
         <Printer className="w-2.5 h-2.5" /> Open PDF Preview
       </a>
     </div>
@@ -165,7 +166,7 @@ export default function AiAuditorPage() {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-xl font-bold text-white mb-1 flex items-center gap-2">
-            <Bot className="w-5 h-5 text-[#C9A96E]" />
+            <Bot className="w-5 h-5 text-[#C2A05A]" />
             AI Auditor
           </h1>
           <p className="text-white/50 text-xs">AI detects problems, suggests fixes, generates warnings. All fixes require manual approval.</p>
@@ -173,11 +174,11 @@ export default function AiAuditorPage() {
       </div>
 
       {/* Read-only validation banner */}
-      <div className="mb-4 p-3 rounded-lg bg-[#C9A96E]/5 border border-[#C9A96E]/15 flex items-start gap-2">
-        <Eye className="w-4 h-4 text-[#C9A96E] shrink-0 mt-0.5" />
+      <div className="mb-4 p-3 rounded-lg bg-[#C2A05A]/5 border border-[#C2A05A]/15 flex items-start gap-2">
+        <Eye className="w-4 h-4 text-[#C2A05A] shrink-0 mt-0.5" />
         <div>
-          <p className="text-[#C9A96E] text-xs font-medium">Read-Only Validation Mode</p>
-          <p className="text-white/40 text-[10px]">AI Auditor detects problems, suggests fixes, and generates warnings. It cannot edit the menu, change layouts, delete products, or publish changes. All fixes require manual approval via Menu Management.</p>
+          <p className="text-[#C2A05A] text-xs font-medium">Read-Only Validation Mode</p>
+          <p className="text-[#a89d88] text-[10px]">AI Auditor detects problems, suggests fixes, and generates warnings. It cannot edit the menu, change layouts, delete products, or publish changes. All fixes require manual approval via Menu Management.</p>
         </div>
       </div>
 
@@ -185,7 +186,7 @@ export default function AiAuditorPage() {
       <AiStatusBanner />
 
       {/* Tab Navigation — compact on all screens, full label on lg+ */}
-      <div className="flex gap-1 mb-6 bg-[#111] border border-[#222] rounded-lg p-1">
+      <div className="flex gap-1 mb-6 bg-[#1d1915] border border-[#352d24] rounded-lg p-1">
         {TABS.map((t) => {
           const Icon = t.icon;
           return (
@@ -193,7 +194,7 @@ export default function AiAuditorPage() {
               key={t.key}
               onClick={() => setActiveTab(t.key)}
               className={`flex items-center gap-1 px-2 py-2 rounded text-[10px] lg:text-xs font-medium transition-all whitespace-nowrap shrink-0 ${
-                activeTab === t.key ? "bg-[#C9A96E]/15 text-[#C9A96E]" : "text-white/40 hover:text-white/60"
+                activeTab === t.key ? "bg-[#C2A05A]/15 text-[#C2A05A]" : "text-white/40 hover:text-white/60"
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -243,22 +244,27 @@ function AiStatusBanner() {
 
 function IssueCard({ issue, checked, onToggle }: { issue: AuditIssue; checked: boolean; onToggle: () => void }) {
   return (
-    <div className="flex items-start gap-3 p-4 border-b border-[#222] last:border-0">
+    <div className="flex items-start gap-3 p-4 border-b border-[#352d24] last:border-0">
       <button
         onClick={onToggle}
-        className={`shrink-0 w-5 h-5 rounded border flex items-center justify-center mt-0.5 transition-all ${
-          checked ? "bg-[#C9A96E] border-[#C9A96E]" : "border-white/20 hover:border-[#C9A96E]/40"
-        }`}
+        role="checkbox"
+        aria-checked={checked}
+        aria-label={checked ? "İşarəni götür" : "İşarələ"}
+        className="shrink-0 p-2.5 -m-2.5 flex items-center justify-center mt-0.5"
       >
-        {checked && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+        <span className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${
+          checked ? "bg-[#C2A05A] border-[#C2A05A]" : "border-white/20 hover:border-[#C2A05A]/40"
+        }`}>
+          {checked && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+        </span>
       </button>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
           <PriorityBadge severity={issue.severity} />
           <span className="text-white text-sm">{issue.title}</span>
         </div>
-        <p className="text-white/40 text-xs mt-1">{issue.description}</p>
-        <p className="text-[#C9A96E]/60 text-[11px] mt-1">{issue.suggestion}</p>
+        <p className="text-[#a89d88] text-xs mt-1">{issue.description}</p>
+        <p className="text-[#C2A05A]/60 text-[11px] mt-1">{issue.suggestion}</p>
         <QuickActions issue={issue} />
       </div>
     </div>
@@ -319,8 +325,8 @@ function IssueHistoryView() {
   if (records.length === 0) return null;
 
   return (
-    <div className="bg-[#111] border border-[#222] rounded-xl p-4">
-      <h3 className="text-white text-sm font-medium mb-3 flex items-center gap-2"><Clock className="w-4 h-4 text-[#C9A96E]" /> Issue History</h3>
+    <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
+      <h3 className="text-white text-sm font-medium mb-3 flex items-center gap-2"><Clock className="w-4 h-4 text-[#C2A05A]" /> Issue History</h3>
       <div className="space-y-2 max-h-60 overflow-y-auto">
         {records.slice().reverse().map((r) => (
           <div key={r.id} className="flex items-center justify-between p-2 bg-[#0A0A0A] rounded text-xs">
@@ -332,9 +338,10 @@ function IssueHistoryView() {
                 {r.fixedBy && ` by ${r.fixedBy}`}
               </span>
             </div>
-            <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border shrink-0 ml-2 ${
+            <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border shrink-0 ml-2 inline-flex items-center gap-1 ${
               r.status === "fixed" ? "bg-green-400/10 text-green-400 border-green-400/30" : "bg-amber-400/10 text-amber-400 border-amber-400/30"
             }`}>
+              {r.status === "fixed" ? <Check className="w-2.5 h-2.5" /> : <Minus className="w-2.5 h-2.5" />}
               {r.status === "fixed" ? "Fixed" : "Open"}
             </span>
           </div>
@@ -372,7 +379,7 @@ function RecheckButton({ onRecheck, rechecking, lastRecheck }: { onRecheck: () =
       <button
         onClick={onRecheck}
         disabled={rechecking}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] disabled:opacity-30 transition-all"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] disabled:opacity-30 transition-all"
       >
         <RefreshCw className={`w-3 h-3 ${rechecking ? "animate-spin" : ""}`} />
         {rechecking ? "Rechecking..." : "Recheck"}
@@ -430,16 +437,16 @@ function SiteAuditTab({ config }: { config: ReturnType<typeof getAiConfig> }) {
       </div>
 
       {/* Progress + Recheck */}
-      <div className="bg-[#111] border border-[#222] rounded-xl p-4">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
         <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
           <div className="flex items-center gap-3">
             <span className="text-white/60 text-xs">Audit Progress</span>
-            <span className="text-[#C9A96E] text-sm font-medium">{checkedCount}/{totalCount} ({pct}%)</span>
+            <span className="text-[#C2A05A] text-sm font-medium">{checkedCount}/{totalCount} ({pct}%)</span>
           </div>
           <RecheckButton onRecheck={() => recheck("audit")} rechecking={rechecking} lastRecheck={lastRecheck} />
         </div>
         <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-          <div className="h-full bg-[#C9A96E] rounded-full transition-all" style={{ width: `${pct}%` }} />
+          <div className="h-full bg-[#C2A05A] rounded-full transition-all" style={{ width: `${pct}%` }} />
         </div>
         <p className="text-green-400/40 text-[10px] mt-2">Automated audit active — no external AI required.</p>
       </div>
@@ -451,7 +458,7 @@ function SiteAuditTab({ config }: { config: ReturnType<typeof getAiConfig> }) {
             key={f}
             onClick={() => setFilter(f)}
             className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${
-              filter === f ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"
+              filter === f ? "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"
             }`}
           >
             {f === "all" ? "All" : priorityMap[f]}
@@ -465,19 +472,19 @@ function SiteAuditTab({ config }: { config: ReturnType<typeof getAiConfig> }) {
         if (catItems.length === 0) return null;
         const isOpen = expanded[cat] ?? true;
         return (
-          <div key={cat} className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
+          <div key={cat} className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
             <button
               onClick={() => setExpanded((p) => ({ ...p, [cat]: !isOpen }))}
-              className="w-full flex items-center justify-between p-4 hover:bg-[#161616] transition-all"
+              className="w-full flex items-center justify-between p-4 hover:bg-[#1d1915] transition-all"
             >
               <span className="text-white text-sm font-medium">{cat}</span>
               <div className="flex items-center gap-2">
-                <span className="text-white/30 text-[10px]">{catItems.filter((c) => checked[c.id]).length}/{catItems.length}</span>
+                <span className="text-[#a89d88] text-[10px]">{catItems.filter((c) => checked[c.id]).length}/{catItems.length}</span>
                 {isOpen ? <ChevronUp className="w-4 h-4 text-white/40" /> : <ChevronDown className="w-4 h-4 text-white/40" />}
               </div>
             </button>
             {isOpen && (
-              <div className="border-t border-[#222]">
+              <div className="border-t border-[#352d24]">
                 {catItems.map((issue) => (
                   <IssueCard key={issue.id} issue={issue} checked={!!checked[issue.id]} onToggle={() => toggleCheck(issue.id)} />
                 ))}
@@ -522,18 +529,18 @@ function PhotoReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) 
     <div className="space-y-4">
       {/* Upload */}
       <div
-        className="bg-[#111] border border-[#222] border-dashed rounded-xl p-8 text-center cursor-pointer hover:border-[#C9A96E]/40 transition-all"
+        className="bg-[#1d1915] border border-[#352d24] border-dashed rounded-xl p-8 text-center cursor-pointer hover:border-[#C2A05A]/40 transition-all"
         onClick={() => fileRef.current?.click()}
       >
-        <Upload className="w-8 h-8 text-[#C9A96E]/40 mx-auto mb-3" />
+        <Upload className="w-8 h-8 text-[#C2A05A]/40 mx-auto mb-3" />
         <p className="text-white/60 text-sm">Upload photo for AI review</p>
-        <p className="text-white/30 text-[10px] mt-1">JPG, PNG, WEBP — max 5MB</p>
+        <p className="text-[#a89d88] text-[10px] mt-1">JPG, PNG, WEBP — max 5MB</p>
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); e.target.value = ""; }} />
       </div>
 
       {/* Preview + Analysis */}
       {uploadedImage && (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-4 space-y-4">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4 space-y-4">
           <div className="flex gap-4 flex-col sm:flex-row">
             <img src={uploadedImage} alt="Preview" className="w-full sm:w-48 h-48 object-cover rounded-lg bg-[#141414]" />
             <div className="flex-1 space-y-3">
@@ -541,7 +548,7 @@ function PhotoReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) 
               <button
                 onClick={analyze}
                 disabled={analyzing}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#C9A96E]/15 text-[#C9A96E] border border-[#C9A96E]/30 rounded-lg text-xs font-medium hover:bg-[#C9A96E]/25 transition-all disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#C2A05A]/15 text-[#C2A05A] border border-[#C2A05A]/30 rounded-lg text-xs font-medium hover:bg-[#C2A05A]/25 transition-all disabled:opacity-50"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 {analyzing ? "Analyzing..." : "Analyze Photo"}
@@ -551,9 +558,9 @@ function PhotoReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) 
 
           {/* Results */}
           {result === "idle" && (
-            <div className="p-3 bg-[#111] border border-[#222] rounded-lg">
-              <p className="text-white/40 text-xs">Upload a photo to run AI analysis.</p>
-              <p className="text-white/30 text-[11px] mt-1">Analysis evaluates: brightness, composition, suitability for homepage/menu/gallery, and recommends usage.</p>
+            <div className="p-3 bg-[#1d1915] border border-[#352d24] rounded-lg">
+              <p className="text-[#a89d88] text-xs">Upload a photo to run AI analysis.</p>
+              <p className="text-[#a89d88] text-[11px] mt-1">Analysis evaluates: brightness, composition, suitability for homepage/menu/gallery, and recommends usage.</p>
             </div>
           )}
           {result === "ai" && (
@@ -567,7 +574,7 @@ function PhotoReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) 
                   { label: "Recommendation", value: "Use in gallery" },
                 ].map((r) => (
                   <div key={r.label} className="bg-[#0A0A0A] rounded p-2">
-                    <p className="text-white/30 text-[10px]">{r.label}</p>
+                    <p className="text-[#a89d88] text-[10px]">{r.label}</p>
                     <p className="text-white/70 text-xs">{r.value}</p>
                   </div>
                 ))}
@@ -578,8 +585,8 @@ function PhotoReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) 
       )}
 
       {/* Photo replacement suggestions */}
-      <div className="bg-[#111] border border-[#222] rounded-xl p-4">
-        <h3 className="text-white text-sm font-medium mb-3 flex items-center gap-2"><Image className="w-4 h-4 text-[#C9A96E]" /> Photo Replacement Suggestions</h3>
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
+        <h3 className="text-white text-sm font-medium mb-3 flex items-center gap-2"><Image className="w-4 h-4 text-[#C2A05A]" /> Photo Replacement Suggestions</h3>
         <div className="space-y-2">
           {[
             { section: "Hero Background", status: "Consider updating", priority: "medium" },
@@ -619,9 +626,9 @@ function ContentReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }
       {/* Language review cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {langs.map((l) => (
-          <div key={l.key} className="bg-[#111] border border-[#222] rounded-xl p-4">
+          <div key={l.key} className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
             <div className="flex items-center gap-2 mb-3">
-              <Globe className="w-4 h-4 text-[#C9A96E]" />
+              <Globe className="w-4 h-4 text-[#C2A05A]" />
               <span className="text-white text-sm font-medium">{l.label} — {l.name}</span>
             </div>
             <div className="space-y-2">
@@ -688,21 +695,26 @@ function ContentChecklist() {
   const pct = Math.round((passed / CONTENT_CHECKS.length) * 100);
 
   return (
-    <div className="bg-[#111] border border-[#222] rounded-xl p-4">
+    <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-white text-sm font-medium">Content Quality Checks</h3>
-        <span className="text-[#C9A96E] text-xs">{passed}/{CONTENT_CHECKS.length} ({pct}%)</span>
+        <span className="text-[#C2A05A] text-xs">{passed}/{CONTENT_CHECKS.length} ({pct}%)</span>
       </div>
       <div className="space-y-2">
         {CONTENT_CHECKS.map((c) => (
           <div key={c.id} className="flex items-center gap-3 p-2 bg-[#0A0A0A] rounded">
             <button
               onClick={() => toggle(c.id)}
-              className={`shrink-0 w-5 h-5 rounded border flex items-center justify-center transition-all ${
-                checked[c.id] ? "bg-[#C9A96E] border-[#C9A96E]" : "border-white/20 hover:border-[#C9A96E]/40"
-              }`}
+              role="checkbox"
+              aria-checked={!!checked[c.id]}
+              aria-label={checked[c.id] ? "İşarəni götür" : "İşarələ"}
+              className="shrink-0 p-2.5 -m-2.5 flex items-center justify-center"
             >
-              {checked[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+              <span className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${
+                checked[c.id] ? "bg-[#C2A05A] border-[#C2A05A]" : "border-white/20 hover:border-[#C2A05A]/40"
+              }`}>
+                {checked[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+              </span>
             </button>
             <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border shrink-0 ${severityClass[c.severity]}`}>{c.severity}</span>
             <span className="text-white/60 text-xs">{c.text}</span>
@@ -756,31 +768,36 @@ function SeoReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) {
   return (
     <div className="space-y-4">
       {/* Score */}
-      <div className="bg-[#111] border border-[#222] rounded-xl p-6 text-center">
-        <p className="text-white/40 text-xs uppercase tracking-wider mb-2">SEO Score</p>
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-6 text-center">
+        <p className="text-[#a89d88] text-xs uppercase tracking-wider mb-2">SEO Score</p>
         <p className={`text-5xl font-bold ${getScoreColor()}`}>{pct}<span className="text-lg text-white/30">/100</span></p>
         <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden mt-4">
           <div className={`h-full rounded-full transition-all ${pct >= 80 ? "bg-green-400" : pct >= 50 ? "bg-amber-400" : "bg-red-400"}`} style={{ width: `${pct}%` }} />
         </div>
-        <p className="text-white/30 text-[10px] mt-2">Check each item below to improve your score.</p>
+        <p className="text-[#a89d88] text-[10px] mt-2">Check each item below to improve your score.</p>
       </div>
 
       {/* Checklist */}
-      <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
         {SEO_CHECKS.map((c, i) => (
-          <div key={c.id} className={`flex items-center gap-3 p-4 ${i < SEO_CHECKS.length - 1 ? "border-b border-[#222]" : ""}`}>
+          <div key={c.id} className={`flex items-center gap-3 p-4 ${i < SEO_CHECKS.length - 1 ? "border-b border-[#352d24]" : ""}`}>
             <button
               onClick={() => toggle(c.id)}
-              className={`shrink-0 w-5 h-5 rounded border flex items-center justify-center transition-all ${
-                checks[c.id] ? "bg-[#C9A96E] border-[#C9A96E]" : "border-white/20 hover:border-[#C9A96E]/40"
-              }`}
+              role="checkbox"
+              aria-checked={!!checks[c.id]}
+              aria-label={checks[c.id] ? "İşarəni götür" : "İşarələ"}
+              className="shrink-0 p-2.5 -m-2.5 flex items-center justify-center"
             >
-              {checks[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+              <span className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${
+                checks[c.id] ? "bg-[#C2A05A] border-[#C2A05A]" : "border-white/20 hover:border-[#C2A05A]/40"
+              }`}>
+                {checks[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+              </span>
             </button>
             <div className="flex-1 min-w-0">
               <span className="text-white/70 text-sm">{c.label}</span>
             </div>
-            <span className="text-[#C9A96E]/60 text-xs shrink-0">+{c.weight}</span>
+            <span className="text-[#C2A05A]/60 text-xs shrink-0">+{c.weight}</span>
           </div>
         ))}
       </div>
@@ -833,25 +850,25 @@ function QrReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) {
           { label: "Passed", value: Object.keys(checked).length, color: "text-green-400" },
           { label: "Pending", value: QR_CHECKS.length - Object.keys(checked).length, color: "text-amber-400" },
         ].map((s) => (
-          <div key={s.label} className="bg-[#111] border border-[#222] rounded-xl p-4 text-center">
+          <div key={s.label} className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4 text-center">
             <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
-            <p className="text-white/40 text-[10px] mt-1">{s.label}</p>
+            <p className="text-[#a89d88] text-[10px] mt-1">{s.label}</p>
           </div>
         ))}
       </div>
 
       {/* Quick QR links */}
       <div className="flex gap-2 flex-wrap">
-        <a href="/menu/white-city" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/menu/white-city" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
           <QrCode className="w-3 h-3" /> White City QR
         </a>
-        <a href="/menu/seabreeze-marina" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all">
+        <a href="/menu/seabreeze-marina" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
           <QrCode className="w-3 h-3" /> Seabreeze QR
         </a>
         <RecheckButton onRecheck={() => recheck("qr")} rechecking={rechecking} lastRecheck={lastRecheck} />
       </div>
 
-      <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
         {QR_CHECKS.map((issue) => (
           <IssueCard key={issue.id} issue={issue} checked={!!checked[issue.id]} onToggle={() => toggle(issue.id)} />
         ))}
@@ -930,18 +947,18 @@ function ExportCheckTab() {
       </div>
 
       {/* Progress + Actions */}
-      <div className="bg-[#111] border border-[#222] rounded-xl p-4">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
         <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
           <div className="flex items-center gap-3">
             <span className="text-white/60 text-xs">Export Validation</span>
-            <span className="text-[#C9A96E] text-sm font-medium">{passed}/{EXPORT_CHECKS.length} ({pct}%)</span>
+            <span className="text-[#C2A05A] text-sm font-medium">{passed}/{EXPORT_CHECKS.length} ({pct}%)</span>
           </div>
           <div className="flex gap-2">
             <RecheckButton onRecheck={() => recheck("export")} rechecking={rechecking} lastRecheck={lastRecheck} />
           </div>
         </div>
         <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-          <div className="h-full bg-[#C9A96E] rounded-full transition-all" style={{ width: `${pct}%` }} />
+          <div className="h-full bg-[#C2A05A] rounded-full transition-all" style={{ width: `${pct}%` }} />
         </div>
         {pct < 100 && (
           <div className="mt-3 p-2 bg-red-400/5 border border-red-400/10 rounded">
@@ -955,27 +972,32 @@ function ExportCheckTab() {
 
       {/* Compare mode selector */}
       <div className="flex gap-2 flex-wrap">
-        <button onClick={() => setCompareMode("none")} className={`px-3 py-1.5 rounded text-xs border transition-all ${compareMode === "none" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"}`}>All</button>
-        <button onClick={() => setCompareMode("pdf")} className={`px-3 py-1.5 rounded text-xs border transition-all ${compareMode === "pdf" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"}`}>PDF Only</button>
-        <button onClick={() => setCompareMode("pptx")} className={`px-3 py-1.5 rounded text-xs border transition-all ${compareMode === "pptx" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"}`}>PPTX Only</button>
-        <a href="/admin/print" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C9A96E]/30 hover:text-[#C9A96E] transition-all ml-auto">
+        <button onClick={() => setCompareMode("none")} className={`px-3 py-1.5 rounded text-xs border transition-all ${compareMode === "none" ? "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"}`}>All</button>
+        <button onClick={() => setCompareMode("pdf")} className={`px-3 py-1.5 rounded text-xs border transition-all ${compareMode === "pdf" ? "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"}`}>PDF Only</button>
+        <button onClick={() => setCompareMode("pptx")} className={`px-3 py-1.5 rounded text-xs border transition-all ${compareMode === "pptx" ? "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"}`}>PPTX Only</button>
+        <a href="/admin/print" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all ml-auto">
           <Printer className="w-3 h-3" /> Open Print Preview
         </a>
       </div>
 
       {/* Checklist */}
       {compareMode === "pdf" && (
-        <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
-          <div className="px-4 py-2 bg-white/[0.02] border-b border-[#222] text-white/30 text-[10px] font-medium">PDF Comparison</div>
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
+          <div className="px-4 py-2 bg-white/[0.02] border-b border-[#352d24] text-white/50 text-[10px] font-medium">PDF Comparison</div>
           {pdfChecks.map((c, i) => (
-            <div key={c.id} className={`flex items-center gap-3 p-4 ${i < pdfChecks.length - 1 ? "border-b border-[#222]" : ""}`}>
+            <div key={c.id} className={`flex items-center gap-3 p-4 ${i < pdfChecks.length - 1 ? "border-b border-[#352d24]" : ""}`}>
               <button
                 onClick={() => toggle(c.id)}
-                className={`shrink-0 w-5 h-5 rounded border flex items-center justify-center transition-all ${
-                  checks[c.id] ? "bg-[#C9A96E] border-[#C9A96E]" : "border-white/20 hover:border-[#C9A96E]/40"
-                }`}
+                role="checkbox"
+                aria-checked={!!checks[c.id]}
+                aria-label={checks[c.id] ? "İşarəni götür" : "İşarələ"}
+                className="shrink-0 p-2.5 -m-2.5 flex items-center justify-center"
               >
-                {checks[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+                <span className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${
+                  checks[c.id] ? "bg-[#C2A05A] border-[#C2A05A]" : "border-white/20 hover:border-[#C2A05A]/40"
+                }`}>
+                  {checks[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+                </span>
               </button>
               <div className="flex-1 min-w-0">
                 <span className="text-white/70 text-sm">{c.label}</span>
@@ -987,17 +1009,22 @@ function ExportCheckTab() {
       )}
 
       {compareMode === "pptx" && (
-        <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
-          <div className="px-4 py-2 bg-white/[0.02] border-b border-[#222] text-white/30 text-[10px] font-medium">PPTX Comparison</div>
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
+          <div className="px-4 py-2 bg-white/[0.02] border-b border-[#352d24] text-white/50 text-[10px] font-medium">PPTX Comparison</div>
           {pptxChecks.map((c, i) => (
-            <div key={c.id} className={`flex items-center gap-3 p-4 ${i < pptxChecks.length - 1 ? "border-b border-[#222]" : ""}`}>
+            <div key={c.id} className={`flex items-center gap-3 p-4 ${i < pptxChecks.length - 1 ? "border-b border-[#352d24]" : ""}`}>
               <button
                 onClick={() => toggle(c.id)}
-                className={`shrink-0 w-5 h-5 rounded border flex items-center justify-center transition-all ${
-                  checks[c.id] ? "bg-[#C9A96E] border-[#C9A96E]" : "border-white/20 hover:border-[#C9A96E]/40"
-                }`}
+                role="checkbox"
+                aria-checked={!!checks[c.id]}
+                aria-label={checks[c.id] ? "İşarəni götür" : "İşarələ"}
+                className="shrink-0 p-2.5 -m-2.5 flex items-center justify-center"
               >
-                {checks[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+                <span className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${
+                  checks[c.id] ? "bg-[#C2A05A] border-[#C2A05A]" : "border-white/20 hover:border-[#C2A05A]/40"
+                }`}>
+                  {checks[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+                </span>
               </button>
               <div className="flex-1 min-w-0">
                 <span className="text-white/70 text-sm">{c.label}</span>
@@ -1009,19 +1036,24 @@ function ExportCheckTab() {
       )}
 
       {compareMode === "none" && (
-        <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
-          <div className="px-4 py-2 bg-white/[0.02] border-b border-[#222] text-white/30 text-[10px] font-medium">Shared Checks</div>
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
+          <div className="px-4 py-2 bg-white/[0.02] border-b border-[#352d24] text-white/50 text-[10px] font-medium">Shared Checks</div>
           {sharedChecks.length === 0 ? (
-            <div className="p-6 text-center text-white/30 text-xs">No shared checks</div>
+            <div className="p-6 text-center text-[#a89d88] text-xs">No shared checks</div>
           ) : sharedChecks.map((c, i) => (
-            <div key={c.id} className={`flex items-center gap-3 p-4 ${i < sharedChecks.length - 1 ? "border-b border-[#222]" : ""}`}>
+            <div key={c.id} className={`flex items-center gap-3 p-4 ${i < sharedChecks.length - 1 ? "border-b border-[#352d24]" : ""}`}>
               <button
                 onClick={() => toggle(c.id)}
-                className={`shrink-0 w-5 h-5 rounded border flex items-center justify-center transition-all ${
-                  checks[c.id] ? "bg-[#C9A96E] border-[#C9A96E]" : "border-white/20 hover:border-[#C9A96E]/40"
-                }`}
+                role="checkbox"
+                aria-checked={!!checks[c.id]}
+                aria-label={checks[c.id] ? "İşarəni götür" : "İşarələ"}
+                className="shrink-0 p-2.5 -m-2.5 flex items-center justify-center"
               >
-                {checks[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+                <span className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${
+                  checks[c.id] ? "bg-[#C2A05A] border-[#C2A05A]" : "border-white/20 hover:border-[#C2A05A]/40"
+                }`}>
+                  {checks[c.id] && <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />}
+                </span>
               </button>
               <div className="flex-1 min-w-0">
                 <span className="text-white/70 text-sm">{c.label}</span>
@@ -1148,7 +1180,7 @@ function SuggestionsLogTab() {
               key={f}
               onClick={() => setFilter(f)}
               className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${
-                filter === f ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"
+                filter === f ? "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30" : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"
               }`}
             >
               {(f || "").charAt(0).toUpperCase() + (f || "").slice(1)}
@@ -1156,26 +1188,26 @@ function SuggestionsLogTab() {
           ))}
         </div>
         <div className="flex gap-2">
-          <button onClick={handleDownloadTxt} className="px-3 py-1 rounded text-xs text-[#C9A96E] border border-[#C9A96E]/20 hover:bg-[#C9A96E]/10 transition-all"><FileDown className="w-3 h-3 inline" /> TXT İndir</button>
+          <button onClick={handleDownloadTxt} className="px-3 py-1 rounded text-xs text-[#C2A05A] border border-[#C2A05A]/20 hover:bg-[#C2A05A]/10 transition-all"><FileDown className="w-3 h-3 inline" /> TXT İndir</button>
           <button onClick={clearAll} className="px-3 py-1 rounded text-xs text-red-400 border border-red-400/20 hover:bg-red-400/10 transition-all"><Trash2 className="w-3 h-3 inline" /> Clear</button>
         </div>
       </div>
 
       {/* List */}
       {logEntries.length === 0 ? (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-8 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-8 text-center">
           <ClipboardList className="w-8 h-8 text-white/10 mx-auto mb-2" />
-          <p className="text-white/30 text-sm">Run Full Scan to generate audit log.</p>
+          <p className="text-[#a89d88] text-sm">Run Full Scan to generate audit log.</p>
           <p className="text-white/20 text-[10px] mt-1">Audit history with lifecycle (pending / fixed / ignored) will appear here.</p>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-6 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-6 text-center">
           <p className="text-white/20 text-xs">No entries match the current filter.</p>
         </div>
       ) : (
         <div className="space-y-2">
           {filtered.map((s) => (
-            <div key={s.id} className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
+            <div key={s.id} className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
               <div className="flex items-start gap-3 p-4">
                 {statusIcon(s.status)}
                 <div className="flex-1 min-w-0">
@@ -1184,8 +1216,8 @@ function SuggestionsLogTab() {
                     <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${severityClass[s.severity]}`}>{s.severity}</span>
                   </div>
                   <div className="flex items-center gap-3 mt-1">
-                    <span className="text-white/30 text-[10px]">{s.category}</span>
-                    <span className="text-white/30 text-[10px]">{new Date(s.lastSeen).toLocaleDateString()}</span>
+                    <span className="text-[#a89d88] text-[10px]">{s.category}</span>
+                    <span className="text-[#a89d88] text-[10px]">{new Date(s.lastSeen).toLocaleDateString()}</span>
                     <span className="text-white/20 text-[10px]">{s.count}x</span>
                     <span className={`text-[10px] font-medium ${s.status === "fixed" ? "text-green-400" : s.status === "ignored" ? "text-white/30" : "text-amber-400"}`}>
                       {statusLabel(s.status)}
@@ -1309,11 +1341,11 @@ function SafeFixTab() {
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <h2 className="text-lg font-bold text-white mb-1">Safe Fix Mode</h2>
-          <p className="text-white/40 text-xs">Detects issues. Auto-fixes low-risk UI/technical problems. Requires approval for medium/high-risk changes. Never modifies menu content.</p>
+          <p className="text-[#a89d88] text-xs">Detects issues. Auto-fixes low-risk UI/technical problems. Requires approval for medium/high-risk changes. Never modifies menu content.</p>
         </div>
         <div className="shrink-0 text-center">
           <div className={`text-2xl font-bold ${healthColor}`}>{stats.score}</div>
-          <div className="text-[10px] text-white/30">Health</div>
+          <div className="text-[10px] text-[#a89d88]">Health</div>
           <div className="w-16 h-1.5 bg-white/10 rounded-full mt-1 overflow-hidden">
             <div className={`h-full ${healthBar} rounded-full transition-all`} style={{ width: `${stats.score}%` }} />
           </div>
@@ -1322,37 +1354,37 @@ function SafeFixTab() {
 
       {/* Stats Bar */}
       <div className="grid grid-cols-8 gap-2">
-        <div className="bg-[#111] border border-[#222] rounded-lg p-2 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-2 text-center">
           <div className="text-base font-bold text-red-400">{stats.high}</div>
-          <div className="text-[9px] text-white/30">High</div>
+          <div className="text-[9px] text-[#a89d88]">High</div>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-lg p-2 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-2 text-center">
           <div className="text-base font-bold text-amber-400">{stats.medium}</div>
-          <div className="text-[9px] text-white/30">Med</div>
+          <div className="text-[9px] text-[#a89d88]">Med</div>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-lg p-2 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-2 text-center">
           <div className="text-base font-bold text-blue-400">{stats.low}</div>
-          <div className="text-[9px] text-white/30">Low</div>
+          <div className="text-[9px] text-[#a89d88]">Low</div>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-lg p-2 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-2 text-center">
           <div className="text-base font-bold text-green-400">{stats.auto}</div>
-          <div className="text-[9px] text-white/30">Auto</div>
+          <div className="text-[9px] text-[#a89d88]">Auto</div>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-lg p-2 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-2 text-center">
           <div className="text-base font-bold text-amber-300">{stats.pending}</div>
-          <div className="text-[9px] text-white/30">Pending</div>
+          <div className="text-[9px] text-[#a89d88]">Pending</div>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-lg p-2 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-2 text-center">
           <div className="text-base font-bold text-green-400">{stats.fixed}</div>
-          <div className="text-[9px] text-white/30">Fixed</div>
+          <div className="text-[9px] text-[#a89d88]">Fixed</div>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-lg p-2 text-center">
-          <div className="text-base font-bold text-white/40">{stats.ignored}</div>
-          <div className="text-[9px] text-white/30">Ignored</div>
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-2 text-center">
+          <div className="text-base font-bold text-[#a89d88]">{stats.ignored}</div>
+          <div className="text-[9px] text-[#a89d88]">Ignored</div>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-lg p-2 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-2 text-center">
           <div className="text-base font-bold text-white">{stats.total}</div>
-          <div className="text-[9px] text-white/30">Total</div>
+          <div className="text-[9px] text-[#a89d88]">Total</div>
         </div>
       </div>
 
@@ -1361,7 +1393,7 @@ function SafeFixTab() {
         <button
           onClick={runScan}
           disabled={scanning}
-          className="flex items-center gap-1.5 px-4 py-2 bg-[#C9A96E] text-[#0A0A0A] rounded-lg text-xs font-bold hover:bg-[#D4A853] disabled:opacity-50 transition-all"
+          className="flex items-center gap-1.5 px-4 py-2 bg-[#9D7C38] text-[#0A0A0A] rounded-lg text-xs font-bold hover:bg-[#C2A05A] disabled:opacity-50 transition-all"
         >
           {scanning ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
           {scanning ? "Scanning..." : "Run Full Scan"}
@@ -1403,7 +1435,7 @@ function SafeFixTab() {
         <ShieldCheck className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
         <div>
           <p className="text-green-400 text-xs font-medium">Safe Mode Active</p>
-          <p className="text-white/30 text-[10px]">Auto-fix only: empty assignments, debug flags, stale cache. Never touches: categories, products, prices, translations, photos.</p>
+          <p className="text-[#a89d88] text-[10px]">Auto-fix only: empty assignments, debug flags, stale cache. Never touches: categories, products, prices, translations, photos.</p>
         </div>
       </div>
 
@@ -1415,7 +1447,7 @@ function SafeFixTab() {
             onClick={() => setActiveFilter(f)}
             className={`px-2 py-1 rounded text-[10px] border transition-all ${
               activeFilter === f
-                ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30"
+                ? "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30"
                 : "bg-transparent text-white/30 border-white/10 hover:border-white/20"
             }`}
           >
@@ -1435,7 +1467,7 @@ function SafeFixTab() {
                 ? s === "pending" ? "bg-amber-400/15 text-amber-400 border-amber-400/30"
                   : s === "fixed" ? "bg-green-400/15 text-green-400 border-green-400/30"
                   : s === "ignored" ? "bg-white/10 text-white/50 border-white/20"
-                  : "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30"
+                  : "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30"
                 : "bg-transparent text-white/30 border-white/10 hover:border-white/20"
             }`}
           >
@@ -1446,19 +1478,19 @@ function SafeFixTab() {
 
       {/* Issue List */}
       {issues.length === 0 ? (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-8 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-8 text-center">
           <ShieldCheck className="w-8 h-8 text-green-400/30 mx-auto mb-2" />
-          <p className="text-white/30 text-sm">No issues detected yet.</p>
+          <p className="text-[#a89d88] text-sm">No issues detected yet.</p>
           <p className="text-white/20 text-[10px] mt-1">Click "Run Full Scan" to detect production issues.</p>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-6 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-6 text-center">
           <p className="text-white/20 text-xs">No issues match the current filter.</p>
         </div>
       ) : (
         <div className="space-y-2">
           {filtered.map((issue) => (
-            <div key={issue.id} className={`bg-[#111] border rounded-xl overflow-hidden ${
+            <div key={issue.id} className={`bg-[#1d1915] border rounded-xl overflow-hidden ${
               issue.severity === "high" ? "border-red-400/20" :
               issue.severity === "medium" ? "border-amber-400/20" :
               issue.severity === "low" ? "border-blue-400/20" :
@@ -1474,13 +1506,13 @@ function SafeFixTab() {
                     </span>
                     {/* Status badge */}
                     {(issue.status || "pending") === "pending" && (
-                      <span className="text-[10px] bg-amber-400/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-400/20">Pending</span>
+                      <span className="text-[10px] bg-amber-400/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-400/20 inline-flex items-center gap-1"><Clock className="w-2.5 h-2.5" />Pending</span>
                     )}
                     {(issue.status || "pending") === "fixed" && (
-                      <span className="text-[10px] bg-green-400/10 text-green-400 px-1.5 py-0.5 rounded border border-green-400/20">Fixed</span>
+                      <span className="text-[10px] bg-green-400/10 text-green-400 px-1.5 py-0.5 rounded border border-green-400/20 inline-flex items-center gap-1"><Check className="w-2.5 h-2.5" />Fixed</span>
                     )}
                     {(issue.status || "pending") === "ignored" && (
-                      <span className="text-[10px] bg-white/5 text-white/40 px-1.5 py-0.5 rounded border border-white/10">Ignored</span>
+                      <span className="text-[10px] bg-white/5 text-[#a89d88] px-1.5 py-0.5 rounded border border-white/10 inline-flex items-center gap-1"><X className="w-2.5 h-2.5" />Ignored</span>
                     )}
                     {issue.requiresApproval && (
                       <span className="text-[10px] bg-amber-400/10 text-amber-400 px-1.5 py-0.5 rounded border border-amber-400/20">
@@ -1488,7 +1520,7 @@ function SafeFixTab() {
                       </span>
                     )}
                   </div>
-                  <p className="text-white/40 text-xs mt-1">{issue.description}</p>
+                  <p className="text-[#a89d88] text-xs mt-1">{issue.description}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-white/20 text-[10px] capitalize">{issue.category}</span>
                     {issue.page && <span className="text-white/20 text-[10px]">{issue.page}</span>}
@@ -1517,7 +1549,7 @@ function SafeFixTab() {
       <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5 flex items-start gap-2">
         <Ban className="w-4 h-4 text-white/20 shrink-0 mt-0.5" />
         <div>
-          <p className="text-white/30 text-xs">Protected from auto-edit</p>
+          <p className="text-[#a89d88] text-xs">Protected from auto-edit</p>
           <p className="text-white/15 text-[10px]">Categories, products, prices, translations, branch pricing, and photo assignments are never modified by Safe Fix. These always remain admin-controlled via Menu Management.</p>
         </div>
       </div>

@@ -27,6 +27,8 @@ import {
   ImageIcon,
   Loader2,
   Search,
+  Check,
+  X,
 } from "lucide-react";
 
 /* ─── Type Definitions ─── */
@@ -198,12 +200,12 @@ function CampaignsSkeleton() {
         <div className="h-8 w-24 bg-white/10 rounded" />
       </div>
       {/* Table skeleton */}
-      <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
-        <div className="p-3 border-b border-[#222]">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
+        <div className="p-3 border-b border-[#352d24]">
           <div className="h-3 w-full bg-white/5 rounded" />
         </div>
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="p-3 border-b border-[#222] flex items-center gap-3">
+          <div key={i} className="p-3 border-b border-[#352d24] flex items-center gap-3">
             <div className="w-8 h-8 rounded bg-white/5" />
             <div className="flex-1">
               <div className="h-3 w-32 bg-white/10 rounded mb-1" />
@@ -352,7 +354,7 @@ export default function PopupCampaignsPage() {
       {/* ═══ HEADER ═══ */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-1">
-          <Megaphone className="w-5 h-5 text-[#C9A96E]" />
+          <Megaphone className="w-5 h-5 text-[#C2A05A]" />
           <h1 className="text-xl font-bold text-white">Kampaniyalar</h1>
         </div>
         <p className="text-white/50 text-xs ml-7">
@@ -367,18 +369,19 @@ export default function PopupCampaignsPage() {
           {/* ═══ TOOLBAR ═══ */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <div className="relative w-full sm:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/30" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#a89d88]" />
               <input
                 type="text"
+                aria-label="Kampaniya axtar"
                 placeholder="Kampaniya axtar..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-8 pr-3 py-2 bg-[#111] border border-[#222] rounded-lg text-white text-xs placeholder:text-white/25 focus:outline-none focus:border-[#C9A96E]/30"
+                className="w-full pl-8 pr-3 py-2 bg-[#1d1915] border border-[#352d24] rounded-lg text-white text-xs placeholder:text-white/25 focus:outline-none focus:border-[#C2A05A]/30"
               />
             </div>
             <Button
               size="sm"
-              className="bg-[#C9A96E]/10 text-[#C9A96E] hover:bg-[#C9A96E]/20 border border-[#C9A96E]/30 shrink-0"
+              className="bg-[#C2A05A]/10 text-[#C2A05A] hover:bg-[#C2A05A]/20 border border-[#C2A05A]/30 shrink-0"
               onClick={openCreate}
             >
               <Plus className="w-4 h-4 mr-1" /> Yeni Kampaniya
@@ -388,18 +391,18 @@ export default function PopupCampaignsPage() {
           {/* ═══ CAMPAIGN LIST ═══ */}
           {filteredCampaigns.length === 0 ? (
             /* Empty state */
-            <div className="bg-[#111] border border-[#222] rounded-xl p-12 text-center">
+            <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-12 text-center">
               <Megaphone className="w-10 h-10 text-white/10 mx-auto mb-3" />
-              <p className="text-white/30 text-sm mb-1">
+              <p className="text-[#a89d88] text-sm mb-1">
                 {searchTerm ? "Axtaris uygun netice tapilmadi" : "Hec bir kampaniya yaradilmayib"}
               </p>
-              <p className="text-white/20 text-xs mb-4">
+              <p className="text-[#a89d88] text-xs mb-4">
                 {searchTerm ? "Basqa axtaris terminleri cehd edin" : "Birinci kampaniyani yaratmag ucun duymeye basin"}
               </p>
               {!searchTerm && (
                 <Button
                   size="sm"
-                  className="bg-[#C9A96E]/10 text-[#C9A96E] hover:bg-[#C9A96E]/20 border border-[#C9A96E]/30"
+                  className="bg-[#C2A05A]/10 text-[#C2A05A] hover:bg-[#C2A05A]/20 border border-[#C2A05A]/30"
                   onClick={openCreate}
                 >
                   <Plus className="w-4 h-4 mr-1" /> Kampaniya Yarat
@@ -407,39 +410,39 @@ export default function PopupCampaignsPage() {
               )}
             </div>
           ) : (
-            <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
+            <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
               {/* Desktop: table view */}
               <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-[#222]">
-                      <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase">
+                    <tr className="border-b border-[#352d24]">
+                      <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase">
                         Kampaniya
                       </th>
-                      <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase">
+                      <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase">
                         Tip
                       </th>
-                      <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase">
+                      <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase">
                         Status
                       </th>
-                      <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase">
+                      <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase">
                         Statistika
                       </th>
-                      <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase">
+                      <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase">
                         Tarix
                       </th>
-                      <th className="text-right p-3 text-white/40 font-normal text-[10px] uppercase">
+                      <th className="text-right p-3 text-white/50 font-normal text-[10px] uppercase">
                         Islemler
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#222]">
+                  <tbody className="divide-y divide-[#352d24]">
                     {filteredCampaigns.map((c) => (
                       <tr key={c.id} className="hover:bg-white/[0.02]">
                         <td className="p-3">
                           <p className="text-white text-xs font-medium">{c.name}</p>
                           {c.title && (
-                            <p className="text-white/30 text-[10px]">{c.title}</p>
+                            <p className="text-[#a89d88] text-[10px]">{c.title}</p>
                           )}
                         </td>
                         <td className="p-3">
@@ -462,7 +465,7 @@ export default function PopupCampaignsPage() {
                                 toggleMut.mutate({ id: c.id, isActive: v })
                               }
                               disabled={toggleMut.isPending}
-                              className="data-[state=checked]:bg-[#C9A96E]"
+                              className="data-[state=checked]:bg-[#C2A05A]"
                             />
                           </div>
                         </td>
@@ -470,7 +473,7 @@ export default function PopupCampaignsPage() {
                           <CampaignStats campaignId={c.id} />
                         </td>
                         <td className="p-3">
-                          <div className="flex items-center gap-1 text-white/40 text-[11px]">
+                          <div className="flex items-center gap-1 text-[#a89d88] text-[11px]">
                             <Calendar className="w-3 h-3" />
                             <span>
                               {formatDate(c.startDate)} → {formatDate(c.endDate)}
@@ -482,7 +485,8 @@ export default function PopupCampaignsPage() {
                             <Button
                               size="sm"
                               variant="ghost"
-                              className="h-7 px-2 text-white/40 hover:text-[#C9A96E]"
+                              aria-label="Redaktə et"
+                              className="px-3 py-2 text-white/40 hover:text-[#C2A05A]"
                               onClick={() => openEdit(c as unknown as Campaign)}
                             >
                               <Pencil className="w-3 h-3" />
@@ -490,7 +494,8 @@ export default function PopupCampaignsPage() {
                             <Button
                               size="sm"
                               variant="ghost"
-                              className="h-7 px-2 text-white/40 hover:text-red-400"
+                              aria-label="Sil"
+                              className="px-3 py-2 text-white/40 hover:text-red-400"
                               onClick={() => setDeleteId(c.id)}
                             >
                               <Trash2 className="w-3 h-3" />
@@ -511,7 +516,7 @@ export default function PopupCampaignsPage() {
                       <div className="min-w-0">
                         <p className="text-white text-sm font-medium truncate">{c.name}</p>
                         {c.title && (
-                          <p className="text-white/30 text-xs truncate">{c.title}</p>
+                          <p className="text-[#a89d88] text-xs truncate">{c.title}</p>
                         )}
                       </div>
                       <span
@@ -530,21 +535,26 @@ export default function PopupCampaignsPage() {
                             toggleMut.mutate({ id: c.id, isActive: v })
                           }
                           disabled={toggleMut.isPending}
-                          className="data-[state=checked]:bg-[#C9A96E]"
+                          className="data-[state=checked]:bg-[#C2A05A]"
                         />
                         <span
-                          className={`text-[10px] px-1.5 py-0.5 rounded ${
+                          className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${
                             c.isActive
                               ? "bg-green-500/15 text-green-400"
                               : "bg-red-500/15 text-red-400"
                           }`}
                         >
+                          {c.isActive ? (
+                            <Check className="w-3 h-3" />
+                          ) : (
+                            <X className="w-3 h-3" />
+                          )}
                           {c.isActive ? "Aktiv" : "Deaktiv"}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1 text-white/30 text-[11px] mb-3">
+                    <div className="flex items-center gap-1 text-[#a89d88] text-[11px] mb-3">
                       <Calendar className="w-3 h-3" />
                       {formatDate(c.startDate)} → {formatDate(c.endDate)}
                     </div>
@@ -553,7 +563,7 @@ export default function PopupCampaignsPage() {
                       <Button
                         size="sm"
                         variant="ghost"
-                        className="h-7 px-2 text-white/40 hover:text-[#C9A96E]"
+                        className="px-3 py-2 text-white/40 hover:text-[#C2A05A]"
                         onClick={() => openEdit(c as unknown as Campaign)}
                       >
                         <Pencil className="w-3 h-3 mr-1" /> Duzelis
@@ -561,7 +571,7 @@ export default function PopupCampaignsPage() {
                       <Button
                         size="sm"
                         variant="ghost"
-                        className="h-7 px-2 text-white/40 hover:text-red-400"
+                        className="px-3 py-2 text-white/40 hover:text-red-400"
                         onClick={() => setDeleteId(c.id)}
                       >
                         <Trash2 className="w-3 h-3 mr-1" /> Sil
@@ -577,20 +587,20 @@ export default function PopupCampaignsPage() {
 
       {/* ═══ CREATE/EDIT MODAL ═══ */}
       <Dialog open={isModalOpen} onOpenChange={(open) => !open && closeModal()}>
-        <DialogContent className="bg-[#111] border-[#222] text-white max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-[#1d1915] border-[#352d24] text-white max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-white flex items-center gap-2">
               {editingId !== null ? (
                 <>
-                  <Pencil className="w-4 h-4 text-[#C9A96E]" /> Kampaniyani Duzelis Et
+                  <Pencil className="w-4 h-4 text-[#C2A05A]" /> Kampaniyani Duzelis Et
                 </>
               ) : (
                 <>
-                  <Plus className="w-4 h-4 text-[#C9A96E]" /> Yeni Kampaniya Yarat
+                  <Plus className="w-4 h-4 text-[#C2A05A]" /> Yeni Kampaniya Yarat
                 </>
               )}
             </DialogTitle>
-            <DialogDescription className="text-white/40 text-xs">
+            <DialogDescription className="text-[#a89d88] text-xs">
               Popup kampaniyasinin butun parametrlarini doldurun.
             </DialogDescription>
           </DialogHeader>
@@ -599,22 +609,24 @@ export default function PopupCampaignsPage() {
             {/* Row 1: Name + Type */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <Label className="text-white/60 text-xs block mb-1">
+                <Label htmlFor="campaign-name" className="text-white/60 text-xs block mb-1">
                   Ad <span className="text-red-400">*</span>
                 </Label>
                 <Input
+                  id="campaign-name"
                   value={form.name}
                   onChange={(e) => updateForm("name", e.target.value)}
                   placeholder="Kampaniya adi"
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
                 />
               </div>
               <div>
-                <Label className="text-white/60 text-xs block mb-1">Tip</Label>
+                <Label htmlFor="campaign-type" className="text-white/60 text-xs block mb-1">Tip</Label>
                 <select
+                  id="campaign-type"
                   value={form.type}
                   onChange={(e) => updateForm("type", e.target.value as PopupType)}
-                  className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded-md text-white text-sm focus:outline-none focus:border-[#C9A96E]/30"
+                  className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded-md text-white text-sm focus:outline-none focus:border-[#C2A05A]/30"
                 >
                   {POPUP_TYPES.map((t) => (
                     <option key={t.value} value={t.value}>
@@ -627,45 +639,48 @@ export default function PopupCampaignsPage() {
 
             {/* Row 2: Title */}
             <div>
-              <Label className="text-white/60 text-xs block mb-1">Basliq</Label>
+              <Label htmlFor="campaign-title" className="text-white/60 text-xs block mb-1">Basliq</Label>
               <Input
+                id="campaign-title"
                 value={form.title}
                 onChange={(e) => updateForm("title", e.target.value)}
                 placeholder="Popup basligi"
-                className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
               />
             </div>
 
             {/* Row 3: Content */}
             <div>
-              <Label className="text-white/60 text-xs block mb-1">Mezmun</Label>
+              <Label htmlFor="campaign-content" className="text-white/60 text-xs block mb-1">Mezmun</Label>
               <Textarea
+                id="campaign-content"
                 value={form.content}
                 onChange={(e) => updateForm("content", e.target.value)}
                 placeholder="Popup mezmunu (HTML destekleyir)"
                 rows={3}
-                className="bg-[#0A0A0A] border-[#333] text-white text-sm resize-none"
+                className="bg-[#0A0A0A] border-[#352d24] text-white text-sm resize-none"
               />
             </div>
 
             {/* Row 4: Image URL + Preview */}
             <div>
-              <Label className="text-white/60 text-xs block mb-1">
+              <Label htmlFor="campaign-image-url" className="text-white/60 text-xs block mb-1">
                 <ImageIcon className="w-3 h-3 inline mr-1" />
                 Sekil URL
               </Label>
               <div className="flex items-center gap-3">
                 <Input
+                  id="campaign-image-url"
                   value={form.imageUrl}
                   onChange={(e) => updateForm("imageUrl", e.target.value)}
                   placeholder="https://..."
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm flex-1"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm flex-1"
                 />
                 {form.imageUrl && (
                   <img
                     src={form.imageUrl}
                     alt="Preview"
-                    className="w-10 h-10 rounded object-cover border border-[#333] shrink-0"
+                    className="w-10 h-10 rounded object-cover border border-[#352d24] shrink-0"
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                   />
                 )}
@@ -675,35 +690,37 @@ export default function PopupCampaignsPage() {
             {/* Row 5: CTA Text + CTA Link */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <Label className="text-white/60 text-xs block mb-1">Düyme Metni</Label>
+                <Label htmlFor="campaign-cta-text" className="text-white/60 text-xs block mb-1">Düyme Metni</Label>
                 <Input
+                  id="campaign-cta-text"
                   value={form.ctaText}
                   onChange={(e) => updateForm("ctaText", e.target.value)}
                   placeholder="Mes: Indi Rezerv Et"
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
                 />
               </div>
               <div>
-                <Label className="text-white/60 text-xs block mb-1">Düyme Linki</Label>
+                <Label htmlFor="campaign-cta-link" className="text-white/60 text-xs block mb-1">Düyme Linki</Label>
                 <Input
+                  id="campaign-cta-link"
                   value={form.ctaLink}
                   onChange={(e) => updateForm("ctaLink", e.target.value)}
                   placeholder="/reservation veya https://..."
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
                 />
               </div>
             </div>
 
             {/* Row 6: Active Toggle */}
-            <div className="flex items-center gap-3 p-3 bg-[#0A0A0A] rounded-lg border border-[#222]">
+            <div className="flex items-center gap-3 p-3 bg-[#0A0A0A] rounded-lg border border-[#352d24]">
               <Switch
                 checked={form.isActive}
                 onCheckedChange={(v) => updateForm("isActive", v)}
-                className="data-[state=checked]:bg-[#C9A96E]"
+                className="data-[state=checked]:bg-[#C2A05A]"
               />
               <div>
                 <span className="text-white/70 text-xs">Aktiv</span>
-                <p className="text-white/30 text-[10px]">
+                <p className="text-[#a89d88] text-[10px]">
                   Kampaniya saytda gosterilsin
                 </p>
               </div>
@@ -712,27 +729,29 @@ export default function PopupCampaignsPage() {
             {/* Row 7: Dates */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <Label className="text-white/60 text-xs block mb-1">
+                <Label htmlFor="campaign-start-date" className="text-white/60 text-xs block mb-1">
                   <Calendar className="w-3 h-3 inline mr-1" />
                   Baslama Tarixi
                 </Label>
                 <Input
+                  id="campaign-start-date"
                   type="date"
                   value={form.startDate}
                   onChange={(e) => updateForm("startDate", e.target.value)}
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
                 />
               </div>
               <div>
-                <Label className="text-white/60 text-xs block mb-1">
+                <Label htmlFor="campaign-end-date" className="text-white/60 text-xs block mb-1">
                   <Calendar className="w-3 h-3 inline mr-1" />
                   Bitme Tarixi
                 </Label>
                 <Input
+                  id="campaign-end-date"
                   type="date"
                   value={form.endDate}
                   onChange={(e) => updateForm("endDate", e.target.value)}
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
                 />
               </div>
             </div>
@@ -740,11 +759,12 @@ export default function PopupCampaignsPage() {
             {/* Row 8: Hours */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <Label className="text-white/60 text-xs block mb-1">
+                <Label htmlFor="campaign-start-hour" className="text-white/60 text-xs block mb-1">
                   <Clock className="w-3 h-3 inline mr-1" />
                   Baslama Saati (0-23)
                 </Label>
                 <Input
+                  id="campaign-start-hour"
                   type="number"
                   min={0}
                   max={23}
@@ -755,15 +775,16 @@ export default function PopupCampaignsPage() {
                       Math.min(23, Math.max(0, parseInt(e.target.value) || 0))
                     )
                   }
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
                 />
               </div>
               <div>
-                <Label className="text-white/60 text-xs block mb-1">
+                <Label htmlFor="campaign-end-hour" className="text-white/60 text-xs block mb-1">
                   <Clock className="w-3 h-3 inline mr-1" />
                   Bitme Saati (0-23)
                 </Label>
                 <Input
+                  id="campaign-end-hour"
                   type="number"
                   min={0}
                   max={23}
@@ -774,18 +795,19 @@ export default function PopupCampaignsPage() {
                       Math.min(23, Math.max(0, parseInt(e.target.value) || 0))
                     )
                   }
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
                 />
               </div>
             </div>
 
             {/* Row 9: Placement */}
             <div>
-              <Label className="text-white/60 text-xs block mb-1">Gosterim Yeri</Label>
+              <Label htmlFor="campaign-placement" className="text-white/60 text-xs block mb-1">Gosterim Yeri</Label>
               <select
+                id="campaign-placement"
                 value={form.placement}
                 onChange={(e) => updateForm("placement", e.target.value)}
-                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded-md text-white text-sm focus:outline-none focus:border-[#C9A96E]/30"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded-md text-white text-sm focus:outline-none focus:border-[#C2A05A]/30"
               >
                 {PLACEMENT_OPTIONS.map((p) => (
                   <option key={p.value} value={p.value}>
@@ -793,7 +815,7 @@ export default function PopupCampaignsPage() {
                   </option>
                 ))}
               </select>
-              <p className="text-white/25 text-[10px] mt-1">
+              <p className="text-[#a89d88] text-[10px] mt-1">
                 Popup hansi sehifelerde gosterilsin
               </p>
             </div>
@@ -801,11 +823,12 @@ export default function PopupCampaignsPage() {
             {/* Row 10: Branch + Lang */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <Label className="text-white/60 text-xs block mb-1">Filial</Label>
+                <Label htmlFor="campaign-branch" className="text-white/60 text-xs block mb-1">Filial</Label>
                 <select
+                  id="campaign-branch"
                   value={form.branch}
                   onChange={(e) => updateForm("branch", e.target.value)}
-                  className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded-md text-white text-sm focus:outline-none focus:border-[#C9A96E]/30"
+                  className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded-md text-white text-sm focus:outline-none focus:border-[#C2A05A]/30"
                 >
                   {BRANCH_OPTIONS.map((b) => (
                     <option key={b.value} value={b.value}>
@@ -815,11 +838,12 @@ export default function PopupCampaignsPage() {
                 </select>
               </div>
               <div>
-                <Label className="text-white/60 text-xs block mb-1">Dil</Label>
+                <Label htmlFor="campaign-lang" className="text-white/60 text-xs block mb-1">Dil</Label>
                 <select
+                  id="campaign-lang"
                   value={form.lang}
                   onChange={(e) => updateForm("lang", e.target.value)}
-                  className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded-md text-white text-sm focus:outline-none focus:border-[#C9A96E]/30"
+                  className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded-md text-white text-sm focus:outline-none focus:border-[#C2A05A]/30"
                 >
                   {LANG_OPTIONS.map((l) => (
                     <option key={l.value} value={l.value}>
@@ -833,10 +857,11 @@ export default function PopupCampaignsPage() {
             {/* Row 11: Frequency + Delay */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <Label className="text-white/60 text-xs block mb-1">
+                <Label htmlFor="campaign-frequency" className="text-white/60 text-xs block mb-1">
                   Tezlik (sessiya basina gosterim)
                 </Label>
                 <Input
+                  id="campaign-frequency"
                   type="number"
                   min={1}
                   value={form.frequency}
@@ -846,17 +871,18 @@ export default function PopupCampaignsPage() {
                       Math.max(1, parseInt(e.target.value) || 1)
                     )
                   }
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
                 />
-                <p className="text-white/25 text-[10px] mt-1">
+                <p className="text-[#a89d88] text-[10px] mt-1">
                   Her sessiyada maksimum gosterim sayi
                 </p>
               </div>
               <div>
-                <Label className="text-white/60 text-xs block mb-1">
+                <Label htmlFor="campaign-delay" className="text-white/60 text-xs block mb-1">
                   Gecikme (saniye)
                 </Label>
                 <Input
+                  id="campaign-delay"
                   type="number"
                   min={0}
                   value={form.delay}
@@ -866,9 +892,9 @@ export default function PopupCampaignsPage() {
                       Math.max(0, parseInt(e.target.value) || 0)
                     )
                   }
-                  className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+                  className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
                 />
-                <p className="text-white/25 text-[10px] mt-1">
+                <p className="text-[#a89d88] text-[10px] mt-1">
                   Popupin gosterilmesinden once gozleme muddeti
                 </p>
               </div>
@@ -887,7 +913,7 @@ export default function PopupCampaignsPage() {
             </Button>
             <Button
               size="sm"
-              className="bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A]"
+              className="bg-[#9D7C38] hover:bg-[#C2A05A] text-[#0A0A0A]"
               onClick={handleSubmit}
               disabled={!form.name.trim() || createMut.isPending || updateMut.isPending}
             >
@@ -909,12 +935,12 @@ export default function PopupCampaignsPage() {
         open={deleteId !== null}
         onOpenChange={(open) => !open && setDeleteId(null)}
       >
-        <DialogContent className="bg-[#111] border-[#222] text-white max-w-sm">
+        <DialogContent className="bg-[#1d1915] border-[#352d24] text-white max-w-sm">
           <DialogHeader>
             <DialogTitle className="text-white flex items-center gap-2">
               <Trash2 className="w-4 h-4 text-red-400" /> Kampaniyani Sil
             </DialogTitle>
-            <DialogDescription className="text-white/40 text-xs">
+            <DialogDescription className="text-[#a89d88] text-xs">
               Bu kampaniyani silmek istediyinize eminsiniz? Bu emeliyyat geri
               alinmaz.
             </DialogDescription>

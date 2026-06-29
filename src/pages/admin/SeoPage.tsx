@@ -16,6 +16,7 @@ import {
   Code,
   Sparkles,
   Loader2,
+  Check,
 } from "lucide-react";
 
 const LANGS = [
@@ -207,12 +208,14 @@ function SeoEditor({
       : saveStatus === "error"
         ? "bg-red-500/15 text-red-400 border border-red-500/20 cursor-default"
         : saveStatus === "saving"
-          ? "bg-[#C9A96E]/50 text-[#0A0A0A] cursor-wait"
-          : "bg-[#C9A96E] text-[#0A0A0A] hover:bg-[#B8985E]";
+          ? "bg-[#9D7C38]/50 text-[#0A0A0A] cursor-wait"
+          : "bg-[#9D7C38] text-[#0A0A0A] hover:bg-[#C2A05A]";
 
   const btnContent =
     saveStatus === "success" ? (
-      "Saxlanıldı! ✅ DB"
+      <>
+        <Check className="w-3 h-3" /> Saxlanıldı! DB
+      </>
     ) : saveStatus === "error" ? (
       "Xəta!"
     ) : saveStatus === "saving" ? (
@@ -226,17 +229,17 @@ function SeoEditor({
     );
 
   return (
-    <div className="bg-[#111] border border-[#222] rounded-xl p-5">
+    <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
       {/* ── Header ── */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <Globe className="w-4 h-4 text-[#C9A96E]" />
+          <Globe className="w-4 h-4 text-[#C2A05A]" />
           <div>
             <h3 className="text-white font-medium text-sm">{pageLabel}</h3>
-            <p className="text-white/40 text-xs">{pageId}</p>
+            <p className="text-[#a89d88] text-xs">{pageId}</p>
           </div>
           {hasDbRow && (
-            <span className="text-[10px] text-[#C9A96E] bg-[#C9A96E]/10 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] text-[#C2A05A] bg-[#C2A05A]/10 px-1.5 py-0.5 rounded">
               DB
             </span>
           )}
@@ -245,7 +248,7 @@ function SeoEditor({
           {!editing ? (
             <button
               onClick={openEdit}
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-xs text-white/50 hover:text-[#C9A96E] hover:bg-white/5 transition-all"
+              className="inline-flex items-center gap-1 px-3 py-2 min-h-[44px] rounded text-xs text-white/50 hover:text-[#C2A05A] hover:bg-white/5 transition-all"
             >
               <Pencil className="w-3 h-3" /> Düzəliş
             </button>
@@ -254,7 +257,7 @@ function SeoEditor({
               <button
                 onClick={handleSave}
                 disabled={saveStatus === "saving" || saveStatus === "success"}
-                className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-xs font-medium transition-all ${btnClass}`}
+                className={`inline-flex items-center gap-1 px-3 py-2 min-h-[44px] rounded text-xs font-medium transition-all ${btnClass}`}
               >
                 {btnContent}
               </button>
@@ -263,7 +266,8 @@ function SeoEditor({
                   setEditing(false);
                   setSaveStatus("idle");
                 }}
-                className="inline-flex items-center gap-1 px-2 py-1.5 rounded text-xs text-white/40 hover:text-white transition-all"
+                aria-label="Bağla"
+                className="inline-flex items-center justify-center gap-1 px-2 py-2 min-w-[44px] min-h-[44px] rounded text-xs text-[#a89d88] hover:text-white transition-all"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -286,15 +290,20 @@ function SeoEditor({
                   const val = (form[formKey] || "") as string;
                   const isDefault = !hasDbRow && val === defaults[formKey];
                   const borderClass = isDefault
-                    ? "border-[#333] focus:border-[#C9A96E]/30"
-                    : "border-[#C9A96E]/30 focus:border-[#C9A96E]";
+                    ? "border-[#352d24] focus:border-[#C2A05A]/30"
+                    : "border-[#C2A05A]/30 focus:border-[#C2A05A]";
+                  const fieldId = `seo-${pageId}-${fg.key}-${key}`;
                   return (
                     <div key={key}>
-                      <label className="text-white/40 text-[10px] block mb-1">
+                      <label
+                        htmlFor={fieldId}
+                        className="text-[#a89d88] text-[10px] block mb-1"
+                      >
                         {label}
                       </label>
                       {fg.textarea ? (
                         <textarea
+                          id={fieldId}
                           value={val}
                           onChange={(e) =>
                             updateField(fg.key, key, e.target.value)
@@ -304,6 +313,7 @@ function SeoEditor({
                         />
                       ) : (
                         <input
+                          id={fieldId}
                           type="text"
                           value={val}
                           onChange={(e) =>
@@ -321,16 +331,20 @@ function SeoEditor({
 
           {/* OG Image */}
           <div>
-            <p className="text-white/50 text-xs mb-2 uppercase tracking-wider">
+            <label
+              htmlFor={`seo-${pageId}-ogImage`}
+              className="text-white/50 text-xs mb-2 uppercase tracking-wider block"
+            >
               OG Image URL
-            </p>
+            </label>
             <input
+              id={`seo-${pageId}-ogImage`}
               type="text"
               value={form.ogImage || ""}
               onChange={(e) =>
                 setForm((p) => ({ ...p, ogImage: e.target.value }))
               }
-              className="w-full px-2 py-1.5 bg-[#0A0A0A] border border-[#333] rounded text-white text-xs focus:outline-none focus:border-[#C9A96E]/30"
+              className="w-full px-2 py-1.5 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-xs focus:outline-none focus:border-[#C2A05A]/30"
               placeholder="https://xurcun.az/og-home.jpg"
             />
           </div>
@@ -339,7 +353,7 @@ function SeoEditor({
             <button
               onClick={handleReset}
               disabled={deleteMutation.isPending}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded text-xs text-white/40 hover:text-red-400 hover:bg-red-400/10 transition-all disabled:opacity-50"
+              className="inline-flex items-center gap-1 px-3 py-2 min-h-[44px] rounded text-xs text-[#a89d88] hover:text-red-400 hover:bg-red-400/10 transition-all disabled:opacity-50"
             >
               <RotateCcw className="w-3 h-3" /> Defaults-a qaytar
             </button>
@@ -355,13 +369,13 @@ function SeoEditor({
                 const dk = `description${key}` as keyof SeoPageSettings;
                 return (
                   <div key={key}>
-                    <span className="text-[10px] text-white/40 uppercase">
+                    <span className="text-[10px] text-white/50 uppercase">
                       {label} Title
                     </span>
                     <p className="text-white/70 truncate text-xs">
                       {String(form[tk] || "—")}
                     </p>
-                    <span className="text-[10px] text-white/40 uppercase mt-2 block">
+                    <span className="text-[10px] text-white/50 uppercase mt-2 block">
                       {label} Desc
                     </span>
                     <p className="text-white/50 truncate text-xs">
@@ -373,8 +387,8 @@ function SeoEditor({
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Sparkles className="w-3 h-3 text-white/30" />
-              <p className="text-white/30 italic text-xs">
+              <Sparkles className="w-3 h-3 text-[#a89d88]" />
+              <p className="text-[#a89d88] italic text-xs">
                 Auto-generated SEO (defaults) — "Düzəliş" ilə dəyişdirin
               </p>
             </div>
@@ -394,7 +408,7 @@ function SeoSkeleton() {
       {[1, 2, 3, 4, 5].map((i) => (
         <div
           key={i}
-          className="bg-[#111] border border-[#222] rounded-xl p-5 animate-pulse"
+          className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5 animate-pulse"
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="w-4 h-4 bg-white/10 rounded" />
@@ -451,7 +465,7 @@ export default function SeoPage() {
       </p>
 
       {/* ── Tabs ── */}
-      <div className="flex gap-1 mb-4 bg-[#111] border border-[#222] rounded-lg p-1">
+      <div className="flex gap-1 mb-4 bg-[#1d1915] border border-[#352d24] rounded-lg p-1">
         {[
           { key: "main", label: "Əsas Səhifələr" },
           { key: "menu", label: "Menyu / QR" },
@@ -460,10 +474,10 @@ export default function SeoPage() {
           <button
             key={t.key}
             onClick={() => setActiveTab(t.key)}
-            className={`flex-1 px-3 py-1.5 rounded text-xs font-medium transition-all ${
+            className={`flex-1 px-3 py-2 min-h-[44px] rounded text-xs font-medium transition-all ${
               activeTab === t.key
-                ? "bg-[#C9A96E]/15 text-[#C9A96E]"
-                : "text-white/40 hover:text-white/60"
+                ? "bg-[#C2A05A]/15 text-[#C2A05A]"
+                : "text-[#a89d88] hover:text-white/60"
             }`}
           >
             {t.label}
@@ -472,8 +486,8 @@ export default function SeoPage() {
       </div>
 
       {/* ── SEO Files ── */}
-      <div className="mb-4 p-3 bg-[#111] border border-[#222] rounded-lg">
-        <p className="text-white/40 text-xs uppercase tracking-wider mb-2">
+      <div className="mb-4 p-3 bg-[#1d1915] border border-[#352d24] rounded-lg">
+        <p className="text-white/50 text-xs uppercase tracking-wider mb-2">
           SEO Faylları
         </p>
         <div className="flex flex-wrap gap-3">
@@ -481,7 +495,7 @@ export default function SeoPage() {
             href="/sitemap.xml"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs text-[#C9A96E] hover:underline"
+            className="inline-flex items-center gap-1.5 text-xs text-[#C2A05A] hover:underline"
           >
             <Globe className="w-3 h-3" /> sitemap.xml
           </a>
@@ -489,7 +503,7 @@ export default function SeoPage() {
             href="/robots.txt"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs text-[#C9A96E] hover:underline"
+            className="inline-flex items-center gap-1.5 text-xs text-[#C2A05A] hover:underline"
           >
             <Code className="w-3 h-3" /> robots.txt
           </a>

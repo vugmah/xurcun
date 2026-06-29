@@ -46,14 +46,14 @@ function SectionSkeleton() {
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="bg-[#111] border border-[#222] rounded-xl p-5">
+          <div key={i} className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
             <div className="w-9 h-9 rounded-lg bg-white/5 mb-3" />
             <div className="h-5 w-12 bg-white/10 rounded mb-1" />
             <div className="h-3 w-16 bg-white/5 rounded" />
           </div>
         ))}
       </div>
-      <div className="bg-[#111] border border-[#222] rounded-xl p-5">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
         <div className="h-4 w-32 bg-white/10 rounded mb-4" />
         <div className="space-y-3">
           <div className="h-3 w-full bg-white/5 rounded" />
@@ -105,7 +105,8 @@ export default function AdminLayout() {
       <header className="md:hidden flex items-center gap-3 px-4 h-16 bg-[#100d0a] border-b border-white/10 sticky top-0 z-30">
         <button
           onClick={() => setSidebarOpen(true)}
-          className="text-white/60 hover:text-white p-1"
+          aria-label="Menyunu aç"
+          className="text-white/60 hover:text-white p-1 min-w-[44px] min-h-[44px] flex items-center justify-center"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -131,9 +132,9 @@ export default function AdminLayout() {
         <div className="p-5 border-b border-white/10 flex items-center justify-between">
           <Link to="/admin" className="flex items-center gap-3" onClick={() => setSidebarOpen(false)}>
             <img src="/brand/logo-gold.png" alt="Xurcun" className="h-8" />
-            <span className="text-white/40 text-[10px] uppercase tracking-widest">Admin</span>
+            <span className="text-[#a89d88] text-[10px] uppercase tracking-widest">Admin</span>
           </Link>
-          <button className="md:hidden text-white/50 hover:text-white" onClick={() => setSidebarOpen(false)}>
+          <button aria-label="Bağla" className="md:hidden text-white/50 hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center" onClick={() => setSidebarOpen(false)}>
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -142,7 +143,7 @@ export default function AdminLayout() {
         <nav className="flex-1 p-3 overflow-y-auto">
           {navGroups.map((g) => (
             <div key={g.group} className="mb-1">
-              <div className="px-3 pt-4 pb-1.5 text-[9px] uppercase tracking-[0.2em] text-white/30">{g.group}</div>
+              <div className="px-3 pt-4 pb-1.5 text-[9px] uppercase tracking-[0.2em] text-white/50">{g.group}</div>
               {g.items.map((item) => {
                 const isActive = location.pathname === item.path;
                 const Icon = item.icon;
@@ -189,7 +190,7 @@ export default function AdminLayout() {
             ) : !isAuthenticated ? (
               /* Not authenticated — will redirect via useEffect above */
               <div className="flex items-center justify-center py-20">
-                <div className="text-white/40 text-sm">Yonlendiriliyor...</div>
+                <div className="text-[#a89d88] text-sm">Yonlendiriliyor...</div>
               </div>
             ) : (
               /* Authenticated — render the child route */

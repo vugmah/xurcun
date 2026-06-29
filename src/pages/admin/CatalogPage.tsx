@@ -106,8 +106,10 @@ function CategoryPanel({
       {adding && (
         <div className="p-3 border-b border-[#2a241d] space-y-2">
           <input className={inputCls} placeholder="Kateqoriya adı (AZ)" value={titleAz}
+            aria-label="Kateqoriya adı (AZ)"
             onChange={(e) => setTitleAz(e.target.value)} />
           <select className={inputCls} value={parentId ?? ""}
+            aria-label="Ana kateqoriya"
             onChange={(e) => setParentId(e.target.value ? Number(e.target.value) : null)}>
             <option value="">— Ana kateqoriya (üst səviyyə) —</option>
             {topCats.map((c) => <option key={c.id} value={c.id}>{c.titleAz} — alt kateqoriya</option>)}
@@ -163,7 +165,7 @@ function ProductPanel({
                   </div>
                 </td>
                 <td className="px-4 py-2.5 text-right">
-                  <button className="text-[#928876] hover:text-[#C2A05A] text-xs px-2 py-1" onClick={() => setEditing(it)}>
+                  <button className="text-[#928876] hover:text-[#C2A05A] text-xs px-3 py-2" onClick={() => setEditing(it)}>
                     Redaktə
                   </button>
                 </td>
@@ -253,7 +255,7 @@ function ProductForm({
       <div className="flex gap-1">
         {LANGS.map((l) => (
           <button key={l} onClick={() => setTab(l)}
-            className={`text-[11px] uppercase px-3 py-1.5 rounded-lg border ${
+            className={`text-[11px] uppercase px-3 py-1.5 min-w-[44px] min-h-[44px] rounded-lg border ${
               tab === l ? "bg-[#9D7C38] text-[#1a140a] border-[#9D7C38]" : "border-[#352d24] text-[#928876]"}`}>
             {l}
           </button>
@@ -333,7 +335,7 @@ function ProductForm({
 
 function Toggle({ on, set, label }: { on: boolean; set: (v: boolean) => void; label: string }) {
   return (
-    <button onClick={() => set(!on)} className="flex items-center gap-2.5">
+    <button onClick={() => set(!on)} className="flex items-center gap-2.5 min-h-[44px] py-2">
       <span className={`w-9 h-5 rounded-full relative transition ${on ? "bg-[#9D7C38]" : "bg-[#403930]"}`}>
         <span className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform duration-200 ease-out ${on ? "translate-x-4" : "translate-x-0"}`} />
       </span>

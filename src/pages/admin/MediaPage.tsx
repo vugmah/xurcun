@@ -391,8 +391,8 @@ export default function MediaPage() {
           relative border-2 border-dashed rounded-xl p-8 mb-6 text-center cursor-pointer
           transition-all duration-200 select-none
           ${isDragOver
-            ? "border-[#C9A96E] bg-[#C9A96E]/10 shadow-[0_0_20px_rgba(201,169,110,0.15)]"
-            : "border-[#333] bg-[#111] hover:border-[#555] hover:bg-[#161616]"
+            ? "border-[#C2A05A] bg-[#C2A05A]/10 shadow-[0_0_20px_rgba(194,160,90,0.15)]"
+            : "border-[#352d24] bg-[#1d1915] hover:border-[#555] hover:bg-[#1d1915]"
           }
         `}
       >
@@ -407,25 +407,26 @@ export default function MediaPage() {
         <div className="flex flex-col items-center gap-3">
           <div className={`
             w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200
-            ${isDragOver ? "bg-[#C9A96E]/20 scale-110" : "bg-[#1A1A1A]"}
+            ${isDragOver ? "bg-[#C2A05A]/20 scale-110" : "bg-[#1d1915]"}
           `}>
-            <CloudUpload className={`w-7 h-7 transition-colors ${isDragOver ? "text-[#C9A96E]" : "text-white/30"}`} />
+            <CloudUpload className={`w-7 h-7 transition-colors ${isDragOver ? "text-[#C2A05A]" : "text-[#a89d88]"}`} />
           </div>
           <div>
             <p className="text-white font-medium text-sm">
               {isDragOver ? "Şəkilləri buraxın" : "Sürükləyib buraxın və ya klikləyin"}
             </p>
-            <p className="text-white/30 text-xs mt-1">
+            <p className="text-[#a89d88] text-xs mt-1">
               Çoxsaylı şəkil fayllarını seçin və ya sürükləyib buraxın (JPEG, PNG, WebP)
             </p>
           </div>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-white/20 text-[10px]">Bulk bölmə:</span>
+            <span className="text-[#a89d88] text-[10px]">Bulk bölmə:</span>
             <select
+              aria-label="Bulk bölmə"
               value={bulkSection}
               onChange={(e) => { e.stopPropagation(); setBulkSection(e.target.value); }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-[#0A0A0A] border border-[#333] text-white/50 text-[10px] rounded px-2 py-1 focus:outline-none focus:border-[#C9A96E]"
+              className="bg-[#0A0A0A] border border-[#352d24] text-white/50 text-[10px] rounded px-2 py-1 focus:outline-none focus:border-[#C2A05A]"
             >
               {SECTIONS.map((s) => (
                 <option key={s.id} value={s.id}>{s.label}</option>
@@ -437,7 +438,7 @@ export default function MediaPage() {
 
       {/* ═════════════════ Upload Queue Panel ═════════════════ */}
       {uploadQueue.length > 0 && (
-        <div className="bg-[#111] border border-[#222] rounded-xl mb-6 overflow-hidden">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl mb-6 overflow-hidden">
           {/* Queue Header */}
           <div
             className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-white/[0.02] transition-colors"
@@ -446,7 +447,7 @@ export default function MediaPage() {
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 {queueStats.uploading > 0 ? (
-                  <Loader2 className="w-4 h-4 text-[#C9A96E] animate-spin" />
+                  <Loader2 className="w-4 h-4 text-[#C2A05A] animate-spin" />
                 ) : queueStats.error > 0 ? (
                   <AlertCircle className="w-4 h-4 text-red-400" />
                 ) : queueStats.pending > 0 ? (
@@ -473,7 +474,7 @@ export default function MediaPage() {
                   </span>
                 )}
                 {queueStats.pending > 0 && (
-                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/5 text-white/30">
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/5 text-[#a89d88]">
                     {queueStats.pending} gözləyir
                   </span>
                 )}
@@ -492,7 +493,7 @@ export default function MediaPage() {
               {queueStats.done > 0 && (
                 <button
                   onClick={(e) => { e.stopPropagation(); clearCompleted(); }}
-                  className="text-[10px] px-2 py-1 rounded bg-white/5 text-white/30 hover:bg-white/10 transition-colors"
+                  className="text-[10px] px-2 py-1 rounded bg-white/5 text-[#a89d88] hover:bg-white/10 transition-colors"
                 >
                   Təmizlə
                 </button>
@@ -507,11 +508,11 @@ export default function MediaPage() {
 
           {/* Queue Items */}
           {isQueueOpen && (
-            <div className="border-t border-[#222] max-h-64 overflow-y-auto">
+            <div className="border-t border-[#352d24] max-h-64 overflow-y-auto">
               {uploadQueue.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center gap-3 px-4 py-2.5 border-b border-[#222]/50 last:border-b-0"
+                  className="flex items-center gap-3 px-4 py-2.5 border-b border-[#352d24]/50 last:border-b-0"
                 >
                   {/* File icon */}
                   <div className="shrink-0">
@@ -524,8 +525,8 @@ export default function MediaPage() {
                         <AlertCircle className="w-4 h-4 text-red-400" />
                       </div>
                     ) : (
-                      <div className="w-8 h-8 rounded bg-[#1A1A1A] flex items-center justify-center">
-                        <FileImage className="w-4 h-4 text-white/30" />
+                      <div className="w-8 h-8 rounded bg-[#1d1915] flex items-center justify-center">
+                        <FileImage className="w-4 h-4 text-[#a89d88]" />
                       </div>
                     )}
                   </div>
@@ -534,24 +535,24 @@ export default function MediaPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <p className="text-white/80 text-xs truncate">{item.name}</p>
-                      <span className="text-white/20 text-[10px] shrink-0">{formatBytes(item.size)}</span>
+                      <span className="text-[#a89d88] text-[10px] shrink-0">{formatBytes(item.size)}</span>
                     </div>
 
                     {/* Progress bar */}
                     <div className="mt-1.5 flex items-center gap-2">
-                      <div className="flex-1 h-1.5 bg-[#1A1A1A] rounded-full overflow-hidden">
+                      <div className="flex-1 h-1.5 bg-[#1d1915] rounded-full overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-300 ${
                             item.status === "error"
                               ? "bg-red-400"
                               : item.status === "done"
                               ? "bg-green-400"
-                              : "bg-[#C9A96E]"
+                              : "bg-[#C2A05A]"
                           }`}
                           style={{ width: `${item.progress}%` }}
                         />
                       </div>
-                      <span className="text-white/30 text-[10px] w-8 text-right">{item.progress}%</span>
+                      <span className="text-[#a89d88] text-[10px] w-8 text-right">{item.progress}%</span>
                     </div>
 
                     {/* Error message */}
@@ -566,7 +567,8 @@ export default function MediaPage() {
                       <button
                         onClick={() => retryItem(item)}
                         disabled={item.retryCount >= 3}
-                        className="p-1.5 rounded text-white/30 hover:text-[#C9A96E] hover:bg-[#C9A96E]/10 transition-colors disabled:opacity-30"
+                        aria-label="Təkrarla"
+                        className="min-w-[44px] min-h-[44px] flex items-center justify-center p-1.5 rounded text-white/30 hover:text-[#C2A05A] hover:bg-[#C2A05A]/10 transition-colors disabled:opacity-30"
                         title="Təkrarla"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
@@ -575,7 +577,8 @@ export default function MediaPage() {
                     {item.status === "done" && (
                       <button
                         onClick={() => removeQueueItem(item.id)}
-                        className="p-1.5 rounded text-white/30 hover:text-red-400 hover:bg-red-400/10 transition-colors"
+                        aria-label="Növbədən sil"
+                        className="min-w-[44px] min-h-[44px] flex items-center justify-center p-1.5 rounded text-white/30 hover:text-red-400 hover:bg-red-400/10 transition-colors"
                         title="Sil"
                       >
                         <X className="w-3.5 h-3.5" />
@@ -584,17 +587,18 @@ export default function MediaPage() {
                     {(item.status === "error") && (
                       <button
                         onClick={() => removeQueueItem(item.id)}
-                        className="p-1.5 rounded text-white/30 hover:text-red-400 hover:bg-red-400/10 transition-colors"
+                        aria-label="Növbədən sil"
+                        className="min-w-[44px] min-h-[44px] flex items-center justify-center p-1.5 rounded text-white/30 hover:text-red-400 hover:bg-red-400/10 transition-colors"
                         title="Sil"
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
                     )}
                     {(item.status === "uploading" || item.status === "processing") && (
-                      <Loader2 className="w-3.5 h-3.5 text-[#C9A96E] animate-spin" />
+                      <Loader2 className="w-3.5 h-3.5 text-[#C2A05A] animate-spin" />
                     )}
                     {item.status === "pending" && (
-                      <span className="text-white/20 text-[10px]">gözləyir</span>
+                      <span className="text-[#a89d88] text-[10px]">gözləyir</span>
                     )}
                   </div>
                 </div>
@@ -605,16 +609,17 @@ export default function MediaPage() {
       )}
 
       {/* ═════════════════ Single Upload Form ═════════════════ */}
-      <div className="bg-[#111] border border-[#222] rounded-xl p-5 mb-6">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5 mb-6">
         <h3 className="text-white font-medium mb-4 flex items-center gap-2">
-          <Upload className="w-4 h-4 text-[#C9A96E]" />
+          <Upload className="w-4 h-4 text-[#C2A05A]" />
           Yeni Sekil Yukle (Tək)
         </h3>
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="text-white/40 text-xs block mb-1">Sekil *</label>
+            <label htmlFor="single-upload-file" className="text-[#a89d88] text-xs block mb-1">Sekil *</label>
             <input
+              id="single-upload-file"
               type="file"
               accept="image/*"
               ref={fileInputRef}
@@ -624,7 +629,7 @@ export default function MediaPage() {
             <div className="flex gap-2">
               <Button
                 variant="outline"
-                className="border-[#333] text-white/70 hover:text-white hover:bg-white/5"
+                className="border-[#352d24] text-white/70 hover:text-white hover:bg-white/5"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
               >
@@ -636,11 +641,12 @@ export default function MediaPage() {
                 {uploading ? "Yuklenir..." : "Sechil"}
               </Button>
               {uploadForm.filename && (
-                <div className="flex items-center gap-2 text-sm text-[#C9A96E]">
+                <div className="flex items-center gap-2 text-sm text-[#C2A05A]">
                   <Image className="w-4 h-4" />
                   <span className="truncate max-w-[200px]">{uploadForm.filename}</span>
                   <button
-                    className="text-white/40 hover:text-red-400"
+                    aria-label="Şəkli sil"
+                    className="min-w-[44px] min-h-[44px] flex items-center justify-center text-white/40 hover:text-red-400"
                     onClick={() => setUploadForm({ ...uploadForm, filename: "" })}
                   >
                     <X className="w-3 h-3" />
@@ -651,11 +657,12 @@ export default function MediaPage() {
           </div>
 
           <div>
-            <label className="text-white/40 text-xs block mb-1">Bolme *</label>
+            <label htmlFor="single-upload-section" className="text-[#a89d88] text-xs block mb-1">Bolme *</label>
             <select
+              id="single-upload-section"
               value={uploadForm.section}
               onChange={(e) => setUploadForm({ ...uploadForm, section: e.target.value })}
-              className="w-full bg-[#0A0A0A] border border-[#333] text-white text-sm rounded-md px-3 py-2 focus:outline-none focus:border-[#C9A96E]"
+              className="w-full bg-[#0A0A0A] border border-[#352d24] text-white text-sm rounded-md px-3 py-2 focus:outline-none focus:border-[#C2A05A]"
             >
               {SECTIONS.map((s) => (
                 <option key={s.id} value={s.id}>{s.label}</option>
@@ -666,27 +673,30 @@ export default function MediaPage() {
 
         <div className="grid grid-cols-3 gap-3 mb-4">
           <Input
+            aria-label="AZ Alt metni"
             placeholder="AZ Alt metni"
             value={uploadForm.altAz}
             onChange={(e) => setUploadForm({ ...uploadForm, altAz: e.target.value })}
-            className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+            className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
           />
           <Input
+            aria-label="RU Alt metni"
             placeholder="RU Alt metni"
             value={uploadForm.altRu}
             onChange={(e) => setUploadForm({ ...uploadForm, altRu: e.target.value })}
-            className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+            className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
           />
           <Input
+            aria-label="EN Alt text"
             placeholder="EN Alt text"
             value={uploadForm.altEn}
             onChange={(e) => setUploadForm({ ...uploadForm, altEn: e.target.value })}
-            className="bg-[#0A0A0A] border-[#333] text-white text-sm"
+            className="bg-[#0A0A0A] border-[#352d24] text-white text-sm"
           />
         </div>
 
         <Button
-          className="bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A]"
+          className="bg-[#9D7C38] hover:bg-[#C2A05A] text-[#0A0A0A]"
           onClick={savePhoto}
           disabled={createPhoto.isPending || !uploadForm.filename}
         >
@@ -700,7 +710,7 @@ export default function MediaPage() {
         <Button
           size="sm"
           variant={selectedSection === null ? "default" : "ghost"}
-          className={selectedSection === null ? "bg-[#C9A96E]/15 text-[#C9A96E]" : "text-white/50 hover:text-white"}
+          className={selectedSection === null ? "bg-[#C2A05A]/15 text-[#C2A05A]" : "text-white/50 hover:text-white"}
           onClick={() => setSelectedSection(null)}
         >
           Hamisi ({allPhotos.length})
@@ -712,7 +722,7 @@ export default function MediaPage() {
               key={s.id}
               size="sm"
               variant={selectedSection === s.id ? "default" : "ghost"}
-              className={selectedSection === s.id ? "bg-[#C9A96E]/15 text-[#C9A96E]" : "text-white/50 hover:text-white"}
+              className={selectedSection === s.id ? "bg-[#C2A05A]/15 text-[#C2A05A]" : "text-white/50 hover:text-white"}
               onClick={() => setSelectedSection(s.id)}
             >
               {s.label} ({count})
@@ -726,15 +736,17 @@ export default function MediaPage() {
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20" />
           <input
+            aria-label="Fayl adına görə axtar"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Fayl adina gore axtar..."
-            className="w-full pl-8 pr-3 py-2 bg-[#111] border border-[#222] text-white text-xs rounded-lg focus:outline-none focus:border-[#C9A96E]"
+            className="w-full pl-8 pr-3 py-2 bg-[#1d1915] border border-[#352d24] text-white text-xs rounded-lg focus:outline-none focus:border-[#C2A05A]"
           />
           {searchQuery && (
             <button
+              aria-label="Axtarışı təmizlə"
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60"
+              className="absolute right-3 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center text-white/30 hover:text-white/60"
             >
               <X className="w-3 h-3" />
             </button>
@@ -745,7 +757,7 @@ export default function MediaPage() {
         {filteredPhotos.length > 0 && (
           <button
             onClick={toggleSelectAll}
-            className="px-3 py-1.5 text-white/40 text-xs border border-[#222] rounded-md hover:border-white/20 hover:text-white/60 transition-all flex items-center gap-1.5"
+            className="px-3 py-2 text-[#a89d88] text-xs border border-[#352d24] rounded-md hover:border-white/20 hover:text-white/60 transition-all flex items-center gap-1.5"
           >
             {selectedIds.size === filteredPhotos.length && filteredPhotos.length > 0 ? (
               <>
@@ -762,7 +774,7 @@ export default function MediaPage() {
         {/* Bulk Delete Bar */}
         {selectedIds.size > 0 && (
           <div className="flex items-center gap-2">
-            <span className="text-[#C9A96E] text-xs font-medium bg-[#C9A96E]/10 px-2 py-1 rounded">
+            <span className="text-[#C2A05A] text-xs font-medium bg-[#C2A05A]/10 px-2 py-1 rounded">
               {selectedIds.size} seçildi
             </span>
             <button
@@ -771,7 +783,7 @@ export default function MediaPage() {
                 bulkDeletePhotos.mutate({ ids: Array.from(selectedIds) });
               }}
               disabled={bulkDeletePhotos.isPending}
-              className="px-3 py-1.5 bg-red-600 text-white text-xs font-medium rounded-md hover:bg-red-700 disabled:opacity-40 transition-all flex items-center gap-1.5"
+              className="px-3 py-2 bg-red-600 text-white text-xs font-medium rounded-md hover:bg-red-700 disabled:opacity-40 transition-all flex items-center gap-1.5"
             >
               {bulkDeletePhotos.isPending ? (
                 <Loader2 className="w-3 h-3 animate-spin" />
@@ -782,7 +794,7 @@ export default function MediaPage() {
             </button>
             <button
               onClick={() => setSelectedIds(new Set())}
-              className="px-3 py-1.5 text-white/40 text-xs border border-[#222] rounded-md hover:border-white/20 hover:text-white/60 transition-all"
+              className="px-3 py-2 text-[#a89d88] text-xs border border-[#352d24] rounded-md hover:border-white/20 hover:text-white/60 transition-all"
             >
               Təmizlə
             </button>
@@ -792,7 +804,7 @@ export default function MediaPage() {
 
       {/* ═════════════════ Photo Grid ═════════════════ */}
       {filteredPhotos.length === 0 ? (
-        <div className="text-center py-16 text-white/30">
+        <div className="text-center py-16 text-[#a89d88]">
           <Image className="w-12 h-12 mx-auto mb-3 opacity-30" />
           <p>Bu bolmede sekil yoxdur</p>
         </div>
@@ -828,7 +840,7 @@ export default function MediaPage() {
       )}
 
       {/* ═════════════════ Food Photo Assignment Section ═════════════════ */}
-      <div className="pt-8 border-t border-[#222] mt-8">
+      <div className="pt-8 border-t border-[#352d24] mt-8">
         <h2 className="text-lg font-bold text-white">Məhsul Şəkilləri</h2>
         <p className="text-white/50 text-sm mt-1">Kataloq məhsullarının şəkillərini yüklə və ya dəyiş</p>
       </div>
@@ -857,21 +869,25 @@ function PhotoCard({
   const sectionLabel = SECTIONS.find((s) => s.id === photo.section)?.label ?? photo.section;
 
   return (
-    <div className={`bg-[#111] border rounded-xl overflow-hidden group transition-all ${
-      isSelected ? "border-[#C9A96E]/60 ring-1 ring-[#C9A96E]/20" : "border-[#222]"
+    <div className={`bg-[#1d1915] border rounded-xl overflow-hidden group transition-all ${
+      isSelected ? "border-[#C2A05A]/60 ring-1 ring-[#C2A05A]/20" : "border-[#352d24]"
     }`}>
       <div className="aspect-[4/3] bg-[#0A0A0A] relative overflow-hidden">
         {/* Selection checkbox */}
         <div className="absolute top-2 left-2 z-10">
           <button
             onClick={(e) => { e.stopPropagation(); onToggleSelect(photo.id); }}
-            className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
-              isSelected
-                ? "bg-[#C9A96E] border-[#C9A96E]"
-                : "bg-black/40 border-white/30 hover:border-white/60"
-            }`}
+            aria-label={isSelected ? "Seçimi ləğv et" : "Seç"}
+            aria-pressed={isSelected}
+            className={`p-2.5 -m-2.5 flex items-center justify-center transition-all`}
           >
-            {isSelected && <Check className="w-3 h-3 text-[#0A0A0A]" />}
+            <span className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+              isSelected
+                ? "bg-[#C2A05A] border-[#C2A05A]"
+                : "bg-black/40 border-white/30 hover:border-white/60"
+            }`}>
+              {isSelected && <Check className="w-3 h-3 text-[#0A0A0A]" />}
+            </span>
           </button>
         </div>
         <img
@@ -884,7 +900,8 @@ function PhotoCard({
           <Button
             size="sm"
             variant="destructive"
-            className="w-7 h-7 p-0"
+            aria-label="Şəkli sil"
+            className="w-9 h-9 p-0"
             onClick={() => onDelete(photo.id)}
           >
             <Trash2 className="w-3 h-3" />
@@ -898,11 +915,11 @@ function PhotoCard({
       </div>
       <div className="p-3">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] text-[#C9A96E] bg-[#C9A96E]/10 px-1.5 py-0.5 rounded">
+          <span className="text-[10px] text-[#C2A05A] bg-[#C2A05A]/10 px-1.5 py-0.5 rounded">
             {sectionLabel}
           </span>
           <div className="flex items-center gap-1">
-            <span className="text-[10px] text-white/40">Aktiv</span>
+            <span className="text-[10px] text-[#a89d88]">Aktiv</span>
             <Switch
               checked={photo.active ?? true}
               onCheckedChange={(v) => onUpdate(photo.id, { active: v })}
@@ -1006,29 +1023,29 @@ function PhotoPickerModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-      <div className="relative w-full max-w-3xl max-h-[85vh] bg-[#0A0A0A] border border-[#222] rounded-2xl flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#222] shrink-0">
+      <div className="relative w-full max-w-3xl max-h-[85vh] bg-[#0A0A0A] border border-[#352d24] rounded-2xl flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#352d24] shrink-0">
           <div>
             <h3 className="text-white text-sm font-medium">Şəkil Seç</h3>
-            <p className="text-white/30 text-[11px] mt-0.5 truncate max-w-[280px]">{productName}</p>
+            <p className="text-[#a89d88] text-[11px] mt-0.5 truncate max-w-[280px]">{productName}</p>
           </div>
-          <button onClick={onClose} className="p-2 rounded-lg text-white/30 hover:text-white hover:bg-white/5 transition-all">
+          <button onClick={onClose} aria-label="Bağla" className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-lg text-white/30 hover:text-white hover:bg-white/5 transition-all">
             <X className="w-4 h-4" />
           </button>
         </div>
-        <div className="flex gap-2 px-5 py-3 border-b border-[#222] shrink-0 flex-wrap">
+        <div className="flex gap-2 px-5 py-3 border-b border-[#352d24] shrink-0 flex-wrap">
           <div className="relative flex-1 min-w-[160px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20" />
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Fayl adı axtar..." autoFocus className="w-full pl-8 pr-3 py-2 bg-[#111] border border-[#222] text-white text-xs rounded-lg focus:outline-none focus:border-[#C9A96E]" />
+            <input aria-label="Fayl adı axtar" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Fayl adı axtar..." autoFocus className="w-full pl-8 pr-3 py-2 bg-[#1d1915] border border-[#352d24] text-white text-xs rounded-lg focus:outline-none focus:border-[#C2A05A]" />
           </div>
           <div className="flex gap-1">
-            <button onClick={() => setFilterMode("all")} className={`px-3 py-2 rounded-lg text-[11px] border transition-all ${filterMode === "all" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-[#111] text-white/30 border-[#222] hover:border-white/10"}`}>Hamısı</button>
-            <button onClick={() => setFilterMode("unassigned")} className={`px-3 py-2 rounded-lg text-[11px] border transition-all ${filterMode === "unassigned" ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30" : "bg-[#111] text-white/30 border-[#222] hover:border-white/10"}`}>Təyin edilməyib</button>
+            <button onClick={() => setFilterMode("all")} className={`px-3 py-2 rounded-lg text-[11px] border transition-all ${filterMode === "all" ? "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30" : "bg-[#1d1915] text-[#a89d88] border-[#352d24] hover:border-white/10"}`}>Hamısı</button>
+            <button onClick={() => setFilterMode("unassigned")} className={`px-3 py-2 rounded-lg text-[11px] border transition-all ${filterMode === "unassigned" ? "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30" : "bg-[#1d1915] text-[#a89d88] border-[#352d24] hover:border-white/10"}`}>Təyin edilməyib</button>
           </div>
         </div>
         <div className="flex-1 overflow-y-auto p-4">
           {filteredImages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-white/20 text-sm">
+            <div className="flex flex-col items-center justify-center py-16 text-[#a89d88] text-sm">
               <Image className="w-8 h-8 mb-2 opacity-30" />
               <p>Şəkil tapılmadı</p>
             </div>
@@ -1042,10 +1059,10 @@ function PhotoPickerModal({
                     key={`${photo.imageId}:${photo.imageUrl}`}
                     onClick={() => { onSelect(photo); onClose(); }}
                     className={`relative rounded-xl overflow-hidden border-2 transition-all ${
-                      isCurrent ? "border-[#C9A96E] ring-2 ring-[#C9A96E]/20" : isAssigned ? "border-white/5 opacity-50" : "border-transparent hover:border-white/20"
+                      isCurrent ? "border-[#C2A05A] ring-2 ring-[#C2A05A]/20" : isAssigned ? "border-white/5 opacity-50" : "border-transparent hover:border-white/20"
                     }`}
                   >
-                    <div className="aspect-square bg-[#111]">
+                    <div className="aspect-square bg-[#1d1915]">
                       <img
                         src={photo.imageUrl}
                         alt=""
@@ -1071,21 +1088,22 @@ function PhotoPickerModal({
                       />
                     </div>
                     {isCurrent && (
-                      <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#C9A96E] flex items-center justify-center">
+                      <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#C2A05A] flex items-center justify-center">
                         <Check className="w-3 h-3 text-[#0A0A0A]" />
                       </div>
                     )}
                     {isAssigned && (
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <span className="text-white/40 text-[9px] font-medium">Təyin edilib</span>
+                        <span className="text-white/50 text-[9px] font-medium">Təyin edilib</span>
                       </div>
                     )}
                     <div className="px-1.5 py-1 bg-[#0A0A0A]">
-                      <p className="text-white/30 text-[9px] truncate font-mono">{photo.label}</p>
+                      <p className="text-[#a89d88] text-[9px] truncate font-mono">{photo.label}</p>
                     </div>
                     <button
                       onClick={(e) => { e.stopPropagation(); setPreviewId(photo.imageId); }}
-                      className="absolute bottom-6 left-1.5 p-1 rounded bg-black/50 text-white/40 hover:text-white hover:bg-black/70 transition-all"
+                      aria-label="Önizləmə"
+                      className="absolute bottom-6 left-1.5 min-w-[44px] min-h-[44px] flex items-center justify-center rounded bg-black/50 text-white/40 hover:text-white hover:bg-black/70 transition-all"
                     >
                       <Eye className="w-2.5 h-2.5" />
                     </button>
@@ -1095,9 +1113,9 @@ function PhotoPickerModal({
             </div>
           )}
         </div>
-        <div className="px-5 py-3 border-t border-[#222] shrink-0 flex items-center justify-between">
-          <p className="text-white/25 text-[11px]">{filteredImages.length} şəkil</p>
-          <button onClick={onClose} className="px-4 py-1.5 text-white/40 text-xs border border-[#222] rounded-lg hover:border-white/20 transition-all">Bağla</button>
+        <div className="px-5 py-3 border-t border-[#352d24] shrink-0 flex items-center justify-between">
+          <p className="text-[#a89d88] text-[11px]">{filteredImages.length} şəkil</p>
+          <button onClick={onClose} className="px-4 py-2 text-[#a89d88] text-xs border border-[#352d24] rounded-lg hover:border-white/20 transition-all">Bağla</button>
         </div>
       </div>
       {previewId && (
@@ -1109,10 +1127,10 @@ function PhotoPickerModal({
               alt=""
               className="max-w-full max-h-[80vh] rounded-lg object-contain"
             />
-            <button onClick={() => setPreviewId(null)} className="absolute -top-3 -right-3 w-7 h-7 rounded-full bg-[#222] text-white/60 hover:text-white flex items-center justify-center">
+            <button onClick={() => setPreviewId(null)} aria-label="Bağla" className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-[#352d24] text-white/60 hover:text-white flex items-center justify-center">
               <X className="w-3.5 h-3.5" />
             </button>
-            <p className="text-center text-white/30 text-[10px] mt-2 font-mono">{previewId}</p>
+            <p className="text-center text-white/50 text-[10px] mt-2 font-mono">{previewId}</p>
           </div>
         </div>
       )}
@@ -1174,7 +1192,7 @@ function FoodPhotoAssignment() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3 text-white/40 text-xs">
+      <div className="flex items-center gap-3 text-[#a89d88] text-xs">
         <span>{products.length} məhsul</span>
         <span className="w-px h-3 bg-white/10" />
         <span className="text-green-400/70">{withImage} şəkilli</span>
@@ -1196,7 +1214,7 @@ function FoodPhotoAssignment() {
       {!catalogQ.isLoading && !catalogQ.error && products.length === 0 && (
         <div className="p-6 bg-amber-400/5 border border-amber-400/10 rounded-xl">
           <p className="text-amber-400/70 text-xs font-medium">Kataloqda məhsul yoxdur</p>
-          <p className="text-white/30 text-[11px] mt-1">
+          <p className="text-[#a89d88] text-[11px] mt-1">
             Əvvəlcə Kataloq səhifəsindən məhsul əlavə et, sonra burada şəkillərini idarə et.
           </p>
         </div>
@@ -1206,16 +1224,18 @@ function FoodPhotoAssignment() {
         <div className="relative flex-1 min-w-[140px]">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-white/20" />
           <input
+            aria-label="Məhsul axtar"
             value={searchProd}
             onChange={(e) => setSearchProd(e.target.value)}
             placeholder="Məhsul axtar…"
-            className="w-full pl-7 pr-3 py-1.5 bg-[#0A0A0A] border border-[#222] text-white text-xs rounded-md focus:outline-none focus:border-[#C9A96E] transition-colors"
+            className="w-full pl-7 pr-3 py-1.5 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded-md focus:outline-none focus:border-[#C2A05A] transition-colors"
           />
         </div>
         <select
+          aria-label="Kateqoriya filtri"
           value={selectedCat || ""}
           onChange={(e) => setSelectedCat(e.target.value || null)}
-          className="px-2 py-1.5 bg-[#0A0A0A] border border-[#222] text-white text-xs rounded-md focus:outline-none focus:border-[#C9A96E]"
+          className="px-2 py-1.5 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded-md focus:outline-none focus:border-[#C2A05A]"
         >
           <option value="">Bütün kateqoriyalar</option>
           {categories.map((c) => (
@@ -1226,12 +1246,12 @@ function FoodPhotoAssignment() {
 
       <div className="space-y-2">
         {filteredProducts.length === 0 && products.length > 0 ? (
-          <div className="p-8 text-center text-white/20 text-xs bg-[#111] border border-[#222] rounded-xl">
+          <div className="p-8 text-center text-[#a89d88] text-xs bg-[#1d1915] border border-[#352d24] rounded-xl">
             Məhsul tapılmadı
           </div>
         ) : (
           filteredProducts.map((prod) => (
-            <div key={prod.id} className="bg-[#111] border border-[#222] rounded-xl px-4 py-3">
+            <div key={prod.id} className="bg-[#1d1915] border border-[#352d24] rounded-xl px-4 py-3">
               <ImageUpload
                 value={prod.imageUrl}
                 onChange={(url) => updateItem.mutate({ id: prod.id, imageUrl: url })}
@@ -1249,7 +1269,7 @@ function FoodPhotoAssignment() {
 /* ─── Divider between Media sections ─── */
 function SectionDivider({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
-    <div className="pt-8 border-t border-[#222] mt-8">
+    <div className="pt-8 border-t border-[#352d24] mt-8">
       <h2 className="text-lg font-bold text-white">{title}</h2>
       {subtitle && <p className="text-white/50 text-sm mt-1">{subtitle}</p>}
     </div>

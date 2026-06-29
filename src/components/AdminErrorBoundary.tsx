@@ -33,12 +33,12 @@ export default class AdminErrorBoundary extends Component<Props, State> {
               ? `"${this.props.section}" section is temporarily unavailable.`
               : "This section is temporarily unavailable."}
           </p>
-          <p className="text-white/40 text-xs mb-4">
+          <p className="text-[#a89d88] text-xs mb-4">
             {this.state.error?.message || "An unexpected error occurred."}
           </p>
           <button
             onClick={() => this.setState({ hasError: false })}
-            className="px-4 py-2 bg-[#C9A96E] text-[#0A0A0A] rounded-lg text-xs font-bold hover:bg-[#D4A853]"
+            className="px-4 py-2 bg-[#9D7C38] text-[#0A0A0A] rounded-lg text-xs font-bold hover:bg-[#C2A05A]"
           >
             Retry
           </button>

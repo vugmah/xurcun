@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
+import { Info, Coffee } from "lucide-react";
 import { trpc } from "@/providers/trpc";
 
 type Branch = { id?: number; name?: string; slug?: string; hasCafe?: boolean };
@@ -19,10 +20,10 @@ function QrImg({ url }: { url: string }) {
   return src ? <img src={src} alt="QR" className="w-full h-full object-contain" /> : <div className="w-full h-full" />;
 }
 
-function QrCard({ name, type, url }: { name: string; type: string; url: string }) {
+function QrCard({ name, type, url, icon }: { name: string; type: string; url: string; icon?: React.ReactNode }) {
   return (
     <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4 text-center">
-      <div className="text-[9.5px] uppercase tracking-wider text-[#C2A05A] mb-2.5">{type}</div>
+      <div className="inline-flex items-center justify-center gap-1 text-[9.5px] uppercase tracking-wider text-[#C2A05A] mb-2.5">{icon}{type}</div>
       <div className="bg-white rounded-lg p-2.5 w-[130px] h-[130px] mx-auto mb-3">
         <QrImg url={url} />
       </div>
@@ -54,8 +55,9 @@ export default function QrPage() {
         </button>
       </div>
 
-      <div className="rounded-lg px-4 py-2.5 mb-5 text-[11.5px]" style={{ background: "rgba(194,160,90,.1)", border: "1px solid rgba(194,160,90,.3)", color: "#C2A05A" }}>
-        ⓘ QR-ları çap edib vitrin/masaya qoyun. "Kafe" işarəli filiallarda həm katalog, həm kafe menyusu üçün ayrıca QR var.
+      <div className="flex items-start gap-2 rounded-lg px-4 py-2.5 mb-5 text-[11.5px]" style={{ background: "rgba(194,160,90,.1)", border: "1px solid rgba(194,160,90,.3)", color: "#C2A05A" }}>
+        <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+        <span>QR-ları çap edib vitrin/masaya qoyun. "Kafe" işarəli filiallarda həm katalog, həm kafe menyusu üçün ayrıca QR var.</span>
       </div>
 
       <div className="grid gap-3.5" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))" }}>
@@ -63,7 +65,7 @@ export default function QrPage() {
           <QrCard key={`${b.id}-cat`} name={b.name ?? ""} type="Katalog" url={`${base}/menu/${b.slug}`} />
         ))}
         {branches.filter((b) => b.hasCafe).map((b) => (
-          <QrCard key={`${b.id}-cafe`} name={`${b.name} · Kafe`} type="☕ Kafe Menyu" url={`${base}/menu/${b.slug}?type=cafe`} />
+          <QrCard key={`${b.id}-cafe`} name={`${b.name} · Kafe`} type="Kafe Menyu" icon={<Coffee className="w-3 h-3" />} url={`${base}/menu/${b.slug}?type=cafe`} />
         ))}
         {branches.length === 0 && <div className="text-xs text-[#928876]">Filial yoxdur.</div>}
       </div>

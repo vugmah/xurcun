@@ -23,7 +23,7 @@ function InboxSkeleton() {
   return (
     <div className="space-y-3 animate-pulse">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="bg-[#111] border border-[#222] rounded-xl p-4">
+        <div key={i} className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-white/5" />
@@ -45,9 +45,9 @@ function InboxSkeleton() {
 /* ─── Empty State ─── */
 function EmptyState({ filter }: { filter: string }) {
   return (
-    <div className="bg-[#111] border border-[#222] rounded-xl p-12 text-center">
+    <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-12 text-center">
       <Inbox className="w-10 h-10 text-white/10 mx-auto mb-3" />
-      <p className="text-white/40 text-sm mb-1">
+      <p className="text-[#a89d88] text-sm mb-1">
         {filter === "unread" ? "Oxunmamış mesaj yoxdur." : "Hələ heç bir mesaj yoxdur."}
       </p>
       <p className="text-white/25 text-xs">
@@ -82,8 +82,8 @@ function ContactRow({
 
   return (
     <div
-      className={`bg-[#111] border rounded-xl transition-all ${
-        item.isRead ? "border-[#222]" : "border-[#C9A96E]/20 bg-[#C9A96E]/[0.02]"
+      className={`bg-[#1d1915] border rounded-xl transition-all ${
+        item.isRead ? "border-[#352d24]" : "border-[#C2A05A]/20 bg-[#C2A05A]/[0.02]"
       }`}
     >
       <div
@@ -95,8 +95,8 @@ function ContactRow({
             <Mail className="w-4 h-4 text-white/20" />
           ) : (
             <div className="relative">
-              <Mail className="w-4 h-4 text-[#C9A96E]" />
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#C9A96E] rounded-full" />
+              <Mail className="w-4 h-4 text-[#C2A05A]" />
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#C2A05A] rounded-full" />
             </div>
           )}
         </div>
@@ -106,15 +106,15 @@ function ContactRow({
             <span className={`text-sm font-medium truncate ${item.isRead ? "text-white/60" : "text-white"}`}>
               {item.name || "Adsız"}
             </span>
-            <span className="text-white/30 text-xs truncate">{item.email}</span>
+            <span className="text-[#a89d88] text-xs truncate">{item.email}</span>
             {!item.isRead && (
-              <span className="text-[10px] bg-[#C9A96E]/15 text-[#C9A96E] px-1.5 py-0.5 rounded font-medium">
+              <span className="text-[10px] bg-[#C2A05A]/15 text-[#C2A05A] px-1.5 py-0.5 rounded font-medium">
                 Yeni
               </span>
             )}
           </div>
 
-          <p className="text-white/40 text-xs mt-1 truncate">
+          <p className="text-[#a89d88] text-xs mt-1 truncate">
             {item.subject || "(Mövzu yoxdur)"}
           </p>
 
@@ -136,7 +136,7 @@ function ContactRow({
 
       {expanded && (
         <div className="px-4 pb-4 pt-0">
-          <div className="border-t border-[#222] pt-3 space-y-3">
+          <div className="border-t border-[#352d24] pt-3 space-y-3">
             <div className="bg-[#0A0A0A] rounded-lg p-4">
               <p className="text-white/70 text-sm whitespace-pre-wrap leading-relaxed">
                 {item.message || "(Mesaj boş)"}
@@ -149,8 +149,8 @@ function ContactRow({
                 size="sm"
                 className={`text-xs h-8 ${
                   item.isRead
-                    ? "text-white/40 hover:text-[#C9A96E]"
-                    : "text-[#C9A96E] hover:text-[#D4B87E]"
+                    ? "text-white/40 hover:text-[#C2A05A]"
+                    : "text-[#C2A05A] hover:text-[#D4B87E]"
                 }`}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -182,7 +182,7 @@ function ContactRow({
                 </Button>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="text-white/40 text-xs">Əminsiniz?</span>
+                  <span className="text-[#a89d88] text-xs">Əminsiniz?</span>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -197,7 +197,7 @@ function ContactRow({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-xs h-8 text-white/40"
+                    className="text-xs h-8 text-[#a89d88]"
                     onClick={(e) => {
                       e.stopPropagation();
                       setConfirmDelete(false);
@@ -266,16 +266,16 @@ export default function InboxPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <div className="bg-[#111] border border-[#222] rounded-xl p-4">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center">
-              <Mail className="w-4 h-4 text-[#C9A96E]" />
+            <div className="w-8 h-8 rounded-lg bg-[#C2A05A]/15 flex items-center justify-center">
+              <Mail className="w-4 h-4 text-[#C2A05A]" />
             </div>
           </div>
           <p className="text-2xl font-bold text-white">{data?.total ?? 0}</p>
           <p className="text-xs text-white/50 mt-0.5">Ümumi mesaj</p>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-xl p-4">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-8 h-8 rounded-lg bg-amber-400/15 flex items-center justify-center">
               <AlertCircle className="w-4 h-4 text-amber-400" />
@@ -284,7 +284,7 @@ export default function InboxPage() {
           <p className="text-2xl font-bold text-white">{data?.unread ?? 0}</p>
           <p className="text-xs text-white/50 mt-0.5">Oxunmamış</p>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-xl p-4">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-4">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-8 h-8 rounded-lg bg-green-400/15 flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4 text-green-400" />
@@ -299,12 +299,12 @@ export default function InboxPage() {
 
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        <div className="flex items-center gap-1 bg-[#111] border border-[#222] rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-[#1d1915] border border-[#352d24] rounded-lg p-1">
           <button
             onClick={() => setFilter("all")}
             className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
               filter === "all"
-                ? "bg-[#C9A96E]/15 text-[#C9A96E]"
+                ? "bg-[#C2A05A]/15 text-[#C2A05A]"
                 : "text-white/40 hover:text-white"
             }`}
           >
@@ -314,13 +314,13 @@ export default function InboxPage() {
             onClick={() => setFilter("unread")}
             className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
               filter === "unread"
-                ? "bg-[#C9A96E]/15 text-[#C9A96E]"
+                ? "bg-[#C2A05A]/15 text-[#C2A05A]"
                 : "text-white/40 hover:text-white"
             }`}
           >
             Oxunmamış
             {data?.unread ? (
-              <span className="ml-1.5 bg-[#C9A96E] text-[#0A0A0A] text-[9px] px-1 py-0.5 rounded-full font-bold">
+              <span className="ml-1.5 bg-[#C2A05A] text-[#0A0A0A] text-[9px] px-1 py-0.5 rounded-full font-bold">
                 {data.unread}
               </span>
             ) : null}
@@ -331,9 +331,10 @@ export default function InboxPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20" />
           <Input
             placeholder="Axtar..."
+            aria-label="Mesajları axtar"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-8 bg-[#111] border-[#222] text-white text-sm h-9"
+            className="pl-8 bg-[#1d1915] border-[#352d24] text-white text-sm h-9"
           />
         </div>
       </div>

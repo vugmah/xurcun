@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Check, Minus } from "lucide-react";
 import { trpc } from "@/providers/trpc";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 
@@ -48,12 +49,13 @@ export default function BranchesPage() {
                   <td className="px-5 py-3 text-[#928876]">{(b as Branch).address || "—"}</td>
                   <td className="px-5 py-3 text-[#928876]">{(b as Branch).phone || "—"}</td>
                   <td className="px-5 py-3">
-                    <span className="text-[10.5px] px-2.5 py-1 rounded-full" style={(b as Branch).isActive !== false ? { background: "#16291f", color: "#5bbd86" } : { background: "#2c1418", color: "#e0697a" }}>
+                    <span className="inline-flex items-center gap-1 text-[10.5px] px-2.5 py-1 rounded-full" style={(b as Branch).isActive !== false ? { background: "#16291f", color: "#5bbd86" } : { background: "#2c1418", color: "#e0697a" }}>
+                      {(b as Branch).isActive !== false ? <Check className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
                       {(b as Branch).isActive !== false ? "Aktiv" : "Passiv"}
                     </span>
                   </td>
                   <td className="px-5 py-3 text-right">
-                    <button className="text-[#928876] hover:text-[#C2A05A] text-xs px-2 py-1" onClick={() => setEditing(b as Branch)}>Redaktə</button>
+                    <button className="text-[#928876] hover:text-[#C2A05A] text-xs px-3 py-2" onClick={() => setEditing(b as Branch)}>Redaktə</button>
                   </td>
                 </tr>
               ))}
@@ -100,15 +102,15 @@ function BranchForm({ branch, onClose, onSaved }: { branch: Branch; onClose: () 
       </div>
       <div className="grid gap-4">
         <div className="grid grid-cols-2 gap-3">
-          <div><label className={labelCls}>Ad</label><input className={inputCls} value={f.name ?? ""} onChange={(e) => set("name", e.target.value)} /></div>
-          <div><label className={labelCls}>Slug (QR: /menu/...)</label><input className={inputCls} value={f.slug ?? ""} onChange={(e) => set("slug", e.target.value)} /></div>
+          <div><label htmlFor="branch-name" className={labelCls}>Ad</label><input id="branch-name" className={inputCls} value={f.name ?? ""} onChange={(e) => set("name", e.target.value)} /></div>
+          <div><label htmlFor="branch-slug" className={labelCls}>Slug (QR: /menu/...)</label><input id="branch-slug" className={inputCls} value={f.slug ?? ""} onChange={(e) => set("slug", e.target.value)} /></div>
         </div>
-        <div><label className={labelCls}>Ünvan</label><input className={inputCls} value={f.address ?? ""} onChange={(e) => set("address", e.target.value)} /></div>
+        <div><label htmlFor="branch-address" className={labelCls}>Ünvan</label><input id="branch-address" className={inputCls} value={f.address ?? ""} onChange={(e) => set("address", e.target.value)} /></div>
         <div className="grid grid-cols-2 gap-3">
-          <div><label className={labelCls}>Telefon</label><input className={inputCls} value={f.phone ?? ""} onChange={(e) => set("phone", e.target.value)} /></div>
-          <div><label className={labelCls}>WhatsApp nömrəsi</label><input className={inputCls} value={f.whatsappNumber ?? ""} onChange={(e) => set("whatsappNumber", e.target.value)} placeholder="994xxxxxxxxx" /></div>
+          <div><label htmlFor="branch-phone" className={labelCls}>Telefon</label><input id="branch-phone" className={inputCls} value={f.phone ?? ""} onChange={(e) => set("phone", e.target.value)} /></div>
+          <div><label htmlFor="branch-whatsapp" className={labelCls}>WhatsApp nömrəsi</label><input id="branch-whatsapp" className={inputCls} value={f.whatsappNumber ?? ""} onChange={(e) => set("whatsappNumber", e.target.value)} placeholder="994xxxxxxxxx" /></div>
         </div>
-        <div><label className={labelCls}>Google Maps URL</label><input className={inputCls} value={f.mapUrl ?? ""} onChange={(e) => set("mapUrl", e.target.value)} /></div>
+        <div><label htmlFor="branch-mapurl" className={labelCls}>Google Maps URL</label><input id="branch-mapurl" className={inputCls} value={f.mapUrl ?? ""} onChange={(e) => set("mapUrl", e.target.value)} /></div>
         <ImageUpload
           value={f.videoUrl ?? ""}
           onChange={(v) => set("videoUrl", v)}
@@ -132,7 +134,7 @@ function BranchForm({ branch, onClose, onSaved }: { branch: Branch; onClose: () 
 
 function Toggle({ on, set, label }: { on: boolean; set: (v: boolean) => void; label: string }) {
   return (
-    <button onClick={() => set(!on)} className="flex items-center gap-2.5">
+    <button onClick={() => set(!on)} className="flex items-center gap-2.5 min-h-[44px] py-2">
       <span className={`w-9 h-5 rounded-full relative transition ${on ? "bg-[#9D7C38]" : "bg-[#403930]"}`}>
         <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${on ? "right-0.5" : "left-0.5"}`} />
       </span>

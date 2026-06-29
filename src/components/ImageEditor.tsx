@@ -179,14 +179,14 @@ export default function ImageEditor({ imageSrc, onApply, onCancel }: ImageEditor
     top: `${crop.y * 100}%`,
     width: `${crop.w * 100}%`,
     height: `${crop.h * 100}%`,
-    border: "2px dashed #C9A96E",
-    background: "rgba(201, 169, 110, 0.1)",
+    border: "2px dashed #C2A05A",
+    background: "rgba(194, 160, 90, 0.1)",
     cursor: isDragging ? "grabbing" : "grab",
     touchAction: "none",
   };
   const handleStyle: React.CSSProperties = {
     position: "absolute", right: -6, bottom: -6, width: 12, height: 12,
-    background: "#C9A96E", borderRadius: "50%", cursor: "nwse-resize",
+    background: "#C2A05A", borderRadius: "50%", cursor: "nwse-resize",
   };
 
   const RatioBtn = ({ ratio, icon: Icon }: { ratio: CropRatio; icon: typeof Square }) => (
@@ -194,7 +194,7 @@ export default function ImageEditor({ imageSrc, onApply, onCancel }: ImageEditor
       onClick={() => setCropRatio(ratio)}
       className={`flex items-center gap-1 px-2.5 py-1 rounded text-[11px] border transition-all ${
         cropRatio === ratio
-          ? "bg-[#C9A96E]/15 text-[#C9A96E] border-[#C9A96E]/30"
+          ? "bg-[#C2A05A]/15 text-[#C2A05A] border-[#C2A05A]/30"
           : "bg-white/5 text-white/40 border-white/10 hover:border-white/20"
       }`}
     >
@@ -205,11 +205,11 @@ export default function ImageEditor({ imageSrc, onApply, onCancel }: ImageEditor
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4">
-      <div className="bg-[#111] border border-[#222] rounded-xl max-w-2xl w-full max-h-[92vh] overflow-y-auto">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl max-w-2xl w-full max-h-[92vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#222]">
+        <div className="flex items-center justify-between p-4 border-b border-[#352d24]">
           <h3 className="text-white font-medium text-sm">Fotoğraf Düzenle</h3>
-          <button onClick={onCancel} className="text-white/40 hover:text-white"><X className="w-4 h-4" /></button>
+          <button onClick={onCancel} aria-label="Bağla" className="text-white/40 hover:text-white"><X className="w-4 h-4" /></button>
         </div>
 
         {/* Ratio selector */}
@@ -222,7 +222,7 @@ export default function ImageEditor({ imageSrc, onApply, onCancel }: ImageEditor
 
         {/* Upload guidance */}
         <div className="px-4 pt-2">
-          <p className="text-[#C9A96E]/60 text-[10px]">
+          <p className="text-[#C2A05A]/60 text-[10px]">
             Öneri: 1200×1200 px kare fotoğraf yükleyin. Ürünü ortalayın, etrafında boşluk bırakın.
           </p>
         </div>
@@ -272,12 +272,13 @@ export default function ImageEditor({ imageSrc, onApply, onCancel }: ImageEditor
             { key: "saturate", label: "Renk" },
           ] as const).map(f => (
             <div key={f.key} className="flex items-center gap-3">
-              <span className="text-white/50 text-xs w-20 shrink-0">{f.label}</span>
+              <label htmlFor={`img-filter-${f.key}`} className="text-white/50 text-xs w-20 shrink-0">{f.label}</label>
               <input
+                id={`img-filter-${f.key}`}
                 type="range" min={0} max={200}
                 value={filters[f.key]}
                 onChange={e => setFilters(p => ({ ...p, [f.key]: Number(e.target.value) }))}
-                className="flex-1 accent-[#C9A96E]"
+                className="flex-1 accent-[#C2A05A]"
               />
               <span className="text-white/50 text-xs w-10 text-right">{filters[f.key]}%</span>
             </div>
@@ -285,14 +286,14 @@ export default function ImageEditor({ imageSrc, onApply, onCancel }: ImageEditor
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 p-4 border-t border-[#222]">
-          <button onClick={handleReset} className="flex items-center gap-1 px-3 py-1.5 rounded text-xs text-white/50 hover:text-white border border-[#333] hover:border-[#555]">
+        <div className="flex items-center gap-2 p-4 border-t border-[#352d24]">
+          <button onClick={handleReset} className="flex items-center gap-1 px-3 py-1.5 rounded text-xs text-white/50 hover:text-white border border-[#352d24] hover:border-[#555]">
             <RotateCcw className="w-3 h-3" /> Sıfırla
           </button>
-          <button onClick={handleApply} className="flex items-center gap-1 px-4 py-1.5 rounded bg-[#C9A96E] text-[#0A0A0A] text-xs font-medium hover:bg-[#D4A853] ml-auto">
+          <button onClick={handleApply} className="flex items-center gap-1 px-4 py-1.5 rounded bg-[#9D7C38] text-[#0A0A0A] text-xs font-medium hover:bg-[#C2A05A] ml-auto">
             <Check className="w-3 h-3" /> Uygula
           </button>
-          <button onClick={onCancel} className="px-3 py-1.5 rounded text-xs text-white/50 hover:text-white border border-[#333] hover:border-[#555]">
+          <button onClick={onCancel} className="px-3 py-1.5 rounded text-xs text-white/50 hover:text-white border border-[#352d24] hover:border-[#555]">
             İptal
           </button>
         </div>
