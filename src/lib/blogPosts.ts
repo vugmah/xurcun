@@ -4,7 +4,7 @@
 
 export type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar';
 export type L = { az: string; ru: string; en: string; tr: string; ar: string };
-export type BlogSection = { h2: L; body: L[] };
+export type BlogSection = { h2: L; body: L[]; image?: string; imageAlt?: L };
 export type BlogPost = {
   slug: string;
   date: string;
@@ -428,6 +428,76 @@ export const BLOG_POSTS: BlogPost[] = [
         h2: { az: "Çoxsaylı sifariş", ru: "Оптовый заказ", en: "Bulk orders", tr: "Toplu sipariş", ar: "الطلب بالجملة" },
         body: [
           { az: "10-dan çox dəst üçün xüsusi qiymət və vaxtında çatdırılma. Sifariş üçün +994 50 212 18 11 və ya WhatsApp ilə əlaqə saxlayın.", ru: "Для заказов от 10 наборов — специальные цены и доставка в срок. Для заказа: +994 50 212 18 11 или WhatsApp.", en: "Special pricing and on-time delivery for 10+ sets. To order, contact +994 50 212 18 11 or WhatsApp.", tr: "10+ set için özel fiyat ve zamanında teslimat. Sipariş için +994 50 212 18 11 veya WhatsApp.", ar: "أسعار خاصة وتسليم في الوقت لطلبات 10 مجموعات فأكثر. للطلب: +994 50 212 18 11 أو واتساب." },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "bayram-korporativ-hediyye",
+    date: "2026-06-29",
+    cover: "/images/blog/korporativ-qutu-acig.webp",
+    title: {
+      az: "Bayramlarda korporativ hədiyyələr — Azərbaycan bayram təqvimi | Xurcun",
+      ru: "Корпоративные подарки к праздникам — календарь Азербайджана | Xurcun",
+      en: "Corporate gifts for the holidays — Azerbaijan holiday calendar | Xurcun",
+      tr: "Corporate gifts for the holidays — Azerbaijan holiday calendar | Xurcun",
+      ar: "Corporate gifts for the holidays — Azerbaijan holiday calendar | Xurcun",
+    },
+    desc: {
+      az: "Yeni il, Novruz, 8 Mart, Ramazan və Qurban bayramlarında müştəri və tərəfdaşlarınızı Xurcun premium şokolad, çərəz, quru meyvə və lokum qutuları ilə sevindirin. Brendləmə, toplu sifariş, Bakıda çatdırılma.",
+      ru: "Радуйте клиентов и партнёров на Новый год, Новруз, 8 Марта, Рамазан и Гурбан премиальными наборами Xurcun: шоколад, орехи, сухофрукты, лукум. Брендирование, опт, доставка по Баку.",
+      en: "Delight clients and partners for New Year, Novruz, 8 March, Ramadan and Gurban with Xurcun premium boxes of chocolate, nuts, dried fruit and Turkish delight. Branding, bulk orders, delivery across Baku.",
+      tr: "Delight clients and partners for New Year, Novruz, 8 March, Ramadan and Gurban with Xurcun premium boxes of chocolate, nuts, dried fruit and Turkish delight. Branding, bulk orders, delivery across Baku.",
+      ar: "Delight clients and partners for New Year, Novruz, 8 March, Ramadan and Gurban with Xurcun premium boxes of chocolate, nuts, dried fruit and Turkish delight. Branding, bulk orders, delivery across Baku.",
+    },
+    h1: {
+      az: "Bayramlarda korporativ hədiyyələr — illik təqvim",
+      ru: "Корпоративные подарки к праздникам — годовой календарь",
+      en: "Corporate gifts for the holidays — a year-round calendar",
+      tr: "Corporate gifts for the holidays — a year-round calendar",
+      ar: "Corporate gifts for the holidays — a year-round calendar",
+    },
+    lead: {
+      az: "Doğru zamanda göndərilən hədiyyə sadəcə jest deyil — müştəri və tərəfdaşla münasibətə investisiyadır. Azərbaycan bayram təqvimi il boyu belə fürsətlərlə zəngindir. Bu bələdçidə hansı bayramda hansı Xurcun qutusunun uyğun olduğunu və korporativ sifarişin necə işlədiyini topladıq.",
+      ru: "Подарок в нужный момент — не просто жест, а инвестиция в отношения с клиентом и партнёром. Календарь праздников Азербайджана полон таких поводов круглый год. В этом гиде — какой набор Xurcun подходит к какому празднику и как работает корпоративный заказ.",
+      en: "A gift sent at the right moment is more than a gesture — it is an investment in the relationship with a client or partner. Azerbaijan's holiday calendar is full of such occasions all year round. This guide maps which Xurcun box fits which holiday and how corporate ordering works.",
+      tr: "A gift sent at the right moment is more than a gesture — it is an investment in the relationship with a client or partner. Azerbaijan's holiday calendar is full of such occasions all year round. This guide maps which Xurcun box fits which holiday and how corporate ordering works.",
+      ar: "A gift sent at the right moment is more than a gesture — it is an investment in the relationship with a client or partner. Azerbaijan's holiday calendar is full of such occasions all year round. This guide maps which Xurcun box fits which holiday and how corporate ordering works.",
+    },
+    sections: [
+      {
+        h2: { az: "Niyə korporativ hədiyyə vacibdir?", ru: "Почему корпоративные подарки важны?", en: "Why corporate gifting matters", tr: "Why corporate gifting matters", ar: "Why corporate gifting matters" },
+        body: [
+          { az: "Korporativ hədiyyə brendi yaddaşda saxlayır, sədaqəti gücləndirir və yeni əməkdaşlığa qapı açır. Premium və zövqlü hədiyyə isə şirkətinizin keyfiyyət standartını birbaşa təmsil edir — alan tərəf onu açanda sizin diqqətinizi hiss edir.", ru: "Корпоративный подарок удерживает бренд в памяти, укрепляет лояльность и открывает дверь к новому сотрудничеству. А premium-подарок со вкусом напрямую отражает стандарт качества вашей компании — получатель чувствует ваше внимание.", en: "A corporate gift keeps your brand top of mind, strengthens loyalty and opens the door to new cooperation. A premium, tasteful gift directly represents your company's quality standard — the recipient feels your attention the moment they open it.", tr: "A corporate gift keeps your brand top of mind, strengthens loyalty and opens the door to new cooperation. A premium, tasteful gift directly represents your company's quality standard — the recipient feels your attention the moment they open it.", ar: "A corporate gift keeps your brand top of mind, strengthens loyalty and opens the door to new cooperation. A premium, tasteful gift directly represents your company's quality standard — the recipient feels your attention the moment they open it." },
+        ],
+      },
+      {
+        h2: { az: "Azərbaycan bayram təqvimi — hədiyyə fürsətləri", ru: "Календарь праздников Азербайджана — поводы для подарков", en: "Azerbaijan's holiday calendar — gifting occasions", tr: "Azerbaijan's holiday calendar — gifting occasions", ar: "Azerbaijan's holiday calendar — gifting occasions" },
+        body: [
+          { az: "Yeni il (1-2 yanvar) — ilin ən böyük korporativ hədiyyə mövsümü; ilsonu müştəri və tərəfdaş hədiyyələri burada cəmlənir. Novruz Bayramı (mart) — ən ənənəvi hədiyyə bayramı: xonça, şirniyyat, quru meyvə və qoz-fındıq mərkəzdədir. 8 Mart — qadın müştəri və əməkdaşlara zərif diqqət. Ramazan və Qurban bayramları — dini bayramlarda tərəfdaş və ailə hədiyyələri.", ru: "Новый год (1-2 января) — крупнейший сезон корпоративных подарков; здесь сосредоточены подарки клиентам и партнёрам в конце года. Новруз (март) — самый традиционный праздник подарков: хонча, сладости, сухофрукты и орехи в центре. 8 Марта — изысканное внимание к клиенткам и сотрудницам. Рамазан и Гурбан — подарки партнёрам и близким в религиозные праздники.", en: "New Year (1-2 January) is the biggest corporate gifting season, when year-end gifts to clients and partners concentrate. Novruz (March) is the most traditional gifting holiday, centred on the xonça tray, sweets, dried fruit and nuts. 8 March means an elegant gesture to female clients and staff. Ramadan and Gurban are religious holidays for partner and family gifts.", tr: "New Year (1-2 January) is the biggest corporate gifting season, when year-end gifts to clients and partners concentrate. Novruz (March) is the most traditional gifting holiday, centred on the xonça tray, sweets, dried fruit and nuts. 8 March means an elegant gesture to female clients and staff. Ramadan and Gurban are religious holidays for partner and family gifts.", ar: "New Year (1-2 January) is the biggest corporate gifting season, when year-end gifts to clients and partners concentrate. Novruz (March) is the most traditional gifting holiday, centred on the xonça tray, sweets, dried fruit and nuts. 8 March means an elegant gesture to female clients and staff. Ramadan and Gurban are religious holidays for partner and family gifts." },
+          { az: "Dövlət bayramları (9 May, 28 May, 8-9 noyabr), peşə günləri (müəllim, həkim, bankçı və s.), eləcə də şirkət yubileyləri və mühüm müqavilələrin imzalanması da il boyu hədiyyə üçün gözəl səbəblərdir. Beləliklə, hədiyyə təqvimi yalnız 3-4 günlə məhdudlaşmır — il boyu davam edir.", ru: "Государственные праздники (9 мая, 28 мая, 8-9 ноября), профессиональные дни (учитель, врач, банкир и др.), а также юбилеи компании и подписание важных контрактов — отличные поводы для подарков круглый год. Календарь не ограничивается 3-4 днями — он работает весь год.", en: "State holidays (9 May, 28 May, 8-9 November), professional days (teacher, doctor, banker and more), as well as company anniversaries and the signing of important contracts are excellent year-round reasons to gift. The calendar is not limited to three or four days — it runs all year.", tr: "State holidays (9 May, 28 May, 8-9 November), professional days (teacher, doctor, banker and more), as well as company anniversaries and the signing of important contracts are excellent year-round reasons to gift. The calendar is not limited to three or four days — it runs all year.", ar: "State holidays (9 May, 28 May, 8-9 November), professional days (teacher, doctor, banker and more), as well as company anniversaries and the signing of important contracts are excellent year-round reasons to gift. The calendar is not limited to three or four days — it runs all year." },
+        ],
+        image: "/images/blog/korporativ-qutu-premium.webp",
+        imageAlt: { az: "Xurcun premium korporativ hədiyyə qutusu — quru meyvə, çərəz və şirniyyat", ru: "Премиальный корпоративный набор Xurcun — сухофрукты, орехи и сладости", en: "Xurcun premium corporate gift box — dried fruit, nuts and sweets", tr: "Xurcun premium corporate gift box — dried fruit, nuts and sweets", ar: "Xurcun premium corporate gift box — dried fruit, nuts and sweets" },
+      },
+      {
+        h2: { az: "Bayrama görə qutu seçimi", ru: "Выбор набора под праздник", en: "Choosing a box by holiday", tr: "Choosing a box by holiday", ar: "Choosing a box by holiday" },
+        body: [
+          { az: "Yeni il üçün — premium şokolad assortisi və qarışıq quru meyvə-çərəz dəstləri. Novruz üçün — paxlava, şəkərbura ovqatı verən şirniyyat və zəngin quru meyvə qutuları. 8 Mart üçün — zərif şokolad və lokum qutuları. Ramazan və Qurban üçün — xurma, quru meyvə və lokum birləşmələri. Hər büdcə üçün kiçikdən böyüyə müxtəlif ölçülər mövcuddur.", ru: "На Новый год — премиальное ассорти шоколада и наборы сухофруктов с орехами. На Новруз — пахлава, праздничные сладости и богатые наборы сухофруктов. На 8 Марта — изящные наборы шоколада и лукума. На Рамазан и Гурбан — финики, сухофрукты и лукум. Размеры — от небольших до больших под любой бюджет.", en: "For New Year, a premium chocolate assortment and mixed dried-fruit-and-nut sets. For Novruz, baklava, festive sweets and rich dried-fruit boxes. For 8 March, elegant chocolate and Turkish delight boxes. For Ramadan and Gurban, dates, dried fruit and lokum. Sizes range from small to large to fit any budget.", tr: "For New Year, a premium chocolate assortment and mixed dried-fruit-and-nut sets. For Novruz, baklava, festive sweets and rich dried-fruit boxes. For 8 March, elegant chocolate and Turkish delight boxes. For Ramadan and Gurban, dates, dried fruit and lokum. Sizes range from small to large to fit any budget.", ar: "For New Year, a premium chocolate assortment and mixed dried-fruit-and-nut sets. For Novruz, baklava, festive sweets and rich dried-fruit boxes. For 8 March, elegant chocolate and Turkish delight boxes. For Ramadan and Gurban, dates, dried fruit and lokum. Sizes range from small to large to fit any budget." },
+        ],
+      },
+      {
+        h2: { az: "Korporativ sifarişin üstünlükləri", ru: "Преимущества корпоративного заказа", en: "The advantages of corporate ordering", tr: "The advantages of corporate ordering", ar: "The advantages of corporate ordering" },
+        body: [
+          { az: "Toplu sifarişdə əlverişli qiymət, qutuların şirkət loqosu və ya təbrik kartı ilə brendlənməsi, vahid dizayn və Bakı üzrə vaxtında çatdırılma — korporativ xidmətin əsas üstünlükləridir. Böyük sifarişlər üçün dəstin tərkibini büdcəyə uyğun fərdiləşdirmək mümkündür.", ru: "Выгодная цена при опте, брендирование наборов логотипом компании или поздравительной открыткой, единый дизайн и доставка по Баку в срок — ключевые преимущества корпоративного сервиса. Для крупных заказов состав набора можно адаптировать под бюджет.", en: "Favourable pricing on bulk orders, branding the boxes with your company logo or a greeting card, a unified design and on-time delivery across Baku are the core advantages of the corporate service. For large orders, the contents can be tailored to your budget.", tr: "Favourable pricing on bulk orders, branding the boxes with your company logo or a greeting card, a unified design and on-time delivery across Baku are the core advantages of the corporate service. For large orders, the contents can be tailored to your budget.", ar: "Favourable pricing on bulk orders, branding the boxes with your company logo or a greeting card, a unified design and on-time delivery across Baku are the core advantages of the corporate service. For large orders, the contents can be tailored to your budget." },
+        ],
+        image: "/images/blog/korporativ-qutu-brend.webp",
+        imageAlt: { az: "Xurcun brendli premium hədiyyə qutuları — korporativ dizayn", ru: "Брендированные премиальные подарочные коробки Xurcun", en: "Branded premium Xurcun gift boxes — corporate design", tr: "Branded premium Xurcun gift boxes — corporate design", ar: "Branded premium Xurcun gift boxes — corporate design" },
+      },
+      {
+        h2: { az: "Necə sifariş etmək olar?", ru: "Как сделать заказ?", en: "How to order", tr: "How to order", ar: "How to order" },
+        body: [
+          { az: "Bayramdan əvvəl say və büdcəni planlaşdırmaq tövsiyə olunur — xüsusən Yeni il və Novruz mövsümündə tələbat yüksək olur. Korporativ sorğunuzu saytımızdakı Korporativ səhifəsi vasitəsilə göndərə və ya +994 50 212 18 11 nömrəsi / WhatsApp ilə birbaşa əlaqə saxlaya bilərsiniz.", ru: "Рекомендуем планировать количество и бюджет заранее — особенно в сезон Нового года и Новруза, когда спрос высок. Отправьте корпоративный запрос через страницу «Корпоративным клиентам» на сайте или свяжитесь напрямую: +994 50 212 18 11 / WhatsApp.", en: "We recommend planning quantity and budget in advance — demand peaks especially during the New Year and Novruz season. Send your corporate request through the Corporate page on our site, or contact us directly at +994 50 212 18 11 / WhatsApp.", tr: "We recommend planning quantity and budget in advance — demand peaks especially during the New Year and Novruz season. Send your corporate request through the Corporate page on our site, or contact us directly at +994 50 212 18 11 / WhatsApp.", ar: "We recommend planning quantity and budget in advance — demand peaks especially during the New Year and Novruz season. Send your corporate request through the Corporate page on our site, or contact us directly at +994 50 212 18 11 / WhatsApp." },
         ],
       },
     ],

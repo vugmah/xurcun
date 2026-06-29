@@ -270,6 +270,7 @@ app.get("/sitemap.xml", async (c) => {
     { loc: "https://xurcun.az/blog/lokum", priority: "0.6", changefreq: "monthly" },
     { loc: "https://xurcun.az/blog/quru-meyve-faydalari", priority: "0.6", changefreq: "monthly" },
     { loc: "https://xurcun.az/blog/korporativ-hediyye", priority: "0.6", changefreq: "monthly" },
+    { loc: "https://xurcun.az/blog/bayram-korporativ-hediyye", priority: "0.6", changefreq: "monthly" },
   ];
 
   // Per-branch QR-menu pages (/menu/<slug>) — one crawlable URL per active store.

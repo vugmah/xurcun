@@ -99,6 +99,7 @@ export default function BlogPostPage() {
             <section key={i}>
               <h2>{pickL(sec.h2, lang)}</h2>
               {sec.body.map((b, j) => <p key={j}>{pickL(b, lang)}</p>)}
+              {sec.image && <img className="cover" src={sec.image} alt={sec.imageAlt ? pickL(sec.imageAlt, lang) : ""} loading="lazy" decoding="async" />}
             </section>
           ))}
         </article>

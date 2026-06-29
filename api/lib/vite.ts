@@ -117,6 +117,13 @@ const ROUTE_META: Record<string, RouteMeta> = {
     intro: "Loqolu, fərdiləşdirilmiş premium korporativ hədiyyə qutuları — müştərilər, tərəfdaşlar və əməkdaşlar üçün.",
     crumb: "Korporativ hədiyyə",
   },
+  "/blog/bayram-korporativ-hediyye": {
+    title: "Bayramlarda korporativ hədiyyələr — Azərbaycan bayram təqvimi | Xurcun",
+    desc: "Yeni il, Novruz, 8 Mart, Ramazan və Qurban bayramlarında müştəri və tərəfdaşlarınızı Xurcun premium şokolad, çərəz, quru meyvə və lokum qutuları ilə sevindirin. Brendləmə, toplu sifariş, Bakıda çatdırılma.",
+    h1: "Bayramlarda korporativ hədiyyələr — illik təqvim",
+    intro: "Hansı bayramda hansı Xurcun qutusunun uyğun olduğu və korporativ sifarişin necə işlədiyi — illik hədiyyə təqvimi bələdçisi.",
+    crumb: "Bayram korporativ hədiyyə",
+  },
   "/privacy": { title: "Məxfilik Siyasəti | Xurcun", h1: "Məxfilik Siyasəti — Xurcun", crumb: "Məxfilik Siyasəti" },
   "/cookie-policy": { title: "Cookie Siyasəti | Xurcun", h1: "Cookie Siyasəti — Xurcun", crumb: "Cookie Siyasəti" },
 };
