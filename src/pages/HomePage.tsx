@@ -14,6 +14,7 @@ const GIFT_IMG = '/images/home/gift.jpg'
 const GIFT_WEBP = '/images/home/gift.webp'
 const ABOUT_IMG = '/images/home/about.jpg'
 const ABOUT_WEBP = '/images/home/about.webp'
+const ANNIV_POSTER = '/images/anniversary.webp' // poster for the anniversary reel
 
 type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar'
 const LANGS: { code: Lang; label: string }[] = [
@@ -64,6 +65,15 @@ const S = {
   luxe_cta: { az: 'Hədiyyə qutularına bax', ru: 'Подарочные наборы', en: 'View gift boxes', tr: 'Hediye kutularına bak', ar: 'تصفح علب الهدايا' },
   stores_label: { az: '11 filial · Bakı', ru: '11 филиалов · Баку', en: '11 branches · Baku', tr: '11 şube · Bakü', ar: '11 فرعًا · باكو' },
   stores_title: { az: 'Mağazalarımız', ru: 'Наши магазины', en: 'Our stores', tr: 'Mağazalarımız', ar: 'متاجرنا' },
+  anniv_label: { az: 'Yubiley', ru: 'Юбилей', en: 'Anniversary', tr: 'Yıldönümü', ar: 'الذكرى السنوية' },
+  anniv_title: { az: 'Bir yerdə qeyd etdik', ru: 'Мы отпраздновали вместе', en: 'We celebrated together', tr: 'Birlikte kutladık', ar: 'احتفلنا معًا' },
+  anniv_lead: {
+    az: 'Qonaqlarımız və Xurcun ailəsi ilə unudulmaz bir axşam — keyfiyyətə olan vurğunluğumuzu birlikdə qeyd etdik.',
+    ru: 'Незабываемый вечер с нашими гостями и семьёй Xurcun — мы вместе отметили нашу преданность качеству.',
+    en: 'An unforgettable evening with our guests and the Xurcun family — celebrating our devotion to quality, together.',
+    tr: 'Konuklarımız ve Xurcun ailesiyle unutulmaz bir akşam — kaliteye olan bağlılığımızı birlikte kutladık.',
+    ar: 'أمسية لا تُنسى مع ضيوفنا وعائلة Xurcun — احتفلنا معًا بشغفنا بالجودة.',
+  },
   yeni: { az: 'Yeni', ru: 'Новинка', en: 'New', tr: 'Yeni', ar: 'جديد' },
   call: { az: 'Zəng et', ru: 'Позвонить', en: 'Call', tr: 'Ara', ar: 'اتصل' },
   foot_about: {
@@ -164,6 +174,13 @@ export default function HomePage() {
   const aboutVid = useRef<HTMLVideoElement>(null)
   const [aboutSound, setAboutSound] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  // Pick a lighter 480p hero clip on phones (~280KB vs 842KB). Decided once at
+  // mount — `media` on a <video><source> is not reliably honored by browsers.
+  const [heroVideo] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+      ? '/videos/hero-mobile.mp4'
+      : '/videos/hero.mp4',
+  )
 
   const toggleAboutSound = () => {
     const v = aboutVid.current
@@ -301,7 +318,7 @@ export default function HomePage() {
 
       <section className="hero" id="main">
         <video className="herovid" ref={heroVid} poster={HERO_IMG} muted loop playsInline preload="metadata" aria-hidden="true">
-          <source src="/videos/hero.mp4" type="video/mp4" />
+          <source src={heroVideo} type="video/mp4" />
         </video>
         <div className="bgpat" /><div className="veil" />
         <div className="wrap">
@@ -432,6 +449,21 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sec anniv" id="yubiley" style={{ background: 'var(--cream-100)' }}>
+        <div className="wrap">
+          <div className="sec-head reveal">
+            <div className="ornament"><img src={EMBLEM} alt="" /></div>
+            <h2>{t(S.anniv_title)}</h2><div className="tag">{t(S.anniv_label)}</div>
+          </div>
+          <p className="anniv-lead reveal">{t(S.anniv_lead)}</p>
+          <div className="anniv-stage reveal">
+            <video controls playsInline preload="none" poster={ANNIV_POSTER}>
+              <source src="/videos/anniversary.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
       </section>

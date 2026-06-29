@@ -256,3 +256,8 @@
 [dir="rtl"] .xc .copyright,
 [dir="rtl"] .xc .btn{ letter-spacing:normal !important; text-transform:none !important }
 [dir="rtl"] .xc .hero h1{ letter-spacing:normal }
+
+/* Anniversary reel — centered portrait video with native controls */
+.xc .anniv-lead{max-width:560px; margin:-26px auto 34px; text-align:center; color:var(--ink-muted); font-size:clamp(15px,1.6vw,17px); line-height:1.75; font-weight:300}
+.xc .anniv-stage{position:relative; width:100%; max-width:344px; margin:0 auto; aspect-ratio:9/16; border:1px solid var(--gold); background:var(--ink); overflow:hidden; box-shadow:0 24px 56px -28px rgba(46,42,37,.55)}
+.xc .anniv-stage video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block}
