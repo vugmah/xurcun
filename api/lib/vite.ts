@@ -61,6 +61,27 @@ const ROUTE_META: Record<string, RouteMeta> = {
     intro: "Quru meyvə və qoz-fındıq Azərbaycan süfrəsinin əzəli bir parçasıdır — çayın yanında, bayram süfrəsində və ən zərif hədiyyələrdə. Bu bələdçidə əsas çeşidləri,…",
     crumb: "Quru meyvə bələdçisi",
   },
+  "/blog/yeni-il-hediyyeleri": {
+    title: "Yeni il hədiyyə ideyaları | Xurcun",
+    desc: "Yeni il və qış bayramları üçün premium hədiyyə ideyaları: quru meyvə, qoz-fındıq, şokolad və lokum qutuları, korporativ hədiyyələr. Xurcun, Bakı.",
+    h1: "Yeni il hədiyyə ideyaları — qış bayramlarına zövqlü hazırlıq",
+    intro: "Yeni il yaxınlaşır və sevdiklərinizə nə bağışlamaq sualı yenidən gündəmə gəlir. Xurcun premium quru meyvə, qoz-fındıq, şokolad və lokumdan ibarət, qış bayram…",
+    crumb: "Yeni il hədiyyələri",
+  },
+  "/blog/hediyye-qutusu-secimi": {
+    title: "Hədiyyə qutusu necə seçilir | Xurcun",
+    desc: "Hədiyyə qutusu seçim bələdçisi: münasibətə, büdcəyə və tərkibə görə düzgün qutu, fərdiləşdirmə və təqdimat məsləhətləri. Xurcun, Bakı.",
+    h1: "Hədiyyə qutusu necə seçilir — addım-addım bələdçi",
+    intro: "Doğru hədiyyə qutusu yalnız gözəl görünmür — alanın zövqünə, münasibətə və büdcənizə uyğun gəlir. Bu bələdçidə Xurcun-un premium quru meyvə, qoz-fındıq, şoko…",
+    crumb: "Hədiyyə qutusu seçimi",
+  },
+  "/blog/aeroportdan-hediyye": {
+    title: "Bakı aeroportundan hədiyyə — Xurcun",
+    desc: "Bakı aeroportundan son dəqiqə hədiyyələri: əsl Azərbaycan quru meyvəsi, çərəz, şirniyyat və hədiyyə qutuları. Xurcun Terminal 1 və Duty Free.",
+    h1: "Bakı aeroportundan hədiyyə — uçuşdan əvvəl son seçim",
+    intro: "Heydər Əliyev Beynəlxalq Aeroportunda təyyarəyə minmədən əvvəl hələ də sevdiklərinizə hədiyyə tapmaq imkanınız var. Xurcun-un aeroport butikləri — Terminal 1…",
+    crumb: "Aeroportdan hədiyyə",
+  },
   "/about": {
     title: "Haqqımızda | Xurcun — 2015-dən bəri premium butik",
     desc: "Xurcun — 2015-ci ildə Vüqar Məhərrəmov tərəfindən təsis edilmiş premium quru meyvə, qoz-fındıq, çay, şirniyyat və əl işi hədiyyə butiki. Bakıda 11 mağaza.",
@@ -230,6 +251,20 @@ const FAQ_JSONLD = `<script type="application/ld+json">${JSON.stringify({
   })),
 })}</script>`;
 
+// HowTo schema for the Gift Card page ("how it works" 4 steps) — rich result + AI.
+const HOWTO_GIFTCARD = `<script type="application/ld+json">${JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Xurcun Hədiyyə Kartı necə işləyir",
+  description: "Xurcun Hədiyyə Kartını seçin, istədiyiniz balansı yükləyin, hədiyyə edin və Bakıdakı mağazalarda istifadə edin.",
+  step: [
+    { "@type": "HowToStep", position: 1, name: "Kartı seçin" },
+    { "@type": "HowToStep", position: 2, name: "Balans yükləyin" },
+    { "@type": "HowToStep", position: 3, name: "Hədiyyə edin" },
+    { "@type": "HowToStep", position: 4, name: "Mağazada istifadə edin" },
+  ],
+})}</script>`;
+
 type MenuItemRow = typeof menuItems.$inferSelect;
 
 // Server-render the catalog: real product list (for non-JS AI crawlers) + ItemList/Product JSON-LD.
@@ -293,6 +328,7 @@ async function buildRouteHtml(html: string, pathname: string): Promise<string> {
 
   const extras: string[] = [breadcrumbJsonLd(pathname, meta)];
   if (pathname === "/faq") extras.push(FAQ_JSONLD);
+  if (pathname === "/gift-card") extras.push(HOWTO_GIFTCARD);
   if (pathname === "/catalog") {
     try {
       const { listHtml, jsonLd } = await catalogShell();
