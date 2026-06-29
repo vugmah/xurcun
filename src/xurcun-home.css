@@ -194,6 +194,9 @@
   .xc .mag-grid{grid-template-columns:repeat(2,1fr); gap:12px}
   .xc .bover{padding:12px}
   .xc .bover .bn{font-size:17px}
+  /* Narrow 2-col cards: stack the action buttons so "GOOGLE MAPS" never clips */
+  .xc .bover .brow{flex-direction:column; gap:7px}
+  .xc .bover a{letter-spacing:.05em; font-size:11.5px; padding:10px 8px; white-space:nowrap}
   .xc footer .wrap{padding:48px 18px 28px; gap:30px}
 }
 @media(max-width:380px){
