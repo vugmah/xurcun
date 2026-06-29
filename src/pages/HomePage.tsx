@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
 import GiftCardSection from '@/components/GiftCardSection'
+import TasteGallery from '@/components/TasteGallery'
 import '@/xurcun-base.css'
 import '@/xurcun-home.css'
 
@@ -337,15 +338,16 @@ export default function HomePage() {
         </div>
       </section>
 
+      <TasteGallery />
+
       <GiftCardSection />
 
       <section className="about" id="haqqimizda">
         <div className="wrap">
           <div className="about-media reveal">
-            <picture>
-              <source srcSet={ABOUT_WEBP} type="image/webp" />
-              <img src={ABOUT_IMG} alt={t(S.about_alt)} loading="lazy" decoding="async" />
-            </picture>
+            <video className="about-vid" muted loop playsInline autoPlay preload="metadata" poster="/images/gv-ribbons.webp" aria-label={t(S.about_alt)}>
+              <source src="/videos/gv-ribbons.mp4" type="video/mp4" />
+            </video>
           </div>
           <div className="about-body reveal d1">
             <div className="tag">{t(S.about_tag)}</div>

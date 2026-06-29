@@ -103,6 +103,7 @@
 .xc .about .wrap{display:grid; grid-template-columns:.85fr 1fr; gap:60px; align-items:center; padding:96px 32px}
 .xc .about-media{position:relative; aspect-ratio:4/5}
 .xc .about-media img{position:relative; z-index:1; width:100%; height:100%; object-fit:cover; display:block}
+.xc .about-media video{position:relative; z-index:1; width:100%; height:100%; object-fit:cover; display:block}
 .xc .about-media::after{content:""; position:absolute; inset:0; border:1px solid var(--gold); transform:translate(16px,16px); z-index:0; pointer-events:none}
 .xc .about-body h2{font-size:clamp(28px,3.4vw,42px); margin:14px 0 20px; line-height:1.12}
 .xc .about-body p{color:var(--ink-soft); font-size:15px; line-height:1.8; margin-bottom:16px; max-width:54ch}

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
 import SEO from '@/sections/SEO'
+import TasteGallery from '@/components/TasteGallery'
 import '@/xurcun-base.css'
 import '@/xurcun-catalog.css'
 
@@ -388,6 +389,8 @@ export default function CatalogPage() {
           <div className="ornament"><img src={EMBLEM} alt="" /></div>
         </div>
       </div>
+
+      <TasteGallery />
 
       {tree.length > 0 && (
         <div className="cwrap">
