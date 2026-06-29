@@ -32,6 +32,7 @@ export interface SeoPageSettings {
   keywordsAz: string; keywordsRu: string; keywordsEn: string; keywordsTr: string;
   ogTitleAz: string; ogTitleRu: string; ogTitleEn: string; ogTitleTr: string;
   ogDescriptionAz: string; ogDescriptionRu: string; ogDescriptionEn: string; ogDescriptionTr: string;
+  titleAr?: string; descriptionAr?: string; keywordsAr?: string; ogTitleAr?: string; ogDescriptionAr?: string;
   ogImage: string;
 }
 
@@ -108,6 +109,7 @@ export function autoGenerateSeo(pageId: string): SeoPageSettings {
     keywordsAz: p.kwAz, keywordsRu: p.kwRu, keywordsEn: p.kwEn, keywordsTr: p.kwTr,
     ogTitleAz: p.titleAz, ogTitleRu: p.titleRu, ogTitleEn: p.titleEn, ogTitleTr: p.titleTr,
     ogDescriptionAz: p.descAz, ogDescriptionRu: p.descRu, ogDescriptionEn: p.descEn, ogDescriptionTr: p.descTr,
+    titleAr: p.titleAr, descriptionAr: p.descAr, keywordsAr: p.kwAr, ogTitleAr: p.titleAr, ogDescriptionAr: p.descAr,
     ogImage: "https://xurcun.az/brand/logo-gold.png",
   };
 }
@@ -117,6 +119,7 @@ const PAGE_TEMPLATES: Record<string, {
   titleAz: string; titleRu: string; titleEn: string; titleTr: string;
   descAz: string; descRu: string; descEn: string; descTr: string;
   kwAz: string; kwRu: string; kwEn: string; kwTr: string;
+  titleAr: string; descAr: string; kwAr: string;
 }> = {
   home: {
     titleAz: "Xurcun | Premium quru meyvə, çərəz & hədiyyə — Bakı",
@@ -131,6 +134,7 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "сухофрукты баку, орехи, лукум, пахлава, подарочные наборы, сладости, xurcun",
     kwEn: "dried fruit baku, nuts, turkish delight, baklava, gift box, sweets, xurcun",
     kwTr: "kuru meyve baku, çerez, lokum, baklava, hediye kutusu, tatlı, xurcun",
+    titleAr: "Xurcun | فواكه مجففة ومكسرات وهدايا فاخرة — باكو", descAr: "Xurcun — بوتيك أذربيجاني فاخر للفواكه المجففة والمكسرات والحلويات والشوكولاتة والحلقوم وعلب الهدايا اليدوية. منذ 2015، 11 متجرًا في باكو. Fond of Quality.", kwAr: "فواكه مجففة باكو, مكسرات, حلقوم, بقلاوة, علبة هدايا, حلويات, xurcun",
   },
   catalog: {
     titleAz: "Kataloq | Xurcun — Quru meyvə, çərəz & hədiyyə",
@@ -145,6 +149,7 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "каталог, сухофрукты, орехи, лукум, подарки, xurcun баку",
     kwEn: "catalogue, dried fruit, nuts, turkish delight, gifts, xurcun baku",
     kwTr: "katalog, kuru meyve, çerez, lokum, hediye, xurcun baku",
+    titleAr: "الكتالوج | Xurcun — فواكه مجففة ومكسرات وهدايا", descAr: "كتالوج Xurcun — فواكه مجففة ومكسرات وحلقوم وشوكولاتة وعلب هدايا. اختر ما يعجبك واطلب عبر واتساب.", kwAr: "كتالوج, فواكه مجففة, مكسرات, حلقوم, هدايا, xurcun باكو",
   },
   menu: {
     titleAz: "Menyu | Xurcun — Quru meyvə, çərəz və hədiyyə",
@@ -159,6 +164,7 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "qr меню, сухофрукты, орехи, лукум, подарки, xurcun",
     kwEn: "qr menu, dried fruit, nuts, turkish delight, gifts, xurcun",
     kwTr: "qr menü, kuru meyve, çerez, lokum, hediye, xurcun",
+    titleAr: "القائمة | Xurcun — فواكه مجففة ومكسرات وهدايا", descAr: "قائمة Xurcun عبر QR — فواكه مجففة ومكسرات وحلقوم وحلويات وعلب هدايا. تصفّح من هاتفك واطلب عبر واتساب.", kwAr: "قائمة QR, فواكه مجففة, مكسرات, حلقوم, هدايا, xurcun",
   },
   contact: {
     titleAz: "Əlaqə | Xurcun — Ünvan və Telefon",
@@ -173,6 +179,7 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "контакты баку, адрес магазина xurcun, телефон xurcun, заказ whatsapp",
     kwEn: "contact baku, xurcun store address, xurcun phone, whatsapp order",
     kwTr: "iletişim baku, xurcun mağaza adresi, xurcun telefon, whatsapp sipariş",
+    titleAr: "اتصل بنا | Xurcun — العنوان والهاتف", descAr: "تواصل مع Xurcun — 11 متجرًا في باكو. البريد: info@xurcun.az. الهاتف: +994 50 212 18 11. للأسئلة والطلبات راسلنا على واتساب.", kwAr: "اتصال باكو, عنوان متجر xurcun, هاتف xurcun, طلب واتساب",
   },
   qr: {
     titleAz: "QR Menyu | Xurcun — Online Menyu",
@@ -187,6 +194,7 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "qr меню, онлайн меню, xurcun меню",
     kwEn: "qr menu, online menu, xurcun menu",
     kwTr: "qr menü, online menü, xurcun menü",
+    titleAr: "قائمة QR | Xurcun — قائمة إلكترونية", descAr: "قائمة Xurcun عبر QR — تصفّح المنتجات من هاتفك واطلب عبر واتساب. 11 متجرًا في باكو.", kwAr: "قائمة QR, قائمة إلكترونية, قائمة xurcun",
   },
   about: {
     titleAz: "Haqqımızda | Xurcun — 2015-dən bəri premium butik",
@@ -201,6 +209,7 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "о xurcun, история xurcun, премиальный бутик баку",
     kwEn: "about xurcun, xurcun story, premium boutique baku",
     kwTr: "xurcun hakkında, xurcun hikayesi, premium butik baku",
+    titleAr: "من نحن | Xurcun — بوتيك فاخر منذ 2015", descAr: "Xurcun — بوتيك فاخر للفواكه المجففة والمكسرات والشاي والحلويات والهدايا اليدوية، تأسس عام 2015 على يد ووغار محرّموف. 11 متجرًا في باكو. Fond of Quality.", kwAr: "عن xurcun, قصة xurcun, بوتيك فاخر باكو",
   },
   faq: {
     titleAz: "Tez-tez verilən suallar | Xurcun",
@@ -215,6 +224,7 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "xurcun вопросы, faq, заказ подарка, без глютена",
     kwEn: "xurcun faq, gift box order, gluten free, xurcun baku",
     kwTr: "xurcun sss, hediye kutusu sipariş, glutensiz",
+    titleAr: "الأسئلة الشائعة | Xurcun", descAr: "أسئلة شائعة عن Xurcun — المنتجات والمتاجر وعلب الهدايا والخيارات الخالية من الغلوتين والتوصيل والطلب.", kwAr: "أسئلة xurcun, طلب علبة هدايا, خالٍ من الغلوتين, xurcun باكو",
   },
   privacy: {
     titleAz: "Məxfilik Siyasəti | Xurcun",
@@ -229,6 +239,7 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "политика конфиденциальности, приватность, cookie, xurcun",
     kwEn: "privacy policy, data protection, cookie policy, xurcun",
     kwTr: "gizlilik politikası, veri koruma, çerez politikası, xurcun",
+    titleAr: "سياسة الخصوصية | Xurcun", descAr: "سياسة خصوصية Xurcun — كيف نحمي بياناتك الشخصية، واستخدام ملفات تعريف الارتباط، وحقوقك.", kwAr: "سياسة الخصوصية, حماية البيانات, سياسة الكوكيز, xurcun",
   },
   "cookie-policy": {
     titleAz: "Cookie Siyasəti | Xurcun",
@@ -243,6 +254,7 @@ const PAGE_TEMPLATES: Record<string, {
     kwRu: "политика cookie, согласие cookie, xurcun",
     kwEn: "cookie policy, cookie consent, xurcun",
     kwTr: "çerez politikası, çerez izni, xurcun",
+    titleAr: "سياسة ملفات تعريف الارتباط | Xurcun", descAr: "سياسة الكوكيز في Xurcun — الكوكيز المستخدمة على الموقع وفئاتها وإدارة الموافقة.", kwAr: "سياسة الكوكيز, موافقة الكوكيز, xurcun",
   },
 };
 

@@ -104,10 +104,15 @@ export default function SEO({ page = 'home', branchSlug }: SeoProps) {
       ogDescriptionRu: resolve(dbSeo?.ogDescriptionRu, fallback.ogDescriptionRu),
       ogDescriptionEn: resolve(dbSeo?.ogDescriptionEn, fallback.ogDescriptionEn),
       ogDescriptionTr: resolve(dbSeo?.ogDescriptionTr, fallback.ogDescriptionTr),
+      titleAr:       resolve((dbSeo as any)?.titleAr,       fallback.titleAr ?? fallback.titleAz),
+      descriptionAr: resolve((dbSeo as any)?.descriptionAr, fallback.descriptionAr ?? fallback.descriptionAz),
+      keywordsAr:    resolve((dbSeo as any)?.keywordsAr,    fallback.keywordsAr ?? fallback.keywordsAz),
+      ogTitleAr:       resolve((dbSeo as any)?.ogTitleAr,       fallback.ogTitleAr ?? fallback.ogTitleAz),
+      ogDescriptionAr: resolve((dbSeo as any)?.ogDescriptionAr, fallback.ogDescriptionAr ?? fallback.ogDescriptionAz),
       ogImage: resolve(dbSeo?.ogImage ?? undefined, fallback.ogImage),
     }
 
-    const suffix = lang === 'az' ? 'Az' : lang === 'ru' ? 'Ru' : lang === 'tr' ? 'Tr' : 'En'
+    const suffix = lang === 'az' ? 'Az' : lang === 'ru' ? 'Ru' : lang === 'tr' ? 'Tr' : lang === 'ar' ? 'Ar' : 'En'
 
     title       = seo[`title${suffix}` as keyof typeof seo] as string
     description = seo[`description${suffix}` as keyof typeof seo] as string
