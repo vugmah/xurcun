@@ -5,7 +5,7 @@ import { eq, and, asc, inArray } from "drizzle-orm";
 import fs from "fs";
 import path from "path";
 import { getDb } from "../queries/connection";
-import { menuCategories, menuItems } from "../../db/schema";
+import { menuCategories, menuItems, blogPosts } from "../../db/schema";
 
 type App = Hono<{ Bindings: HttpBindings }>;
 
@@ -40,55 +40,6 @@ const ROUTE_META: Record<string, RouteMeta> = {
     intro: "Fiziki hədiyyə əvəzinə istədiyiniz balansı yükləyin və sevdiklərinizə premium Xurcun kartı hədiyyə edin — bütün mağazalarımızda keçərlidir.",
     crumb: "Hədiyyə Kartı",
   },
-  "/blog/bakida-hediyye-hara": {
-    title: "Bakıda hədiyyə hara almalı | Xurcun",
-    desc: "Bakıda yaxşı hədiyyə hara almalı? Premium hədiyyə qutuları, quru meyvə, çərəz və şirniyyat. Xurcun-un 11 mağazası və hava limanı filialı.",
-    h1: "Bakıda hədiyyə hara almalı — sakinlər və qonaqlar üçün bələdçi",
-    intro: "İstər doğum günü, istər toy, istərsə də Bakıdan aparılacaq bir xatirə olsun — yaxşı hədiyyə həm zövqlü görünməli, həm də səmimi olmalıdır. Xurcun premium qur…",
-    crumb: "Bakıda hədiyyə",
-  },
-  "/blog/baku-suvenir-belecisi": {
-    title: "Bakıdan nə aparmaq olar — suvenir bələdçisi | Xurcun",
-    desc: "Bakıdan aparmaq üçün ən gözəl suvenirlər: Azərbaycan quru meyvəsi, qoz-fındıq, paxlava, lokum, çay və əl işi hədiyyə qutuları. Hava limanı mağazaları.",
-    h1: "Bakıdan nə aparmaq olar — suvenir bələdçisi",
-    intro: "Bakıdan vətənə dönərkən sevdiklərinizə həm dadlı, həm də unudulmaz bir töhfə aparmaq istəyirsiniz. Magnit və açarlıqlardan kənara çıxın: Azərbaycanın əsl ləz…",
-    crumb: "Suvenir bələdçisi",
-  },
-  "/blog/azerbaycan-quru-meyve-belecisi": {
-    title: "Quru meyvə və qoz-fındıq bələdçisi | Xurcun",
-    desc: "Ərik, əncir, tut, qoz, fındıq, püstə, badam — Azərbaycan quru meyvə və qoz-fındıqlarını necə seçmək, dadmaq və hədiyyə etmək. Xurcun bələdçisi.",
-    h1: "Azərbaycan quru meyvə və qoz-fındıq bələdçisi",
-    intro: "Quru meyvə və qoz-fındıq Azərbaycan süfrəsinin əzəli bir parçasıdır — çayın yanında, bayram süfrəsində və ən zərif hədiyyələrdə. Bu bələdçidə əsas çeşidləri,…",
-    crumb: "Quru meyvə bələdçisi",
-  },
-  "/blog/yeni-il-hediyyeleri": {
-    title: "Yeni il hədiyyə ideyaları | Xurcun",
-    desc: "Yeni il və qış bayramları üçün premium hədiyyə ideyaları: quru meyvə, qoz-fındıq, şokolad və lokum qutuları, korporativ hədiyyələr. Xurcun, Bakı.",
-    h1: "Yeni il hədiyyə ideyaları — qış bayramlarına zövqlü hazırlıq",
-    intro: "Yeni il yaxınlaşır və sevdiklərinizə nə bağışlamaq sualı yenidən gündəmə gəlir. Xurcun premium quru meyvə, qoz-fındıq, şokolad və lokumdan ibarət, qış bayram…",
-    crumb: "Yeni il hədiyyələri",
-  },
-  "/blog/hediyye-qutusu-secimi": {
-    title: "Hədiyyə qutusu necə seçilir | Xurcun",
-    desc: "Hədiyyə qutusu seçim bələdçisi: münasibətə, büdcəyə və tərkibə görə düzgün qutu, fərdiləşdirmə və təqdimat məsləhətləri. Xurcun, Bakı.",
-    h1: "Hədiyyə qutusu necə seçilir — addım-addım bələdçi",
-    intro: "Doğru hədiyyə qutusu yalnız gözəl görünmür — alanın zövqünə, münasibətə və büdcənizə uyğun gəlir. Bu bələdçidə Xurcun-un premium quru meyvə, qoz-fındıq, şoko…",
-    crumb: "Hədiyyə qutusu seçimi",
-  },
-  "/blog/aeroportdan-hediyye": {
-    title: "Bakı aeroportundan hədiyyə — Xurcun",
-    desc: "Bakı aeroportundan son dəqiqə hədiyyələri: əsl Azərbaycan quru meyvəsi, çərəz, şirniyyat və hədiyyə qutuları. Xurcun Terminal 1 və Duty Free.",
-    h1: "Bakı aeroportundan hədiyyə — uçuşdan əvvəl son seçim",
-    intro: "Heydər Əliyev Beynəlxalq Aeroportunda təyyarəyə minmədən əvvəl hələ də sevdiklərinizə hədiyyə tapmaq imkanınız var. Xurcun-un aeroport butikləri — Terminal 1…",
-    crumb: "Aeroportdan hədiyyə",
-  },
-  "/blog/xurcun-10-illik": {
-    title: "Xurcun 10 yaşında — 2015-dən bəri keyfiyyətə vurğunuq | Xurcun",
-    desc: "Xurcun 10 illik yubileyini qeyd etdi (2015–2025). Bir mağazadan Bakıda 11 butikə uzanan yol və «Keyfiyyətə Vurğunuq» fəlsəfəsi. Yubiley videosu.",
-    h1: "Xurcun 10 yaşında — bir onillik keyfiyyət",
-    intro: "2025-ci ilin sonunda Xurcun 10 illik yubileyini qeyd etdi. 2015-ci ildə bir mağaza ilə başlayan yol bu gün Bakıda 11 butikə çevrilib. Şüarımız dəyişməyib: Keyfiyyətə Vurğunuq.",
-    crumb: "10 illik yubiley",
-  },
   "/about": {
     title: "Haqqımızda | Xurcun — 2015-dən bəri premium butik",
     desc: "Xurcun — 2015-ci ildə Vüqar Məhərrəmov tərəfindən təsis edilmiş premium quru meyvə, qoz-fındıq, çay, şirniyyat və əl işi hədiyyə butiki. Bakıda 11 mağaza.",
@@ -116,69 +67,6 @@ const ROUTE_META: Record<string, RouteMeta> = {
     h1: "Xurcun Blog",
     intro: "Hədiyyə, toy xonçası, premium qutular, şokolad, paxlava və lokum haqqında bələdçilər.",
     crumb: "Blog",
-  },
-  "/blog/toy-xoncasi": {
-    title: "Toy xonçası — premium hədiyyə xonçaları | Xurcun",
-    desc: "Toy, nişan və hədiyyə xonçaları: necə hazırlanır, içində nə olur və Xurcun-dan premium xonça necə sifariş edilir. Bakıda 11 mağaza.",
-    h1: "Toy xonçası — ənənə və zərafət bir arada",
-    intro: "Toy və nişan üçün premium xonça: quru meyvə, qoz-fındıq, şokolad, lokum və paxlava ilə əl işi hazırlanır.",
-    crumb: "Toy xonçası",
-  },
-  "/blog/bayram-hediyyeleri": {
-    title: "Bayram hədiyyələri — Novruz, Ramazan, Yeni il | Xurcun",
-    desc: "Bayramlar üçün premium hədiyyə ideyaları: quru meyvə, şokolad, lokum və paxlava qutuları. Xurcun-dan zövqlü bayram hədiyyələri, Bakı.",
-    h1: "Bayram hədiyyələri — hər mərasim üçün zövqlü seçim",
-    intro: "Novruz, Ramazan, Yeni il və doğum günü üçün premium quru meyvə, çərəz və şirniyyat qutuları.",
-    crumb: "Bayram hədiyyələri",
-  },
-  "/blog/premium-hediyye-qutulari": {
-    title: "Premium hədiyyəlik qutular | Xurcun — əl işi qutular",
-    desc: "Əl işi premium hədiyyə qutuları — korporativ, bayram və şəxsi münasibətlər üçün. Quru meyvə, şokolad, lokum və paxlava ilə. Xurcun, Bakı.",
-    h1: "Premium hədiyyəlik qutular",
-    intro: "Əl işi premium hədiyyə dəstləri — korporativ təqdimatlar, bayramlar və xüsusi anlar üçün.",
-    crumb: "Premium hədiyyəlik qutular",
-  },
-  "/blog/sokolad": {
-    title: "Premium şokolad | Xurcun — süd və qara şokolad",
-    desc: "Xurcun premium şokoladları — süd, qara və qarışıq çeşidlər. Hədiyyə üçün ideal şokolad qutuları. Bakıda 11 mağaza, WhatsApp ilə sifariş.",
-    h1: "Premium şokolad seçimi",
-    intro: "Keyfiyyətli kakao, zərif dad — gündəlik zövq və hədiyyə üçün premium şokolad çeşidi.",
-    crumb: "Şokolad",
-  },
-  "/blog/paxlava": {
-    title: "Paxlava | Xurcun — ənənəvi dad, premium keyfiyyət",
-    desc: "Xurcun paxlavası — ənənəvi resept, seçmə qoz-fındıq və premium keyfiyyət. Bayram süfrələri və hədiyyə üçün. Bakıda 11 mağaza.",
-    h1: "Paxlava — ənənəvi dad, premium keyfiyyət",
-    intro: "Ənənəvi resept, seçmə qoz-fındıq və təbii tərkib — bayram süfrəsi və hədiyyə üçün paxlava.",
-    crumb: "Paxlava",
-  },
-  "/blog/lokum": {
-    title: "Lokum (rahat) | Xurcun — çeşidlər və hədiyyə",
-    desc: "Xurcun lokumu — qoz, püstə və meyvəli çeşidlər. Hədiyyə üçün zərif lokum qutuları. Premium keyfiyyət, Bakıda 11 mağaza.",
-    h1: "Lokum — zərif dad, rəngarəng çeşid",
-    intro: "Qoz, püstə və meyvəli lokum çeşidi — zövq və hədiyyə üçün zərif təqdimat.",
-    crumb: "Lokum",
-  },
-  "/blog/quru-meyve-faydalari": {
-    title: "Quru meyvə və qoz-fındığın faydaları | Xurcun",
-    desc: "Quru meyvə və qoz-fındıq niyə faydalıdır: vitaminlər, lif, enerji. Sağlam çərəz seçimi və gündəlik norma. Xurcun, Bakı.",
-    h1: "Quru meyvə və qoz-fındığın faydaları",
-    intro: "Quru meyvə və qoz-fındıq təbii enerji, vitamin və lif mənbəyidir — sağlam və dadlı çərəz seçimi.",
-    crumb: "Quru meyvənin faydası",
-  },
-  "/blog/korporativ-hediyye": {
-    title: "Korporativ hədiyyə bələdçisi | Xurcun — biznes hədiyyələri",
-    desc: "Korporativ hədiyyələr: loqolu premium qutular, bayram dəstləri, çoxsaylı sifariş. Müştəri və əməkdaşlar üçün. Xurcun, Bakı, 11 mağaza.",
-    h1: "Korporativ hədiyyə bələdçisi",
-    intro: "Loqolu, fərdiləşdirilmiş premium korporativ hədiyyə qutuları — müştərilər, tərəfdaşlar və əməkdaşlar üçün.",
-    crumb: "Korporativ hədiyyə",
-  },
-  "/blog/bayram-korporativ-hediyye": {
-    title: "Bayramlarda korporativ hədiyyələr — Azərbaycan bayram təqvimi | Xurcun",
-    desc: "Yeni il, Novruz, 8 Mart, Ramazan və Qurban bayramlarında müştəri və tərəfdaşlarınızı Xurcun premium şokolad, çərəz, quru meyvə və lokum qutuları ilə sevindirin. Brendləmə, toplu sifariş, Bakıda çatdırılma.",
-    h1: "Bayramlarda korporativ hədiyyələr — illik təqvim",
-    intro: "Hansı bayramda hansı Xurcun qutusunun uyğun olduğu və korporativ sifarişin necə işlədiyi — illik hədiyyə təqvimi bələdçisi.",
-    crumb: "Bayram korporativ hədiyyə",
   },
   "/privacy": { title: "Məxfilik Siyasəti | Xurcun", h1: "Məxfilik Siyasəti — Xurcun", crumb: "Məxfilik Siyasəti" },
   "/cookie-policy": { title: "Cookie Siyasəti | Xurcun", h1: "Cookie Siyasəti — Xurcun", crumb: "Cookie Siyasəti" },
@@ -387,10 +275,54 @@ async function productShell(slug: string): Promise<{ meta: RouteMeta; jsonLd: st
   };
 }
 
+// Look up a single published blog post by slug and build per-post meta + a BlogPosting
+// JSON-LD <script>, so non-JS crawlers/AI get the real post (title, description, body)
+// instead of the generic /blog listing meta. Returns null if not found.
+async function blogPostShell(slug: string): Promise<{ meta: RouteMeta; jsonLd: string } | null> {
+  const db = getDb();
+  const rows = await db
+    .select()
+    .from(blogPosts)
+    .where(and(eq(blogPosts.slug, slug), eq(blogPosts.published, true)))
+    .limit(1);
+  const post = rows[0];
+  if (!post) return null;
+  const title = post.titleAz || post.titleEn || "";
+  const desc = (post.descAz || post.descEn || "").slice(0, 300);
+  const h1 = post.h1Az || post.h1En || title;
+  const lead = post.leadAz || post.leadEn || desc;
+  const url = `${SITE}/blog/${slug}`;
+  const img = post.cover ? (post.cover.startsWith("http") ? post.cover : SITE + post.cover) : "";
+  const article: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: h1 || title,
+    description: desc,
+    url,
+    mainEntityOfPage: url,
+    publisher: { "@type": "Organization", name: "Xurcun" },
+  };
+  if (post.date) {
+    article.datePublished = post.date;
+    article.dateModified = post.date;
+  }
+  if (img) article.image = [img];
+  return {
+    meta: {
+      title,
+      desc: desc.slice(0, 160),
+      h1: h1 || title,
+      intro: lead.slice(0, 200),
+      crumb: title,
+    },
+    jsonLd: `<script type="application/ld+json">${JSON.stringify(article)}</script>`,
+  };
+}
+
 // Build the per-route HTML for the SPA fallback. Unknown routes (no override and not
 // /menu/<slug>) keep the homepage meta/shell — harmless, since they render the homepage.
 async function buildRouteHtml(html: string, pathname: string): Promise<string> {
-  let meta = ROUTE_META[pathname] ?? (pathname.startsWith("/menu/") ? ROUTE_META["/menu"] : pathname.startsWith("/catalog/") ? ROUTE_META["/catalog"] : null);
+  let meta = ROUTE_META[pathname] ?? (pathname.startsWith("/menu/") ? ROUTE_META["/menu"] : pathname.startsWith("/catalog/") ? ROUTE_META["/catalog"] : pathname.startsWith("/blog/") ? ROUTE_META["/blog"] : null);
   if (!meta) return html;
 
   // Deep product page (/catalog/<slug>): resolve the real product for per-product meta + schema.
@@ -402,6 +334,17 @@ async function buildRouteHtml(html: string, pathname: string): Promise<string> {
       console.error("[ssr] product shell failed (serving catalog meta):", err);
     }
     if (product) meta = product.meta;
+  }
+
+  // Deep blog post (/blog/<slug>): resolve the real post for per-post meta + schema.
+  let blogPost: Awaited<ReturnType<typeof blogPostShell>> = null;
+  if (pathname.startsWith("/blog/")) {
+    try {
+      blogPost = await blogPostShell(decodeURIComponent(pathname.slice("/blog/".length)));
+    } catch (err) {
+      console.error("[ssr] blog shell failed (serving blog meta):", err);
+    }
+    if (blogPost) meta = blogPost.meta;
   }
 
   let out = injectRouteMeta(html, pathname, meta);
@@ -420,6 +363,18 @@ async function buildRouteHtml(html: string, pathname: string): Promise<string> {
       ],
     })}</script>`);
     extras.push(product.jsonLd);
+  } else if (blogPost) {
+    // Home > Blog > Post breadcrumb (3 levels) + the BlogPosting itself.
+    extras.push(`<script type="application/ld+json">${JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Ana səhifə", item: `${SITE}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
+        { "@type": "ListItem", position: 3, name: meta.crumb, item: SITE + pathname },
+      ],
+    })}</script>`);
+    extras.push(blogPost.jsonLd);
   } else {
     extras.push(breadcrumbJsonLd(pathname, meta));
   }

@@ -5,7 +5,7 @@ import AdminErrorBoundary from "@/components/AdminErrorBoundary";
 import {
   LayoutDashboard, Globe, Image, LogOut, ChevronLeft,
   Mail, Megaphone, Menu, X, Settings, Bot,
-  Lightbulb, MessageSquare, ShoppingBag, MapPin, QrCode, Coffee, Package,
+  Lightbulb, MessageSquare, ShoppingBag, MapPin, QrCode, Coffee, Package, FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -23,6 +23,7 @@ const navGroups: { group: string; items: NavItem[] }[] = [
   ] },
   { group: "Marketinq", items: [
     { path: "/admin/seo", icon: Globe, label: "SEO" },
+    { path: "/admin/blog", icon: FileText, label: "Blog" },
     { path: "/admin/google-ads", icon: Megaphone, label: "Google Ads" },
     { path: "/admin/popups", icon: Megaphone, label: "Kampaniyalar" },
     { path: "/admin/ai-auditor", icon: Bot, label: "AI Auditor" },

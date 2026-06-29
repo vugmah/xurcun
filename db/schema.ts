@@ -1,4 +1,4 @@
-import { serial, varchar, text, boolean, timestamp, int, mysqlTable } from "drizzle-orm/mysql-core";
+import { serial, varchar, text, boolean, timestamp, int, json, mysqlTable } from "drizzle-orm/mysql-core";
 
 // Menu categories
 export const menuCategories = mysqlTable("menu_categories", {
@@ -490,4 +490,31 @@ export const orderItems = mysqlTable("order_items", {
   qty: int("qty").notNull().default(1),
   price: varchar("price", { length: 50 }),
   createdAt: timestamp("created_at").defaultNow(),
+});
+
+// ═══════════════════════════════════════════════════════
+// BLOG POSTS (DB-backed Blog CMS)
+// ═══════════════════════════════════════════════════════
+
+type BlogL = { az: string; ru: string; en: string; tr: string; ar: string };
+export type BlogSectionRow = { h2: BlogL; body: BlogL[]; image?: string; imageAlt?: BlogL; gallery?: { src: string; alt: BlogL }[] };
+
+export const blogPosts = mysqlTable("blog_posts", {
+  id: serial("id"),
+  slug: varchar("slug", { length: 160 }).notNull(),
+  date: varchar("date", { length: 10 }).notNull(),
+  cover: varchar("cover", { length: 500 }),
+  video: varchar("video", { length: 500 }),
+  titleAz: varchar("title_az", { length: 300 }), titleRu: varchar("title_ru", { length: 300 }),
+  titleEn: varchar("title_en", { length: 300 }), titleTr: varchar("title_tr", { length: 300 }),
+  titleAr: varchar("title_ar", { length: 300 }),
+  descAz: text("desc_az"), descRu: text("desc_ru"), descEn: text("desc_en"), descTr: text("desc_tr"), descAr: text("desc_ar"),
+  h1Az: varchar("h1_az", { length: 300 }), h1Ru: varchar("h1_ru", { length: 300 }),
+  h1En: varchar("h1_en", { length: 300 }), h1Tr: varchar("h1_tr", { length: 300 }), h1Ar: varchar("h1_ar", { length: 300 }),
+  leadAz: text("lead_az"), leadRu: text("lead_ru"), leadEn: text("lead_en"), leadTr: text("lead_tr"), leadAr: text("lead_ar"),
+  sections: json("sections").$type<BlogSectionRow[]>(),
+  sortOrder: int("sort_order").default(0),
+  published: boolean("published").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
