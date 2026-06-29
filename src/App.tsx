@@ -13,6 +13,7 @@ import FaqPage from "./pages/FaqPage";
 import BlogPage from "./pages/BlogPage";
 import BlogPostPage from "./pages/BlogPostPage";
 import CorporatePage from "./pages/CorporatePage";
+import GiftCardPage from "./pages/GiftCardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { useAutoPageView } from "./hooks/useTracking";
@@ -96,6 +97,7 @@ function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/corporate" element={<CorporatePage />} />
+        <Route path="/gift-card" element={<GiftCardPage />} />
         <Route path="/admin/login" element={<Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}><LoginPage /></Suspense>} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Suspense fallback={<SectionSkeleton />}><DashboardPage /></Suspense>} />

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
+import GiftCardSection from '@/components/GiftCardSection'
 import '@/xurcun-base.css'
 import '@/xurcun-home.css'
 
@@ -24,6 +25,7 @@ const S = {
   nav_home: { az: 'Ana səhifə', ru: 'Главная', en: 'Home', tr: 'Ana sayfa', ar: 'الرئيسية' },
   nav_catalog: { az: 'Kataloq', ru: 'Каталог', en: 'Catalogue', tr: 'Katalog', ar: 'الكتالوج' },
   nav_gift: { az: 'Hədiyyəlik', ru: 'Подарки', en: 'Gifts', tr: 'Hediyelik', ar: 'الهدايا' },
+  nav_giftcard: { az: 'Hədiyyə Kartı', ru: 'Подарочная карта', en: 'Gift Card', tr: 'Hediye Kartı', ar: 'بطاقة هدية' },
   nav_stores: { az: 'Mağazalar', ru: 'Магазины', en: 'Stores', tr: 'Mağazalar', ar: 'المتاجر' },
   nav_about: { az: 'Haqqımızda', ru: 'О нас', en: 'About', tr: 'Hakkımızda', ar: 'من نحن' },
   nav_contact: { az: 'Əlaqə', ru: 'Контакты', en: 'Contact', tr: 'İletişim', ar: 'اتصل بنا' },
@@ -273,7 +275,7 @@ export default function HomePage() {
           </button>
           <nav id="primary-nav" aria-label={t(S.aria_nav)} onClick={() => setMenuOpen(false)}>
             <a href="#top">{t(S.nav_home)}</a><a href="/catalog">{t(S.nav_catalog)}</a><a href="/catalog">{t(S.nav_gift)}</a>
-            <a href="#magazalar">{t(S.nav_stores)}</a><a href="#haqqimizda">{t(S.nav_about)}</a><a href="#elaqe">{t(S.nav_contact)}</a>
+            <a href="/gift-card">{t(S.nav_giftcard)}</a><a href="#magazalar">{t(S.nav_stores)}</a><a href="#haqqimizda">{t(S.nav_about)}</a><a href="#elaqe">{t(S.nav_contact)}</a>
           </nav>
         </div>
       </header>
@@ -334,6 +336,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <GiftCardSection />
 
       <section className="about" id="haqqimizda">
         <div className="wrap">
@@ -399,7 +403,7 @@ export default function HomePage() {
       <footer id="elaqe">
         <div className="bgpat" />
         <div className="wrap">
-          <div className="reveal"><picture><source srcSet={LOGO_WEBP} type="image/webp" /><img className="logo" src={LOGO} alt="Xurcun" width={140} height={48} /></picture><p>{t(S.foot_about)}</p><p className="foot-links"><a href="/about">{t(S.nav_about)}</a> · <a href="/faq">FAQ</a> · <a href="/blog">Blog</a> · <a href="/corporate">{t(S.nav_corp)}</a> · <a href="/catalog">{t(S.nav_catalog)}</a></p></div>
+          <div className="reveal"><picture><source srcSet={LOGO_WEBP} type="image/webp" /><img className="logo" src={LOGO} alt="Xurcun" width={140} height={48} /></picture><p>{t(S.foot_about)}</p><p className="foot-links"><a href="/about">{t(S.nav_about)}</a> · <a href="/faq">FAQ</a> · <a href="/blog">Blog</a> · <a href="/corporate">{t(S.nav_corp)}</a> · <a href="/gift-card">{t(S.nav_giftcard)}</a> · <a href="/catalog">{t(S.nav_catalog)}</a></p></div>
           <div className="reveal d1"><h3>{t(S.foot_stores)}</h3><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Crescent Mall</li><li>Sea Breeze</li><li>Hava Limanı</li></ul></div>
           <div className="reveal d2"><h3>{t(S.foot_contact)}</h3><ul>
             <li><a href="mailto:info@xurcun.az">info@xurcun.az</a></li>
