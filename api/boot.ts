@@ -261,6 +261,7 @@ app.get("/sitemap.xml", async (c) => {
     { loc: "https://xurcun.az/about", priority: "0.6", changefreq: "monthly" },
     { loc: "https://xurcun.az/faq", priority: "0.5", changefreq: "monthly" },
     { loc: "https://xurcun.az/corporate", priority: "0.7", changefreq: "monthly" },
+    { loc: "https://xurcun.az/gift-card", priority: "0.7", changefreq: "monthly" },
     { loc: "https://xurcun.az/blog", priority: "0.6", changefreq: "weekly" },
     { loc: "https://xurcun.az/blog/toy-xoncasi", priority: "0.6", changefreq: "monthly" },
     { loc: "https://xurcun.az/blog/bayram-hediyyeleri", priority: "0.6", changefreq: "monthly" },

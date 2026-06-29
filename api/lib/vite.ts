@@ -33,6 +33,13 @@ const ROUTE_META: Record<string, RouteMeta> = {
     intro: "Mağaza menyusu — quru meyvə, qoz-fındıq, çərəz, lokum və şirniyyat çeşidləri. WhatsApp ilə sifariş edin.",
     crumb: "Menyu",
   },
+  "/gift-card": {
+    title: "Hədiyyə Kartı | Xurcun — premium hədiyyə həlli",
+    desc: "Xurcun Hədiyyə Kartı — istədiyiniz balansı yükləyin, sevdiklərinizə premium kart hədiyyə edin. Bakıda 11 mağazada keçərlidir.",
+    h1: "Xurcun Hədiyyə Kartı",
+    intro: "Fiziki hədiyyə əvəzinə istədiyiniz balansı yükləyin və sevdiklərinizə premium Xurcun kartı hədiyyə edin — bütün mağazalarımızda keçərlidir.",
+    crumb: "Hədiyyə Kartı",
+  },
   "/about": {
     title: "Haqqımızda | Xurcun — 2015-dən bəri premium butik",
     desc: "Xurcun — 2015-ci ildə Vüqar Məhərrəmov tərəfindən təsis edilmiş premium quru meyvə, qoz-fındıq, çay, şirniyyat və əl işi hədiyyə butiki. Bakıda 11 mağaza.",
@@ -299,7 +306,7 @@ export function serveStaticFiles(app: App) {
     // don't linger as soft-404s (200 + wrong content) in search.
     const KNOWN = new Set([
       "/", "/catalog", "/menu", "/blog", "/about", "/faq",
-      "/corporate", "/privacy", "/cookie-policy",
+      "/corporate", "/gift-card", "/privacy", "/cookie-policy",
     ]);
     const isKnown =
       KNOWN.has(pathname) ||
