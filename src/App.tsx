@@ -20,6 +20,7 @@ import { useAutoPageView } from "./hooks/useTracking";
 import { initCopyProtection } from "./lib/copyProtection";
 import { useEffect } from "react";
 import PopupRenderer from "./components/PopupRenderer";
+import WhatsAppFab from "./components/WhatsAppFab";
 
 // Admin shell is NOT lazy-loaded — it renders instantly
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -84,6 +85,7 @@ function App() {
   return (
     <RootErrorBoundary>
       <PopupRenderer />
+      <WhatsAppFab />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login/admin" element={<Navigate to="/admin/login" replace />} />
