@@ -56,6 +56,23 @@ export default function TasteGallery() {
     return () => io.disconnect()
   }, [])
 
+  // Don't let the horizontal reels row hijack vertical mouse-wheel scrolling
+  // (browsers translate vertical wheel to horizontal on x-scrollers → page feels stuck).
+  // Vertical-intent wheel scrolls the page; horizontal-intent still scrolls the row.
+  useEffect(() => {
+    const row = rowRef.current
+    if (!row) return
+    const onWheel = (e: WheelEvent) => {
+      if (row.scrollWidth <= row.clientWidth) return
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault()
+        window.scrollBy(0, e.deltaY)
+      }
+    }
+    row.addEventListener('wheel', onWheel, { passive: false })
+    return () => row.removeEventListener('wheel', onWheel)
+  }, [])
+
   // Tap a tile to hear it; only one tile plays sound at a time.
   const toggleSound = (i: number) => {
     setSoundIdx((prev) => {
