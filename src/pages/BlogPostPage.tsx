@@ -100,6 +100,13 @@ export default function BlogPostPage() {
               <h2>{pickL(sec.h2, lang)}</h2>
               {sec.body.map((b, j) => <p key={j}>{pickL(b, lang)}</p>)}
               {sec.image && <img className="cover" src={sec.image} alt={sec.imageAlt ? pickL(sec.imageAlt, lang) : ""} loading="lazy" decoding="async" />}
+              {sec.gallery && (
+                <div className="xcp-gallery">
+                  {sec.gallery.map((g, k) => (
+                    <img key={k} src={g.src} alt={pickL(g.alt, lang)} loading="lazy" decoding="async" />
+                  ))}
+                </div>
+              )}
             </section>
           ))}
         </article>

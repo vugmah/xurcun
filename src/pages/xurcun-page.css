@@ -59,6 +59,9 @@
 .xc.xcpage .xcp-crumb span{margin:0 4px}
 .xc.xcpage .xcp-article{max-width:720px;margin:8px auto 0;text-align:left}
 .xc.xcpage .xcp-article .cover{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;border:1px solid var(--line);margin-bottom:22px}
+.xc.xcpage .xcp-article .xcp-gallery{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.xc.xcpage .xcp-article .xcp-gallery img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);display:block}
+@media (max-width:640px){.xc.xcpage .xcp-article .xcp-gallery{grid-template-columns:1fr;gap:12px}}
 .xc.xcpage .xcp-article h2{font-size:22px;color:var(--ink);margin:28px 0 10px}
 .xc.xcpage .xcp-article p{font-size:15.5px;line-height:1.7;color:var(--ink-soft);margin:0 0 14px}
 
