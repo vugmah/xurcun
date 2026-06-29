@@ -1,7 +1,8 @@
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router'
 import { useLanguage } from '@/lib/LanguageContext'
-import { getBlogPost, pickL } from '@/lib/blogPosts'
+import { pickL } from '@/lib/blogPosts'
+import { trpc } from '@/providers/trpc'
 import NotFoundPage from './NotFoundPage'
 import '@/xurcun-base.css'
 import './xurcun-page.css'
@@ -26,7 +27,18 @@ export default function BlogPostPage() {
   const { lang, setLang } = useLanguage()
   const t = (m: M) => m[lang] ?? m.az
   const { slug } = useParams<{ slug: string }>()
-  const post = slug ? getBlogPost(slug) : undefined
+  const postQ = trpc.blog.getBySlug.useQuery({ slug: slug! }, { enabled: !!slug })
+  const post = postQ.data
+
+  if (slug && postQ.isLoading) {
+    return (
+      <div className="xc xcpage">
+        <main className="xcp-wrap">
+          <div className="xcp-state"><div className="xcp-spin" aria-label="Loading" /></div>
+        </main>
+      </div>
+    )
+  }
   if (!post) return <NotFoundPage />
 
   const url = `${SITE}/blog/${post.slug}`

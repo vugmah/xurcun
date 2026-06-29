@@ -6,7 +6,7 @@ import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
 import { getDb, getPool } from "./queries/connection";
-import { menuCategories, menuItems, photos, seoSettings, photoAssignments, branches } from "../db/schema";
+import { menuCategories, menuItems, photos, seoSettings, photoAssignments, branches, blogPosts } from "../db/schema";
 import { writeFile, mkdir, readFile } from "fs/promises";
 import path from "path";
 import { eq, asc, and, inArray } from "drizzle-orm";
@@ -263,23 +263,23 @@ app.get("/sitemap.xml", async (c) => {
     { loc: "https://xurcun.az/corporate", priority: "0.7", changefreq: "monthly" },
     { loc: "https://xurcun.az/gift-card", priority: "0.7", changefreq: "monthly" },
     { loc: "https://xurcun.az/blog", priority: "0.6", changefreq: "weekly" },
-    { loc: "https://xurcun.az/blog/toy-xoncasi", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/xurcun-10-illik", priority: "0.7", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/yeni-il-hediyyeleri", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/hediyye-qutusu-secimi", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/aeroportdan-hediyye", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/bakida-hediyye-hara", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/baku-suvenir-belecisi", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/azerbaycan-quru-meyve-belecisi", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/bayram-hediyyeleri", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/premium-hediyye-qutulari", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/sokolad", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/paxlava", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/lokum", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/quru-meyve-faydalari", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/korporativ-hediyye", priority: "0.6", changefreq: "monthly" },
-    { loc: "https://xurcun.az/blog/bayram-korporativ-hediyye", priority: "0.6", changefreq: "monthly" },
   ];
+
+  // Per-post blog pages (/blog/<slug>) — one crawlable URL per published post.
+  // Best-effort: a DB failure must not break the sitemap; fall back to static routes.
+  try {
+    const db = getDb();
+    const rows = await db
+      .select({ slug: blogPosts.slug })
+      .from(blogPosts)
+      .where(eq(blogPosts.published, true))
+      .orderBy(asc(blogPosts.sortOrder));
+    for (const b of rows) {
+      if (b.slug) routes.push({ loc: `https://xurcun.az/blog/${b.slug}`, priority: "0.6", changefreq: "monthly" });
+    }
+  } catch (err) {
+    console.error("[sitemap] blog posts fetch failed (serving static routes only):", err);
+  }
 
   // Per-branch QR-menu pages (/menu/<slug>) — one crawlable URL per active store.
   // Best-effort: a DB failure must not break the sitemap; fall back to static routes.
@@ -571,6 +571,57 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
     console.log("[MIGRATE] Xurcun branches ensured (11)");
   } catch (err: any) {
     console.error("[MIGRATE] Branch seed error:", err.message || err);
+  }
+
+  // ── 5b. blog_posts (DB-backed Blog CMS) ──
+  await createTable("blog_posts", `
+    CREATE TABLE IF NOT EXISTS blog_posts (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      slug VARCHAR(160) NOT NULL UNIQUE,
+      date VARCHAR(10) NOT NULL,
+      cover VARCHAR(500), video VARCHAR(500),
+      title_az VARCHAR(300), title_ru VARCHAR(300), title_en VARCHAR(300), title_tr VARCHAR(300), title_ar VARCHAR(300),
+      desc_az TEXT, desc_ru TEXT, desc_en TEXT, desc_tr TEXT, desc_ar TEXT,
+      h1_az VARCHAR(300), h1_ru VARCHAR(300), h1_en VARCHAR(300), h1_tr VARCHAR(300), h1_ar VARCHAR(300),
+      lead_az TEXT, lead_ru TEXT, lead_en TEXT, lead_tr TEXT, lead_ar TEXT,
+      sections JSON, sort_order INT DEFAULT 0, published BOOLEAN DEFAULT true,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )`);
+  await createIndex("blog_posts", "idx_blog_posts_pub_sort", "published, sort_order");
+
+  // Seed blog posts from the content-in-code source (idempotent by slug).
+  try {
+    const pool = getPool();
+    const { BLOG_POSTS } = await import("../src/lib/blogPosts");
+    let idx = 0;
+    for (const p of BLOG_POSTS) {
+      const [r] = await pool.execute(`SELECT id FROM blog_posts WHERE slug = ? LIMIT 1`, [p.slug]);
+      if (!(r as any[]).length) {
+        await pool.execute(
+          `INSERT INTO blog_posts
+             (slug, date, cover, video,
+              title_az, title_ru, title_en, title_tr, title_ar,
+              desc_az, desc_ru, desc_en, desc_tr, desc_ar,
+              h1_az, h1_ru, h1_en, h1_tr, h1_ar,
+              lead_az, lead_ru, lead_en, lead_tr, lead_ar,
+              sections, sort_order, published)
+           VALUES (?, ?, ?, ?,  ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?,  ?, ?, true)`,
+          [
+            p.slug, p.date, p.cover ?? null, p.video ?? null,
+            p.title.az, p.title.ru, p.title.en, p.title.tr, p.title.ar,
+            p.desc.az, p.desc.ru, p.desc.en, p.desc.tr, p.desc.ar,
+            p.h1.az, p.h1.ru, p.h1.en, p.h1.tr, p.h1.ar,
+            p.lead.az, p.lead.ru, p.lead.en, p.lead.tr, p.lead.ar,
+            JSON.stringify(p.sections), idx,
+          ],
+        );
+      }
+      idx++;
+    }
+    console.log(`[MIGRATE] Blog seed ensured (${BLOG_POSTS.length})`);
+  } catch (err: any) {
+    console.error("[MIGRATE] Blog seed error:", err.message || err);
   }
 
   // ── 6. menu_item_branches ──

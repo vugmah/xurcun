@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '@/lib/LanguageContext'
-import { BLOG_POSTS, pickL } from '@/lib/blogPosts'
+import { pickL } from '@/lib/blogPosts'
+import { trpc } from '@/providers/trpc'
 import '@/xurcun-base.css'
 import './xurcun-page.css'
 
@@ -26,11 +27,13 @@ const S = {
   },
   catalog: { az: 'Kataloqa bax', ru: 'Смотреть каталог', en: 'View catalogue', tr: 'Kataloğa bak', ar: 'تصفح الكتالوج' },
   more: { az: 'Oxu →', ru: 'Читать →', en: 'Read →', tr: 'Oku →', ar: 'اقرأ →' },
+  empty: { az: 'Tezliklə yeni yazılar.', ru: 'Скоро новые статьи.', en: 'New posts coming soon.', tr: 'Yakında yeni yazılar.', ar: 'مقالات جديدة قريباً.' },
 }
 
 export default function BlogPage() {
   const { lang, setLang } = useLanguage()
   const t = (m: M) => m[lang] ?? m.az
+  const postsQ = trpc.blog.list.useQuery()
   return (
     <div className="xc xcpage">
       <Helmet>
@@ -56,18 +59,24 @@ export default function BlogPage() {
         <div className="ornament"><img src={EMBLEM} alt="" /></div>
         <p className="xcp-lead">{t(S.lead)}</p>
 
-        <div className="xcp-bloglist">
-          {BLOG_POSTS.map((p) => (
-            <a className="xcp-blogcard" href={`/blog/${p.slug}`} key={p.slug}>
-              <div className="thumb"><img src={p.cover} alt={pickL(p.h1, lang)} loading="lazy" /></div>
-              <div className="meta">
-                <h2>{pickL(p.h1, lang)}</h2>
-                <p>{pickL(p.lead, lang)}</p>
-                <span className="more">{t(S.more)}</span>
-              </div>
-            </a>
-          ))}
-        </div>
+        {postsQ.isLoading ? (
+          <div className="xcp-state"><div className="xcp-spin" aria-label="Loading" /></div>
+        ) : postsQ.data && postsQ.data.length === 0 ? (
+          <div className="xcp-state">{t(S.empty)}</div>
+        ) : (
+          <div className="xcp-bloglist">
+            {(postsQ.data ?? []).map((p) => (
+              <a className="xcp-blogcard" href={`/blog/${p.slug}`} key={p.slug}>
+                <div className="thumb"><img src={p.cover ?? undefined} alt={pickL(p.h1, lang)} loading="lazy" /></div>
+                <div className="meta">
+                  <h2>{pickL(p.h1, lang)}</h2>
+                  <p>{pickL(p.lead, lang)}</p>
+                  <span className="more">{t(S.more)}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
 
         <div className="xcp-cta">
           <a className="xcp-btn" href="/catalog">{t(S.catalog)}</a>
