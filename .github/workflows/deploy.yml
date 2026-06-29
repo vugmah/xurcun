@@ -47,10 +47,3 @@ jobs:
           echo "Testing sitemap.xml..."
           curl -A "$UA" -sS https://xurcun.az/sitemap.xml | head -1 || echo "WARN: sitemap check inconclusive"
           echo "Smoke test done (non-blocking)."
-
-      - name: Sync 22 Tea Photo Assignments
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          echo "Syncing 22 fruit tea photo assignments to DB..."
-          railway run --service=xurcun "npx tsx api/scripts/sync-22-tea-assignments.ts" || echo "WARN: Tea sync step failed (non-blocking)"
