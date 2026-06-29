@@ -111,6 +111,13 @@ const S = {
     tr: 'Xurcun mağazasında ürünlerin tartılması',
     ar: 'وزن المنتجات في متجر Xurcun',
   },
+  about_sound: {
+    az: 'Səs üçün toxunun',
+    ru: 'Нажмите для звука',
+    en: 'Tap for sound',
+    tr: 'Ses için dokunun',
+    ar: 'انقر للصوت',
+  },
 } satisfies Record<string, M>
 
 const CATS: M[] = [
@@ -154,7 +161,18 @@ export default function HomePage() {
   const t = (m: M) => m[lang] ?? m.az
   const root = useRef<HTMLDivElement>(null)
   const heroVid = useRef<HTMLVideoElement>(null)
+  const aboutVid = useRef<HTMLVideoElement>(null)
+  const [aboutSound, setAboutSound] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const toggleAboutSound = () => {
+    const v = aboutVid.current
+    if (!v) return
+    const next = !aboutSound
+    v.muted = !next
+    if (next) void v.play?.()
+    setAboutSound(next)
+  }
 
   // Branches come from the admin/DB (synced). Fallback to static list if API empty.
   const branchesQ = trpc.branch.getBranches.useQuery(undefined, { retry: false })
@@ -345,9 +363,25 @@ export default function HomePage() {
       <section className="about" id="haqqimizda">
         <div className="wrap">
           <div className="about-media reveal">
-            <video className="about-vid" muted loop playsInline autoPlay preload="metadata" poster="/images/gv-ribbons.webp" aria-label={t(S.about_alt)}>
+            <video ref={aboutVid} className="about-vid" muted loop playsInline autoPlay preload="metadata" poster="/images/gv-ribbons.webp" aria-label={t(S.about_alt)}>
               <source src="/videos/gv-ribbons-s.mp4" type="video/mp4" />
             </video>
+            <button
+              type="button"
+              className={`about-sound${aboutSound ? ' on' : ''}`}
+              onClick={toggleAboutSound}
+              aria-pressed={aboutSound}
+              aria-label={t(S.about_sound)}
+              title={t(S.about_sound)}
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor" stroke="none" />
+                {aboutSound
+                  ? <><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 6a8 8 0 0 1 0 12" /></>
+                  : <path d="m17 9 5 6M22 9l-5 6" />}
+              </svg>
+              <span>{t(S.about_sound)}</span>
+            </button>
           </div>
           <div className="about-body reveal d1">
             <div className="tag">{t(S.about_tag)}</div>
