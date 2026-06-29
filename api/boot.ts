@@ -57,6 +57,7 @@ app.use('*', async (c: any, next: any) => {
       "frame-src https://www.google.com https://maps.google.com https://www.google-analytics.com; " +
       "object-src 'none'; " +
       "base-uri 'self'; " +
+      "frame-ancestors 'self'; " +
       "form-action 'self';"
     );
   }

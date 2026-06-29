@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 import { z } from "zod";
-import { createRouter, publicQuery } from "../middleware";
+import { createRouter, publicQuery, adminQuery } from "../middleware";
 import { getDb } from "../queries/connection";
 import { menuEvents, approvedBadges } from "../../db/schema";
 import { sql, desc, eq, and, gte } from "drizzle-orm";
@@ -81,7 +81,7 @@ export const analyticsRouter = createRouter({
     }),
 
   // ═══ Admin: Get top items by event type ═══
-  getTopItems: publicQuery
+  getTopItems: adminQuery
     .input(z.object({
       branchSlug: z.string().default("white-city"),
       eventType: z.enum(["view", "hover", "qr_scan", "print", "favorite"]).optional(),
@@ -121,7 +121,7 @@ export const analyticsRouter = createRouter({
     }),
 
   // ═══ Admin: Get insights for AI badge generation ═══
-  getInsights: publicQuery
+  getInsights: adminQuery
     .input(z.object({
       branchSlug: z.string().default("white-city"),
       days: z.number().min(1).max(90).default(30),
@@ -189,7 +189,7 @@ export const analyticsRouter = createRouter({
     }),
 
   // ═══ Admin: Get approved badges for rendering ═══
-  getApprovedBadges: publicQuery
+  getApprovedBadges: adminQuery
     .input(z.object({
       branchSlug: z.string().default("white-city"),
     }))
