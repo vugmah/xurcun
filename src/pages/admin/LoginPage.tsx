@@ -42,13 +42,11 @@ export default function LoginPage() {
             <input
               type="password"
               autoFocus
+              aria-label="Admin açar sözü"
               placeholder="Admin açar sözü"
               value={key}
               onChange={(e) => setKey(e.target.value)}
-              className="w-full rounded-lg px-4 py-3 text-sm outline-none transition"
-              style={{ background: "#16120e", border: "1px solid #352d24", color: "#ECE6DA" }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "#9D7C38")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "#352d24")}
+              className="w-full rounded-lg px-4 py-3 text-sm outline-none transition bg-[#16120e] border border-[#352d24] text-[#ECE6DA] focus:border-[#9D7C38]"
             />
             {error && (
               <p className="text-sm p-3 rounded-lg" style={{ color: "#e0697a", background: "#2c1418" }}>
@@ -57,10 +55,7 @@ export default function LoginPage() {
             )}
             <button
               type="submit"
-              className="w-full rounded-lg py-3 text-sm font-semibold transition"
-              style={{ background: "#9D7C38", color: "#1a140a" }}
-              onMouseOver={(e) => (e.currentTarget.style.background = "#C2A05A")}
-              onMouseOut={(e) => (e.currentTarget.style.background = "#9D7C38")}
+              className="w-full rounded-lg py-3 text-sm font-semibold transition bg-[#9D7C38] hover:bg-[#C2A05A] text-[#1a140a]"
             >
               Giriş
             </button>

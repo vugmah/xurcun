@@ -24,15 +24,16 @@ const SECTIONS: { key: SectionKey; label: string; icon: typeof Settings }[] = [
 ];
 
 /* ─── Input Field ─── */
-function Field({ label, value, onChange, placeholder, type = "text", help }: {
-  label: string; value: string; onChange: (v: string) => void; placeholder?: string; type?: string; help?: string;
+function Field({ label, value, onChange, placeholder, type = "text", help, id }: {
+  label: string; value: string; onChange: (v: string) => void; placeholder?: string; type?: string; help?: string; id?: string;
 }) {
+  const fieldId = id ?? `field-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
   return (
     <div className="mb-3">
-      <label className="block text-white/60 text-xs mb-1">{label}</label>
-      {help && <p className="text-white/25 text-[10px] mb-1">{help}</p>}
-      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-        className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30" />
+      <label htmlFor={fieldId} className="block text-white/60 text-xs mb-1">{label}</label>
+      {help && <p className="text-[#a89d88] text-[10px] mb-1">{help}</p>}
+      <input id={fieldId} type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
+        className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm focus:outline-none focus:border-[#C2A05A]/30" />
     </div>
   );
 }
@@ -42,7 +43,7 @@ function Toggle({ label, value, onChange }: { label: string; value: boolean; onC
   return (
     <div className="flex items-center justify-between py-2">
       <span className="text-white/60 text-xs">{label}</span>
-      <button onClick={() => onChange(!value)} className={`relative w-10 h-5 rounded-full transition-colors ${value ? "bg-[#C9A96E]" : "bg-[#333]"}`}>
+      <button onClick={() => onChange(!value)} aria-label={label} className={`relative w-10 h-5 rounded-full transition-colors ${value ? "bg-[#C2A05A]" : "bg-[#352d24]"}`}>
         <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${value ? "left-5" : "left-0.5"}`} />
       </button>
     </div>
@@ -120,13 +121,13 @@ export default function SettingsPage() {
       </div>
 
       {/* Section Tabs */}
-      <div className="flex gap-1 mb-6 bg-[#111] border border-[#222] rounded-lg p-1 overflow-x-auto">
+      <div className="flex gap-1 mb-6 bg-[#1d1915] border border-[#352d24] rounded-lg p-1 overflow-x-auto">
         {SECTIONS.map((s) => {
           const Icon = s.icon;
           return (
             <button key={s.key} onClick={() => setActiveSection(s.key)}
               className={`flex items-center gap-1.5 px-3 py-2 rounded text-xs font-medium transition-all whitespace-nowrap shrink-0 ${
-                activeSection === s.key ? "bg-[#C9A96E]/15 text-[#C9A96E]" : "text-white/40 hover:text-white/60"
+                activeSection === s.key ? "bg-[#C2A05A]/15 text-[#C2A05A]" : "text-white/40 hover:text-white/60"
               }`}>
               <Icon className="w-3.5 h-3.5" /> {s.label}
             </button>
@@ -136,33 +137,33 @@ export default function SettingsPage() {
 
       {/* ═══ SITE ═══ */}
       {activeSection === "site" && (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-5">
-          <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><Globe className="w-4 h-4 text-[#C9A96E]" /> Site</h2>
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
+          <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><Globe className="w-4 h-4 text-[#C2A05A]" /> Site</h2>
           <Field label="Site Adı" value={form.siteName} onChange={(v) => update({ siteName: v })} placeholder="Xurcun White City" />
           <Field label="Marka Adı" value={form.brandName} onChange={(v) => update({ brandName: v })} placeholder="Xurcun" />
           <div className="mb-3">
-            <label className="block text-white/60 text-xs mb-1">Default Dil</label>
-            <select value={form.defaultLanguage} onChange={(e) => update({ defaultLanguage: e.target.value })}
-              className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30">
+            <label htmlFor="settings-default-language" className="block text-white/60 text-xs mb-1">Default Dil</label>
+            <select id="settings-default-language" value={form.defaultLanguage} onChange={(e) => update({ defaultLanguage: e.target.value })}
+              className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm focus:outline-none focus:border-[#C2A05A]/30">
               <option value="az">AZ — Azərbaycan</option>
               <option value="tr">TR — Türkçe</option>
               <option value="ru">RU — Русский</option>
               <option value="en">EN — English</option>
             </select>
-            <p className="text-white/25 text-[10px] mt-1">İlk ziyaretciler için tarayıcı diline göre otomatik seçilir.</p>
+            <p className="text-[#a89d88] text-[10px] mt-1">İlk ziyaretciler için tarayıcı diline göre otomatik seçilir.</p>
           </div>
         </div>
       )}
 
       {/* ═══ CONTACT ═══ */}
       {activeSection === "contact" && (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-5">
-          <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><Phone className="w-4 h-4 text-[#C9A96E]" /> Əlaqə</h2>
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
+          <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><Phone className="w-4 h-4 text-[#C2A05A]" /> Əlaqə</h2>
           <Field label="Telefon" value={form.phone} onChange={(v) => update({ phone: v })} placeholder="+994502130555" />
           <Field label="WhatsApp" value={form.whatsapp} onChange={(v) => update({ whatsapp: v })} placeholder="994502130550" />
           <Field label="E-poçt" value={form.email} onChange={(v) => update({ email: v })} placeholder="info@xurcun.az" />
-          <div className="mt-4 pt-4 border-t border-[#222]">
-            <h3 className="text-white/40 text-xs uppercase tracking-wider mb-3">Sosial Media</h3>
+          <div className="mt-4 pt-4 border-t border-[#352d24]">
+            <h3 className="text-white/50 text-xs uppercase tracking-wider mb-3">Sosial Media</h3>
             <Field label="Instagram URL" value={form.instagramUrl} onChange={(v) => update({ instagramUrl: v })} placeholder="https://instagram.com/xurcunwhitecity" />
             <Field label="Facebook URL" value={form.facebookUrl} onChange={(v) => update({ facebookUrl: v })} placeholder="https://facebook.com/xurcunwhitecity" />
           </div>
@@ -181,8 +182,8 @@ export default function SettingsPage() {
 
       {/* ═══ MAIL SERVER ═══ */}
       {activeSection === "mail" && (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-5">
-          <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><Server className="w-4 h-4 text-[#C9A96E]" /> Mail Sunucu</h2>
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
+          <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><Server className="w-4 h-4 text-[#C2A05A]" /> Mail Sunucu</h2>
           <Field label="Webmail URL" value={form.webmailUrl} onChange={(v) => update({ webmailUrl: v })} placeholder="https://webmail.xurcun.az" help="Webmail giris sayfasi URL'si." />
           <div className="grid grid-cols-2 gap-3 mt-3">
             <Field label="IMAP Sunucu" value={form.mailImapHost} onChange={(v) => update({ mailImapHost: v })} placeholder="mail.xurcun.az" />
@@ -195,8 +196,8 @@ export default function SettingsPage() {
 
       {/* ═══ TRACKING ═══ */}
       {activeSection === "tracking" && (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-5">
-          <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><BarChart3 className="w-4 h-4 text-[#C9A96E]" /> Tracking</h2>
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
+          <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><BarChart3 className="w-4 h-4 text-[#C2A05A]" /> Tracking</h2>
           <Field label="Google Tag Manager ID" value={form.gtmId} onChange={(v) => update({ gtmId: v })} placeholder="GTM-XXXXXXX" />
           <Field label="GA4 Measurement ID" value={form.ga4MeasurementId} onChange={(v) => update({ ga4MeasurementId: v })} placeholder="G-XXXXXXXXXX" />
           <Field label="Google Ads Conversion ID" value={form.googleAdsId} onChange={(v) => update({ googleAdsId: v })} placeholder="AW-XXXXXXXXXX" />
@@ -252,36 +253,37 @@ function BranchSettings({ onUpdate }: { onUpdate: () => void }) {
   return (
     <div className="space-y-4">
       {/* Branch list */}
-      <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#222]">
-                <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase">Filial</th>
-                <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase">Slug</th>
-                <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase">WhatsApp</th>
-                <th className="text-center p-3 text-white/40 font-normal text-[10px] uppercase">Aktiv</th>
-                <th className="text-right p-3 text-white/40 font-normal text-[10px] uppercase">Islem</th>
+              <tr className="border-b border-[#352d24]">
+                <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase">Filial</th>
+                <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase">Slug</th>
+                <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase">WhatsApp</th>
+                <th className="text-center p-3 text-white/50 font-normal text-[10px] uppercase">Aktiv</th>
+                <th className="text-right p-3 text-white/50 font-normal text-[10px] uppercase">Islem</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#222]">
+            <tbody className="divide-y divide-[#352d24]">
               {branches.map((b) => (
                 <tr key={b.id} className="hover:bg-white/[0.02]">
                   <td className="p-3">
                     <p className="text-white text-xs font-medium">{b.name}</p>
-                    <p className="text-white/30 text-[10px]">{b.address || "—"}</p>
+                    <p className="text-[#a89d88] text-[10px]">{b.address || "—"}</p>
                   </td>
-                  <td className="p-3 text-white/40 text-xs font-mono">{b.slug}</td>
-                  <td className="p-3 text-white/40 text-xs">{b.whatsapp || "—"}</td>
+                  <td className="p-3 text-[#a89d88] text-xs font-mono">{b.slug}</td>
+                  <td className="p-3 text-[#a89d88] text-xs">{b.whatsapp || "—"}</td>
                   <td className="p-3 text-center">
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded ${b.isActive ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-400"}`}>
+                    <span className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${b.isActive ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-400"}`}>
+                      {b.isActive ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                       {b.isActive ? "Aktif" : "Pasif"}
                     </span>
                   </td>
                   <td className="p-3 text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <button onClick={() => startEdit(b)} className="text-white/30 hover:text-[#C9A96E] text-[10px] px-2 py-1 rounded hover:bg-white/5">Duzenle</button>
-                      <button onClick={() => remove(b.id)} className="text-white/30 hover:text-red-400 text-[10px] px-2 py-1 rounded hover:bg-white/5">Sil</button>
+                      <button onClick={() => startEdit(b)} className="text-white/40 hover:text-[#C2A05A] text-[10px] px-3 py-2 rounded hover:bg-white/5">Duzenle</button>
+                      <button onClick={() => remove(b.id)} className="text-white/40 hover:text-red-400 text-[10px] px-3 py-2 rounded hover:bg-white/5">Sil</button>
                     </div>
                   </td>
                 </tr>
@@ -293,40 +295,40 @@ function BranchSettings({ onUpdate }: { onUpdate: () => void }) {
 
       {/* Add/Edit form */}
       {adding ? (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-5">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
           <h3 className="text-white font-medium text-sm mb-4">{editing ? "Filial Duzenle" : "Yeni Filial"}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="text-white/40 text-xs block mb-1">Filial Adi *</label>
-              <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Xurcun White City"
-                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30" />
+              <label htmlFor="branch-name" className="text-white/60 text-xs block mb-1">Filial Adi *</label>
+              <input id="branch-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Xurcun White City"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm focus:outline-none focus:border-[#C2A05A]/30" />
             </div>
             <div>
-              <label className="text-white/40 text-xs block mb-1">Slug * (URLde gorunur)</label>
-              <input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })} placeholder="white-city"
-                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30" />
+              <label htmlFor="branch-slug" className="text-white/60 text-xs block mb-1">Slug * (URLde gorunur)</label>
+              <input id="branch-slug" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })} placeholder="white-city"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm focus:outline-none focus:border-[#C2A05A]/30" />
             </div>
             <div className="md:col-span-2">
-              <label className="text-white/40 text-xs block mb-1">Unvan</label>
-              <input value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} placeholder="Baki, White City"
-                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30" />
+              <label htmlFor="branch-address" className="text-white/60 text-xs block mb-1">Unvan</label>
+              <input id="branch-address" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} placeholder="Baki, White City"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm focus:outline-none focus:border-[#C2A05A]/30" />
             </div>
             <div>
-              <label className="text-white/40 text-xs block mb-1">Google Maps URL</label>
-              <input value={form.mapsUrl} onChange={(e) => setForm({ ...form, mapsUrl: e.target.value })} placeholder="https://maps.app.goo.gl/..."
-                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30" />
+              <label htmlFor="branch-maps-url" className="text-white/60 text-xs block mb-1">Google Maps URL</label>
+              <input id="branch-maps-url" value={form.mapsUrl} onChange={(e) => setForm({ ...form, mapsUrl: e.target.value })} placeholder="https://maps.app.goo.gl/..."
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm focus:outline-none focus:border-[#C2A05A]/30" />
             </div>
             <div>
-              <label className="text-white/40 text-xs block mb-1">WhatsApp</label>
-              <input value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} placeholder="994502130550"
-                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30" />
+              <label htmlFor="branch-whatsapp" className="text-white/60 text-xs block mb-1">WhatsApp</label>
+              <input id="branch-whatsapp" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} placeholder="994502130550"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm focus:outline-none focus:border-[#C2A05A]/30" />
             </div>
           </div>
           <div className="flex items-center gap-3 mt-4">
             <Toggle label="Aktif" value={form.isActive} onChange={(v) => setForm({ ...form, isActive: v })} />
           </div>
           <div className="flex gap-2 mt-4">
-            <button onClick={save} className="px-4 py-2 bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A] rounded text-sm font-medium transition-all">
+            <button onClick={save} className="px-4 py-2 bg-[#9D7C38] hover:bg-[#C2A05A] text-[#0A0A0A] rounded text-sm font-medium transition-all">
               {editing ? "Guncelle" : "Ekle"}
             </button>
             <button onClick={() => { setAdding(false); setEditing(null); }} className="px-4 py-2 text-white/40 hover:text-white text-sm transition-all">
@@ -336,7 +338,7 @@ function BranchSettings({ onUpdate }: { onUpdate: () => void }) {
         </div>
       ) : (
         <button onClick={() => { setAdding(true); setEditing(null); setForm({ id: "", name: "", slug: "", address: "", mapsUrl: "", whatsapp: "", isActive: true }); }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#C9A96E]/10 text-[#C9A96E] border border-[#C9A96E]/20 rounded-lg text-sm hover:bg-[#C9A96E]/20 transition-all">
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#C2A05A]/10 text-[#C2A05A] border border-[#C2A05A]/20 rounded-lg text-sm hover:bg-[#C2A05A]/20 transition-all">
           <Plus className="w-4 h-4" /> Yeni Filial Ekle
         </button>
       )}
@@ -373,11 +375,11 @@ function SeoSettings({ form, update, onSaved }: { form: GeneralSettings; update:
   return (
     <div className="space-y-4">
       {/* Google Verification + Review URL */}
-      <div className="bg-[#111] border border-[#222] rounded-xl p-5">
-        <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><Search className="w-4 h-4 text-[#C9A96E]" /> SEO</h2>
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
+        <h2 className="text-white font-medium text-sm mb-4 flex items-center gap-2"><Search className="w-4 h-4 text-[#C2A05A]" /> SEO</h2>
         <Field label="Google Site Verification" value={form.googleSiteVerification} onChange={(v) => update({ googleSiteVerification: v })} placeholder="abc123..." help="Google Search Console tesdiq kodu." />
         <Field label="Google Reviews URL" value={form.googleReviewUrl} onChange={(v) => update({ googleReviewUrl: v })} placeholder="https://search.google.com/local/reviews?placeid=..." help="Google Reviews butonunun yonlendirecegi URL." />
-        <div className="mt-4 pt-4 border-t border-[#222]">
+        <div className="mt-4 pt-4 border-t border-[#352d24]">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-white/60 text-xs uppercase tracking-wider">Default SEO</h3>
             <button
@@ -385,7 +387,7 @@ function SeoSettings({ form, update, onSaved }: { form: GeneralSettings; update:
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-all ${
                 autoFilled
                   ? "bg-green-400/15 text-green-400 border border-green-400/20"
-                  : "bg-[#C9A96E]/15 text-[#C9A96E] border border-[#C9A96E]/30 hover:bg-[#C9A96E]/25"
+                  : "bg-[#C2A05A]/15 text-[#C2A05A] border border-[#C2A05A]/30 hover:bg-[#C2A05A]/25"
               }`}
             >
               <Sparkles className="w-3 h-3" />
@@ -393,23 +395,25 @@ function SeoSettings({ form, update, onSaved }: { form: GeneralSettings; update:
             </button>
           </div>
           <div className="mb-3">
-            <label className="block text-white/60 text-xs mb-1">Default Title</label>
+            <label htmlFor="seo-default-title" className="block text-white/60 text-xs mb-1">Default Title</label>
             <input
+              id="seo-default-title"
               value={seoForm.title}
               onChange={(e) => { setSeoForm({ ...seoForm, title: e.target.value }); update({ defaultSeoTitle: e.target.value }); }}
-              className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30"
+              className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm focus:outline-none focus:border-[#C2A05A]/30"
             />
           </div>
           <div className="mb-3">
-            <label className="block text-white/60 text-xs mb-1">Default Description</label>
+            <label htmlFor="seo-default-description" className="block text-white/60 text-xs mb-1">Default Description</label>
             <textarea
+              id="seo-default-description"
               value={seoForm.desc}
               onChange={(e) => { setSeoForm({ ...seoForm, desc: e.target.value }); update({ defaultSeoDescription: e.target.value }); }}
               rows={3}
-              className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm focus:outline-none focus:border-[#C9A96E]/30 resize-none"
+              className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm focus:outline-none focus:border-[#C2A05A]/30 resize-none"
             />
           </div>
-          <p className="text-white/25 text-[10px]">
+          <p className="text-[#a89d88] text-[10px]">
             "Otomatik doldur" butonu site adi, filial, telefon ve menu verilerine gore SEO baslik ve aciklama uretir.
           </p>
         </div>

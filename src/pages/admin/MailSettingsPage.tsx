@@ -9,7 +9,7 @@ import { getGeneralSettings } from "@/lib/generalSettings";
 import {
   Mail, Server, Settings, AlertTriangle, Save, RefreshCw, Trash2,
   Lock, HardDrive, Search, ExternalLink, Eye, EyeOff, Plus, X,
-  Shield, Users, FileText, WifiOff, Info, Globe, ArrowRight,
+  Shield, Users, FileText, WifiOff, Info, Globe, ArrowRight, Check,
 } from "lucide-react";
 
 /* ═══════════════════════════════════════════
@@ -53,26 +53,27 @@ function ContactEmailsTab() {
     upsert.mutate(payload, { onSuccess: () => { setSaved(true); setTimeout(() => setSaved(false), 2000); } });
   };
 
-  if (isLoading) return <div className="text-white/40 text-sm p-4">Yukleniyor…</div>;
+  if (isLoading) return <div className="text-[#a89d88] text-sm p-4">Yukleniyor…</div>;
 
   return (
-    <div className="bg-[#111] border border-[#222] rounded-xl p-5 space-y-4">
+    <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5 space-y-4">
       <p className="text-white/50 text-sm mb-2">
         Sitede gorunen email adreslerini yonetin.
       </p>
       {CONTACT_FIELDS.map((f) => (
         <div key={f.key} className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-3 items-center">
-          <Label className="text-white/70 text-sm">{f.label}</Label>
+          <Label htmlFor={`contact-${f.key}`} className="text-white/70 text-sm">{f.label}</Label>
           <Input
+            id={`contact-${f.key}`}
             type="email"
             placeholder={f.placeholder}
             value={values[f.key]}
             onChange={(e) => setForm({ ...form, [f.key]: e.target.value })}
-            className="bg-[#0A0A0A] border-[#333] text-white"
+            className="bg-[#0A0A0A] border-[#352d24] text-white"
           />
         </div>
       ))}
-      <Button className="bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A] mt-2" onClick={save} disabled={upsert.isPending}>
+      <Button className="bg-[#9D7C38] hover:bg-[#C2A05A] text-[#0A0A0A] mt-2" onClick={save} disabled={upsert.isPending}>
         <Save className="w-4 h-4 mr-2" /> {saved ? "Saxlanildi!" : "Saxla"}
       </Button>
     </div>
@@ -147,21 +148,22 @@ function MailAccountsTab() {
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/30" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#a89d88]" />
           <Input
+            aria-label="Mail hesablarında axtar"
             placeholder="Ara: email, departman, rol..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-8 bg-[#0A0A0A] border-[#333] text-white text-sm"
+            className="pl-8 bg-[#0A0A0A] border-[#352d24] text-white text-sm"
           />
         </div>
-        <div className="flex gap-1 bg-[#111] border border-[#222] rounded-lg p-0.5">
+        <div className="flex gap-1 bg-[#1d1915] border border-[#352d24] rounded-lg p-0.5">
           {(["all", "active", "inactive"] as const).map((s) => (
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
               className={`px-3 py-1.5 rounded text-[11px] font-medium transition-all ${
-                statusFilter === s ? "bg-[#C9A96E]/15 text-[#C9A96E]" : "text-white/40 hover:text-white/60"
+                statusFilter === s ? "bg-[#C2A05A]/15 text-[#C2A05A]" : "text-white/50 hover:text-white/60"
               }`}
             >
               {s === "all" ? "Tum" : s === "active" ? "Aktif" : "Pasif"}
@@ -169,10 +171,10 @@ function MailAccountsTab() {
           ))}
         </div>
         <div className="flex gap-1 ml-auto">
-          <a href={webmailUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#C9A96E]/10 text-[#C9A96E] text-xs border border-[#C9A96E]/20 hover:bg-[#C9A96E]/20 transition-all">
+          <a href={webmailUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#C2A05A]/10 text-[#C2A05A] text-xs border border-[#C2A05A]/20 hover:bg-[#C2A05A]/20 transition-all">
             <ExternalLink className="w-3 h-3" /> Webmail
           </a>
-          <Button size="sm" className="bg-[#C9A96E]/10 text-[#C9A96E] hover:bg-[#C9A96E]/20 border border-[#C9A96E]/30" onClick={() => setCreateOpen(true)}>
+          <Button size="sm" className="bg-[#C2A05A]/10 text-[#C2A05A] hover:bg-[#C2A05A]/20 border border-[#C2A05A]/30" onClick={() => setCreateOpen(true)}>
             <Plus className="w-3.5 h-3.5 mr-1" /> Yeni
           </Button>
         </div>
@@ -180,30 +182,31 @@ function MailAccountsTab() {
 
       {/* Create Account Form */}
       {createOpen && (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-5">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-white font-medium">Yeni Mail Hesabi</h3>
-            <button onClick={() => setCreateOpen(false)} className="text-white/30 hover:text-white"><X className="w-4 h-4" /></button>
+            <button onClick={() => setCreateOpen(false)} aria-label="Bağla" className="text-white/30 hover:text-white"><X className="w-4 h-4" /></button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
             <div>
-              <Label className="text-white/40 text-xs block mb-1">Kullanici adi *</Label>
-              <Input value={newAcc.username} onChange={(e) => setNewAcc({ ...newAcc, username: e.target.value })} placeholder="manager" className="bg-[#0A0A0A] border-[#333] text-white" />
+              <Label htmlFor="new-acc-username" className="text-[#a89d88] text-xs block mb-1">Kullanici adi *</Label>
+              <Input id="new-acc-username" value={newAcc.username} onChange={(e) => setNewAcc({ ...newAcc, username: e.target.value })} placeholder="manager" className="bg-[#0A0A0A] border-[#352d24] text-white" />
             </div>
             <div>
-              <Label className="text-white/40 text-xs block mb-1">Sifre *</Label>
-              <Input type="password" value={newAcc.password} onChange={(e) => setNewAcc({ ...newAcc, password: e.target.value })} placeholder="******" className="bg-[#0A0A0A] border-[#333] text-white" />
+              <Label htmlFor="new-acc-password" className="text-[#a89d88] text-xs block mb-1">Sifre *</Label>
+              <Input id="new-acc-password" type="password" value={newAcc.password} onChange={(e) => setNewAcc({ ...newAcc, password: e.target.value })} placeholder="******" className="bg-[#0A0A0A] border-[#352d24] text-white" />
             </div>
             <div>
-              <Label className="text-white/40 text-xs block mb-1">Kota (MB, 0=sinirsiz)</Label>
-              <Input type="number" value={newAcc.quotaMb} onChange={(e) => setNewAcc({ ...newAcc, quotaMb: parseInt(e.target.value) || 0 })} className="bg-[#0A0A0A] border-[#333] text-white" />
+              <Label htmlFor="new-acc-quota" className="text-[#a89d88] text-xs block mb-1">Kota (MB, 0=sinirsiz)</Label>
+              <Input id="new-acc-quota" type="number" value={newAcc.quotaMb} onChange={(e) => setNewAcc({ ...newAcc, quotaMb: parseInt(e.target.value) || 0 })} className="bg-[#0A0A0A] border-[#352d24] text-white" />
             </div>
             <div>
-              <Label className="text-white/40 text-xs block mb-1">Departman</Label>
+              <Label htmlFor="new-acc-department" className="text-[#a89d88] text-xs block mb-1">Departman</Label>
               <select
+                id="new-acc-department"
                 value={newAcc.department}
                 onChange={(e) => setNewAcc({ ...newAcc, department: e.target.value })}
-                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm"
               >
                 <option>Genel</option><option>Rezervasiya</option><option>Destek</option>
                 <option>Pazarlama</option><option>IK</option><option>Etkinlik</option>
@@ -211,23 +214,24 @@ function MailAccountsTab() {
               </select>
             </div>
             <div>
-              <Label className="text-white/40 text-xs block mb-1">Rol</Label>
+              <Label htmlFor="new-acc-role" className="text-[#a89d88] text-xs block mb-1">Rol</Label>
               <select
+                id="new-acc-role"
                 value={newAcc.role}
                 onChange={(e) => setNewAcc({ ...newAcc, role: e.target.value })}
-                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333] rounded text-white text-sm"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#352d24] rounded text-white text-sm"
               >
                 <option>Hizmet</option><option>Yonetim</option><option>Pazarlama</option><option>Operasyon</option>
               </select>
             </div>
             <div>
-              <Label className="text-white/40 text-xs block mb-1">Notlar</Label>
-              <Input value={newAcc.notes} onChange={(e) => setNewAcc({ ...newAcc, notes: e.target.value })} placeholder="Aciklama" className="bg-[#0A0A0A] border-[#333] text-white" />
+              <Label htmlFor="new-acc-notes" className="text-[#a89d88] text-xs block mb-1">Notlar</Label>
+              <Input id="new-acc-notes" value={newAcc.notes} onChange={(e) => setNewAcc({ ...newAcc, notes: e.target.value })} placeholder="Aciklama" className="bg-[#0A0A0A] border-[#352d24] text-white" />
             </div>
           </div>
-          <p className="text-white/40 text-xs mb-3">{newAcc.username ? `${newAcc.username}@${domain}` : `...@${domain}`}</p>
+          <p className="text-[#a89d88] text-xs mb-3">{newAcc.username ? `${newAcc.username}@${domain}` : `...@${domain}`}</p>
           <div className="flex gap-2">
-            <Button size="sm" className="bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A]" onClick={() => createMut.mutate(newAcc)} disabled={createMut.isPending || !newAcc.username || !newAcc.password}>
+            <Button size="sm" className="bg-[#9D7C38] hover:bg-[#C2A05A] text-[#0A0A0A]" onClick={() => createMut.mutate(newAcc)} disabled={createMut.isPending || !newAcc.username || !newAcc.password}>
               {createMut.isPending ? "Olusturuluyor…" : "Olustur"}
             </Button>
             <Button size="sm" variant="ghost" className="text-white/50" onClick={() => setCreateOpen(false)}>İmtina</Button>
@@ -240,68 +244,69 @@ function MailAccountsTab() {
         <div className="bg-green-400/10 border border-green-400/20 rounded-xl p-4">
           <div className="flex items-center justify-between mb-2">
             <p className="text-green-400 text-sm font-medium">Hesap olusturuldu! Sifreyi kaydedin:</p>
-            <button onClick={() => setGeneratedPassword(null)} className="text-white/30 hover:text-white"><X className="w-4 h-4" /></button>
+            <button onClick={() => setGeneratedPassword(null)} aria-label="Bağla" className="text-white/30 hover:text-white"><X className="w-4 h-4" /></button>
           </div>
-          <code className="block bg-[#0A0A0A] border border-[#333] rounded px-3 py-2 text-green-300 font-mono text-sm select-all">{generatedPassword}</code>
+          <code className="block bg-[#0A0A0A] border border-[#352d24] rounded px-3 py-2 text-green-300 font-mono text-sm select-all">{generatedPassword}</code>
           <p className="text-green-400/50 text-[10px] mt-2">Bu sifre bir daha gosterilmeyecek. Webmail'de giris yapmak icin kaydedin.</p>
         </div>
       )}
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-2">
-        <div className="bg-[#111] border border-[#222] rounded-lg p-3 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-3 text-center">
           <p className="text-lg font-bold text-white">{accounts.length}</p>
-          <p className="text-[10px] text-white/40">Toplam Hesap</p>
+          <p className="text-[10px] text-[#a89d88]">Toplam Hesap</p>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-lg p-3 text-center">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-3 text-center">
           <p className="text-lg font-bold text-green-400">{accounts.filter((a: any) => a.status === "active").length}</p>
-          <p className="text-[10px] text-white/40">Aktif</p>
+          <p className="text-[10px] text-[#a89d88]">Aktif</p>
         </div>
-        <div className="bg-[#111] border border-[#222] rounded-lg p-3 text-center">
-          <p className="text-lg font-bold text-[#C9A96E]">{Math.round(accounts.reduce((s: number, a: any) => s + (a.usedMb || 0), 0) / 1024 * 100) / 100} GB</p>
-          <p className="text-[10px] text-white/40">Toplam Kullanim</p>
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-lg p-3 text-center">
+          <p className="text-lg font-bold text-[#C2A05A]">{Math.round(accounts.reduce((s: number, a: any) => s + (a.usedMb || 0), 0) / 1024 * 100) / 100} GB</p>
+          <p className="text-[10px] text-[#a89d88]">Toplam Kullanim</p>
         </div>
       </div>
 
       {/* Accounts Table */}
-      <div className="bg-[#111] border border-[#222] rounded-xl overflow-hidden">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[#222]">
-                <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase tracking-wider">Email / Kullanici</th>
-                <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase tracking-wider">Departman / Rol</th>
-                <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase tracking-wider">Kullanim</th>
-                <th className="text-left p-3 text-white/40 font-normal text-[10px] uppercase tracking-wider">Durum</th>
-                <th className="text-right p-3 text-white/40 font-normal text-[10px] uppercase tracking-wider">Islem</th>
+              <tr className="border-b border-[#352d24]">
+                <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase tracking-wider">Email / Kullanici</th>
+                <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase tracking-wider">Departman / Rol</th>
+                <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase tracking-wider">Kullanim</th>
+                <th className="text-left p-3 text-white/50 font-normal text-[10px] uppercase tracking-wider">Durum</th>
+                <th className="text-right p-3 text-white/50 font-normal text-[10px] uppercase tracking-wider">Islem</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#222]">
+            <tbody className="divide-y divide-[#352d24]">
               {filteredAccounts.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="p-6 text-center text-white/30">Hesap bulunmuyor</td>
+                  <td colSpan={5} className="p-6 text-center text-[#a89d88]">Hesap bulunmuyor</td>
                 </tr>
               )}
               {filteredAccounts.map((acc: any) => (
                 <tr key={String(acc.email)} className="hover:bg-white/[0.02]">
                   <td className="p-3">
                     <p className="text-white font-mono text-xs">{String(acc.email)}</p>
-                    {acc.notes && <p className="text-white/30 text-[10px]">{acc.notes}</p>}
+                    {acc.notes && <p className="text-[#a89d88] text-[10px]">{acc.notes}</p>}
                   </td>
                   <td className="p-3">
                     <p className="text-white/60 text-xs">{acc.department || "—"}</p>
-                    <p className="text-white/30 text-[10px]">{acc.role || "—"}</p>
+                    <p className="text-[#a89d88] text-[10px]">{acc.role || "—"}</p>
                   </td>
                   <td className="p-3">
                     <div className="flex items-center gap-2">
                       <div className="w-16 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-[#C9A96E] rounded-full" style={{ width: `${Math.min(100, ((acc.quotaMb || 1) > 0 ? (acc.usedMb || 0) / acc.quotaMb : 0) * 100)}%` }} />
+                        <div className="h-full bg-[#C2A05A] rounded-full" style={{ width: `${Math.min(100, ((acc.quotaMb || 1) > 0 ? (acc.usedMb || 0) / acc.quotaMb : 0) * 100)}%` }} />
                       </div>
-                      <span className="text-white/40 text-[10px]">{acc.usedMb || 0} / {acc.quotaMb || 0} MB</span>
+                      <span className="text-[#a89d88] text-[10px]">{acc.usedMb || 0} / {acc.quotaMb || 0} MB</span>
                     </div>
                   </td>
                   <td className="p-3">
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded ${acc.status === "active" ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-400"}`}>
+                    <span className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded ${acc.status === "active" ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-400"}`}>
+                      {acc.status === "active" ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
                       {String(acc.status)}
                     </span>
                   </td>
@@ -311,18 +316,18 @@ function MailAccountsTab() {
                         href={getGeneralSettings().webmailUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center px-2 py-1 rounded text-[10px] text-blue-400 bg-blue-400/10 hover:bg-blue-400/20 transition-all mr-1"
+                        className="inline-flex items-center px-3 py-2 rounded text-[10px] text-blue-400 bg-blue-400/10 hover:bg-blue-400/20 transition-all mr-1"
                         title="Webmail'i ac"
                       >
                         <Globe className="w-3 h-3 mr-1" /> Webmail
                       </a>
-                      <Button size="sm" variant="ghost" className="text-white/40 hover:text-[#C9A96E] h-7 px-2" title="Kota" onClick={() => { setQuotaModal(String(acc.email)); setQuotaForm(Number(acc.quotaMb) || 1024); }}>
+                      <Button size="sm" variant="ghost" aria-label="Kotanı dəyiş" className="text-[#a89d88] hover:text-[#C2A05A] h-7 px-3 py-2" title="Kota" onClick={() => { setQuotaModal(String(acc.email)); setQuotaForm(Number(acc.quotaMb) || 1024); }}>
                         <HardDrive className="w-3 h-3" />
                       </Button>
-                      <Button size="sm" variant="ghost" className="text-white/40 hover:text-[#C9A96E] h-7 px-2" title="Sifre" onClick={() => { setPassModal(String(acc.email)); setPassForm(""); }}>
+                      <Button size="sm" variant="ghost" aria-label="Şifrəni dəyiş" className="text-[#a89d88] hover:text-[#C2A05A] h-7 px-3 py-2" title="Sifre" onClick={() => { setPassModal(String(acc.email)); setPassForm(""); }}>
                         <Lock className="w-3 h-3" />
                       </Button>
-                      <Button size="sm" variant="ghost" className="text-white/40 hover:text-red-400 h-7 px-2" title="Sil" onClick={() => { if (confirm(`${acc.email} silinsin mi?`)) deleteMut.mutate({ email: String(acc.email) }); }}>
+                      <Button size="sm" variant="ghost" aria-label="Sil" className="text-[#a89d88] hover:text-red-400 h-7 px-3 py-2" title="Sil" onClick={() => { if (confirm(`${acc.email} silinsin mi?`)) deleteMut.mutate({ email: String(acc.email) }); }}>
                         <Trash2 className="w-3 h-3" />
                       </Button>
                     </div>
@@ -336,11 +341,11 @@ function MailAccountsTab() {
 
       {/* Password Modal */}
       {passModal && (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-5">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
           <h4 className="text-white font-medium mb-3">{passModal} — Sifre Degistir</h4>
-          <Input type="password" placeholder="Yeni sifre" value={passForm} onChange={(e) => setPassForm(e.target.value)} className="bg-[#0A0A0A] border-[#333] text-white mb-3" />
+          <Input aria-label="Yeni şifrə" type="password" placeholder="Yeni sifre" value={passForm} onChange={(e) => setPassForm(e.target.value)} className="bg-[#0A0A0A] border-[#352d24] text-white mb-3" />
           <div className="flex gap-2">
-            <Button size="sm" className="bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A]" onClick={() => passMut.mutate({ email: passModal, password: passForm })} disabled={passMut.isPending || passForm.length < 6}>
+            <Button size="sm" className="bg-[#9D7C38] hover:bg-[#C2A05A] text-[#0A0A0A]" onClick={() => passMut.mutate({ email: passModal, password: passForm })} disabled={passMut.isPending || passForm.length < 6}>
               {passMut.isPending ? "Degistiriliyor…" : "Degistir"}
             </Button>
             <Button size="sm" variant="ghost" className="text-white/50" onClick={() => setPassModal(null)}>İmtina</Button>
@@ -350,11 +355,11 @@ function MailAccountsTab() {
 
       {/* Quota Modal */}
       {quotaModal && (
-        <div className="bg-[#111] border border-[#222] rounded-xl p-5">
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
           <h4 className="text-white font-medium mb-3">{quotaModal} — Kota Degistir</h4>
-          <Input type="number" placeholder="MB (0=sinirsiz)" value={quotaForm} onChange={(e) => setQuotaForm(parseInt(e.target.value) || 0)} className="bg-[#0A0A0A] border-[#333] text-white mb-3" />
+          <Input aria-label="Kota (MB)" type="number" placeholder="MB (0=sinirsiz)" value={quotaForm} onChange={(e) => setQuotaForm(parseInt(e.target.value) || 0)} className="bg-[#0A0A0A] border-[#352d24] text-white mb-3" />
           <div className="flex gap-2">
-            <Button size="sm" className="bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A]" onClick={() => quotaMut.mutate({ email: quotaModal, quotaMb: quotaForm })} disabled={quotaMut.isPending}>
+            <Button size="sm" className="bg-[#9D7C38] hover:bg-[#C2A05A] text-[#0A0A0A]" onClick={() => quotaMut.mutate({ email: quotaModal, quotaMb: quotaForm })} disabled={quotaMut.isPending}>
               {quotaMut.isPending ? "Guncelleniyor…" : "Guncelle"}
             </Button>
             <Button size="sm" variant="ghost" className="text-white/50" onClick={() => setQuotaModal(null)}>İmtina</Button>
@@ -371,10 +376,10 @@ function MailAccountsTab() {
 
 function AuditLogTab() {
   return (
-    <div className="bg-[#111] border border-[#222] rounded-xl p-8 text-center">
+    <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-8 text-center">
       <FileText className="w-8 h-8 text-white/20 mx-auto mb-3" />
-      <p className="text-white/40 text-sm">Audit log is empty.</p>
-      <p className="text-white/25 text-xs mt-1">Mail account actions will appear here when cPanel is connected.</p>
+      <p className="text-[#a89d88] text-sm">Audit log is empty.</p>
+      <p className="text-[#a89d88] text-xs mt-1">Mail account actions will appear here when cPanel is connected.</p>
     </div>
   );
 }
@@ -419,37 +424,37 @@ function SmtpTab() {
   };
 
   return (
-    <div className="bg-[#111] border border-[#222] rounded-xl p-5 space-y-4">
+    <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5 space-y-4">
       <div className="flex items-center justify-between mb-2">
         <p className="text-white/50 text-sm">Form maillerinin gonderilecegi SMTP ayarlari</p>
-        <Button size="sm" variant="ghost" className="text-white/50 hover:text-[#C9A96E]" onClick={load}>
+        <Button size="sm" variant="ghost" className="text-white/50 hover:text-[#C2A05A]" onClick={load}>
           <RefreshCw className="w-3.5 h-3.5 mr-1" /> Doldur
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <Label className="text-white/40 text-xs block mb-1">SMTP Host</Label>
-          <Input value={form.host} onChange={(e) => setForm({ ...form, host: e.target.value })} placeholder="smtp.xurcun.az" className="bg-[#0A0A0A] border-[#333] text-white" />
+          <Label htmlFor="smtp-host" className="text-[#a89d88] text-xs block mb-1">SMTP Host</Label>
+          <Input id="smtp-host" value={form.host} onChange={(e) => setForm({ ...form, host: e.target.value })} placeholder="smtp.xurcun.az" className="bg-[#0A0A0A] border-[#352d24] text-white" />
         </div>
         <div>
-          <Label className="text-white/40 text-xs block mb-1">Port</Label>
-          <Input type="number" value={form.port} onChange={(e) => setForm({ ...form, port: parseInt(e.target.value) || 587 })} className="bg-[#0A0A0A] border-[#333] text-white" />
+          <Label htmlFor="smtp-port" className="text-[#a89d88] text-xs block mb-1">Port</Label>
+          <Input id="smtp-port" type="number" value={form.port} onChange={(e) => setForm({ ...form, port: parseInt(e.target.value) || 587 })} className="bg-[#0A0A0A] border-[#352d24] text-white" />
         </div>
         <div>
-          <Label className="text-white/40 text-xs block mb-1">Username</Label>
-          <Input value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} placeholder="info@xurcun.az" className="bg-[#0A0A0A] border-[#333] text-white" />
+          <Label htmlFor="smtp-username" className="text-[#a89d88] text-xs block mb-1">Username</Label>
+          <Input id="smtp-username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} placeholder="info@xurcun.az" className="bg-[#0A0A0A] border-[#352d24] text-white" />
         </div>
         <div>
-          <Label className="text-white/40 text-xs block mb-1">Password (bos birakilirsa degismez)</Label>
-          <Input type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="******" className="bg-[#0A0A0A] border-[#333] text-white" />
+          <Label htmlFor="smtp-password" className="text-[#a89d88] text-xs block mb-1">Password (bos birakilirsa degismez)</Label>
+          <Input id="smtp-password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="******" className="bg-[#0A0A0A] border-[#352d24] text-white" />
         </div>
         <div>
-          <Label className="text-white/40 text-xs block mb-1">From Email</Label>
-          <Input value={form.fromEmail} onChange={(e) => setForm({ ...form, fromEmail: e.target.value })} placeholder="info@xurcun.az" className="bg-[#0A0A0A] border-[#333] text-white" />
+          <Label htmlFor="smtp-from-email" className="text-[#a89d88] text-xs block mb-1">From Email</Label>
+          <Input id="smtp-from-email" value={form.fromEmail} onChange={(e) => setForm({ ...form, fromEmail: e.target.value })} placeholder="info@xurcun.az" className="bg-[#0A0A0A] border-[#352d24] text-white" />
         </div>
         <div>
-          <Label className="text-white/40 text-xs block mb-1">From Name</Label>
-          <Input value={form.fromName} onChange={(e) => setForm({ ...form, fromName: e.target.value })} placeholder="Xurcun White City" className="bg-[#0A0A0A] border-[#333] text-white" />
+          <Label htmlFor="smtp-from-name" className="text-[#a89d88] text-xs block mb-1">From Name</Label>
+          <Input id="smtp-from-name" value={form.fromName} onChange={(e) => setForm({ ...form, fromName: e.target.value })} placeholder="Xurcun White City" className="bg-[#0A0A0A] border-[#352d24] text-white" />
         </div>
       </div>
       <div className="flex items-center gap-6 pt-2">
@@ -462,7 +467,7 @@ function SmtpTab() {
           <span className="text-white/60 text-sm">Aktif</span>
         </div>
       </div>
-      <Button className="bg-[#C9A96E] hover:bg-[#B8985E] text-[#0A0A0A] mt-2" onClick={save} disabled={upsert.isPending}>
+      <Button className="bg-[#9D7C38] hover:bg-[#C2A05A] text-[#0A0A0A] mt-2" onClick={save} disabled={upsert.isPending}>
         <Save className="w-4 h-4 mr-2" /> {saved ? "Saxlanildi!" : "SMTP Ayarlarini Saxla"}
       </Button>
     </div>
@@ -478,25 +483,25 @@ function MailInfoTab() {
   return (
     <div className="space-y-4">
       {/* How to use Webmail */}
-      <div className="bg-[#111] border border-[#222] rounded-xl p-5">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
         <h3 className="text-white font-medium text-sm mb-3 flex items-center gap-2">
-          <Globe className="w-4 h-4 text-[#C9A96E]" /> Webmail Nasil Kullanilir?
+          <Globe className="w-4 h-4 text-[#C2A05A]" /> Webmail Nasil Kullanilir?
         </h3>
         <ol className="space-y-2 text-white/60 text-xs">
           <li className="flex items-start gap-2">
-            <span className="text-[#C9A96E] font-bold shrink-0">1.</span>
+            <span className="text-[#C2A05A] font-bold shrink-0">1.</span>
             <span>Mail Hesaplari sekmesinde hesabinizin yanindaki <strong className="text-blue-400">Webmail</strong> butonuna tiklayin.</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-[#C9A96E] font-bold shrink-0">2.</span>
+            <span className="text-[#C2A05A] font-bold shrink-0">2.</span>
             <span>Tam email adresinizi girin (ornegin: <code className="text-white/80">info@xurcun.az</code>).</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-[#C9A96E] font-bold shrink-0">3.</span>
+            <span className="text-[#C2A05A] font-bold shrink-0">3.</span>
             <span>Posta kutusu sifrenizi girin.</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-[#C9A96E] font-bold shrink-0">4.</span>
+            <span className="text-[#C2A05A] font-bold shrink-0">4.</span>
             <span>Email okuyun ve gonderin.</span>
           </li>
         </ol>
@@ -513,26 +518,26 @@ function MailInfoTab() {
       </div>
 
       {/* IMAP / SMTP Settings */}
-      <div className="bg-[#111] border border-[#222] rounded-xl p-5">
+      <div className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5">
         <h3 className="text-white font-medium text-sm mb-3 flex items-center gap-2">
-          <Server className="w-4 h-4 text-[#C9A96E]" /> Mail Istemcisi Ayarlari (Outlook, Apple Mail, Thunderbird)
+          <Server className="w-4 h-4 text-[#C2A05A]" /> Mail Istemcisi Ayarlari (Outlook, Apple Mail, Thunderbird)
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Incoming IMAP */}
           <div className="space-y-2">
             <h4 className="text-white/60 text-xs uppercase tracking-wider">Gelen Sunucu (IMAP)</h4>
-            <div className="bg-[#0A0A0A] border border-[#222] rounded-lg p-3 space-y-2">
+            <div className="bg-[#0A0A0A] border border-[#352d24] rounded-lg p-3 space-y-2">
               <div className="flex justify-between">
-                <span className="text-white/40 text-xs">Sunucu:</span>
+                <span className="text-[#a89d88] text-xs">Sunucu:</span>
                 <code className="text-white/80 text-xs font-mono">{s.mailImapHost}</code>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/40 text-xs">Port:</span>
+                <span className="text-[#a89d88] text-xs">Port:</span>
                 <code className="text-white/80 text-xs font-mono">{s.mailImapPort} SSL</code>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/40 text-xs">Guvenlik:</span>
+                <span className="text-[#a89d88] text-xs">Guvenlik:</span>
                 <span className="text-green-400 text-xs">SSL/TLS</span>
               </div>
             </div>
@@ -541,31 +546,31 @@ function MailInfoTab() {
           {/* Outgoing SMTP */}
           <div className="space-y-2">
             <h4 className="text-white/60 text-xs uppercase tracking-wider">Giden Sunucu (SMTP)</h4>
-            <div className="bg-[#0A0A0A] border border-[#222] rounded-lg p-3 space-y-2">
+            <div className="bg-[#0A0A0A] border border-[#352d24] rounded-lg p-3 space-y-2">
               <div className="flex justify-between">
-                <span className="text-white/40 text-xs">Sunucu:</span>
+                <span className="text-[#a89d88] text-xs">Sunucu:</span>
                 <code className="text-white/80 text-xs font-mono">{s.mailSmtpHost}</code>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/40 text-xs">Port:</span>
+                <span className="text-[#a89d88] text-xs">Port:</span>
                 <code className="text-white/80 text-xs font-mono">{s.mailSmtpPort} SSL</code>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/40 text-xs">Guvenlik:</span>
+                <span className="text-[#a89d88] text-xs">Guvenlik:</span>
                 <span className="text-green-400 text-xs">SSL/TLS</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-4 bg-[#0A0A0A] border border-[#222] rounded-lg p-3 space-y-1">
+        <div className="mt-4 bg-[#0A0A0A] border border-[#352d24] rounded-lg p-3 space-y-1">
           <div className="flex justify-between">
-            <span className="text-white/40 text-xs">Kullanici adi:</span>
-            <span className="text-[#C9A96E] text-xs">Tam email adresiniz (ornegin: info@xurcun.az)</span>
+            <span className="text-[#a89d88] text-xs">Kullanici adi:</span>
+            <span className="text-[#C2A05A] text-xs">Tam email adresiniz (ornegin: info@xurcun.az)</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-white/40 text-xs">Sifre:</span>
-            <span className="text-[#C9A96E] text-xs">Posta kutusu sifreniz</span>
+            <span className="text-[#a89d88] text-xs">Sifre:</span>
+            <span className="text-[#C2A05A] text-xs">Posta kutusu sifreniz</span>
           </div>
         </div>
       </div>
@@ -595,20 +600,20 @@ export default function MailSettingsPage() {
       </div>
 
       <Tabs defaultValue="accounts" className="space-y-6">
-        <TabsList className="bg-[#111] border border-[#222] flex-wrap h-auto">
-          <TabsTrigger value="accounts" className="data-[state=active]:bg-[#C9A96E]/15 data-[state=active]:text-[#C9A96E] text-xs">
+        <TabsList className="bg-[#1d1915] border border-[#352d24] flex-wrap h-auto">
+          <TabsTrigger value="accounts" className="data-[state=active]:bg-[#C2A05A]/15 data-[state=active]:text-[#C2A05A] text-xs">
             <Server className="w-3.5 h-3.5 mr-1.5" /> Mail Hesaplari
           </TabsTrigger>
-          <TabsTrigger value="contact" className="data-[state=active]:bg-[#C9A96E]/15 data-[state=active]:text-[#C9A96E] text-xs">
+          <TabsTrigger value="contact" className="data-[state=active]:bg-[#C2A05A]/15 data-[state=active]:text-[#C2A05A] text-xs">
             <Mail className="w-3.5 h-3.5 mr-1.5" /> Contact Email
           </TabsTrigger>
-          <TabsTrigger value="audit" className="data-[state=active]:bg-[#C9A96E]/15 data-[state=active]:text-[#C9A96E] text-xs">
+          <TabsTrigger value="audit" className="data-[state=active]:bg-[#C2A05A]/15 data-[state=active]:text-[#C2A05A] text-xs">
             <FileText className="w-3.5 h-3.5 mr-1.5" /> Islem Kayitlari
           </TabsTrigger>
-          <TabsTrigger value="smtp" className="data-[state=active]:bg-[#C9A96E]/15 data-[state=active]:text-[#C9A96E] text-xs">
+          <TabsTrigger value="smtp" className="data-[state=active]:bg-[#C2A05A]/15 data-[state=active]:text-[#C2A05A] text-xs">
             <Settings className="w-3.5 h-3.5 mr-1.5" /> SMTP
           </TabsTrigger>
-          <TabsTrigger value="info" className="data-[state=active]:bg-[#C9A96E]/15 data-[state=active]:text-[#C9A96E] text-xs">
+          <TabsTrigger value="info" className="data-[state=active]:bg-[#C2A05A]/15 data-[state=active]:text-[#C2A05A] text-xs">
             <Info className="w-3.5 h-3.5 mr-1.5" /> Bilgi
           </TabsTrigger>
         </TabsList>

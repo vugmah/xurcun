@@ -101,6 +101,7 @@ export function ImageUpload({
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder="və ya URL yapışdır: https://…"
+            aria-label={`${label} URL`}
           />
           {hint && <p className="text-[10px] text-[#6c6353]">{hint}</p>}
           {err && <p className="text-[11px] text-[#e0a0a0]">{err}</p>}

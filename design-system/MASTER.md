@@ -39,11 +39,16 @@
 | Rol | Hex |
 |-----|-----|
 | Fon | `#14110E` / sidebar `#100D0A` |
-| Kart | `#111` · border `#222` / `white/10` |
+| Kart / panel | `#1D1915` · border `#352D24` |
 | Qızıl akssent | `#C2A05A` *(= primary `--gold-light`)* |
+| Solid qızıl düymə | base `#9D7C38` → hover `#C2A05A` |
+| Mətn (əsas / muted) | `#ECE6DA` / `#A89D88` (AA) |
+| Status: aktiv / passiv | `#5BBD86` / `#E0697A` (+ ikon, yalnız-rəng yox) |
 
-> **Qayda:** Qızıl akssent hər yerdə **`#C2A05A`** olmalıdır. `#C9A96E` və `#D4A853` köhnə
-> dəyərlərdir — yenilərində istifadə etmə.
+> **Qayda:** Qızıl akssent hər yerdə **`#C2A05A`** olmalıdır (solid düymə: base `#9D7C38` →
+> hover `#C2A05A`). Köhnə `#C9A96E`, `#D4A853`, `#B8985E` admin-dən **tamamilə silinib**
+> (PR #50) — istifadə etmə. Kart fonu `#1D1915`, border `#352D24` (köhnə `#111`/`#222`
+> birləşdirildi).
 
 ### Kontrast qaydaları (WCAG AA)
 - Açıq fonda **kiçik mətn** üçün qızıl = `--gold-dark #7E6228` (≈ 4.5:1+).
@@ -58,7 +63,7 @@
 | Rol | Şrift | İstifadə |
 |-----|-------|----------|
 | Display / başlıq | **Rufolo** (lokal woff) → fallback Cormorant Garamond | h1–h3, `.serif` |
-| Body | **Montserrat** (public) / **Inter** (admin) | mətn |
+| Body | **Montserrat** (public) / **Cairo** (admin, qlobal `body`) — **Inter heç vaxt** | mətn |
 | Script | **Pinyon Script** | hero alt-başlıq, footer akssent |
 | Mono | JetBrains Mono | yalnız texniki/admin |
 | Arabic (RTL) | **Amiri** (display) + **Cairo** (body) | `[dir="rtl"]` |
@@ -83,6 +88,7 @@
 - Easing: `--ease: cubic-bezier(.22,.61,.36,1)`; keçidlər 150–300ms.
 - Toxunma hədəfi: interaktiv elementlər **min 44×44px** (topbar utiliti ≥38px).
 - Fokus: `:focus-visible` → 2px qızıl halqa (`--ember-gold` tünddə / `--gold` kremdə).
+  `--ember-gold` artıq **`#C2A05A`**-dir (köhnə `#D4A853` deyil — PR #50).
 
 ---
 
@@ -94,6 +100,8 @@
 - [x] `<html lang/dir>` dil dəyişəndə yenilənir (RTL ərəb)
 - [x] Şriftlər tək request, render-blocking @import yoxdur
 - [x] Public şəkillərdə alt (logo təsviredici, dekorativ `alt=""`)
+- [x] Admin a11y: icon düymələrdə `aria-label`, form `id`/`htmlFor`, ≥44px hədəflər,
+      kontrast AA (`white/30,40` → `#A89D88`), status badge ikonları (PR #50)
 - [ ] Şəkillər WebP + `srcset` (gələcək)
 
 ---
@@ -108,9 +116,17 @@
    MenuPage, GoogleReviews, HomeScrollButton) + `Home.tsx` + `App.css` silindi.
    Yalnız `sections/SEO.tsx` qaldı (aktiv istifadədə). `#D4A853` ember-gold artıq yoxdur.
 3. ✅ Səpələnmiş qızıl `#C9A96E` → brend `#C2A05A` (admin = home = vahid).
+4. ✅ **Admin UI/UX vahid keçid (PR #50)** — 18 admin səhifəsi + paylaşılan komponentlər:
+   qızıl unifikasiyası (`#C9A96E`/`#D4A853`/`#B8985E` → `#9D7C38`/`#C2A05A`), kart fonu
+   `#1D1915` / border `#352D24`, kontrast AA (`white/30,40` → `#A89D88`), `aria-label`-lar,
+   form `id`/`htmlFor`, ≥44px toxunma hədəfləri, status badge ikonları, emoji → lucide ikon,
+   LoginPage inline hover → Tailwind. Fokus halqası `--ember-gold` → `#C2A05A`.
+
+> **Qeyd:** Admin paneli **qəsdən tünddür** (idarəetmə üçün), public krem temadan ayrı —
+> bu, dizayn qərarıdır, düzəliş tələb etmir.
 
 ## 8. Qalan gələcək işlər
 - [ ] Şəkillər WebP + `srcset` + lazy (performans).
-- [ ] Admin paneli tünddür — qəsdən belədir (idarəetmə üçün), public-dən ayrı.
 - [ ] Orphan ola biləcək lib faylları (məs. `aboutText.ts`) — silinmiş section-lardan
       sonra istifadəsiz qalmış ola bilər, yoxlanılmalı.
+- [ ] Admin lint borcu (~89 `unused-var`/`any` xətası) — köhnə ölü kod, ayrıca təmizlik.

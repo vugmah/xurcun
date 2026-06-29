@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Check } from "lucide-react";
 import { trpc } from "@/providers/trpc";
 
 const card = "bg-[#1d1915] border border-[#352d24] rounded-xl";
@@ -71,7 +72,7 @@ export default function DashboardPage() {
                 <tr key={label} className="border-b border-[#221d17] last:border-0">
                   <td className="px-5 py-2.5 text-[#d7cfbe]">{label}</td>
                   <td className="px-5 py-2.5 text-right">
-                    <span className="text-[10.5px] px-2.5 py-1 rounded-full" style={{ background: "#16291f", color: "#5bbd86" }}>Aktiv</span>
+                    <span className="inline-flex items-center gap-1 text-[10.5px] px-2.5 py-1 rounded-full" style={{ background: "#16291f", color: "#5bbd86" }}><Check className="w-3 h-3" />Aktiv</span>
                   </td>
                 </tr>
               ))}
