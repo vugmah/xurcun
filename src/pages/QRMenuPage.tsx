@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
+import SEO from '@/sections/SEO'
 import '@/xurcun-base.css'
 import '@/xurcun-menu.css'
 
@@ -125,6 +126,7 @@ export default function QRMenuPage() {
 
   return (
     <div className="xc xcm" ref={rootRef}>
+      <SEO page="menu" />
       {/* Header */}
       <div className="mhead">
         <div className="row">
