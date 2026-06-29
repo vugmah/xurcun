@@ -40,6 +40,27 @@ const ROUTE_META: Record<string, RouteMeta> = {
     intro: "Fiziki hədiyyə əvəzinə istədiyiniz balansı yükləyin və sevdiklərinizə premium Xurcun kartı hədiyyə edin — bütün mağazalarımızda keçərlidir.",
     crumb: "Hədiyyə Kartı",
   },
+  "/blog/bakida-hediyye-hara": {
+    title: "Bakıda hədiyyə hara almalı | Xurcun",
+    desc: "Bakıda yaxşı hədiyyə hara almalı? Premium hədiyyə qutuları, quru meyvə, çərəz və şirniyyat. Xurcun-un 11 mağazası və hava limanı filialı.",
+    h1: "Bakıda hədiyyə hara almalı — sakinlər və qonaqlar üçün bələdçi",
+    intro: "İstər doğum günü, istər toy, istərsə də Bakıdan aparılacaq bir xatirə olsun — yaxşı hədiyyə həm zövqlü görünməli, həm də səmimi olmalıdır. Xurcun premium qur…",
+    crumb: "Bakıda hədiyyə",
+  },
+  "/blog/baku-suvenir-belecisi": {
+    title: "Bakıdan nə aparmaq olar — suvenir bələdçisi | Xurcun",
+    desc: "Bakıdan aparmaq üçün ən gözəl suvenirlər: Azərbaycan quru meyvəsi, qoz-fındıq, paxlava, lokum, çay və əl işi hədiyyə qutuları. Hava limanı mağazaları.",
+    h1: "Bakıdan nə aparmaq olar — suvenir bələdçisi",
+    intro: "Bakıdan vətənə dönərkən sevdiklərinizə həm dadlı, həm də unudulmaz bir töhfə aparmaq istəyirsiniz. Magnit və açarlıqlardan kənara çıxın: Azərbaycanın əsl ləz…",
+    crumb: "Suvenir bələdçisi",
+  },
+  "/blog/azerbaycan-quru-meyve-belecisi": {
+    title: "Quru meyvə və qoz-fındıq bələdçisi | Xurcun",
+    desc: "Ərik, əncir, tut, qoz, fındıq, püstə, badam — Azərbaycan quru meyvə və qoz-fındıqlarını necə seçmək, dadmaq və hədiyyə etmək. Xurcun bələdçisi.",
+    h1: "Azərbaycan quru meyvə və qoz-fındıq bələdçisi",
+    intro: "Quru meyvə və qoz-fındıq Azərbaycan süfrəsinin əzəli bir parçasıdır — çayın yanında, bayram süfrəsində və ən zərif hədiyyələrdə. Bu bələdçidə əsas çeşidləri,…",
+    crumb: "Quru meyvə bələdçisi",
+  },
   "/about": {
     title: "Haqqımızda | Xurcun — 2015-dən bəri premium butik",
     desc: "Xurcun — 2015-ci ildə Vüqar Məhərrəmov tərəfindən təsis edilmiş premium quru meyvə, qoz-fındıq, çay, şirniyyat və əl işi hədiyyə butiki. Bakıda 11 mağaza.",
