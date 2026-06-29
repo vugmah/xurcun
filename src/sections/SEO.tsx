@@ -73,55 +73,70 @@ export default function SEO({ page = 'home', branchSlug }: SeoProps) {
   /* ─── Priority: path-based (seoPages) > legacy (seoSettings) > fallback ─── */
   const hasPathSeo = pathSeo && pathSeo.id > 0 && pathSeo.title
 
-  if (hasPathSeo) {
-    title = resolve(pathSeo.title, fallback.titleAz)
-    description = resolve(pathSeo.description, fallback.descriptionAz)
-    keywords = resolve(pathSeo.keywords, fallback.keywordsAz)
+  // Per-language text (legacy seoSettings → template fallback) — computed ALWAYS,
+  // so non-default languages keep correct titles even when a seoPages override
+  // exists. seoPages stores a single-language value (authored in AZ); applying it
+  // to every language made e.g. /catalog?lang=ar show the AZ title.
+  const seo = {
+    titleAz:       resolve(dbSeo?.titleAz,       fallback.titleAz),
+    titleRu:       resolve(dbSeo?.titleRu,       fallback.titleRu),
+    titleEn:       resolve(dbSeo?.titleEn,       fallback.titleEn),
+    titleTr:       resolve(dbSeo?.titleTr,       fallback.titleTr),
+    descriptionAz: resolve(dbSeo?.descriptionAz, fallback.descriptionAz),
+    descriptionRu: resolve(dbSeo?.descriptionRu, fallback.descriptionRu),
+    descriptionEn: resolve(dbSeo?.descriptionEn, fallback.descriptionEn),
+    descriptionTr: resolve(dbSeo?.descriptionTr, fallback.descriptionTr),
+    keywordsAz:    resolve(dbSeo?.keywordsAz,    fallback.keywordsAz),
+    keywordsRu:    resolve(dbSeo?.keywordsRu,    fallback.keywordsRu),
+    keywordsEn:    resolve(dbSeo?.keywordsEn,    fallback.keywordsEn),
+    keywordsTr:    resolve(dbSeo?.keywordsTr,    fallback.keywordsTr),
+    ogTitleAz:       resolve(dbSeo?.ogTitleAz,       fallback.ogTitleAz),
+    ogTitleRu:       resolve(dbSeo?.ogTitleRu,       fallback.ogTitleRu),
+    ogTitleEn:       resolve(dbSeo?.ogTitleEn,       fallback.ogTitleEn),
+    ogTitleTr:       resolve(dbSeo?.ogTitleTr,       fallback.ogTitleTr),
+    ogDescriptionAz: resolve(dbSeo?.ogDescriptionAz, fallback.ogDescriptionAz),
+    ogDescriptionRu: resolve(dbSeo?.ogDescriptionRu, fallback.ogDescriptionRu),
+    ogDescriptionEn: resolve(dbSeo?.ogDescriptionEn, fallback.ogDescriptionEn),
+    ogDescriptionTr: resolve(dbSeo?.ogDescriptionTr, fallback.ogDescriptionTr),
+    titleAr:       resolve((dbSeo as any)?.titleAr,       fallback.titleAr ?? fallback.titleAz),
+    descriptionAr: resolve((dbSeo as any)?.descriptionAr, fallback.descriptionAr ?? fallback.descriptionAz),
+    keywordsAr:    resolve((dbSeo as any)?.keywordsAr,    fallback.keywordsAr ?? fallback.keywordsAz),
+    ogTitleAr:       resolve((dbSeo as any)?.ogTitleAr,       fallback.ogTitleAr ?? fallback.ogTitleAz),
+    ogDescriptionAr: resolve((dbSeo as any)?.ogDescriptionAr, fallback.ogDescriptionAr ?? fallback.ogDescriptionAz),
+    ogImage: resolve(dbSeo?.ogImage ?? undefined, fallback.ogImage),
+  }
+
+  const suffix = lang === 'az' ? 'Az' : lang === 'ru' ? 'Ru' : lang === 'tr' ? 'Tr' : lang === 'ar' ? 'Ar' : 'En'
+  const langTitle       = seo[`title${suffix}` as keyof typeof seo] as string
+  const langDescription = seo[`description${suffix}` as keyof typeof seo] as string
+  const langKeywords    = seo[`keywords${suffix}` as keyof typeof seo] as string
+  const langOgTitle       = (seo[`ogTitle${suffix}` as keyof typeof seo] as string) || langTitle
+  const langOgDescription = (seo[`ogDescription${suffix}` as keyof typeof seo] as string) || langDescription
+
+  if (hasPathSeo && lang === 'az') {
+    // Admin override (authored in AZ) applies only to the default language.
+    title = resolve(pathSeo.title, langTitle)
+    description = resolve(pathSeo.description, langDescription)
+    keywords = resolve(pathSeo.keywords, langKeywords)
     ogTitle = resolve(pathSeo.ogTitle, title)
     ogDescription = resolve(pathSeo.ogDescription, description)
-    ogImage = resolve(pathSeo.ogImage, fallback.ogImage)
-    canonicalUrl = resolve(pathSeo.canonical, CANONICAL_ROOT)
+  } else {
+    title = langTitle
+    description = langDescription
+    keywords = langKeywords
+    ogTitle = langOgTitle
+    ogDescription = langOgDescription
+  }
+
+  // Language-agnostic fields. seoPages canonical/ogImage/noindex win for ALL langs.
+  if (hasPathSeo) {
+    ogImage = resolve(pathSeo.ogImage, seo.ogImage)
+    canonicalUrl = resolve(pathSeo.canonical, currentPath === '/' ? CANONICAL_ROOT : `https://xurcun.az${currentPath}`)
     if (pathSeo.noIndex) robotsContent = 'noindex, nofollow'
   } else {
-    const seo = {
-      titleAz:       resolve(dbSeo?.titleAz,       fallback.titleAz),
-      titleRu:       resolve(dbSeo?.titleRu,       fallback.titleRu),
-      titleEn:       resolve(dbSeo?.titleEn,       fallback.titleEn),
-      titleTr:       resolve(dbSeo?.titleTr,       fallback.titleTr),
-      descriptionAz: resolve(dbSeo?.descriptionAz, fallback.descriptionAz),
-      descriptionRu: resolve(dbSeo?.descriptionRu, fallback.descriptionRu),
-      descriptionEn: resolve(dbSeo?.descriptionEn, fallback.descriptionEn),
-      descriptionTr: resolve(dbSeo?.descriptionTr, fallback.descriptionTr),
-      keywordsAz:    resolve(dbSeo?.keywordsAz,    fallback.keywordsAz),
-      keywordsRu:    resolve(dbSeo?.keywordsRu,    fallback.keywordsRu),
-      keywordsEn:    resolve(dbSeo?.keywordsEn,    fallback.keywordsEn),
-      keywordsTr:    resolve(dbSeo?.keywordsTr,    fallback.keywordsTr),
-      ogTitleAz:       resolve(dbSeo?.ogTitleAz,       fallback.ogTitleAz),
-      ogTitleRu:       resolve(dbSeo?.ogTitleRu,       fallback.ogTitleRu),
-      ogTitleEn:       resolve(dbSeo?.ogTitleEn,       fallback.ogTitleEn),
-      ogTitleTr:       resolve(dbSeo?.ogTitleTr,       fallback.ogTitleTr),
-      ogDescriptionAz: resolve(dbSeo?.ogDescriptionAz, fallback.ogDescriptionAz),
-      ogDescriptionRu: resolve(dbSeo?.ogDescriptionRu, fallback.ogDescriptionRu),
-      ogDescriptionEn: resolve(dbSeo?.ogDescriptionEn, fallback.ogDescriptionEn),
-      ogDescriptionTr: resolve(dbSeo?.ogDescriptionTr, fallback.ogDescriptionTr),
-      titleAr:       resolve((dbSeo as any)?.titleAr,       fallback.titleAr ?? fallback.titleAz),
-      descriptionAr: resolve((dbSeo as any)?.descriptionAr, fallback.descriptionAr ?? fallback.descriptionAz),
-      keywordsAr:    resolve((dbSeo as any)?.keywordsAr,    fallback.keywordsAr ?? fallback.keywordsAz),
-      ogTitleAr:       resolve((dbSeo as any)?.ogTitleAr,       fallback.ogTitleAr ?? fallback.ogTitleAz),
-      ogDescriptionAr: resolve((dbSeo as any)?.ogDescriptionAr, fallback.ogDescriptionAr ?? fallback.ogDescriptionAz),
-      ogImage: resolve(dbSeo?.ogImage ?? undefined, fallback.ogImage),
-    }
-
-    const suffix = lang === 'az' ? 'Az' : lang === 'ru' ? 'Ru' : lang === 'tr' ? 'Tr' : lang === 'ar' ? 'Ar' : 'En'
-
-    title       = seo[`title${suffix}` as keyof typeof seo] as string
-    description = seo[`description${suffix}` as keyof typeof seo] as string
-    keywords    = seo[`keywords${suffix}` as keyof typeof seo] as string
-    ogTitle       = (seo[`ogTitle${suffix}` as keyof typeof seo] as string) || title
-    ogDescription = (seo[`ogDescription${suffix}` as keyof typeof seo] as string) || description
-    ogImage       = seo.ogImage || 'https://xurcun.az/assets/og-default.jpg'
+    ogImage = seo.ogImage || 'https://xurcun.az/assets/og-default.jpg'
     // Self-referential canonical (BrowserRouter: path is meaningful).
-    canonicalUrl  = currentPath === '/' ? CANONICAL_ROOT : `https://xurcun.az${currentPath}`
+    canonicalUrl = currentPath === '/' ? CANONICAL_ROOT : `https://xurcun.az${currentPath}`
   }
 
   const ogUrl = canonicalUrl
