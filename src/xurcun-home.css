@@ -181,7 +181,10 @@
   .xc .logo{height:46px}
   .xc nav{gap:6px 16px; font-size:11px; letter-spacing:.12em}
   .xc nav a{padding:8px 4px; min-height:44px; display:inline-flex; align-items:center}
-  .xc .hero{min-height:78vh}
+  .xc .hero{min-height:68vh}
+  .xc .hero h1{font-size:clamp(2.3rem,8vw,3.1rem)}
+  .xc .hero .script{font-size:clamp(20px,5vw,26px)}
+  .xc .hero .wrap{padding-top:24px; padding-bottom:24px}
   .xc .hero .emb{width:60px; margin-bottom:16px}
   .xc .hero .lead{font-size:14.5px; margin:18px auto 26px}
   .xc .btns{gap:12px}
