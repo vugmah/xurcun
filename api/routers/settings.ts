@@ -5,8 +5,10 @@ import { settings } from "../../db/schema";
 import { eq } from "drizzle-orm";
 
 export const settingsRouter = createRouter({
-  // Public: Get all settings as key-value map
-  getAll: publicQuery.query(async () => {
+  // Admin-only: the settings table also stores provider secrets (e.g.
+  // openai_api_key / anthropic_api_key read by translate.ts), so it must never be
+  // public. Public pages use tracking.getPublic (allow-listed) / generalSettings.
+  getAll: adminQuery.query(async () => {
     const db = getDb();
     const rows = await db.select().from(settings);
     const result: Record<string, string> = {};
@@ -16,8 +18,8 @@ export const settingsRouter = createRouter({
     return result;
   }),
 
-  // Public: Get single setting by key
-  getByKey: publicQuery
+  // Admin-only (same secret-exposure reason as getAll above)
+  getByKey: adminQuery
     .input(z.object({ key: z.string() }))
     .query(async ({ input }) => {
       const db = getDb();
