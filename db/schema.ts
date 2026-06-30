@@ -518,3 +518,20 @@ export const blogPosts = mysqlTable("blog_posts", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+// ═══════════════════════════════════════════════════════
+// FAQ ITEMS (DB-backed FAQ CMS)
+// ═══════════════════════════════════════════════════════
+
+export const faqItems = mysqlTable("faq_items", {
+  id: serial("id"),
+  questionAz: varchar("question_az", { length: 500 }), questionRu: varchar("question_ru", { length: 500 }),
+  questionEn: varchar("question_en", { length: 500 }), questionTr: varchar("question_tr", { length: 500 }),
+  questionAr: varchar("question_ar", { length: 500 }),
+  answerAz: text("answer_az"), answerRu: text("answer_ru"), answerEn: text("answer_en"),
+  answerTr: text("answer_tr"), answerAr: text("answer_ar"),
+  sortOrder: int("sort_order").default(0),
+  published: boolean("published").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});

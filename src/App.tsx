@@ -43,6 +43,7 @@ const AiAuditorPage = lazy(() => import("./pages/admin/AiAuditorPage"));
 const AiInsightsPage = lazy(() => import("./pages/admin/AiInsightsPage"));
 const PopupCampaignsPage = lazy(() => import("./pages/admin/PopupCampaignsPage"));
 const BlogAdminPage = lazy(() => import("./pages/admin/BlogAdminPage"));
+const FaqAdminPage = lazy(() => import("./pages/admin/FaqAdminPage"));
 
 /** Section skeleton — shows inside the admin content area only */
 function SectionSkeleton() {
@@ -134,6 +135,7 @@ function App() {
           } />
           <Route path="popups" element={<Suspense fallback={<SectionSkeleton />}><PopupCampaignsPage /></Suspense>} />
           <Route path="blog" element={<Suspense fallback={<SectionSkeleton />}><BlogAdminPage /></Suspense>} />
+          <Route path="faq" element={<Suspense fallback={<SectionSkeleton />}><FaqAdminPage /></Suspense>} />
         </Route>
 
         {/* Fallback — unknown routes → home page */}

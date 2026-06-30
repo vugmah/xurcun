@@ -6,7 +6,7 @@ import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
 import { getDb, getPool } from "./queries/connection";
-import { menuCategories, menuItems, photos, seoSettings, photoAssignments, branches, blogPosts } from "../db/schema";
+import { menuCategories, menuItems, photos, seoSettings, photoAssignments, branches, blogPosts, faqItems } from "../db/schema";
 import { writeFile, mkdir, readFile } from "fs/promises";
 import path from "path";
 import { eq, asc, and, inArray } from "drizzle-orm";
@@ -622,6 +622,108 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
     console.log(`[MIGRATE] Blog seed ensured (${BLOG_POSTS.length})`);
   } catch (err: any) {
     console.error("[MIGRATE] Blog seed error:", err.message || err);
+  }
+
+  // ── 5c. faq_items (DB-backed FAQ CMS) ──
+  await createTable("faq_items", `
+    CREATE TABLE IF NOT EXISTS faq_items (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      question_az VARCHAR(500), question_ru VARCHAR(500), question_en VARCHAR(500), question_tr VARCHAR(500), question_ar VARCHAR(500),
+      answer_az TEXT, answer_ru TEXT, answer_en TEXT, answer_tr TEXT, answer_ar TEXT,
+      sort_order INT DEFAULT 0, published BOOLEAN DEFAULT true,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )`);
+  await createIndex("faq_items", "idx_faq_items_pub_sort", "published, sort_order");
+
+  // Seed FAQ items from the content-in-code source (idempotent by question_az).
+  // FAQ array is a private const in src/pages/FaqPage.tsx, copied verbatim here.
+  try {
+    const pool = getPool();
+    const FAQ_SEED: { q: Record<string, string>; a: Record<string, string> }[] = [
+      {
+        q: { az: 'Xurcun nə satır?', ru: 'Что продаёт Xurcun?', en: 'What does Xurcun sell?', tr: 'Xurcun ne satıyor?', ar: 'ماذا تبيع Xurcun؟' },
+        a: {
+          az: 'Premium quru meyvə, qoz-fındıq, çərəz, ekzotik çaylar, şokolad, lokum, paxlava və əl işi hədiyyə qutuları.',
+          ru: 'Премиальные сухофрукты, орехи, снеки, экзотические чаи, шоколад, лукум, пахлаву и подарочные наборы ручной работы.',
+          en: 'Premium dried fruit, nuts, snacks, exotic teas, chocolate, Turkish delight, baklava and handcrafted gift boxes.',
+          tr: 'Premium kuru meyve, çerez, atıştırmalık, egzotik çaylar, çikolata, lokum, baklava ve el yapımı hediye kutuları.',
+          ar: 'فواكه مجففة فاخرة، مكسرات، وجبات خفيفة، شاي، شوكولاتة، حلقوم، بقلاوة وعلب هدايا مصنوعة يدويًا.',
+        },
+      },
+      {
+        q: { az: 'Xurcun nə vaxt yaranıb?', ru: 'Когда основан Xurcun?', en: 'When was Xurcun founded?', tr: 'Xurcun ne zaman kuruldu?', ar: 'متى تأسست Xurcun؟' },
+        a: {
+          az: 'Xurcun 2015-ci ildə Vüqar Məhərrəmov tərəfindən Bakıda təsis edilib.',
+          ru: 'Xurcun основан в 2015 году Вугаром Магеррамовым в Баку.',
+          en: 'Xurcun was founded in 2015 by Vugar Maharramov in Baku.',
+          tr: 'Xurcun 2015 yılında Vugar Maharramov tarafından Bakü’de kuruldu.',
+          ar: 'تأسست Xurcun عام 2015 على يد ووقار محرّموف في باكو.',
+        },
+      },
+      {
+        q: { az: 'Neçə mağazanız var?', ru: 'Сколько у вас магазинов?', en: 'How many stores do you have?', tr: 'Kaç mağazanız var?', ar: 'كم عدد متاجركم؟' },
+        a: {
+          az: 'Bakıda 11 mağazamız var — ticarət mərkəzləri, mərkəzi küçələr və Heydər Əliyev Hava Limanı daxil.',
+          ru: 'У нас 11 магазинов в Баку — в торговых центрах, на центральных улицах и в аэропорту имени Гейдара Алиева.',
+          en: 'We have 11 stores in Baku — including malls, central streets and Heydar Aliyev International Airport.',
+          tr: 'Bakü’de 11 mağazamız var — alışveriş merkezleri, merkezi caddeler ve Haydar Aliyev Havalimanı dahil.',
+          ar: 'لدينا 11 متجرًا في باكو — تشمل المراكز التجارية والشوارع الرئيسية ومطار حيدر علييف الدولي.',
+        },
+      },
+      {
+        q: { az: 'Məhsullar təbiidir, qlütensiz seçim var?', ru: 'Продукция натуральная, есть ли без глютена?', en: 'Are products natural, any gluten-free options?', tr: 'Ürünler doğal mı, glutensiz seçenek var mı?', ar: 'هل المنتجات طبيعية وهل هناك خيارات خالية من الغلوتين؟' },
+        a: {
+          az: 'Bəli, məhsullarımız təbii və konservantsızdır; qlütensiz seçimlər də mövcuddur.',
+          ru: 'Да, наша продукция натуральная и без консервантов; есть и безглютеновые варианты.',
+          en: 'Yes, our products are natural and preservative-free; gluten-free options are also available.',
+          tr: 'Evet, ürünlerimiz doğal ve koruyucusuzdur; glutensiz seçenekler de mevcuttur.',
+          ar: 'نعم، منتجاتنا طبيعية وخالية من المواد الحافظة، وتتوفر خيارات خالية من الغلوتين.',
+        },
+      },
+      {
+        q: { az: 'Necə sifariş verə bilərəm?', ru: 'Как я могу сделать заказ?', en: 'How can I order?', tr: 'Nasıl sipariş verebilirim?', ar: 'كيف يمكنني الطلب؟' },
+        a: {
+          az: 'Kataloqdan bəyəndiyiniz məhsulları seçin və WhatsApp ilə bizə göndərin, ya da +994 50 212 18 11 nömrəsinə zəng edin.',
+          ru: 'Выберите товары в каталоге и отправьте нам список в WhatsApp, или позвоните по номеру +994 50 212 18 11.',
+          en: 'Pick the products you like in the catalogue and send us the list on WhatsApp, or call +994 50 212 18 11.',
+          tr: 'Katalogdan beğendiğiniz ürünleri seçin ve listeyi WhatsApp ile bize gönderin ya da +994 50 212 18 11’i arayın.',
+          ar: 'اختر المنتجات من الكتالوج وأرسل القائمة عبر واتساب، أو اتصل بالرقم ‎+994 50 212 18 11.',
+        },
+      },
+      {
+        q: { az: 'Hədiyyə qutuları hazırlayırsınız?', ru: 'Делаете ли вы подарочные наборы?', en: 'Do you make gift boxes?', tr: 'Hediye kutuları hazırlıyor musunuz?', ar: 'هل تصنعون علب هدايا؟' },
+        a: {
+          az: 'Bəli, korporativ təqdimatlar, bayramlar və xüsusi anlar üçün əl işi premium hədiyyə qutularımız var.',
+          ru: 'Да, у нас есть премиальные подарочные наборы ручной работы для корпоративных подарков, праздников и особых случаев.',
+          en: 'Yes, we offer handcrafted premium gift boxes for corporate gifts, holidays and special occasions.',
+          tr: 'Evet, kurumsal hediyeler, bayramlar ve özel anlar için el yapımı premium hediye kutularımız var.',
+          ar: 'نعم، نقدّم علب هدايا فاخرة مصنوعة يدويًا للهدايا المؤسسية والأعياد والمناسبات الخاصة.',
+        },
+      },
+    ];
+    let fidx = 0;
+    for (const f of FAQ_SEED) {
+      const [r] = await pool.execute(`SELECT id FROM faq_items WHERE question_az = ? LIMIT 1`, [f.q.az]);
+      if (!(r as any[]).length) {
+        await pool.execute(
+          `INSERT INTO faq_items
+             (question_az, question_ru, question_en, question_tr, question_ar,
+              answer_az, answer_ru, answer_en, answer_tr, answer_ar,
+              sort_order, published)
+           VALUES (?, ?, ?, ?, ?,  ?, ?, ?, ?, ?,  ?, true)`,
+          [
+            f.q.az, f.q.ru, f.q.en, f.q.tr, f.q.ar,
+            f.a.az, f.a.ru, f.a.en, f.a.tr, f.a.ar,
+            fidx,
+          ],
+        );
+      }
+      fidx++;
+    }
+    console.log(`[MIGRATE] FAQ seed ensured (${FAQ_SEED.length})`);
+  } catch (err: any) {
+    console.error("[MIGRATE] FAQ seed error:", err.message || err);
   }
 
   // ── 6. menu_item_branches ──
