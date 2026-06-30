@@ -82,6 +82,19 @@ export default function BlogAdminPage() {
           onClose={() => setEditing(null)}
           onSaved={() => { setEditing(null); listQ.refetch(); }}
         />
+      ) : listQ.isLoading ? (
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden p-5 grid gap-3 animate-pulse motion-reduce:animate-none">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-lg bg-[#16120e] border border-[#352d24]" />
+              <div className="flex-1 grid gap-2">
+                <div className="h-3.5 w-1/2 rounded bg-[#16120e] border border-[#352d24]" />
+                <div className="h-2.5 w-1/3 rounded bg-[#16120e] border border-[#352d24]" />
+              </div>
+              <div className="h-6 w-24 rounded-full bg-[#16120e] border border-[#352d24]" />
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
           <table className="w-full text-[13px]">
@@ -110,7 +123,7 @@ export default function BlogAdminPage() {
                     {p.title.az || "(başlıqsız)"}
                     <div className="text-[11px] text-[#6c6353]">/blog/{p.slug}</div>
                   </td>
-                  <td className="px-5 py-3 text-[#928876]">{p.date || "—"}</td>
+                  <td className="px-5 py-3 text-[#928876]">{p.date || "·"}</td>
                   <td className="px-5 py-3">
                     <span
                       className="inline-flex items-center gap-1 text-[10.5px] px-2.5 py-1 rounded-full"
@@ -291,12 +304,11 @@ function BlogForm({ post, onClose, onSaved }: { post: Post; onClose: () => void;
 
         {/* Language tabs */}
         <div>
-          <div className="flex gap-1.5 mb-3" role="tablist" aria-label="Dil seçimi">
+          <div className="flex gap-1.5 mb-3" role="group" aria-label="Dil">
             {LANGS.map((l) => (
               <button
                 key={l}
-                role="tab"
-                aria-selected={tab === l}
+                aria-pressed={tab === l}
                 onClick={() => setTab(l)}
                 className={`min-w-[44px] min-h-[44px] px-3 rounded-lg text-xs font-medium transition ${
                   tab === l ? "bg-[#9D7C38] text-[#1a140a]" : "bg-[#16120e] border border-[#352d24] text-[#ECE6DA] hover:border-[#9D7C38]"

@@ -158,12 +158,11 @@ export default function HomepageTextAdminPage() {
 
       {/* Shared language selector */}
       <div className="sticky top-0 z-10 -mx-1 mb-5 bg-[#16120e]/80 backdrop-blur px-1 py-2">
-        <div className="flex gap-1.5" role="tablist" aria-label="Dil seçimi">
+        <div className="flex gap-1.5" role="group" aria-label="Dil">
           {LANGS.map((l) => (
             <button
               key={l}
-              role="tab"
-              aria-selected={lang === l}
+              aria-pressed={lang === l}
               onClick={() => setLang(l)}
               className={`min-w-[44px] min-h-[44px] px-3 rounded-lg text-xs font-medium transition ${
                 lang === l
@@ -178,7 +177,18 @@ export default function HomepageTextAdminPage() {
       </div>
 
       {listQ.isLoading ? (
-        <p className="text-xs text-[#928876]">Yüklənir…</p>
+        <div className="grid gap-4 max-w-3xl" aria-hidden="true">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="bg-[#1d1915] border border-[#352d24] rounded-xl p-5 animate-pulse motion-reduce:animate-none">
+              <div className="h-4 w-40 rounded bg-[#352d24]" />
+              <div className="mt-4 grid gap-3">
+                <div className="h-3 w-3/4 rounded bg-[#2a241d]" />
+                <div className="h-3 w-5/6 rounded bg-[#2a241d]" />
+                <div className="h-3 w-2/3 rounded bg-[#2a241d]" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="grid gap-4 max-w-3xl">
           {GROUP_ORDER.map((g) => {
@@ -321,7 +331,7 @@ function FieldRow({
         )}
         {errored && (
           <span className="inline-flex items-center gap-1 text-[10.5px]" style={{ color: "#e0697a" }}>
-            <X className="w-3 h-3" /> Xəta — yenidən cəhd edin
+            <X className="w-3 h-3" /> Xəta, yenidən cəhd edin
           </span>
         )}
       </div>
