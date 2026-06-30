@@ -12,6 +12,8 @@ const branchInput = z.object({
   whatsappNumber: z.string().optional(),
   mapUrl: z.string().optional(),
   videoUrl: z.string().optional(),
+  googleReviewUrl: z.string().optional(),
+  tripadvisorUrl: z.string().optional(),
   hasCafe: z.boolean().optional(),
   sortOrder: z.number().optional(),
   isActive: z.boolean().optional(),

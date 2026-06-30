@@ -155,6 +155,23 @@
   .xc.xcm .mretry:hover { background: var(--gold); color: var(--on-gold); }
 }
 
+/* ── Review buttons (per branch: Google / TripAdvisor) ── */
+.xc.xcm .mreviews {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  margin: 44px auto 0;
+}
+.xc.xcm .mrev {
+  display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+  font-family: var(--body); font-size: 12.5px; font-weight: 500; letter-spacing: .04em;
+  padding: 10px 20px; border-radius: 999px; min-height: 44px; white-space: nowrap;
+  border: 1px solid var(--gold); background: var(--cream-50); color: var(--gold-dark);
+  transition: background-color .2s var(--ease), color .2s var(--ease), transform .12s var(--ease);
+}
+.xc.xcm .mrev:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) {
+  .xc.xcm .mrev:hover { background: var(--gold); color: var(--on-gold); }
+}
+
 /* ── Footer ── */
 .xc.xcm .mfoot { text-align: center; padding: 40px 18px 10px; color: var(--ink-muted); }
 .xc.xcm .mfoot .script { font-family: var(--script); font-size: 22px; color: var(--gold-dark); }

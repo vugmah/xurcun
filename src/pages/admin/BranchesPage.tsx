@@ -11,6 +11,7 @@ const btnGhost = "bg-transparent border border-[#352d24] hover:border-[#9D7C38] 
 type Branch = {
   id?: number; name?: string; slug?: string; address?: string | null; phone?: string | null;
   whatsappNumber?: string | null; mapUrl?: string | null; videoUrl?: string | null;
+  googleReviewUrl?: string | null; tripadvisorUrl?: string | null;
   hasCafe?: boolean; sortOrder?: number; isActive?: boolean;
 };
 
@@ -86,6 +87,8 @@ function BranchForm({ branch, onClose, onSaved }: { branch: Branch; onClose: () 
       address: f.address?.trim() || undefined, phone: f.phone?.trim() || undefined,
       whatsappNumber: f.whatsappNumber?.trim() || undefined, mapUrl: f.mapUrl?.trim() || undefined,
       videoUrl: f.videoUrl?.trim() || undefined, hasCafe: !!f.hasCafe,
+      googleReviewUrl: f.googleReviewUrl?.trim() || undefined,
+      tripadvisorUrl: f.tripadvisorUrl?.trim() || undefined,
       sortOrder: f.sortOrder ?? 0, isActive: f.isActive !== false,
     };
     if (isNew) create.mutate(data);
@@ -111,6 +114,10 @@ function BranchForm({ branch, onClose, onSaved }: { branch: Branch; onClose: () 
           <div><label htmlFor="branch-whatsapp" className={labelCls}>WhatsApp nömrəsi</label><input id="branch-whatsapp" className={inputCls} value={f.whatsappNumber ?? ""} onChange={(e) => set("whatsappNumber", e.target.value)} placeholder="994xxxxxxxxx" /></div>
         </div>
         <div><label htmlFor="branch-mapurl" className={labelCls}>Google Maps URL</label><input id="branch-mapurl" className={inputCls} value={f.mapUrl ?? ""} onChange={(e) => set("mapUrl", e.target.value)} /></div>
+        <div className="grid grid-cols-2 gap-3">
+          <div><label htmlFor="branch-google-review" className={labelCls}>Google Review URL</label><input id="branch-google-review" className={inputCls} value={f.googleReviewUrl ?? ""} onChange={(e) => set("googleReviewUrl", e.target.value)} /></div>
+          <div><label htmlFor="branch-tripadvisor" className={labelCls}>TripAdvisor URL</label><input id="branch-tripadvisor" className={inputCls} value={f.tripadvisorUrl ?? ""} onChange={(e) => set("tripadvisorUrl", e.target.value)} /></div>
+        </div>
         <ImageUpload
           value={f.videoUrl ?? ""}
           onChange={(v) => set("videoUrl", v)}

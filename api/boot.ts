@@ -839,6 +839,8 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
   await addColumn("branches", "video_url", "VARCHAR(500)");
   await addColumn("branches", "has_cafe", "BOOLEAN DEFAULT false");
   await addColumn("branches", "sort_order", "INT DEFAULT 0");
+  await addColumn("branches", "google_review_url", "VARCHAR(500)");
+  await addColumn("branches", "tripadvisor_url", "VARCHAR(500)");
   // Product images (gallery)
   await createTable("product_images", `
     CREATE TABLE IF NOT EXISTS product_images (
