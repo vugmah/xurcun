@@ -201,8 +201,59 @@ function ProductForm({
   const statusQ = trpc.translate.status.useQuery();
   const aiEnabled = statusQ.data?.enabled;
 
+  // ── Branch prices (per-branch override) ──
+  const branchesQ = trpc.branch.adminGetBranches.useQuery();
+  const branches = (branchesQ.data ?? []) as { id: number; name: string }[];
+  const overridesQ = trpc.branchMenu.getMenuItemBranches.useQuery(
+    { menuItemId: item.id },
+    { enabled: !isNewItem },
+  );
+  const [branchStates, setBranchStates] = useState<Record<number, { available: boolean; price: string }>>({});
+  const [branchInit, setBranchInit] = useState(false);
+  if (!isNewItem && !branchInit && branchesQ.data && overridesQ.data) {
+    const rows = (overridesQ.data ?? []) as { branchId: number; branchPrice: string | null; isAvailable: boolean }[];
+    const byId = new Map(rows.map((r) => [r.branchId, r]));
+    const init: Record<number, { available: boolean; price: string }> = {};
+    for (const b of branches) {
+      const r = byId.get(b.id);
+      init[b.id] = { available: r ? r.isAvailable : true, price: r?.branchPrice ?? "" };
+    }
+    setBranchStates(init);
+    setBranchInit(true);
+  }
+
+  const updateBranch = trpc.branchMenu.updateMenuItemBranch.useMutation();
+
+  const persistBranches = async (menuItemId: number) => {
+    await Promise.all(
+      branches
+        .filter((b) => {
+          const s = branchStates[b.id];
+          if (!s) return false;
+          // save rows that differ from default OR that already had an override row
+          const hadRow = ((overridesQ.data ?? []) as { branchId: number }[]).some((r) => r.branchId === b.id);
+          const isDefault = s.available === true && s.price.trim() === "";
+          return hadRow || !isDefault;
+        })
+        .map((b) => {
+          const s = branchStates[b.id];
+          return updateBranch.mutateAsync({
+            menuItemId,
+            branchId: b.id,
+            isAvailable: s.available,
+            branchPrice: s.price.trim() || null,
+          });
+        }),
+    );
+  };
+
   const create = trpc.menu.createItem.useMutation({ onSuccess: onSaved });
-  const update = trpc.menu.updateItem.useMutation({ onSuccess: onSaved });
+  const update = trpc.menu.updateItem.useMutation({
+    onSuccess: async (_data, vars) => {
+      try { await persistBranches((vars as { id: number }).id); } catch (e: unknown) { alert("Filial qiymətləri saxlanmadı: " + (e instanceof Error ? e.message : String(e))); }
+      onSaved();
+    },
+  });
 
   const translateField = async (which: "name" | "desc") => {
     const src = which === "name" ? name.az : desc.az;
@@ -323,6 +374,41 @@ function ProductForm({
         <Toggle on={priceVisible} set={setPriceVisible} label="Qiyməti göstər" />
         <Toggle on={isNew} set={setIsNew} label='"Yeni" nişanı' />
         <Toggle on={isActive} set={setIsActive} label="Aktiv" />
+      </div>
+
+      {/* Branch prices */}
+      <div className="border-t border-[#2a241d] pt-4">
+        <label className={labelCls}>Filial qiymətləri</label>
+        {isNewItem ? (
+          <p className="text-[11px] text-[#928876]">Filial qiymətləri üçün məhsulu əvvəlcə yadda saxlayın.</p>
+        ) : branches.length === 0 ? (
+          <p className="text-[11px] text-[#928876]">Filial yoxdur.</p>
+        ) : (
+          <div className="space-y-2">
+            {branches.map((b) => {
+              const s = branchStates[b.id] ?? { available: true, price: "" };
+              return (
+                <div key={b.id} className="flex items-center gap-3 flex-wrap">
+                  <span className="text-sm text-[#ECE6DA] min-w-[120px] flex-1">{b.name}</span>
+                  <Toggle
+                    on={s.available}
+                    set={(v) => setBranchStates((p) => ({ ...p, [b.id]: { ...(p[b.id] ?? { available: true, price: "" }), available: v } }))}
+                    label={s.available ? "Aktiv" : "Passiv"}
+                  />
+                  <input
+                    className={inputCls + " max-w-[140px]"}
+                    value={s.price}
+                    aria-label={`${b.name} qiyməti`}
+                    inputMode="decimal"
+                    placeholder={price ? String(price) : "baza qiyməti"}
+                    onChange={(e) => setBranchStates((p) => ({ ...p, [b.id]: { ...(p[b.id] ?? { available: true, price: "" }), price: e.target.value } }))}
+                  />
+                </div>
+              );
+            })}
+            <p className="text-[10px] text-[#928876] mt-1">Boş = baza qiyməti istifadə olunur. Dəyişikliklər məhsul yadda saxlananda tətbiq olunur.</p>
+          </div>
+        )}
       </div>
 
       <div className="flex gap-2 pt-1">

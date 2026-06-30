@@ -299,6 +299,8 @@ export const branches = mysqlTable("branches", {
   videoUrl: varchar("video_url", { length: 500 }), // mağaza videosu (public/videos)
   hasCafe: boolean("has_cafe").default(false), // mağaza içi kofe menyusu var?
   sortOrder: int("sort_order").default(0),
+  googleReviewUrl: varchar("google_review_url", { length: 500 }),
+  tripadvisorUrl: varchar("tripadvisor_url", { length: 500 }),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

@@ -6,7 +6,7 @@ const WA = '994502121811' // +994 50 212 18 11
 /** Floating WhatsApp button on public pages (hidden in admin). Fast-path to order/ask. */
 export default function WhatsAppFab() {
   const { pathname } = useLocation()
-  if (pathname.startsWith('/admin') || pathname.startsWith('/login')) return null
+  if (pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/menu')) return null
   return (
     <a
       className="wa-fab"
