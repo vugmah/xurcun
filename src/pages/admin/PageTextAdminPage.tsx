@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { Check } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Check, ChevronDown, Loader2, X } from "lucide-react";
 import { trpc } from "@/providers/trpc";
 import { PAGE_TEXT } from "@/lib/pageTextStore";
 import type { Lang, L5, PageKey, PageTextField } from "@/lib/pageTextStore";
@@ -66,6 +66,20 @@ export default function PageTextAdminPage() {
   const [lang, setLang] = useState<Lang>("az");
   // Key of the most recently saved field, for the brief "saved" indicator.
   const [savedKey, setSavedKey] = useState<string | null>(null);
+  // Key of the most recent failed mutation, for an inline error indicator.
+  const [errorKey, setErrorKey] = useState<string | null>(null);
+  // Key currently mid-flight (save or reset), so only that row's buttons disable.
+  const [pendingKey, setPendingKey] = useState<string | null>(null);
+
+  // Auto-dismiss the "saved" pill so it doesn't linger as stale state.
+  const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (!savedKey) return;
+    savedTimer.current = setTimeout(() => setSavedKey(null), 2000);
+    return () => {
+      if (savedTimer.current) clearTimeout(savedTimer.current);
+    };
+  }, [savedKey]);
 
   const upsert = trpc.pageText.upsert.useMutation({ onSuccess: () => listQ.refetch() });
   const reset = trpc.pageText.reset.useMutation({ onSuccess: () => listQ.refetch() });
@@ -109,6 +123,8 @@ export default function PageTextAdminPage() {
   };
 
   const saveField = (field: PageTextField) => {
+    setErrorKey(null);
+    setPendingKey(field.key);
     upsert.mutate(
       { page, key: field.key, value: valueFor(field.key) },
       {
@@ -120,16 +136,23 @@ export default function PageTextAdminPage() {
           });
           setSavedKey(field.key);
         },
+        onError: () => setErrorKey(field.key),
+        onSettled: () => setPendingKey(null),
       },
     );
   };
 
   const resetField = (field: PageTextField) => {
+    if (!window.confirm("Bu sahəni defolt mətnə qaytarmaq? Yadda saxlanmış dəyişikliklər silinəcək.")) return;
+    setErrorKey(null);
+    setPendingKey(field.key);
     reset.mutate(
       { page, key: field.key },
       {
         onSuccess: () =>
           setDraft((prev) => ({ ...prev, [field.key]: cloneL5(field.default) })),
+        onError: () => setErrorKey(field.key),
+        onSettled: () => setPendingKey(null),
       },
     );
   };
@@ -202,12 +225,15 @@ export default function PageTextAdminPage() {
             return (
               <details
                 key={g}
-                open
-                className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden"
+                open={g !== "advanced" && g !== "seo"}
+                className="group bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden"
               >
                 <summary className="cursor-pointer select-none px-5 py-3 flex items-center justify-between text-[13px] font-medium text-[#ECE6DA] hover:bg-white/5">
-                  <span style={{ fontFamily: "Rufolo, serif" }} className="text-[15px]">
-                    {GROUP_LABEL[g] ?? g}
+                  <span className="flex items-center gap-2">
+                    <ChevronDown className="w-4 h-4 text-[#928876] transition-transform duration-200 group-open:rotate-180" />
+                    <span style={{ fontFamily: "Rufolo, serif" }} className="text-[15px]">
+                      {GROUP_LABEL[g] ?? g}
+                    </span>
                   </span>
                   <span className="flex items-center gap-3">
                     {dirtyCount > 0 && (
@@ -227,10 +253,12 @@ export default function PageTextAdminPage() {
                       lang={lang}
                       value={valueFor(field.key)}
                       dirty={isDirty(field.key)}
-                      busy={upsert.isPending || reset.isPending}
+                      busy={pendingKey === field.key}
                       saved={savedKey === field.key && !isDirty(field.key)}
+                      errored={errorKey === field.key}
                       onChange={(v) => {
                         if (savedKey === field.key) setSavedKey(null);
+                        if (errorKey === field.key) setErrorKey(null);
                         setFieldLang(field.key, lang, v);
                       }}
                       onSave={() => saveField(field)}
@@ -242,7 +270,7 @@ export default function PageTextAdminPage() {
                     <div className="pt-1">
                       <button
                         className={btnGhost}
-                        disabled={upsert.isPending}
+                        disabled={pendingKey !== null}
                         onClick={() => saveGroup(groupFields)}
                       >
                         Hamısını yadda saxla ({dirtyCount})
@@ -266,6 +294,7 @@ function FieldRow({
   dirty,
   busy,
   saved,
+  errored,
   onChange,
   onSave,
   onReset,
@@ -276,6 +305,7 @@ function FieldRow({
   dirty: boolean;
   busy: boolean;
   saved: boolean;
+  errored: boolean;
   onChange: (v: string) => void;
   onSave: () => void;
   onReset: () => void;
@@ -306,7 +336,13 @@ function FieldRow({
 
       <div className="flex items-center gap-2 pt-1">
         <button className={btnGold} disabled={!dirty || busy} onClick={onSave}>
-          Yadda saxla
+          {busy ? (
+            <span className="inline-flex items-center gap-1.5">
+              <Loader2 className="w-3 h-3 animate-spin" /> Yadda saxlanır…
+            </span>
+          ) : (
+            "Yadda saxla"
+          )}
         </button>
         <button
           className="text-[#928876] hover:text-[#C2A05A] text-xs px-3 min-h-[44px]"
@@ -318,6 +354,11 @@ function FieldRow({
         {saved && (
           <span className="inline-flex items-center gap-1 text-[10.5px] px-2.5 py-1 rounded-full" style={{ background: "#16291f", color: "#5bbd86" }}>
             <Check className="w-3 h-3" /> Yadda saxlanıldı
+          </span>
+        )}
+        {errored && (
+          <span className="inline-flex items-center gap-1 text-[10.5px]" style={{ color: "#e0697a" }}>
+            <X className="w-3 h-3" /> Xəta — yenidən cəhd edin
           </span>
         )}
       </div>

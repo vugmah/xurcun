@@ -42,6 +42,7 @@ export default function HomepagePhotosPage() {
 
   const [editSlot, setEditSlot] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<SlotEditForm>({});
+  const [uploadingKey, setUploadingKey] = useState<string | null>(null);
 
   const openEdit = (key: string) => {
     const slot = HOMEPAGE_IMAGE_SLOTS.find((s) => s.key === key)!;
@@ -82,6 +83,7 @@ export default function HomepagePhotosPage() {
     const slot = HOMEPAGE_IMAGE_SLOTS.find((s) => s.key === key);
     if (!slot) return;
 
+    setUploadingKey(key);
     const r = new FileReader();
     r.onload = (ev) => {
       const img = new Image();
@@ -103,6 +105,7 @@ export default function HomepagePhotosPage() {
         canvas.toBlob(async (blob) => {
           if (!blob) {
             alert("Görsel işlenemedi. Lütfen tekrar deneyin.");
+            setUploadingKey(null);
             return;
           }
           const formData = new FormData();
@@ -128,11 +131,18 @@ export default function HomepagePhotosPage() {
             }
           } catch (err) {
             alert("Yükleme hatası: " + (err instanceof Error ? err.message : "Ağ hatası"));
+          } finally {
+            setUploadingKey(null);
           }
         }, "image/jpeg", 0.85);
       };
+      img.onerror = () => {
+        alert("Görsel okunamadı. Lütfen tekrar deneyin.");
+        setUploadingKey(null);
+      };
       img.src = ev.target?.result as string;
     };
+    r.onerror = () => setUploadingKey(null);
     r.readAsDataURL(f);
   };
 
@@ -141,6 +151,11 @@ export default function HomepagePhotosPage() {
       <h1 className="text-xl font-bold text-white mb-1">Ana Sayfa Fotoğrafları</h1>
       <p className="text-[#a89d88] text-xs mb-6">Ana sayfada görünen tüm fotoğraf alanlarını yönetin.</p>
 
+      {rowsQ.isLoading ? (
+        <div className="flex items-center justify-center py-16">
+          <div className="w-8 h-8 rounded-full border-2 border-[#352d24] border-t-[#C2A05A] animate-spin" />
+        </div>
+      ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {HOMEPAGE_IMAGE_SLOTS.map((slot) => {
           const row = rowMap[slot.key];
@@ -150,7 +165,7 @@ export default function HomepagePhotosPage() {
           return (
             <div key={slot.key} className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
               {/* Preview */}
-              <div className="relative aspect-video bg-[#0A0A0A]">
+              <div className="relative aspect-video bg-[#16120e]">
                 {currentSrc ? (
                   <img
                     src={currentSrc}
@@ -181,31 +196,36 @@ export default function HomepagePhotosPage() {
                       value={editForm.url || ""}
                       onChange={(e) => setEditForm((p) => ({ ...p, url: e.target.value }))}
                       placeholder="Image URL"
-                      className="w-full px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded"
+                      className="w-full px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded"
                     />
                     <div className="grid grid-cols-3 gap-1">
-                      <input aria-label={`Alt AZ — ${slot.key}`} value={editForm.altAz || ""} onChange={(e) => setEditForm((p) => ({ ...p, altAz: e.target.value }))} placeholder="Alt AZ" className="px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded" />
-                      <input aria-label={`Alt RU — ${slot.key}`} value={editForm.altRu || ""} onChange={(e) => setEditForm((p) => ({ ...p, altRu: e.target.value }))} placeholder="Alt RU" className="px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded" />
-                      <input aria-label={`Alt EN — ${slot.key}`} value={editForm.altEn || ""} onChange={(e) => setEditForm((p) => ({ ...p, altEn: e.target.value }))} placeholder="Alt EN" className="px-2 py-1 bg-[#0A0A0A] border border-[#352d24] text-white text-xs rounded" />
+                      <input aria-label={`Alt AZ — ${slot.key}`} value={editForm.altAz || ""} onChange={(e) => setEditForm((p) => ({ ...p, altAz: e.target.value }))} placeholder="Alt AZ" className="px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded" />
+                      <input aria-label={`Alt RU — ${slot.key}`} value={editForm.altRu || ""} onChange={(e) => setEditForm((p) => ({ ...p, altRu: e.target.value }))} placeholder="Alt RU" className="px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded" />
+                      <input aria-label={`Alt EN — ${slot.key}`} value={editForm.altEn || ""} onChange={(e) => setEditForm((p) => ({ ...p, altEn: e.target.value }))} placeholder="Alt EN" className="px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded" />
                     </div>
-                    <div className="flex gap-2 pt-1">
-                      <button onClick={() => handleSave(slot.key)} className="px-3 py-1 bg-[#9D7C38] text-[#0A0A0A] text-xs font-medium rounded hover:bg-[#C2A05A]">Kaydet</button>
-                      <button onClick={() => handleReset(slot.key)} className="px-3 py-1 text-red-400 text-xs border border-red-400/20 rounded hover:bg-red-400/10">Sıfırla</button>
-                      <button onClick={() => setEditSlot(null)} className="px-3 py-1 text-white/40 text-xs border border-[#352d24] rounded hover:border-[#555]">İptal</button>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <button onClick={() => handleSave(slot.key)} disabled={upsert.isPending} className="px-4 min-h-[44px] bg-[#9D7C38] text-[#0A0A0A] text-xs font-medium rounded hover:bg-[#C2A05A] transition disabled:opacity-50">Kaydet</button>
+                      <button onClick={() => handleReset(slot.key)} disabled={del.isPending} className="px-4 min-h-[44px] text-red-400 text-xs border border-red-400/20 rounded hover:bg-red-400/10 transition disabled:opacity-50">Sıfırla</button>
+                      <button onClick={() => setEditSlot(null)} className="px-4 min-h-[44px] text-[#a89d88] text-xs border border-[#352d24] rounded hover:border-[#555] transition">İptal</button>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex gap-2 pt-1">
+                  <div className="flex flex-wrap gap-2 pt-1">
                     {/* Upload */}
-                    <label className="cursor-pointer">
-                      <input type="file" aria-label={`Şəkil yüklə — ${slot.key}`} accept=".jpg,.jpeg,.png,.webp" className="hidden" onChange={(e) => handleUpload(slot.key, e)} />
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#C2A05A]/15 text-[#C2A05A] text-[11px] border border-[#C2A05A]/30 hover:bg-[#C2A05A]/20"><Upload className="w-3 h-3" /> Yükle</span>
-                    </label>
+                    {(() => {
+                      const isUploading = uploadingKey === slot.key;
+                      return (
+                        <label className={isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"}>
+                          <input type="file" aria-label={`Şəkil yüklə — ${slot.key}`} accept=".jpg,.jpeg,.png,.webp" className="hidden" disabled={isUploading} onChange={(e) => handleUpload(slot.key, e)} />
+                          <span className="inline-flex items-center gap-1 px-3 min-h-[44px] rounded bg-[#C2A05A]/15 text-[#C2A05A] text-[11px] border border-[#C2A05A]/30 hover:bg-[#C2A05A]/20 transition"><Upload className="w-3 h-3" /> {isUploading ? "Yükleniyor…" : "Yükle"}</span>
+                        </label>
+                      );
+                    })()}
                     {/* Edit URL/alt */}
-                    <button onClick={() => openEdit(slot.key)} className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-white/5 text-white/60 text-[11px] border border-white/10 hover:border-[#555] hover:text-white"><Camera className="w-3 h-3" /> Düzenle</button>
+                    <button onClick={() => openEdit(slot.key)} className="inline-flex items-center gap-1 px-3 min-h-[44px] rounded bg-white/5 text-[#a89d88] text-[11px] border border-white/10 hover:border-[#555] hover:text-white transition"><Camera className="w-3 h-3" /> Düzenle</button>
                     {/* Remove override if a DB row exists */}
                     {row && (
-                      <button onClick={() => handleReset(slot.key)} className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-red-400 text-[11px] border border-red-400/20 hover:bg-red-400/10"><X className="w-3 h-3" /> Sil</button>
+                      <button onClick={() => handleReset(slot.key)} disabled={del.isPending} className="inline-flex items-center gap-1 px-3 min-h-[44px] rounded text-red-400 text-[11px] border border-red-400/20 hover:bg-red-400/10 transition disabled:opacity-50"><X className="w-3 h-3" /> Sil</button>
                     )}
                   </div>
                 )}
@@ -214,6 +234,7 @@ export default function HomepagePhotosPage() {
           );
         })}
       </div>
+      )}
     </div>
   );
 }

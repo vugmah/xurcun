@@ -60,14 +60,14 @@ export default function BlogPage() {
         <p className="xcp-lead">{t(S.lead)}</p>
 
         {postsQ.isLoading ? (
-          <div className="xcp-state"><div className="xcp-spin" aria-label="Loading" /></div>
-        ) : postsQ.data && postsQ.data.length === 0 ? (
-          <div className="xcp-state">{t(S.empty)}</div>
+          <div className="xcp-state" role="status"><div className="xcp-spin" aria-label="Loading" /></div>
+        ) : (postsQ.data ?? []).length === 0 ? (
+          <div className="xcp-state" role="status">{t(S.empty)}</div>
         ) : (
           <div className="xcp-bloglist">
             {(postsQ.data ?? []).map((p) => (
               <a className="xcp-blogcard" href={`/blog/${p.slug}`} key={p.slug}>
-                <div className="thumb"><img src={p.cover ?? undefined} alt={pickL(p.h1, lang)} loading="lazy" /></div>
+                {p.cover && <div className="thumb"><img src={p.cover} alt={pickL(p.h1, lang)} loading="lazy" /></div>}
                 <div className="meta">
                   <h2>{pickL(p.h1, lang)}</h2>
                   <p>{pickL(p.lead, lang)}</p>
