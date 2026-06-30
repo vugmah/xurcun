@@ -178,10 +178,97 @@
 .xc.xcm .mfoot .cp { font-size: 11px; letter-spacing: .06em; margin-top: 8px; }
 .xc.xcm .mfoot a { color: var(--gold-dark); }
 
+/* ── Card is tappable (opens detail modal) ── */
+.xc.xcm .mcard { cursor: pointer; border-radius: 12px; transition: background-color .18s var(--ease); }
+.xc.xcm .mcard:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .xc.xcm .mcard:hover { background: color-mix(in srgb, var(--cream-100) 55%, transparent); }
+}
+
+/* ── Share button (card + modal) ── */
+.xc.xcm .mshare {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; border: 1px solid var(--line); background: var(--white); color: var(--gold-dark);
+  width: 44px; height: 44px; border-radius: 999px; box-sizing: border-box;
+  transition: border-color .2s var(--ease), color .2s var(--ease), background-color .2s var(--ease), transform .12s var(--ease);
+}
+.xc.xcm .mshare svg { width: 16px; height: 16px; }
+.xc.xcm .mshare:active { transform: scale(.94); }
+@media (hover: hover) and (pointer: fine) {
+  .xc.xcm .mshare:hover { border-color: var(--gold); background: var(--cream-100); }
+}
+.xc.xcm .mshare.big { width: 48px; height: 48px; background: var(--cream-50); }
+.xc.xcm .mshare-toast {
+  position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%);
+  white-space: nowrap; background: var(--ink); color: var(--cream);
+  font-size: 10.5px; font-weight: 600; letter-spacing: .04em;
+  padding: 4px 9px; border-radius: 999px; z-index: 2; pointer-events: none;
+}
+
+/* ── Product detail modal ── */
+.xc.xcm .mmodal {
+  position: fixed; inset: 0; z-index: 200;
+  background: color-mix(in srgb, var(--ink) 62%, transparent);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 0; animation: xcm-fade .2s var(--ease);
+}
+@media (min-width: 640px) {
+  .xc.xcm .mmodal { align-items: center; padding: 24px; }
+}
+.xc.xcm .mmodal-card {
+  position: relative; width: 100%; max-width: 460px;
+  max-height: calc(100dvh - 24px); overflow-y: auto;
+  background: var(--cream-50); border: 1px solid var(--line);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -8px 40px color-mix(in srgb, var(--ink) 28%, transparent);
+  animation: xcm-slideup .26s var(--ease);
+}
+@media (min-width: 640px) {
+  .xc.xcm .mmodal-card { border-radius: 16px; animation: xcm-pop .22s var(--ease); }
+}
+.xc.xcm .mmodal-x {
+  position: absolute; top: 12px; right: 12px; z-index: 3;
+  width: 40px; height: 40px; border-radius: 999px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; background: color-mix(in srgb, var(--cream-50) 80%, transparent);
+  color: var(--ink); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: background-color .2s var(--ease), transform .12s var(--ease);
+}
+.xc.xcm .mmodal-x svg { width: 18px; height: 18px; }
+.xc.xcm .mmodal-x:active { transform: scale(.92); }
+@media (hover: hover) and (pointer: fine) {
+  .xc.xcm .mmodal-x:hover { background: var(--cream-100); }
+}
+.xc.xcm .mmodal-img {
+  width: 100%; aspect-ratio: 4 / 3; background: var(--cream-100);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  border-radius: 16px 16px 0 0;
+}
+.xc.xcm .mmodal-img img { width: 100%; height: 100%; object-fit: cover; }
+.xc.xcm .mmodal-img .ph { width: 64px; height: auto; object-fit: contain; opacity: .35; }
+.xc.xcm .mmodal-body { padding: 18px 20px 4px; }
+.xc.xcm .mmodal-nm { font-family: var(--display); font-size: 23px; line-height: 1.15; color: var(--ink); }
+.xc.xcm .mmodal-price { font-family: var(--display); font-size: 19px; font-weight: 600; color: var(--gold-dark); margin-top: 8px; }
+.xc.xcm .mmodal-ds { font-size: 13.5px; color: var(--ink-muted); line-height: 1.6; margin-top: 10px; }
+.xc.xcm .mmodal-unit { font-size: 12px; color: var(--ink-muted); margin-top: 8px; }
+.xc.xcm .mmodal-body .mbadges { margin-top: 12px; }
+.xc.xcm .mmodal-foot {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px 20px; margin-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.xc.xcm .mmodal-foot-lbl { font-size: 12.5px; color: var(--ink-muted); letter-spacing: .02em; }
+
+@keyframes xcm-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes xcm-slideup { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes xcm-pop { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+
 /* Sticky offsets: header ~56px, chips below it */
 @media (min-width: 640px) {
   .xc.xcm .mchips { top: 58px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .xc.xcm .mspin { animation: none; }
+  .xc.xcm .mmodal, .xc.xcm .mmodal-card { animation: none; }
 }
