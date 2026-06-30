@@ -216,6 +216,27 @@ export function trackContactSubmit() {
   });
 }
 
+/** Product detail view → ViewContent with ecommerce params.
+ *  Powers retargeting, ViewContent optimisation and Dynamic Product Ads.
+ *  IMPORTANT: content_ids must equal the product `id` used as <g:id> in the
+ *  Meta product feed (/product-feed.xml) so DPA can match viewed → catalog item. */
+export function trackProductView(p: {
+  id: string | number;
+  name: string;
+  price?: number;
+  category?: string;
+}) {
+  const params: Record<string, unknown> = {
+    content_ids: [String(p.id)],
+    content_type: "product",
+    content_name: p.name,
+    currency: "AZN",
+  };
+  if (p.category) params.content_category = p.category;
+  if (typeof p.price === "number" && !Number.isNaN(p.price)) params.value = p.price;
+  track({ metaEvent: "ViewContent", googleEvent: "view_item", params });
+}
+
 // Re-exports
 export { trackMetaStandard, trackMetaCustom } from "./metaPixel";
 export { trackGoogle, gtmEvent, ga4Event } from "./googleTag";
