@@ -755,6 +755,40 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
     console.error("[MIGRATE] Homepage text seed error:", err.message || err);
   }
 
+  // ── 5e. page_text (DB-backed generic Page Text CMS) ──
+  await createTable("page_text", `
+    CREATE TABLE IF NOT EXISTS page_text (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      page VARCHAR(40) NOT NULL,
+      \`key\` VARCHAR(80) NOT NULL,
+      value_az TEXT, value_ru TEXT, value_en TEXT, value_tr TEXT, value_ar TEXT,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      UNIQUE KEY page_text_page_key (page, \`key\`)
+    )`);
+
+  // Seed page text from the shared source (idempotent by page + key).
+  try {
+    const pool = getPool();
+    const { PAGE_TEXT_SEED } = await import("../src/lib/pageTextStore");
+    for (const d of PAGE_TEXT_SEED) {
+      const [r] = await pool.execute(
+        `SELECT id FROM page_text WHERE page = ? AND \`key\` = ? LIMIT 1`,
+        [d.page, d.key],
+      );
+      if (!(r as any[]).length) {
+        await pool.execute(
+          `INSERT INTO page_text
+             (page, \`key\`, value_az, value_ru, value_en, value_tr, value_ar)
+           VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          [d.page, d.key, d.az, d.ru, d.en, d.tr, d.ar],
+        );
+      }
+    }
+    console.log(`[MIGRATE] Page text seed ensured (${PAGE_TEXT_SEED.length})`);
+  } catch (err: any) {
+    console.error("[MIGRATE] Page text seed error:", err.message || err);
+  }
+
   // ── 6. menu_item_branches ──
   await createTable("menu_item_branches", `
     CREATE TABLE IF NOT EXISTS menu_item_branches (

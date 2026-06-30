@@ -1,4 +1,4 @@
-import { serial, varchar, text, boolean, timestamp, int, json, mysqlTable } from "drizzle-orm/mysql-core";
+import { serial, varchar, text, boolean, timestamp, int, json, mysqlTable, uniqueIndex } from "drizzle-orm/mysql-core";
 
 // Menu categories
 export const menuCategories = mysqlTable("menu_categories", {
@@ -543,3 +543,12 @@ export const homepageText = mysqlTable("homepage_text", {
   valueTr: text("value_tr"), valueAr: text("value_ar"),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export const pageText = mysqlTable("page_text", {
+  id: serial("id"),
+  page: varchar("page", { length: 40 }).notNull(),
+  key: varchar("key", { length: 80 }).notNull(),
+  valueAz: text("value_az"), valueRu: text("value_ru"), valueEn: text("value_en"),
+  valueTr: text("value_tr"), valueAr: text("value_ar"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (t) => ({ pageKey: uniqueIndex("page_text_page_key").on(t.page, t.key) }));
