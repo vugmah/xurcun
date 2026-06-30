@@ -22,7 +22,10 @@ export interface TrackOptions {
   params?: Record<string, unknown>;
 }
 
-let metaEnabled = true;
+// Meta defaults OFF: no Meta Pixel events fire until the user grants marketing
+// consent (the cookie banner calls setTrackingEnabled({meta:true})). Google stays
+// on because GTM/GA respect Google Consent Mode (default-denied) for data usage.
+let metaEnabled = false;
 let googleEnabled = true;
 
 export function setTrackingEnabled(opts: { meta?: boolean; google?: boolean }) {

@@ -9,6 +9,7 @@
 */
 
 import { getTrackingSettings, loadTrackingSettingsFromDb, getTrackingSettingsWithDb } from "@/lib/trackingSettings";
+import { isMarketingAllowed } from "@/lib/consent";
 
 let initialized = false;
 
@@ -182,7 +183,10 @@ export function initTracking() {
   // Meta Pixel: load directly only when NOT handled by a GTM container.
   // If a GTM container with a Meta Pixel tag is later configured, gtmId will be
   // set and we skip direct init to avoid duplicate PageView/event firing.
-  if (settings.metaPixelId && !settings.gtmId) {
+  // Meta Pixel loads ONLY with explicit marketing consent (GDPR). When the user
+  // grants consent the banner calls reinitTrackingAsync(), which re-runs this
+  // check with isMarketingAllowed() now true.
+  if (settings.metaPixelId && !settings.gtmId && isMarketingAllowed()) {
     initMetaPixelScript(settings.metaPixelId, settings.metaDomainVerificationCode);
   }
 }
@@ -213,7 +217,10 @@ export async function initTrackingAsync() {
   // Meta Pixel: load directly only when NOT handled by a GTM container.
   // If a GTM container with a Meta Pixel tag is later configured, gtmId will be
   // set and we skip direct init to avoid duplicate PageView/event firing.
-  if (settings.metaPixelId && !settings.gtmId) {
+  // Meta Pixel loads ONLY with explicit marketing consent (GDPR). When the user
+  // grants consent the banner calls reinitTrackingAsync(), which re-runs this
+  // check with isMarketingAllowed() now true.
+  if (settings.metaPixelId && !settings.gtmId && isMarketingAllowed()) {
     initMetaPixelScript(settings.metaPixelId, settings.metaDomainVerificationCode);
   }
 }
