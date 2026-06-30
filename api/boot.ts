@@ -385,10 +385,10 @@ app.get("/product-feed.xml", async (c) => {
         .orderBy(asc(menuItems.sortOrder), asc(menuItems.id));
 
       for (const it of rows) {
-        const priceNum =
-          it.priceVisible !== false && it.price
-            ? parseFloat(String(it.price).replace(",", "."))
-            : NaN;
+        // Use the DB price even when it's hidden on the public catalogue
+        // (priceVisible only controls the website display). The Meta feed / DPA
+        // always requires a price, so we read it straight from the product.
+        const priceNum = it.price ? parseFloat(String(it.price).replace(",", ".")) : NaN;
         if (!Number.isFinite(priceNum) || priceNum <= 0) continue; // price required
         const rawImg = (it.imageUrl || "").trim();
         if (!rawImg) continue; // image required
