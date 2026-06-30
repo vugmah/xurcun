@@ -179,8 +179,12 @@ export function initTracking() {
   if (settings.gtmId) initGTM(settings.gtmId);
   if (settings.ga4MeasurementId) initGA4(settings.ga4MeasurementId);
   if (settings.googleAdsId) initGoogleAds(settings.googleAdsId);
-  // Meta Pixel managed by GTM — app direct init disabled to avoid duplicate
-  // if (settings.metaPixelId) initMetaPixelScript(settings.metaPixelId, settings.metaDomainVerificationCode);
+  // Meta Pixel: load directly only when NOT handled by a GTM container.
+  // If a GTM container with a Meta Pixel tag is later configured, gtmId will be
+  // set and we skip direct init to avoid duplicate PageView/event firing.
+  if (settings.metaPixelId && !settings.gtmId) {
+    initMetaPixelScript(settings.metaPixelId, settings.metaDomainVerificationCode);
+  }
 }
 
 /** Async init — fetches settings from DB first, then loads scripts.
@@ -206,8 +210,12 @@ export async function initTrackingAsync() {
   if (settings.gtmId) initGTM(settings.gtmId);
   if (settings.ga4MeasurementId) initGA4(settings.ga4MeasurementId);
   if (settings.googleAdsId) initGoogleAds(settings.googleAdsId);
-  // Meta Pixel managed by GTM — app direct init disabled to avoid duplicate
-  // if (settings.metaPixelId) initMetaPixelScript(settings.metaPixelId, settings.metaDomainVerificationCode);
+  // Meta Pixel: load directly only when NOT handled by a GTM container.
+  // If a GTM container with a Meta Pixel tag is later configured, gtmId will be
+  // set and we skip direct init to avoid duplicate PageView/event firing.
+  if (settings.metaPixelId && !settings.gtmId) {
+    initMetaPixelScript(settings.metaPixelId, settings.metaDomainVerificationCode);
+  }
 }
 
 /** Re-init when settings change (call after admin saves new IDs) */

@@ -1082,6 +1082,20 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
       clicked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
 
+  // ── 13d. tracking_settings (admin-editable tracking IDs: Meta Pixel, GTM, GA4 …) ──
+  // Key/value store read by tracking.getPublic and written by the admin Settings page.
+  // Without this table the public endpoint 500s and no tracking IDs load on any device.
+  await createTable("tracking_settings", `
+    CREATE TABLE IF NOT EXISTS tracking_settings (
+      id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      \`key\` VARCHAR(100) NOT NULL,
+      value TEXT,
+      is_active BOOLEAN DEFAULT TRUE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      UNIQUE KEY tracking_settings_key (\`key\`)
+    )`);
+
   // ── 14. DB warmup ──
   try {
     const pool = getPool();
