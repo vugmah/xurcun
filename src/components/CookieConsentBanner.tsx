@@ -11,6 +11,7 @@ import {
   type ConsentState,
 } from "@/lib/consent";
 import { setTrackingEnabled } from "@/lib/tracking";
+import { reinitTrackingAsync } from "@/lib/tracking/initTracking";
 
 type BannerView = "main" | "customize";
 
@@ -40,8 +41,11 @@ export function CookieConsentBanner() {
       google: true, // GTM always loads, consent mode controls data
       meta: state.marketing,
     });
-    // Meta Pixel init is handled by initTracking.ts
-    // CookieConsentBanner only sets tracking consent flags
+    // Re-run tracking init now that consent flags are set. The Meta Pixel script
+    // is gated on isMarketingAllowed() inside initTracking, so it loads only when
+    // marketing consent is granted and stays off otherwise. Idempotent: GTM/GA
+    // re-init is dedup-guarded and the pixel has its own __metaPixelLoaded guard.
+    reinitTrackingAsync().catch(() => {});
   }
 
   function handleAcceptAll() {
