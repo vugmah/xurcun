@@ -1,5 +1,8 @@
+import { useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '@/lib/LanguageContext'
+import { trpc } from '@/providers/trpc'
+import { defaultsForPage, type Lang, type L5 } from '@/lib/pageTextStore'
 import GiftCardSection from '@/components/GiftCardSection'
 import '@/xurcun-base.css'
 import './xurcun-page.css'
@@ -7,35 +10,27 @@ import './xurcun-page.css'
 const LOGO = '/brand/logo-gold.png'
 const SITE = 'https://xurcun.az'
 
-type Lang = 'az' | 'ru' | 'en' | 'tr' | 'ar'
 const LANGS: { code: Lang; label: string }[] = [
   { code: 'az', label: 'AZ' }, { code: 'ru', label: 'RU' }, { code: 'en', label: 'EN' },
   { code: 'tr', label: 'TR' }, { code: 'ar', label: 'AR' },
 ]
-type M = Record<Lang, string>
-const S = {
-  home: { az: 'Ana səhifə', ru: 'Главная', en: 'Home', tr: 'Ana sayfa', ar: 'الرئيسية' },
-  title: {
-    az: 'Hədiyyə Kartı | Xurcun — premium hədiyyə həlli',
-    ru: 'Подарочная карта | Xurcun — премиальный подарок',
-    en: 'Gift Card | Xurcun — the premium gift solution',
-    tr: 'Hediye Kartı | Xurcun — premium hediye çözümü',
-    ar: 'بطاقة هدايا | Xurcun — حل الهدية الفاخر',
-  },
-  desc: {
-    az: 'Xurcun Hədiyyə Kartı — istədiyiniz balansı yükləyin, sevdiklərinizə premium kart hədiyyə edin. Bakıdakı 11 mağazada keçərlidir. WhatsApp ilə sifariş.',
-    ru: 'Подарочная карта Xurcun — загрузите любой баланс и подарите близким премиальную карту. Действует в 11 магазинах Баку. Заказ в WhatsApp.',
-    en: 'Xurcun Gift Card — load any balance and gift a premium card to your loved ones. Valid at 11 stores in Baku. Order on WhatsApp.',
-    tr: 'Xurcun Hediye Kartı — istediğiniz bakiyeyi yükleyin, sevdiklerinize premium kart hediye edin. Bakü\'deki 11 mağazada geçerli.',
-    ar: 'بطاقة هدايا Xurcun — اشحن أي رصيد وأهدِ أحباءك بطاقة فاخرة. صالحة في 11 متجرًا في باكو. اطلب عبر واتساب.',
-  },
-}
 
 export default function GiftCardPage() {
   const { lang, setLang } = useLanguage()
-  const t = (m: M) => m[lang] ?? m.az
-  const title = t(S.title)
-  const desc = t(S.desc)
+
+  // Page text overrides (admin CMS). Falls back to in-code defaults so the page
+  // renders identical copy while the query loads or when the DB is empty.
+  const textQ = trpc.pageText.getAll.useQuery({ page: 'giftcard' }, { retry: false })
+  const map = useMemo(() => {
+    const m: Record<string, L5> = {}
+    ;(textQ.data ?? []).forEach((t) => { m[t.key] = t.value })
+    return m
+  }, [textQ.data])
+  const def = defaultsForPage('giftcard')
+  const txt = (key: string, l: Lang = lang) => map[key]?.[l] || def[key]?.[l] || def[key]?.az || ''
+
+  const title = txt('title')
+  const desc = txt('desc')
   const url = `${SITE}/gift-card`
 
   return (
@@ -63,7 +58,7 @@ export default function GiftCardPage() {
       <GiftCardSection />
 
       <footer className="xcp-foot">
-        <a href="/">{t(S.home)}</a> · <a href="tel:+994502121811">+994 50 212 18 11</a> · <a href="mailto:info@xurcun.az">info@xurcun.az</a>
+        <a href="/">{txt('home')}</a> · <a href="tel:+994502121811">+994 50 212 18 11</a> · <a href="mailto:info@xurcun.az">info@xurcun.az</a>
       </footer>
     </div>
   )
