@@ -3,7 +3,7 @@ import {
   Bot, ShieldCheck, Image, FileText, Search, QrCode, ClipboardList,
   AlertTriangle, CheckCircle2, XCircle, Clock, Save, Eye, Sparkles,
   Upload, Camera, Globe, ChevronDown, ChevronUp,
-  AlertOctagon, Info, Trash2, Utensils, RefreshCw,
+  AlertOctagon, Info, Trash2, RefreshCw,
   FileDown, Printer, ShoppingBag, Tag, Wrench, Play, Ban,
   Check, Minus, X,
 } from "lucide-react";
@@ -34,26 +34,26 @@ const TABS: { key: TabKey; label: string; compact: string; icon: typeof Bot }[] 
 
 /* ─── Manual audit checklists ─── */
 const AUDIT_CHECKS: AuditIssue[] = [
-  { id: "a1", title: "Hero section renders without errors", severity: "high", page: "Homepage", description: "Hero section must load first-visit, no blank areas.", suggestion: "Verify hero background + text + CTA buttons visible.", autoFixable: false, category: "Homepage" },
-  { id: "a2", title: "Mobile navigation works", severity: "high", page: "Homepage", description: "Hamburger menu opens/closes, links functional.", suggestion: "Test on real mobile device.", autoFixable: false, category: "Homepage" },
-  { id: "a3", title: "Language switcher functional", severity: "medium", page: "Homepage", description: "AZ/TR/RU/EN all switch content correctly.", suggestion: "Verify translations load for each language.", autoFixable: false, category: "Homepage" },
-  { id: "a4", title: "Events section matches fact sheet", severity: "high", page: "Homepage", description: "No invented content. Only fact sheet data displayed.", suggestion: "Cross-reference with uploaded fact sheet.", autoFixable: false, category: "Homepage" },
-  { id: "a5", title: "Menu preview (homepage) text-only", severity: "medium", page: "Homepage", description: "Homepage menu must remain text-only, no photos.", suggestion: "Ensure no product images leak to homepage.", autoFixable: false, category: "Homepage" },
-  { id: "a6", title: "Gallery images load", severity: "medium", page: "Homepage", description: "All gallery thumbnails and lightbox images render.", suggestion: "Check for broken image URLs.", autoFixable: false, category: "Images" },
-  { id: "a7", title: "No missing translations", severity: "medium", page: "All Pages", description: "All 4 languages have complete translation keys.", suggestion: "Compare translation keys across az/ru/en/tr.", autoFixable: false, category: "Translations" },
-  { id: "a8", title: "QR menu images load", severity: "high", page: "QR Menu", description: "Product photos display in card and list layouts.", suggestion: "Verify image URLs are valid and cached.", autoFixable: false, category: "QR Menu" },
-  { id: "a9", title: "Branch-specific pricing works", severity: "high", page: "QR Menu", description: "White City and Seabreeze show correct prices.", suggestion: "Test both branch URLs.", autoFixable: false, category: "QR Menu" },
-  { id: "a10", title: "Card/List layout auto-detects correctly", severity: "medium", page: "QR Menu", description: "Categories with 50%+ images show cards; others list.", suggestion: "Review each category's effective layout.", autoFixable: false, category: "QR Menu" },
-  { id: "a11", title: "SEO meta tags present", severity: "medium", page: "All Pages", description: "Title, description, og:image on all pages.", suggestion: "Check <head> tags.", autoFixable: false, category: "SEO" },
-  { id: "a12", title: "JSON-LD structured data", severity: "medium", page: "All Pages", description: "Organization + Store schema on homepage.", suggestion: "Validate with Google Rich Results Test.", autoFixable: false, category: "SEO" },
-  { id: "a13", title: "Sitemap and robots.txt accessible", severity: "medium", page: "SEO", description: "/sitemap.xml and /robots.txt return 200.", suggestion: "Verify files in public/ directory.", autoFixable: false, category: "SEO" },
-  { id: "a14", title: "Image compression applied", severity: "low", page: "Performance", description: "Admin uploads resize to max 1200px JPEG 0.85.", suggestion: "Test image upload with large file.", autoFixable: false, category: "Performance" },
-  { id: "a15", title: "Admin loads under 1 second", severity: "high", page: "Admin", description: "Admin shell visible immediately, no full-page loading.", suggestion: "Verify skeleton UI, not blocking spinner.", autoFixable: false, category: "Performance" },
-  { id: "a16", title: "Badge sync across all views", severity: "high", page: "All", description: "NEW/meat/fish/veg/halal badges show in admin + QR.", suggestion: "Check seed file includes all badge edits.", autoFixable: false, category: "Admin" },
-  { id: "a17", title: "No orphan localStorage edits", severity: "low", page: "Admin", description: "All localStorage edits exported to seed or intentional.", suggestion: "Review Seed Export output periodically.", autoFixable: false, category: "Admin" },
-  { id: "a18", title: "Tracking IDs configurable", severity: "medium", page: "Admin", description: "GTM/GA4/Ads/Meta Pixel can be set without code change.", suggestion: "Verify Ayarlar → Tracking tab.", autoFixable: false, category: "Admin" },
-  { id: "a19", title: "Cookie consent banner shows", severity: "medium", page: "Homepage", description: "GDPR-compliant cookie banner on first visit.", suggestion: "Test in incognito.", autoFixable: false, category: "Homepage" },
-  { id: "a20", title: "Reservation WhatsApp flow works", severity: "high", page: "Homepage", description: "Branch selection → WhatsApp message.", suggestion: "Test both White City and Seabreeze.", autoFixable: false, category: "Homepage" },
+  { id: "a1", title: "Hero section renders without errors", severity: "high", page: "Homepage", description: "Hero must load first-visit with brand image, headline and CTAs, no blank areas.", suggestion: "Verify hero background + text + 'Kataloq' / 'Hədiyyə qutuları' CTA buttons visible.", autoFixable: false, category: "Homepage" },
+  { id: "a2", title: "Mobile navigation works", severity: "high", page: "Homepage", description: "Hamburger menu opens/closes, all header links functional on mobile.", suggestion: "Test on a real mobile device.", autoFixable: false, category: "Homepage" },
+  { id: "a3", title: "Language switcher functional (5 langs)", severity: "medium", page: "Homepage", description: "AZ/RU/EN/TR/AR all switch content via ?lang=; Arabic flips to RTL.", suggestion: "Verify translations load for each language and dir=rtl applies for AR.", autoFixable: false, category: "Homepage" },
+  { id: "a4", title: "Organization + Store JSON-LD on homepage", severity: "high", page: "Homepage", description: "Homepage <head> must include valid Organization and Store structured data.", suggestion: "Validate with Google Rich Results Test.", autoFixable: false, category: "SEO" },
+  { id: "a5", title: "Homepage CTAs route to catalog & gift boxes", severity: "medium", page: "Homepage", description: "Primary CTAs link to the catalog and gift-box pages, not dead anchors.", suggestion: "Click each homepage CTA and confirm the destination route.", autoFixable: false, category: "Homepage" },
+  { id: "a6", title: "Catalog product images load", severity: "medium", page: "Catalog", description: "All catalog grid thumbnails and product images render without broken placeholders.", suggestion: "Scroll the full catalog and check for broken image URLs.", autoFixable: false, category: "Catalog" },
+  { id: "a7", title: "No missing translations (5 langs)", severity: "medium", page: "All Pages", description: "All 5 languages have complete translation keys; no raw keys or English fallbacks leaking.", suggestion: "Compare translation keys across az/ru/en/tr/ar.", autoFixable: false, category: "Translations" },
+  { id: "a8", title: "QR cafe menu images load", severity: "high", page: "QR Menu", description: "Cafe item photos display in card and list layouts across all branches.", suggestion: "Open each branch menu and verify images render.", autoFixable: false, category: "QR Menu" },
+  { id: "a9", title: "Product detail page complete", severity: "high", page: "Product", description: "Product pages show title, price, images, description and Product JSON-LD.", suggestion: "Open several product pages and verify all fields + structured data.", autoFixable: false, category: "Catalog" },
+  { id: "a10", title: "Product prices display correctly", severity: "high", page: "Catalog", description: "Prices show with currency on catalog cards and product detail; no NaN / missing values.", suggestion: "Spot-check products across categories.", autoFixable: false, category: "Catalog" },
+  { id: "a11", title: "SEO meta tags present per page", severity: "medium", page: "All Pages", description: "Unique title, meta description and og:image on home, catalog, product, blog, FAQ, about.", suggestion: "Check <head> tags via SEO.tsx on each route.", autoFixable: false, category: "SEO" },
+  { id: "a12", title: "FAQPage JSON-LD on FAQ page", severity: "medium", page: "FAQ", description: "FAQ page emits valid FAQPage structured data for each Q/A.", suggestion: "Validate /faq with Rich Results Test.", autoFixable: false, category: "SEO" },
+  { id: "a13", title: "Sitemap and robots.txt accessible", severity: "medium", page: "SEO", description: "/sitemap.xml and /robots.txt return 200 and list all real routes.", suggestion: "Verify the boot.ts-generated routes (these win over public/).", autoFixable: false, category: "SEO" },
+  { id: "a14", title: "BlogPosting JSON-LD on blog posts", severity: "medium", page: "Blog", description: "Each blog post emits BlogPosting structured data with title, date and image.", suggestion: "Open a blog post and validate structured data.", autoFixable: false, category: "Blog" },
+  { id: "a15", title: "hreflang tags for 5 languages", severity: "medium", page: "All Pages", description: "Each indexable page exposes hreflang alternates for az/ru/en/tr/ar via ?lang=.", suggestion: "Inspect <head> hreflang links on home and a product page.", autoFixable: false, category: "SEO" },
+  { id: "a16", title: "Branches page lists LocalBusiness data", severity: "high", page: "Branches", description: "Branches page shows all locations with address, map and (where set) phone.", suggestion: "Verify each branch entry and map link resolves.", autoFixable: false, category: "Branches" },
+  { id: "a17", title: "Image compression applied on upload", severity: "low", page: "Performance", description: "Admin uploads resize to a sensible max width/quality before storing.", suggestion: "Upload a large image and confirm the stored size shrinks.", autoFixable: false, category: "Performance" },
+  { id: "a18", title: "Admin loads quickly", severity: "high", page: "Admin", description: "Admin shell visible immediately with skeleton UI, no blocking full-page spinner.", suggestion: "Throttle network and confirm the shell renders fast.", autoFixable: false, category: "Admin" },
+  { id: "a19", title: "Cookie consent banner shows", severity: "medium", page: "Homepage", description: "Cookie consent banner appears on first visit and links to the cookie/privacy pages.", suggestion: "Test in an incognito window.", autoFixable: false, category: "Homepage" },
+  { id: "a20", title: "Keyboard & touch accessibility basics", severity: "medium", page: "All Pages", description: ":focus-visible rings present, touch targets >=44px, reduced-motion respected.", suggestion: "Tab through key pages and check focus + tap targets on mobile.", autoFixable: false, category: "Performance" },
 ];
 
 /* ─── SEO scoring criteria ─── */
@@ -62,14 +62,14 @@ const SEO_CHECKS = [
   { id: "s2", label: "Meta description present", weight: 10 },
   { id: "s3", label: "OG tags (image, title, desc)", weight: 10 },
   { id: "s4", label: "JSON-LD Organization schema", weight: 10 },
-  { id: "s5", label: "JSON-LD Store schema", weight: 10 },
+  { id: "s5", label: "JSON-LD Store / LocalBusiness schema", weight: 10 },
   { id: "s6", label: "Sitemap.xml accessible", weight: 8 },
   { id: "s7", label: "Robots.txt accessible", weight: 7 },
-  { id: "s8", label: "Language hreflang tags", weight: 8 },
+  { id: "s8", label: "hreflang tags for 5 languages (az/ru/en/tr/ar)", weight: 8 },
   { id: "s9", label: "Google Search Console verification", weight: 7 },
-  { id: "s10", label: "Menu product pages indexable", weight: 10 },
-  { id: "s11", label: "Canonical URLs set", weight: 5 },
-  { id: "s12", label: "Image alt text on product photos", weight: 5 },
+  { id: "s10", label: "Catalog & product pages indexable", weight: 10 },
+  { id: "s11", label: "Canonical URLs set (xurcun.az)", weight: 5 },
+  { id: "s12", label: "Image alt text on product & blog photos", weight: 5 },
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -141,9 +141,10 @@ function dispatchSuggestionUpdate() {
 
 /* ─── QR Menu checks ─── */
 const QR_CHECKS: AuditIssue[] = [
-  { id: "q1", title: "All product images load", severity: "high", page: "QR Menu", description: "No broken image placeholders in card or list view.", suggestion: "Run each category and verify images render.", autoFixable: false, category: "Images" },
-  { id: "q2", title: "NEW badge visible on new items", severity: "medium", page: "QR Menu", description: "Products marked is_new show red NEW badge.", suggestion: "Check seed/localStorage has is_new flags.", autoFixable: false, category: "Badges" },
-  { id: "q3", title: "Branch price differences shown correctly", severity: "high", page: "QR Menu", description: "White City vs Seabreeze prices differ where set.", suggestion: "Set different branch prices in admin and verify.", autoFixable: false, category: "Pricing" },
+  { id: "q1", title: "All cafe item images load", severity: "high", page: "QR Menu", description: "No broken image placeholders in card or list view across branches.", suggestion: "Open each category and verify images render.", autoFixable: false, category: "Images" },
+  { id: "q2", title: "NEW badge visible on new items", severity: "medium", page: "QR Menu", description: "Items marked is_new show the NEW badge in card and list views.", suggestion: "Check seed/DB has is_new flags and they render.", autoFixable: false, category: "Badges" },
+  { id: "q3", title: "Per-branch pricing shown correctly", severity: "high", page: "QR Menu", description: "Branch menus (White City, Khatai, Terminal 1) show their own prices where set.", suggestion: "Open each branch menu and verify prices differ where configured.", autoFixable: false, category: "Pricing" },
+  { id: "q5", title: "Review / Google Maps link works per branch", severity: "medium", page: "QR Menu", description: "Each branch menu links to its correct Google review / maps destination.", suggestion: "Open each branch menu and confirm the review link resolves to the right location.", autoFixable: false, category: "Branch" },
   { id: "q4", title: "Unavailable items hidden per branch", severity: "high", page: "QR Menu", description: "Items marked unavailable at a branch do not appear.", suggestion: "Toggle availability and test.", autoFixable: false, category: "Branch" },
   { id: "q6", title: "Product descriptions exist", severity: "low", page: "QR Menu", description: "Most items have description in at least 2 languages.", suggestion: "Add descriptions via admin edit form.", autoFixable: false, category: "Content" },
   { id: "q7", title: "Card layout renders well on mobile", severity: "medium", page: "QR Menu", description: "2-column card grid doesn't overflow on 375px screens.", suggestion: "Test on smallest mobile viewport.", autoFixable: false, category: "Layout" },
@@ -612,9 +613,10 @@ function PhotoReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) 
 function ContentReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) {
   const langs = [
     { key: "az", label: "AZ", name: "Azerbaijani" },
-    { key: "tr", label: "TR", name: "Turkish" },
     { key: "ru", label: "RU", name: "Russian" },
     { key: "en", label: "EN", name: "English" },
+    { key: "tr", label: "TR", name: "Turkish" },
+    { key: "ar", label: "AR", name: "Arabic (RTL)" },
   ];
 
   return (
@@ -656,13 +658,13 @@ function ContentReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }
 }
 
 const CONTENT_CHECKS = [
-  { id: "c1", text: "Events section uses ONLY fact sheet content", severity: "high" as const },
-  { id: "c2", text: "No invented menu descriptions", severity: "high" as const },
-  { id: "c3", text: "Consistent brand voice across pages", severity: "medium" as const },
+  { id: "c1", text: "Product names & descriptions accurate (no invented claims)", severity: "high" as const },
+  { id: "c2", text: "Blog posts proofread, dated and attributed", severity: "high" as const },
+  { id: "c3", text: "Consistent premium brand voice across pages", severity: "medium" as const },
   { id: "c4", text: "All CTA buttons have clear action text", severity: "medium" as const },
-  { id: "c5", text: "Footer contact info up to date", severity: "medium" as const },
+  { id: "c5", text: "Footer & branches contact info up to date", severity: "medium" as const },
   { id: "c6", text: "No Lorem ipsum or placeholder text", severity: "high" as const },
-  { id: "c7", text: "Menu category names consistent", severity: "low" as const },
+  { id: "c7", text: "Catalog & cafe category names consistent", severity: "low" as const },
 ];
 
 function ContentChecklist() {
@@ -862,8 +864,11 @@ function QrReviewTab({ config }: { config: ReturnType<typeof getAiConfig> }) {
         <a href="/menu/white-city" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
           <QrCode className="w-3 h-3" /> White City QR
         </a>
-        <a href="/menu/seabreeze-marina" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
-          <QrCode className="w-3 h-3" /> Seabreeze QR
+        <a href="/menu/xetai" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
+          <QrCode className="w-3 h-3" /> Khatai QR
+        </a>
+        <a href="/menu/airport" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs bg-white/5 text-white/60 border border-white/10 hover:border-[#C2A05A]/30 hover:text-[#C2A05A] transition-all">
+          <QrCode className="w-3 h-3" /> Terminal 1 QR
         </a>
         <RecheckButton onRecheck={() => recheck("qr")} rechecking={rechecking} lastRecheck={lastRecheck} />
       </div>

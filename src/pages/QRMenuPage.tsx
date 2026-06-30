@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { useParams } from 'react-router'
+import { useParams, Navigate } from 'react-router'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
 import SEO from '@/sections/SEO'
@@ -92,26 +92,19 @@ export default function QRMenuPage() {
     { enabled: !!branchSlug, retry: false },
   )
   const branch = (branchQ.data ?? null) as Record<string, unknown> | null
-  const hasCafe = !!branch?.hasCafe
 
-  // menuType (kataloq/kafe). Yalnız kafe olan filiallarda toggle göstərilir.
-  // URL ?type=cafe ilə də açıla bilər.
-  const initialType: 'catalog' | 'cafe' =
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('type') === 'cafe'
-      ? 'cafe' : 'catalog'
-  const [menuType, setMenuType] = useState<'catalog' | 'cafe'>(initialType)
+  // QR is cafe-only: the menu always shows the cafe menu.
+  const menuType = 'cafe' as const
   const [activeCat, setActiveCat] = useState<number | null>(null)
   const [openItem, setOpenItem] = useState<Record<string, unknown> | null>(null)
   const rootRef = useRef<HTMLDivElement>(null)
   const chipScrollRef = useRef<HTMLDivElement>(null)
   const deepLinkDone = useRef(false)
 
-  const branchMenuQ = trpc.branchMenu.getMenuForBranch.useQuery(
+  const menuQ = trpc.branchMenu.getMenuForBranch.useQuery(
     { branchSlug: branchSlug ?? '', menuType },
     { enabled: !!branchSlug, retry: false },
   )
-  const storeQ = trpc.catalog.storefront.useQuery({ menuType }, { enabled: !branchSlug, retry: false })
-  const menuQ = branchSlug ? branchMenuQ : storeQ
 
   const cats = ((menuQ.data?.categories ?? []) as unknown as Record<string, unknown>[])
   const items = ((menuQ.data?.items ?? []) as unknown as Record<string, unknown>[])
@@ -154,7 +147,7 @@ export default function QRMenuPage() {
     chip.scrollIntoView({ behavior: reduce || touch ? 'auto' : 'smooth', inline: 'center', block: 'nearest' })
   }, [activeCat])
 
-  // Deep-link: ?product=<slug> → switch tab if needed, scroll to item, open modal.
+  // Deep-link: ?product=<slug> → scroll to item, open modal.
   useEffect(() => {
     if (deepLinkDone.current) return
     if (menuQ.isLoading || menuQ.isError) return
@@ -205,15 +198,17 @@ export default function QRMenuPage() {
     return out
   }
 
-  // Build the canonical share URL for an item: current path + ?product=slug (+ &type=cafe).
+  // Build the canonical share URL for an item: current path + ?product=slug.
   const shareUrlFor = useCallback((it: Record<string, unknown>) => {
     const slug = toProductSlug(it.nameAz as string)
     const url = new URL(window.location.href)
     url.search = ''
     url.searchParams.set('product', slug)
-    if (menuType === 'cafe') url.searchParams.set('type', 'cafe')
     return url.toString()
-  }, [menuType])
+  }, [])
+
+  // QR menu is cafe-only and requires a branch. Bare /menu → catalog (which lives at /catalog).
+  if (!branchSlug) return <Navigate to="/catalog" replace />
 
   return (
     <div className="xc xcm" ref={rootRef}>
@@ -245,13 +240,6 @@ export default function QRMenuPage() {
           )}
           <div className="ornament"><img src={EMBLEM} alt="" /></div>
         </div>
-
-        {hasCafe && (
-          <div className="mtabs">
-            <button className={menuType === 'catalog' ? 'on' : ''} onClick={() => setMenuType('catalog')}>{t(S.tab_catalog)}</button>
-            <button className={menuType === 'cafe' ? 'on' : ''} onClick={() => setMenuType('cafe')}>{t(S.tab_cafe)}</button>
-          </div>
-        )}
       </div>
 
       {/* Category chips */}

@@ -12,7 +12,6 @@ export interface TrackingSettings {
   googleAdsId: string;
   metaPixelId: string;
   metaDomainVerificationCode: string;
-  seabreezeWhatsapp: string;
   googleSiteVerification: string;
 }
 
@@ -22,7 +21,6 @@ const DEFAULTS: TrackingSettings = {
   googleAdsId: "",
   metaPixelId: "",
   metaDomainVerificationCode: "",
-  seabreezeWhatsapp: "",
   googleSiteVerification: "",
 };
 
@@ -32,7 +30,6 @@ const ENV_KEYS: Record<keyof TrackingSettings, string> = {
   googleAdsId: "VITE_GOOGLE_ADS_CONVERSION_ID",
   metaPixelId: "VITE_META_PIXEL_ID",
   metaDomainVerificationCode: "VITE_META_DOMAIN_VERIFICATION",
-  seabreezeWhatsapp: "VITE_SEABREEZE_WHATSAPP",
   googleSiteVerification: "VITE_GOOGLE_SITE_VERIFICATION",
 };
 
@@ -124,7 +121,6 @@ export async function loadTrackingSettingsFromDb(): Promise<TrackingSettings> {
         google_ads_id: "googleAdsId",
         meta_pixel_id: "metaPixelId",
         meta_domain_verification: "metaDomainVerificationCode",
-        seabreeze_whatsapp: "seabreezeWhatsapp",
         google_site_verification: "googleSiteVerification",
       };
       for (const [rawKey, mappedKey] of Object.entries(keyMap)) {

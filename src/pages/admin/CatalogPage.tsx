@@ -58,6 +58,7 @@ export default function CatalogPage(props: { menuType?: "catalog" | "cafe"; head
             <ProductPanel
               key={selCat}
               categoryId={selCat}
+              menuType={menuType}
               items={itemsQ.data ?? []}
               onChanged={() => itemsQ.refetch()}
             />
@@ -137,8 +138,8 @@ function CategoryPanel({
 
 /* ─────────── Products ─────────── */
 function ProductPanel({
-  categoryId, items, onChanged,
-}: { categoryId: number; items: any[]; onChanged: () => void }) {
+  categoryId, menuType, items, onChanged,
+}: { categoryId: number; menuType: "catalog" | "cafe"; items: any[]; onChanged: () => void }) {
   const [editing, setEditing] = useState<any | null>(null);
   return (
     <div className="border border-[#352d24] rounded-xl overflow-hidden">
@@ -148,7 +149,7 @@ function ProductPanel({
       </div>
 
       {editing ? (
-        <ProductForm categoryId={categoryId} item={editing}
+        <ProductForm categoryId={categoryId} menuType={menuType} item={editing}
           onClose={() => setEditing(null)} onSaved={() => { setEditing(null); onChanged(); }} />
       ) : (
         <table className="w-full text-sm">
@@ -179,9 +180,10 @@ function ProductPanel({
 }
 
 function ProductForm({
-  categoryId, item, onClose, onSaved,
-}: { categoryId: number; item: any; onClose: () => void; onSaved: () => void }) {
+  categoryId, menuType, item, onClose, onSaved,
+}: { categoryId: number; menuType: "catalog" | "cafe"; item: any; onClose: () => void; onSaved: () => void }) {
   const isNewItem = !!item._new;
+  const isCafe = menuType === "cafe";
   const [name, setName] = useState<Multi>(
     isNewItem ? emptyMulti() : { az: item.nameAz ?? "", ru: item.nameRu ?? "", en: item.nameEn ?? "", tr: item.nameTr ?? "", ar: item.nameAr ?? "" },
   );
@@ -201,16 +203,17 @@ function ProductForm({
   const statusQ = trpc.translate.status.useQuery();
   const aiEnabled = statusQ.data?.enabled;
 
-  // ── Branch prices (per-branch override) ──
-  const branchesQ = trpc.branch.adminGetBranches.useQuery();
+  // ── Branch prices (per-branch override) — CAFE ONLY ──
+  // Catalog products are website-only with a single price; they never read or write overrides.
+  const branchesQ = trpc.branch.adminGetBranches.useQuery(undefined, { enabled: isCafe });
   const branches = (branchesQ.data ?? []) as { id: number; name: string }[];
   const overridesQ = trpc.branchMenu.getMenuItemBranches.useQuery(
     { menuItemId: item.id },
-    { enabled: !isNewItem },
+    { enabled: isCafe && !isNewItem },
   );
   const [branchStates, setBranchStates] = useState<Record<number, { available: boolean; price: string }>>({});
   const [branchInit, setBranchInit] = useState(false);
-  if (!isNewItem && !branchInit && branchesQ.data && overridesQ.data) {
+  if (isCafe && !isNewItem && !branchInit && branchesQ.data && overridesQ.data) {
     const rows = (overridesQ.data ?? []) as { branchId: number; branchPrice: string | null; isAvailable: boolean }[];
     const byId = new Map(rows.map((r) => [r.branchId, r]));
     const init: Record<number, { available: boolean; price: string }> = {};
@@ -250,7 +253,10 @@ function ProductForm({
   const create = trpc.menu.createItem.useMutation({ onSuccess: onSaved });
   const update = trpc.menu.updateItem.useMutation({
     onSuccess: async (_data, vars) => {
-      try { await persistBranches((vars as { id: number }).id); } catch (e: unknown) { alert("Filial qiymətləri saxlanmadı: " + (e instanceof Error ? e.message : String(e))); }
+      // Catalog products have no per-branch overrides; only cafe items persist them.
+      if (isCafe) {
+        try { await persistBranches((vars as { id: number }).id); } catch (e: unknown) { alert("Filial qiymətləri saxlanmadı: " + (e instanceof Error ? e.message : String(e))); }
+      }
       onSaved();
     },
   });
@@ -376,7 +382,8 @@ function ProductForm({
         <Toggle on={isActive} set={setIsActive} label="Aktiv" />
       </div>
 
-      {/* Branch prices */}
+      {/* Branch prices — cafe items only (catalog is website-only, single price) */}
+      {isCafe && (
       <div className="border-t border-[#2a241d] pt-4">
         <label className={labelCls}>Filial qiymətləri</label>
         {isNewItem ? (
@@ -410,6 +417,7 @@ function ProductForm({
           </div>
         )}
       </div>
+      )}
 
       <div className="flex gap-2 pt-1">
         <button className={btnGold} disabled={busy} onClick={save}>{busy ? "Yadda saxlanılır…" : "Yadda saxla"}</button>

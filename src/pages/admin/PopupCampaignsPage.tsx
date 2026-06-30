@@ -91,7 +91,6 @@ const POPUP_TYPES: { value: PopupType; label: string; color: string }[] = [
 const BRANCH_OPTIONS = [
   { value: "", label: "Butun Filiallar" },
   { value: "white-city", label: "White City" },
-  { value: "seabreeze", label: "Seabreeze" },
 ];
 
 const LANG_OPTIONS = [
