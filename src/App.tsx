@@ -17,6 +17,7 @@ import GiftCardPage from "./pages/GiftCardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { useAutoPageView } from "./hooks/useTracking";
+import { useConversionTracking } from "./hooks/useConversionTracking";
 import { initCopyProtection } from "./lib/copyProtection";
 import { useEffect } from "react";
 import PopupRenderer from "./components/PopupRenderer";
@@ -81,6 +82,7 @@ function SectionSkeleton() {
 
 function App() {
   useAutoPageView();
+  useConversionTracking();
 
   useEffect(() => {
     initCopyProtection();
