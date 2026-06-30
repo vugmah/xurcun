@@ -40,6 +40,7 @@ export interface GeneralSettings {
   gtmId: string;
   ga4MeasurementId: string;
   googleAdsId: string;
+  googleAdsConversionLabel: string;
   metaPixelId: string;
   metaDomainVerificationCode: string;
   // Mail Server
@@ -71,6 +72,7 @@ const DEFAULTS: GeneralSettings = {
   gtmId: "",
   ga4MeasurementId: "",
   googleAdsId: "",
+  googleAdsConversionLabel: "",
   metaPixelId: "",
   metaDomainVerificationCode: "",
   webmailUrl: "https://webmail.xurcun.az",

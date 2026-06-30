@@ -20,6 +20,7 @@ export const trackingRouter = createRouter({
       "gtm_container_id",
       "ga4_measurement_id",
       "google_ads_id",
+      "google_ads_conversion_label",
     ];
     const result: Record<string, string> = {};
     for (const row of rows) {

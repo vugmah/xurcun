@@ -10,6 +10,9 @@ export interface TrackingSettings {
   gtmId: string;
   ga4MeasurementId: string;
   googleAdsId: string;
+  /** Google Ads conversion label — the part after the slash in
+   *  send_to: AW-XXXX/<label>. Fires the lead conversion on contact submit. */
+  googleAdsConversionLabel: string;
   metaPixelId: string;
   metaDomainVerificationCode: string;
   googleSiteVerification: string;
@@ -19,6 +22,7 @@ const DEFAULTS: TrackingSettings = {
   gtmId: "",
   ga4MeasurementId: "",
   googleAdsId: "",
+  googleAdsConversionLabel: "",
   metaPixelId: "",
   metaDomainVerificationCode: "",
   googleSiteVerification: "",
@@ -28,6 +32,7 @@ const ENV_KEYS: Record<keyof TrackingSettings, string> = {
   gtmId: "VITE_GTM_CONTAINER_ID",
   ga4MeasurementId: "VITE_GA4_MEASUREMENT_ID",
   googleAdsId: "VITE_GOOGLE_ADS_CONVERSION_ID",
+  googleAdsConversionLabel: "VITE_GOOGLE_ADS_CONVERSION_LABEL",
   metaPixelId: "VITE_META_PIXEL_ID",
   metaDomainVerificationCode: "VITE_META_DOMAIN_VERIFICATION",
   googleSiteVerification: "VITE_GOOGLE_SITE_VERIFICATION",
@@ -119,6 +124,7 @@ export async function loadTrackingSettingsFromDb(): Promise<TrackingSettings> {
         gtm_container_id: "gtmId",
         ga4_measurement_id: "ga4MeasurementId",
         google_ads_id: "googleAdsId",
+        google_ads_conversion_label: "googleAdsConversionLabel",
         meta_pixel_id: "metaPixelId",
         meta_domain_verification: "metaDomainVerificationCode",
         google_site_verification: "googleSiteVerification",

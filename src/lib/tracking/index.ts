@@ -4,7 +4,7 @@
 */
 
 import { trackMetaStandard, trackMetaCustom } from "./metaPixel";
-import { trackGoogle } from "./googleTag";
+import { trackGoogle, googleAdsConversion } from "./googleTag";
 
 /** Check if current page is admin (excluded from tracking) */
 function isAdminPage(): boolean {
@@ -209,11 +209,13 @@ export function trackQrReservationOpen(branch: string) {
 
 export function trackContactSubmit() {
   track({
-    metaEvent: "Contact",
+    metaEvent: "Lead",
     metaCustom: "contact_form_submit",
     googleEvent: "contact_form_submit",
     params: { content_name: "Contact Form", content_category: "Lead" },
   });
+  // Google Ads "Submit lead form" conversion (no-op if ID/label unset).
+  googleAdsConversion();
 }
 
 /** Product detail view → ViewContent with ecommerce params.
@@ -239,4 +241,4 @@ export function trackProductView(p: {
 
 // Re-exports
 export { trackMetaStandard, trackMetaCustom } from "./metaPixel";
-export { trackGoogle, gtmEvent, ga4Event } from "./googleTag";
+export { trackGoogle, gtmEvent, ga4Event, googleAdsConversion } from "./googleTag";

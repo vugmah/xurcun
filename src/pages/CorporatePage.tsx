@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
 import { defaultsForPage, type Lang, type L5 } from '@/lib/pageTextStore'
+import { trackContactSubmit } from '@/lib/tracking'
 import '@/xurcun-base.css'
 import './xurcun-page.css'
 
@@ -17,7 +18,9 @@ const LANGS: { code: Lang; label: string }[] = [
 
 export default function CorporatePage() {
   const { lang, setLang } = useLanguage()
-  const submit = trpc.mail.submitContact.useMutation()
+  const submit = trpc.mail.submitContact.useMutation({
+    onSuccess: () => { trackContactSubmit() },
+  })
 
   const textQ = trpc.pageText.getAll.useQuery({ page: 'corporate' }, { retry: false })
   const textMap = useMemo(() => {
