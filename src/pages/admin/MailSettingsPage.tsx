@@ -22,7 +22,6 @@ import {
 
 const CONTACT_FIELDS = [
   { key: "infoEmail",       label: "Info Email",       placeholder: "info@xurcun.az" },
-  { key: "reservationEmail",label: "Reservation Email",placeholder: "reservation@xurcun.az" },
   { key: "supportEmail",    label: "Support Email",    placeholder: "support@xurcun.az" },
   { key: "marketingEmail",  label: "Marketing Email",  placeholder: "marketing@xurcun.az" },
   { key: "hrEmail",         label: "HR Email",         placeholder: "hr@xurcun.az" },

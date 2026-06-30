@@ -23,7 +23,6 @@ export const mailRouter = createRouter({
     const rows = await db.select().from(mailSettings);
     const defaults: Record<string, string> = {
       infoEmail: "info@xurcun.az",
-      reservationEmail: "reservation@xurcun.az",
       supportEmail: "support@xurcun.az",
       marketingEmail: "marketing@xurcun.az",
       hrEmail: "hr@xurcun.az",
@@ -48,7 +47,6 @@ export const mailRouter = createRouter({
   upsertContactEmails: adminMutation
     .input(z.object({
       infoEmail: z.string().email().optional(),
-      reservationEmail: z.string().email().optional(),
       supportEmail: z.string().email().optional(),
       marketingEmail: z.string().email().optional(),
       hrEmail: z.string().email().optional(),

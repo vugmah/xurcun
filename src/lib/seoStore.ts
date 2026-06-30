@@ -364,7 +364,7 @@ export function buildDynamicMenuSeo(
   _dbSettings?: SeoSettings
 ): Partial<DynamicSeoResult> {
   const branch = branchSlug || "white-city";
-  const branchName = branch === "white-city" ? "White City" : "Seabreeze Marina";
+  const branchName = branch === "white-city" ? "White City" : branch;
 
   if (pageId === "home" || pageId === "menu" || pageId === "catalog") {
     return {

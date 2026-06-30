@@ -18,7 +18,7 @@ interface PopupCampaign {
   delay: number | null;
   frequency: number | null;
   placement: string | null;   // "all", "homepage", "qr", "homepage+qr"
-  branch: string | null;      // "white-city", "seabreeze", null=all
+  branch: string | null;      // "white-city", null=all
   lang: string | null;        // "az", "en", "ru", "tr", null=all
 }
 

@@ -30,10 +30,7 @@ export interface GeneralSettings {
   // Branches
   whiteCityAddress: string;
   whiteCityMapsUrl: string;
-  seabreezeAddress: string;
-  seabreezeMapsUrl: string;
   whiteCityWhatsapp: string;
-  seabreezeWhatsapp: string;
   // SEO
   googleSiteVerification: string;
   googleReviewUrl: string;
@@ -66,10 +63,7 @@ const DEFAULTS: GeneralSettings = {
   facebookUrl: "https://www.facebook.com/xurcunwhitecity",
   whiteCityAddress: "1-ci Yaşıl Ada Küçəsi, White City, Bakı",
   whiteCityMapsUrl: "https://maps.app.goo.gl/XeTM3L1AkT3h1Pjj6?g_st=ic",
-  seabreezeAddress: "Seabreeze, Bakı",
-  seabreezeMapsUrl: "",
   whiteCityWhatsapp: "994502130555",
-  seabreezeWhatsapp: "",
   googleSiteVerification: "",
   googleReviewUrl: "",
   defaultSeoTitle: "Xurcun | Premium quru meyvə, çərəz və hədiyyə butiki — Bakı",
@@ -86,7 +80,6 @@ const DEFAULTS: GeneralSettings = {
   mailSmtpPort: "465",
   branchesJson: JSON.stringify([
     { id: "wc", name: "Xurcun White City", slug: "white-city", address: "1-ci Yasil Ada Kucəsi, White City, Baki", mapsUrl: "https://maps.app.goo.gl/XeTM3L1AkT3h1Pjj6?g_st=ic", whatsapp: "994502130555", isActive: true },
-    { id: "sb", name: "Xurcun Seabreeze", slug: "seabreeze-marina", address: "Seabreeze, Baki", mapsUrl: "", whatsapp: "", isActive: true },
   ]),
 };
 
@@ -119,10 +112,7 @@ function loadSettings(): GeneralSettings {
     VITE_FACEBOOK_URL: "facebookUrl",
     VITE_WHITE_CITY_ADDRESS: "whiteCityAddress",
     VITE_WHITE_CITY_MAPS: "whiteCityMapsUrl",
-    VITE_SEABREEZE_ADDRESS: "seabreezeAddress",
-    VITE_SEABREEZE_MAPS: "seabreezeMapsUrl",
     VITE_WHITE_CITY_WHATSAPP: "whiteCityWhatsapp",
-    VITE_SEABREEZE_WHATSAPP: "seabreezeWhatsapp",
     VITE_GOOGLE_SITE_VERIFICATION: "googleSiteVerification",
     VITE_GOOGLE_REVIEW_URL: "googleReviewUrl",
     VITE_GTM_ID: "gtmId",
@@ -184,14 +174,13 @@ export function getBranchBySlug(slug: string): BranchItem | undefined {
   return getBranches().find((b) => b.slug === slug);
 }
 
-export function getTrackingSettingsCompat(): Pick<GeneralSettings, "gtmId" | "ga4MeasurementId" | "googleAdsId" | "metaPixelId" | "seabreezeWhatsapp" | "googleSiteVerification"> {
+export function getTrackingSettingsCompat(): Pick<GeneralSettings, "gtmId" | "ga4MeasurementId" | "googleAdsId" | "metaPixelId" | "googleSiteVerification"> {
   const s = loadSettings();
   return {
     gtmId: s.gtmId,
     ga4MeasurementId: s.ga4MeasurementId,
     googleAdsId: s.googleAdsId,
     metaPixelId: s.metaPixelId,
-    seabreezeWhatsapp: s.seabreezeWhatsapp,
     googleSiteVerification: s.googleSiteVerification,
   };
 }

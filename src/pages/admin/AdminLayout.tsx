@@ -18,7 +18,7 @@ const navGroups: { group: string; items: NavItem[] }[] = [
   ] },
   { group: "Mağaza & QR", items: [
     { path: "/admin/branches", icon: MapPin, label: "Mağazalar" },
-    { path: "/admin/qr", icon: QrCode, label: "QR Menyu" },
+    { path: "/admin/qr", icon: QrCode, label: "Kafe QR" },
     { path: "/admin/cafe", icon: Coffee, label: "Kafe Menyu" },
   ] },
   { group: "Marketinq", items: [
