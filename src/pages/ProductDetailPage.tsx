@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
+import { trackProductView } from '@/lib/tracking'
 import '@/xurcun-base.css'
 import '@/xurcun-catalog.css'
 
@@ -63,6 +64,20 @@ export default function ProductDetailPage() {
   const canonical = `${ORIGIN}/catalog/${slug}`
   const imgAbs = img.startsWith('http') ? img : ORIGIN + img
   const waText = encodeURIComponent(`${t(S.wa_intro)} ${name}${priceVisible ? ` — ${item?.price as string} ₼` : ''}\n${canonical}`)
+
+  // Fire Meta ViewContent once per product (retargeting / DPA). content_ids uses
+  // the item id, which matches <g:id> in /product-feed.xml.
+  useEffect(() => {
+    if (!item) return
+    const priceNum = priceVisible ? parseFloat(String(item.price).replace(',', '.')) : undefined
+    trackProductView({
+      id: item.id as number,
+      name: name || String(item.nameEn || item.nameAz || ''),
+      price: priceNum,
+      category: catName || undefined,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item?.id])
 
   const Header = () => (
     <div className="chead">

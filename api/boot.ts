@@ -345,6 +345,97 @@ ${urls}
   });
 });
 
+// Meta / Google Shopping product feed — powers Dynamic Product Ads (DPA) and the
+// Meta catalog. <g:id> equals menu_items.id, matching the content_ids sent by the
+// ViewContent pixel event so DPA can connect "viewed product" → catalog item.
+// Only items with a visible price AND an image are included (both are required).
+app.get("/product-feed.xml", async (c) => {
+  const esc = (s: unknown) =>
+    String(s ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  const slugify = (s: string) =>
+    s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+  const entries: string[] = [];
+  try {
+    const db = getDb();
+    const cats = await db
+      .select({ id: menuCategories.id })
+      .from(menuCategories)
+      .where(and(eq(menuCategories.menuType, "catalog"), eq(menuCategories.isActive, true)));
+    const catIds = cats.map((x) => x.id);
+    if (catIds.length) {
+      const rows = await db
+        .select({
+          id: menuItems.id,
+          nameEn: menuItems.nameEn,
+          nameAz: menuItems.nameAz,
+          descEn: menuItems.descEn,
+          descAz: menuItems.descAz,
+          price: menuItems.price,
+          priceVisible: menuItems.priceVisible,
+          imageUrl: menuItems.imageUrl,
+        })
+        .from(menuItems)
+        .where(and(inArray(menuItems.categoryId, catIds), eq(menuItems.isActive, true)))
+        .orderBy(asc(menuItems.sortOrder), asc(menuItems.id));
+
+      for (const it of rows) {
+        const priceNum =
+          it.priceVisible !== false && it.price
+            ? parseFloat(String(it.price).replace(",", "."))
+            : NaN;
+        if (!Number.isFinite(priceNum) || priceNum <= 0) continue; // price required
+        const rawImg = (it.imageUrl || "").trim();
+        if (!rawImg) continue; // image required
+        const image = rawImg.startsWith("http")
+          ? rawImg
+          : `https://xurcun.az${rawImg.startsWith("/") ? "" : "/"}${rawImg}`;
+        const title = String(it.nameEn || it.nameAz || "").trim();
+        if (!title) continue;
+        const slug = slugify(String(it.nameEn || it.nameAz || "")) || String(it.id);
+        const desc = String(it.descEn || it.descAz || title).trim();
+        entries.push(
+          `    <item>\n` +
+            `      <g:id>${it.id}</g:id>\n` +
+            `      <g:title>${esc(title)}</g:title>\n` +
+            `      <g:description>${esc(desc)}</g:description>\n` +
+            `      <g:link>https://xurcun.az/catalog/${esc(slug)}</g:link>\n` +
+            `      <g:image_link>${esc(image)}</g:image_link>\n` +
+            `      <g:availability>in stock</g:availability>\n` +
+            `      <g:condition>new</g:condition>\n` +
+            `      <g:price>${priceNum.toFixed(2)} AZN</g:price>\n` +
+            `      <g:brand>Xurcun</g:brand>\n` +
+            `    </item>`,
+        );
+      }
+    }
+  } catch (err) {
+    console.error("[product-feed] catalog fetch failed:", err);
+  }
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+  <channel>
+    <title>Xurcun — Product Feed</title>
+    <link>https://xurcun.az/catalog</link>
+    <description>Xurcun catalogue products for Meta / Google Shopping</description>
+${entries.join("\n")}
+  </channel>
+</rss>`;
+
+  return new Response(xml, {
+    headers: {
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
+    },
+  });
+});
+
 // llms.txt — concise, quotable brand summary for AI crawlers (AEO/GEO).
 app.get("/llms.txt", (c) => {
   const content = `# Xurcun Chain of Boutiques
