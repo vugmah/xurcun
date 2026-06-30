@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams } from 'react-router'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
@@ -14,6 +14,16 @@ const LANGS: { code: Lang; label: string }[] = [
   { code: 'az', label: 'AZ' }, { code: 'ru', label: 'RU' }, { code: 'en', label: 'EN' },
   { code: 'tr', label: 'TR' }, { code: 'ar', label: 'AR' },
 ]
+
+// Slugify an item's AZ name for deep-link / share URLs.
+// Lowercase + normalize AZ diacritics, collapse non-alnum to single dashes.
+function toProductSlug(nameAz: string): string {
+  return (nameAz || '')
+    .toLowerCase()
+    .replace(/[əıüöçşğ]/g, (c) => ({ ə: 'e', ı: 'i', ü: 'u', ö: 'o', ç: 'c', ş: 's', ğ: 'g' }[c] || c))
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
 
 type M = Record<Lang, string>
 const S = {
@@ -34,6 +44,40 @@ const S = {
   foot_script: { az: 'Fond of Quality', ru: 'Fond of Quality', en: 'Fond of Quality', tr: 'Fond of Quality', ar: 'Fond of Quality' },
   err: { az: 'Menyu yüklənmədi.', ru: 'Не удалось загрузить меню.', en: 'Could not load the menu.', tr: 'Menü yüklenemedi.', ar: 'تعذّر تحميل القائمة.' },
   retry: { az: 'Yenidən cəhd et', ru: 'Повторить', en: 'Try again', tr: 'Tekrar dene', ar: 'إعادة المحاولة' },
+  share: { az: 'Paylaş', ru: 'Поделиться', en: 'Share', tr: 'Paylaş', ar: 'مشاركة' },
+  copied: { az: 'Kopyalandı', ru: 'Скопировано', en: 'Copied', tr: 'Kopyalandı', ar: 'تم النسخ' },
+  close: { az: 'Bağla', ru: 'Закрыть', en: 'Close', tr: 'Kapat', ar: 'إغلاق' },
+}
+
+// Inline share icon — matches the page's small line-icon style.
+const ShareIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
+    <line x1="8.6" y1="13.5" x2="15.4" y2="17.5" /><line x1="15.4" y1="6.5" x2="8.6" y2="10.5" />
+  </svg>
+)
+
+function ShareButton({
+  url, title, text, shareLabel, copiedLabel, className,
+}: { url: string; title: string; text: string; shareLabel: string; copiedLabel: string; className?: string }) {
+  const [copied, setCopied] = useState(false)
+  const onShare = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try { await navigator.share({ title, text, url }); return } catch { /* cancelled → fall through */ }
+    }
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1800)
+    } catch { /* clipboard unavailable */ }
+  }, [url, title, text])
+  return (
+    <button type="button" className={`mshare ${className ?? ''}`} onClick={onShare} aria-label={shareLabel} title={shareLabel}>
+      <ShareIcon />
+      {copied && <span className="mshare-toast" role="status">{copiedLabel}</span>}
+    </button>
+  )
 }
 
 export default function QRMenuPage() {
@@ -57,7 +101,10 @@ export default function QRMenuPage() {
       ? 'cafe' : 'catalog'
   const [menuType, setMenuType] = useState<'catalog' | 'cafe'>(initialType)
   const [activeCat, setActiveCat] = useState<number | null>(null)
+  const [openItem, setOpenItem] = useState<Record<string, unknown> | null>(null)
   const rootRef = useRef<HTMLDivElement>(null)
+  const chipScrollRef = useRef<HTMLDivElement>(null)
+  const deepLinkDone = useRef(false)
 
   const branchMenuQ = trpc.branchMenu.getMenuForBranch.useQuery(
     { branchSlug: branchSlug ?? '', menuType },
@@ -93,6 +140,56 @@ export default function QRMenuPage() {
     return () => io.disconnect()
   }, [sections.length, menuType, lang])
 
+  // Auto-center the active chip in its horizontal scroller.
+  // behavior:'auto' on touch (a smooth programmatic scroll mid-fling freezes
+  // Android Chrome); 'smooth' on desktop. Respect reduced-motion.
+  useEffect(() => {
+    if (activeCat == null) return
+    const strip = chipScrollRef.current
+    if (!strip) return
+    const chip = strip.querySelector<HTMLElement>(`a[data-cat="${activeCat}"]`)
+    if (!chip) return
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    const touch = window.matchMedia?.('(pointer: coarse)').matches
+    chip.scrollIntoView({ behavior: reduce || touch ? 'auto' : 'smooth', inline: 'center', block: 'nearest' })
+  }, [activeCat])
+
+  // Deep-link: ?product=<slug> → switch tab if needed, scroll to item, open modal.
+  useEffect(() => {
+    if (deepLinkDone.current) return
+    if (menuQ.isLoading || menuQ.isError) return
+    const slug = new URLSearchParams(window.location.search).get('product')
+    if (!slug) { deepLinkDone.current = true; return }
+    const match = items.find((it) => toProductSlug(it.nameAz as string) === slug)
+    if (!match) { deepLinkDone.current = true; return }
+    deepLinkDone.current = true
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    const id = setTimeout(() => {
+      const el = rootRef.current?.querySelector<HTMLElement>(`#cat-${match.categoryId as number}`)
+      el?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+      setOpenItem(match)
+    }, 350)
+    return () => clearTimeout(id)
+    // `items` is derived from menuQ.data each render; gating on menuQ.data (stable
+    // per fetch) plus the once-only deepLinkDone ref keeps this from re-firing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menuQ.isLoading, menuQ.isError, menuQ.data])
+
+  // Modal: ESC to close, body scroll-lock, focus the close button on open.
+  const closeBtnRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    if (!openItem) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpenItem(null) }
+    window.addEventListener('keydown', onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    closeBtnRef.current?.focus()
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [openItem])
+
   const branchName = (branch?.name as string) || 'Xurcun'
   const branchAddr = branch?.address as string | undefined
   const branchPhone = branch?.phone as string | undefined
@@ -107,6 +204,16 @@ export default function QRMenuPage() {
     if (it.isHalal) out.push({ label: t(S.b_halal) })
     return out
   }
+
+  // Build the canonical share URL for an item: current path + ?product=slug (+ &type=cafe).
+  const shareUrlFor = useCallback((it: Record<string, unknown>) => {
+    const slug = toProductSlug(it.nameAz as string)
+    const url = new URL(window.location.href)
+    url.search = ''
+    url.searchParams.set('product', slug)
+    if (menuType === 'cafe') url.searchParams.set('type', 'cafe')
+    return url.toString()
+  }, [menuType])
 
   return (
     <div className="xc xcm" ref={rootRef}>
@@ -150,9 +257,9 @@ export default function QRMenuPage() {
       {/* Category chips */}
       {sections.length > 0 && (
         <div className="mchips">
-          <div className="scroll">
+          <div className="scroll" ref={chipScrollRef}>
             {sections.map((c) => (
-              <a key={c.id as number} href={`#cat-${c.id}`} className={activeCat === (c.id as number) ? 'on' : ''} aria-current={activeCat === (c.id as number) ? 'true' : undefined}>{pick(c, 'title')}</a>
+              <a key={c.id as number} href={`#cat-${c.id}`} data-cat={c.id as number} className={activeCat === (c.id as number) ? 'on' : ''} aria-current={activeCat === (c.id as number) ? 'true' : undefined}>{pick(c, 'title')}</a>
             ))}
           </div>
         </div>
@@ -198,7 +305,7 @@ export default function QRMenuPage() {
                 const img = it.imageUrl as string | undefined
                 const badges = badgesFor(it)
                 return (
-                  <div className="mcard" key={it.id as number}>
+                  <div className="mcard" key={it.id as number} role="button" tabIndex={0} onClick={() => setOpenItem(it)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpenItem(it) } }}>
                     <div className="mthumb">
                       {img ? <img src={img} alt={name} loading="lazy" decoding="async" onError={(e) => { const im = e.currentTarget; im.onerror = null; im.src = EMBLEM; im.className = 'ph' }} /> : <img className="ph" src={EMBLEM} alt="" />}
                     </div>
@@ -214,6 +321,7 @@ export default function QRMenuPage() {
                     </div>
                     <div className="mside">
                       {priceStr && <div className="mprice">{priceStr}</div>}
+                      <ShareButton url={shareUrlFor(it)} title={name} text={name} shareLabel={t(S.share)} copiedLabel={t(S.copied)} />
                     </div>
                   </div>
                 )
@@ -234,6 +342,44 @@ export default function QRMenuPage() {
           <div className="cp">© {new Date().getFullYear()} Xurcun · <a href="/">xurcun.az</a></div>
         </div>
       </div>
+
+      {/* Product detail modal */}
+      {openItem && (() => {
+        const name = pick(openItem, 'name')
+        const desc = pick(openItem, 'desc')
+        const unit = openItem.unit as string | undefined
+        const minOrder = openItem.minOrder as string | undefined
+        const priceStr = (openItem.priceVisible === false || !openItem.price) ? '' : `${openItem.price as string} ₼${unit ? ` / ${unit}` : ''}`
+        const img = openItem.imageUrl as string | undefined
+        const badges = badgesFor(openItem)
+        return (
+          <div className="mmodal" onClick={() => setOpenItem(null)} role="dialog" aria-modal="true" aria-label={name}>
+            <div className="mmodal-card" onClick={(e) => e.stopPropagation()}>
+              <button ref={closeBtnRef} type="button" className="mmodal-x" onClick={() => setOpenItem(null)} aria-label={t(S.close)}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18" /><line x1="18" y1="6" x2="6" y2="18" /></svg>
+              </button>
+              <div className="mmodal-img">
+                {img ? <img src={img} alt={name} decoding="async" onError={(e) => { const im = e.currentTarget; im.onerror = null; im.src = EMBLEM; im.className = 'ph' }} /> : <img className="ph" src={EMBLEM} alt="" />}
+              </div>
+              <div className="mmodal-body">
+                <h2 className="mmodal-nm">{name}</h2>
+                {priceStr && <div className="mmodal-price">{priceStr}</div>}
+                {desc && <p className="mmodal-ds">{desc}</p>}
+                {minOrder && <div className="mmodal-unit">Min. {minOrder}</div>}
+                {badges.length > 0 && (
+                  <div className="mbadges">
+                    {badges.map((b, i) => <span className={`mbadge ${b.cls ?? ''}`} key={i}>{b.label}</span>)}
+                  </div>
+                )}
+              </div>
+              <div className="mmodal-foot">
+                <ShareButton url={shareUrlFor(openItem)} title={name} text={name} shareLabel={t(S.share)} copiedLabel={t(S.copied)} className="big" />
+                <span className="mmodal-foot-lbl">{t(S.share)}</span>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }
