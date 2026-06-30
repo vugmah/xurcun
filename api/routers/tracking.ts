@@ -10,13 +10,16 @@ export const trackingRouter = createRouter({
   getPublic: publicQuery.query(async () => {
     const db = getDb();
     const rows = await db.select().from(trackingSettings);
+    // These MUST match the DB keys the admin writes (SettingsPage dbKeyMap)
+    // and the public reader (trackingSettings.ts keyMap). A mismatch silently
+    // drops the value before it reaches the site.
     const publicKeys = [
       "meta_pixel_id",
       "enable_meta_pixel",
-      "meta_domain_verification_code",
-      "gtm_id",
+      "meta_domain_verification",
+      "gtm_container_id",
       "ga4_measurement_id",
-      "google_ads_conversion_id",
+      "google_ads_id",
     ];
     const result: Record<string, string> = {};
     for (const row of rows) {
