@@ -535,3 +535,11 @@ export const faqItems = mysqlTable("faq_items", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export const homepageText = mysqlTable("homepage_text", {
+  id: serial("id"),
+  key: varchar("key", { length: 64 }).notNull().unique(),
+  valueAz: text("value_az"), valueRu: text("value_ru"), valueEn: text("value_en"),
+  valueTr: text("value_tr"), valueAr: text("value_ar"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});

@@ -726,6 +726,35 @@ async function createIndex(table: string, idxName: string, cols: string): Promis
     console.error("[MIGRATE] FAQ seed error:", err.message || err);
   }
 
+  // ── 5d. homepage_text (DB-backed Homepage Text CMS) ──
+  await createTable("homepage_text", `
+    CREATE TABLE IF NOT EXISTS homepage_text (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      \`key\` VARCHAR(64) NOT NULL UNIQUE,
+      value_az TEXT, value_ru TEXT, value_en TEXT, value_tr TEXT, value_ar TEXT,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )`);
+
+  // Seed homepage text from the shared source (idempotent by key).
+  try {
+    const pool = getPool();
+    const { HOMEPAGE_TEXT_DEFAULTS } = await import("../src/lib/homepageTextStore");
+    for (const d of HOMEPAGE_TEXT_DEFAULTS) {
+      const [r] = await pool.execute(`SELECT id FROM homepage_text WHERE \`key\` = ? LIMIT 1`, [d.key]);
+      if (!(r as any[]).length) {
+        await pool.execute(
+          `INSERT INTO homepage_text
+             (\`key\`, value_az, value_ru, value_en, value_tr, value_ar)
+           VALUES (?, ?, ?, ?, ?, ?)`,
+          [d.key, d.az, d.ru, d.en, d.tr, d.ar],
+        );
+      }
+    }
+    console.log(`[MIGRATE] Homepage text seed ensured (${HOMEPAGE_TEXT_DEFAULTS.length})`);
+  } catch (err: any) {
+    console.error("[MIGRATE] Homepage text seed error:", err.message || err);
+  }
+
   // ── 6. menu_item_branches ──
   await createTable("menu_item_branches", `
     CREATE TABLE IF NOT EXISTS menu_item_branches (
