@@ -152,8 +152,16 @@ export default function HomepagePhotosPage() {
       <p className="text-[#a89d88] text-xs mb-6">Ana sayfada görünen tüm fotoğraf alanlarını yönetin.</p>
 
       {rowsQ.isLoading ? (
-        <div className="flex items-center justify-center py-16">
-          <div className="w-8 h-8 rounded-full border-2 border-[#352d24] border-t-[#C2A05A] animate-spin" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-pulse motion-reduce:animate-none">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
+              <div className="aspect-video bg-[#16120e]" />
+              <div className="p-3 space-y-2">
+                <div className="h-4 w-1/2 bg-[#352d24] rounded" />
+                <div className="h-3 w-1/3 bg-[#16120e] rounded" />
+              </div>
+            </div>
+          ))}
         </div>
       ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -192,16 +200,16 @@ export default function HomepagePhotosPage() {
                 {isEditing ? (
                   <div className="space-y-2 pt-2 border-t border-[#352d24]">
                     <input
-                      aria-label={`Image URL — ${slot.key}`}
+                      aria-label={`Image URL: ${slot.key}`}
                       value={editForm.url || ""}
                       onChange={(e) => setEditForm((p) => ({ ...p, url: e.target.value }))}
                       placeholder="Image URL"
                       className="w-full px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded"
                     />
                     <div className="grid grid-cols-3 gap-1">
-                      <input aria-label={`Alt AZ — ${slot.key}`} value={editForm.altAz || ""} onChange={(e) => setEditForm((p) => ({ ...p, altAz: e.target.value }))} placeholder="Alt AZ" className="px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded" />
-                      <input aria-label={`Alt RU — ${slot.key}`} value={editForm.altRu || ""} onChange={(e) => setEditForm((p) => ({ ...p, altRu: e.target.value }))} placeholder="Alt RU" className="px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded" />
-                      <input aria-label={`Alt EN — ${slot.key}`} value={editForm.altEn || ""} onChange={(e) => setEditForm((p) => ({ ...p, altEn: e.target.value }))} placeholder="Alt EN" className="px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded" />
+                      <input aria-label={`Alt AZ: ${slot.key}`} value={editForm.altAz || ""} onChange={(e) => setEditForm((p) => ({ ...p, altAz: e.target.value }))} placeholder="Alt AZ" className="px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded" />
+                      <input aria-label={`Alt RU: ${slot.key}`} value={editForm.altRu || ""} onChange={(e) => setEditForm((p) => ({ ...p, altRu: e.target.value }))} placeholder="Alt RU" className="px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded" />
+                      <input aria-label={`Alt EN: ${slot.key}`} value={editForm.altEn || ""} onChange={(e) => setEditForm((p) => ({ ...p, altEn: e.target.value }))} placeholder="Alt EN" className="px-2 py-1 bg-[#16120e] border border-[#352d24] text-white text-xs rounded" />
                     </div>
                     <div className="flex flex-wrap gap-2 pt-1">
                       <button onClick={() => handleSave(slot.key)} disabled={upsert.isPending} className="px-4 min-h-[44px] bg-[#9D7C38] text-[#0A0A0A] text-xs font-medium rounded hover:bg-[#C2A05A] transition disabled:opacity-50">Kaydet</button>
@@ -216,7 +224,7 @@ export default function HomepagePhotosPage() {
                       const isUploading = uploadingKey === slot.key;
                       return (
                         <label className={isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"}>
-                          <input type="file" aria-label={`Şəkil yüklə — ${slot.key}`} accept=".jpg,.jpeg,.png,.webp" className="hidden" disabled={isUploading} onChange={(e) => handleUpload(slot.key, e)} />
+                          <input type="file" aria-label={`Şəkil yüklə: ${slot.key}`} accept=".jpg,.jpeg,.png,.webp" className="hidden" disabled={isUploading} onChange={(e) => handleUpload(slot.key, e)} />
                           <span className="inline-flex items-center gap-1 px-3 min-h-[44px] rounded bg-[#C2A05A]/15 text-[#C2A05A] text-[11px] border border-[#C2A05A]/30 hover:bg-[#C2A05A]/20 transition"><Upload className="w-3 h-3" /> {isUploading ? "Yükleniyor…" : "Yükle"}</span>
                         </label>
                       );

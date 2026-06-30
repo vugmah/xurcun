@@ -64,6 +64,15 @@ export default function FaqAdminPage() {
           onClose={() => setEditing(null)}
           onSaved={() => { setEditing(null); listQ.refetch(); }}
         />
+      ) : listQ.isLoading ? (
+        <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden p-5 grid gap-3 animate-pulse motion-reduce:animate-none">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-4">
+              <div className="flex-1 h-3.5 rounded bg-[#16120e] border border-[#352d24]" />
+              <div className="h-6 w-24 rounded-full bg-[#16120e] border border-[#352d24]" />
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="bg-[#1d1915] border border-[#352d24] rounded-xl overflow-hidden">
           <table className="w-full text-[13px]">
@@ -198,12 +207,11 @@ function FaqForm({ faq, onClose, onSaved }: { faq: Faq; onClose: () => void; onS
 
         {/* Language tabs */}
         <div>
-          <div className="flex gap-1.5 mb-3" role="tablist" aria-label="Dil seçimi">
+          <div className="flex gap-1.5 mb-3" role="group" aria-label="Dil">
             {LANGS.map((l) => (
               <button
                 key={l}
-                role="tab"
-                aria-selected={tab === l}
+                aria-pressed={tab === l}
                 onClick={() => setTab(l)}
                 className={`min-w-[44px] min-h-[44px] px-3 rounded-lg text-xs font-medium transition ${
                   tab === l ? "bg-[#9D7C38] text-[#1a140a]" : "bg-[#16120e] border border-[#352d24] text-[#ECE6DA] hover:border-[#9D7C38]"

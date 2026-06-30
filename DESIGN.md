@@ -139,6 +139,22 @@ A warm boutique palette: gold as the one accent, ink for depth and text, cream f
 
 **The On-Gold Rule.** Text on a gold fill (buttons, badges, active language, branch hover) uses `on-gold #14110C` (~4.8:1). `ink` on gold reaches only 3.65:1 and is forbidden there.
 
+### Admin Panel — Dark Theme Tokens
+
+The public brand above is cream/gold and is the only register for public pages. The `/admin/*` CMS is a **separate dark theme, on purpose** — these tokens are an intentional part of the system, not drift. They are listed here so the admin's consistently-used colors are documented; they do **not** alter any public-brand value above.
+
+**Surfaces & text** (used across all admin pages):
+- **Admin bg** (#14110E), **sidebar** (#100D0A): the dark base and the deeper rail beside it.
+- **Card / panel** (#1D1915), **border** (#352D24), **input bg** (#16120E): raised surfaces, hairlines, and field fills.
+- **Main text** (#ECE6DA), **muted text** (#A89D88): primary and secondary copy, both ≥4.5:1 on the dark bg.
+- **Gold accent** (#C2A05A = brand `gold-light`): links, active states, and accents on the dark surface. **Solid button base** (#9D7C38 = brand `gold`): filled primary buttons. The admin reuses the brand golds rather than inventing new ones.
+
+**Semantic status** (the status register the public brand has no equivalent for):
+- **Success** — text/icon #5BBD86 on pill bg #16291F.
+- **Error** — #E0697A.
+
+**The Admin-Status Rule.** Admin status is **color + a lucide icon, never color-only** — every success/error signal pairs its color with an icon so meaning never depends on hue alone.
+
 ## 3. Typography
 
 **Display Font:** Rufolo (local woff) with Cormorant Garamond, Georgia, serif fallback

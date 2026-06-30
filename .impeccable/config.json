@@ -1,0 +1,33 @@
+{
+  "updateCheck": false,
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-color",
+        "value": "#16291f",
+        "reason": "Admin dark-theme semantic token, documented in DESIGN.md (admin register)",
+        "createdAt": "2026-06-30T06:28:32.511Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#5bbd86",
+        "reason": "Admin dark-theme semantic token, documented in DESIGN.md (admin register)",
+        "createdAt": "2026-06-30T06:28:32.606Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#e0697a",
+        "reason": "Admin dark-theme semantic token, documented in DESIGN.md (admin register)",
+        "createdAt": "2026-06-30T06:28:32.704Z"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#a89d88",
+        "reason": "Admin dark-theme semantic token, documented in DESIGN.md (admin register)",
+        "createdAt": "2026-06-30T06:28:32.799Z"
+      }
+    ]
+  }
+}
