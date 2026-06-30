@@ -72,6 +72,7 @@ export default function SettingsPage() {
         gtmId: "gtm_container_id",
         ga4MeasurementId: "ga4_measurement_id",
         googleAdsId: "google_ads_id",
+        googleAdsConversionLabel: "google_ads_conversion_label",
         metaPixelId: "meta_pixel_id",
         metaDomainVerificationCode: "meta_domain_verification",
       };
@@ -84,7 +85,8 @@ export default function SettingsPage() {
 
       // If tracking IDs changed, clear DB cache so public pages get fresh IDs
       if (patch.gtmId !== undefined || patch.ga4MeasurementId !== undefined ||
-          patch.googleAdsId !== undefined || patch.metaPixelId !== undefined ||
+          patch.googleAdsId !== undefined || patch.googleAdsConversionLabel !== undefined ||
+          patch.metaPixelId !== undefined ||
           patch.metaDomainVerificationCode !== undefined) {
         clearTrackingDbCache();
       }
@@ -201,6 +203,7 @@ export default function SettingsPage() {
           <Field label="Google Tag Manager ID" value={form.gtmId} onChange={(v) => update({ gtmId: v })} placeholder="GTM-XXXXXXX" />
           <Field label="GA4 Measurement ID" value={form.ga4MeasurementId} onChange={(v) => update({ ga4MeasurementId: v })} placeholder="G-XXXXXXXXXX" />
           <Field label="Google Ads Conversion ID" value={form.googleAdsId} onChange={(v) => update({ googleAdsId: v })} placeholder="AW-XXXXXXXXXX" />
+          <Field label="Google Ads Conversion Label" value={form.googleAdsConversionLabel} onChange={(v) => update({ googleAdsConversionLabel: v })} placeholder="AbCd_eFg (send_to slash-dan sonra)" help="Konversiya event snippet send_to deyerinin slash-dan sonraki hissesi. Lead formu gonderilende konversiya bu label ile ateslenir." />
           <Field label="Meta Pixel ID" value={form.metaPixelId} onChange={(v) => update({ metaPixelId: v })} placeholder="XXXXXXXXXXXXXXXX" />
           <Field label="Meta Domain Verification Code" value={form.metaDomainVerificationCode} onChange={(v) => update({ metaDomainVerificationCode: v })} placeholder="verification_code_here" help="Meta Business Manager → Events Manager → Domain Verification kodu. Bu kod &lt;meta&gt; tag-ine yazilir." />
           <div className="mt-4 p-3 bg-amber-400/5 border border-amber-400/10 rounded-lg">
