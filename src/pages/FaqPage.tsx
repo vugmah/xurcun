@@ -46,7 +46,7 @@ export default function FaqPage() {
         <div className="ornament"><img src={EMBLEM} alt="" /></div>
 
         {faqQ.isLoading ? (
-          <div className="xcp-state"><div className="xcp-spin" /></div>
+          <div className="xcp-state" role="status"><div className="xcp-spin" aria-label="Loading" /></div>
         ) : items.length === 0 ? (
           <p className="xcp-state muted">{t(EMPTY)}</p>
         ) : (

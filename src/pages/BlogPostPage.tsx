@@ -33,9 +33,20 @@ export default function BlogPostPage() {
   if (slug && postQ.isLoading) {
     return (
       <div className="xc xcpage">
+        <header className="xcp-head">
+          <a href="/" aria-label="Xurcun"><img className="logo" src={LOGO} alt="Xurcun — Fond of Quality" /></a>
+          <nav className="xcp-langs" aria-label="Language">
+            {LANGS.map((l) => (
+              <button key={l.code} className={l.code === lang ? 'on' : ''} aria-pressed={l.code === lang} onClick={() => setLang(l.code)}>{l.label}</button>
+            ))}
+          </nav>
+        </header>
         <main className="xcp-wrap">
-          <div className="xcp-state"><div className="xcp-spin" aria-label="Loading" /></div>
+          <div className="xcp-state" role="status"><div className="xcp-spin" aria-label="Loading" /></div>
         </main>
+        <footer className="xcp-foot">
+          <a href="/">{t(S.home)}</a> · <a href="tel:+994502121811">+994 50 212 18 11</a> · <a href="mailto:info@xurcun.az">info@xurcun.az</a>
+        </footer>
       </div>
     )
   }

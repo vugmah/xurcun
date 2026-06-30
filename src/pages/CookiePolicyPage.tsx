@@ -7,7 +7,7 @@ import { defaultsForPage } from "@/lib/pageTextStore";
 export default function CookiePolicyPage() {
   const { lang } = useLanguage();
 
-  const { data } = trpc.pageText.getAll.useQuery({ page: "cookie" });
+  const { data } = trpc.pageText.getAll.useQuery({ page: "cookie" }, { retry: false });
   const def = useMemo(() => defaultsForPage("cookie"), []);
   const map = useMemo(
     () => Object.fromEntries((data ?? []).map((r) => [r.key, r.value])) as Record<string, Record<string, string>>,
