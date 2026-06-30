@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   getGeneralSettings, saveGeneralSettings, type GeneralSettings, type BranchItem,
   getBranches, saveBranches,
@@ -50,6 +50,17 @@ function Toggle({ label, value, onChange }: { label: string; value: boolean; onC
   );
 }
 
+// form field key → DB tracking key. Only these sync to tracking_settings.
+// Module-scope so it's a stable reference (no useCallback dep churn).
+const TRACKING_DB_KEYS: Record<string, string> = {
+  gtmId: "gtm_container_id",
+  ga4MeasurementId: "ga4_measurement_id",
+  googleAdsId: "google_ads_id",
+  googleAdsConversionLabel: "google_ads_conversion_label",
+  metaPixelId: "meta_pixel_id",
+  metaDomainVerificationCode: "meta_domain_verification",
+};
+
 export default function SettingsPage() {
   const [form, setForm] = useState<GeneralSettings>(getGeneralSettings);
   const [activeSection, setActiveSection] = useState<SectionKey>("site");
@@ -62,39 +73,48 @@ export default function SettingsPage() {
     },
   });
 
+  // Debounce tracking DB writes. Writing on every keystroke raced multiple
+  // upserts per field and could persist a truncated value (e.g. "AW"). We
+  // accumulate the latest value per key and flush once typing settles, so
+  // exactly one upsert lands per field with its final value.
+  const pendingTrackingRef = useRef<Record<string, string>>({});
+  const flushTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const flushTracking = useCallback(() => {
+    const pending = pendingTrackingRef.current;
+    pendingTrackingRef.current = {};
+    const keys = Object.keys(pending);
+    if (keys.length === 0) return;
+    for (const dbKey of keys) {
+      trackingUpsert.mutate({ key: dbKey, value: pending[dbKey] });
+    }
+    clearTrackingDbCache(); // public pages re-fetch fresh IDs
+  }, [trackingUpsert]);
+
   const update = useCallback((patch: Partial<GeneralSettings>) => {
     setForm((prev) => {
       const next = { ...prev, ...patch };
       saveGeneralSettings(next);
-
-      // Sync tracking IDs to DB (so they work on all devices, not just admin's browser)
-      const dbKeyMap: Record<string, string> = {
-        gtmId: "gtm_container_id",
-        ga4MeasurementId: "ga4_measurement_id",
-        googleAdsId: "google_ads_id",
-        googleAdsConversionLabel: "google_ads_conversion_label",
-        metaPixelId: "meta_pixel_id",
-        metaDomainVerificationCode: "meta_domain_verification",
-      };
-      for (const [formKey, dbKey] of Object.entries(dbKeyMap)) {
-        const val = (patch as Record<string, unknown>)[formKey];
-        if (val !== undefined) {
-          trackingUpsert.mutate({ key: dbKey, value: String(val) });
-        }
-      }
-
-      // If tracking IDs changed, clear DB cache so public pages get fresh IDs
-      if (patch.gtmId !== undefined || patch.ga4MeasurementId !== undefined ||
-          patch.googleAdsId !== undefined || patch.googleAdsConversionLabel !== undefined ||
-          patch.metaPixelId !== undefined ||
-          patch.metaDomainVerificationCode !== undefined) {
-        clearTrackingDbCache();
-      }
       return next;
     });
+
+    // Queue any changed tracking field; flush (one upsert per key) after a pause.
+    let touchedTracking = false;
+    for (const [formKey, dbKey] of Object.entries(TRACKING_DB_KEYS)) {
+      const val = (patch as Record<string, unknown>)[formKey];
+      if (val !== undefined) {
+        pendingTrackingRef.current[dbKey] = String(val);
+        touchedTracking = true;
+      }
+    }
+    if (touchedTracking) {
+      if (flushTimerRef.current) clearTimeout(flushTimerRef.current);
+      flushTimerRef.current = setTimeout(flushTracking, 700);
+    }
+
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
-  }, [trackingUpsert]);
+  }, [flushTracking]);
 
   const handleReset = useCallback(() => {
     if (window.confirm("Bütün ayarlar defaults-a qaytarilsin?")) {
