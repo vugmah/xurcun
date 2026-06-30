@@ -5,7 +5,7 @@ import { eq, and, asc, inArray } from "drizzle-orm";
 import fs from "fs";
 import path from "path";
 import { getDb } from "../queries/connection";
-import { menuCategories, menuItems, blogPosts } from "../../db/schema";
+import { menuCategories, menuItems, blogPosts, faqItems } from "../../db/schema";
 
 type App = Hono<{ Bindings: HttpBindings }>;
 
@@ -319,6 +319,28 @@ async function blogPostShell(slug: string): Promise<{ meta: RouteMeta; jsonLd: s
   };
 }
 
+// Build the FAQPage JSON-LD from published faq_items (AZ), so non-JS crawlers/AI
+// get the live DB answers. Returns null on empty/failure → caller falls back to
+// the hardcoded FAQ_JSONLD.
+async function faqShell(): Promise<string | null> {
+  const db = getDb();
+  const rows = await db
+    .select()
+    .from(faqItems)
+    .where(eq(faqItems.published, true))
+    .orderBy(asc(faqItems.sortOrder), asc(faqItems.id));
+  if (!rows.length) return null;
+  return `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: rows.map((q) => ({
+      "@type": "Question",
+      name: q.questionAz ?? "",
+      acceptedAnswer: { "@type": "Answer", text: q.answerAz ?? "" },
+    })),
+  })}</script>`;
+}
+
 // Build the per-route HTML for the SPA fallback. Unknown routes (no override and not
 // /menu/<slug>) keep the homepage meta/shell — harmless, since they render the homepage.
 async function buildRouteHtml(html: string, pathname: string): Promise<string> {
@@ -378,7 +400,15 @@ async function buildRouteHtml(html: string, pathname: string): Promise<string> {
   } else {
     extras.push(breadcrumbJsonLd(pathname, meta));
   }
-  if (pathname === "/faq") extras.push(FAQ_JSONLD);
+  if (pathname === "/faq") {
+    let faqLd: string | null = null;
+    try {
+      faqLd = await faqShell();
+    } catch (err) {
+      console.error("[ssr] faq shell failed (serving static FAQ schema):", err);
+    }
+    extras.push(faqLd ?? FAQ_JSONLD);
+  }
   if (pathname === "/gift-card") extras.push(HOWTO_GIFTCARD);
   if (pathname === "/catalog") {
     try {
