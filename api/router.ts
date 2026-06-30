@@ -20,6 +20,7 @@ import { badgesRouter } from "./routers/badges";
 import { ordersRouter } from "./routers/orders";
 import { blogRouter } from "./routers/blog";
 import { faqRouter } from "./routers/faq";
+import { homepageTextRouter } from "./routers/homepageText";
 export const appRouter = createRouter({
   ping: publicQuery.query(() => ({ ok: true, ts: Date.now() })),
 
@@ -44,6 +45,7 @@ export const appRouter = createRouter({
   orders: ordersRouter,
   blog: blogRouter,
   faq: faqRouter,
+  homepageText: homepageTextRouter,
 });
 
 export type AppRouter = typeof appRouter;

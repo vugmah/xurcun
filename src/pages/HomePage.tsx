@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { trpc } from '@/providers/trpc'
+import { TEXT_DEFAULT, type L5 } from '@/lib/homepageTextStore'
 import GiftCardSection from '@/components/GiftCardSection'
 import TasteGallery from '@/components/TasteGallery'
 import '@/xurcun-base.css'
@@ -19,112 +20,6 @@ const LANGS: { code: Lang; label: string }[] = [
 ]
 
 type M = Record<Lang, string>
-const S = {
-  nav_home: { az: 'Ana səhifə', ru: 'Главная', en: 'Home', tr: 'Ana sayfa', ar: 'الرئيسية' },
-  nav_catalog: { az: 'Kataloq', ru: 'Каталог', en: 'Catalogue', tr: 'Katalog', ar: 'الكتالوج' },
-  nav_gift: { az: 'Hədiyyəlik', ru: 'Подарки', en: 'Gifts', tr: 'Hediyelik', ar: 'الهدايا' },
-  nav_giftcard: { az: 'Hədiyyə Kartı', ru: 'Подарочная карта', en: 'Gift Card', tr: 'Hediye Kartı', ar: 'بطاقة هدية' },
-  nav_stores: { az: 'Mağazalar', ru: 'Магазины', en: 'Stores', tr: 'Mağazalar', ar: 'المتاجر' },
-  nav_about: { az: 'Haqqımızda', ru: 'О нас', en: 'About', tr: 'Hakkımızda', ar: 'من نحن' },
-  nav_contact: { az: 'Əlaqə', ru: 'Контакты', en: 'Contact', tr: 'İletişim', ar: 'اتصل بنا' },
-  nav_corp: { az: 'Korporativ', ru: 'Корпоративным', en: 'Corporate', tr: 'Kurumsal', ar: 'الشركات' },
-  hero_script: { az: 'təbiətin ən seçmə dadları', ru: 'избранные вкусы природы', en: "nature's finest flavours", tr: 'doğanın en seçkin tatları', ar: 'أجود نكهات الطبيعة' },
-  hero_h1a: { az: 'Keyfiyyətə', ru: 'Fond of', en: 'Fond of', tr: 'Fond of', ar: 'Fond of' },
-  hero_h1em: { az: 'Vurğunuq!', ru: 'Quality', en: 'Quality', tr: 'Quality', ar: 'Quality' },
-  hero_lead: {
-    az: 'Seçmə quru meyvələr, qoz-fındıq, ləziz şirniyyatlar və əl işi premium hədiyyə qutuları — 2015-dən bəri Azərbaycanın zövqlü süfrəsi üçün.',
-    ru: 'Отборные сухофрукты, орехи, изысканные сладости и премиальные подарочные наборы ручной работы — для изысканного стола Азербайджана с 2015 года.',
-    en: 'Selected dried fruits, nuts, fine sweets and handcrafted premium gift boxes — for Azerbaijan’s refined table since 2015.',
-    tr: 'Seçme kuru meyveler, çerezler, leziz tatlılar ve el yapımı premium hediye kutuları — 2015’ten beri Azerbaycan’ın zarif sofrası için.',
-    ar: 'فواكه مجففة مختارة، مكسرات، حلويات فاخرة وعلب هدايا فاخرة مصنوعة يدويًا — لمائدة أذربيجان الراقية منذ 2015.',
-  },
-  cta_catalog: { az: 'Kataloqa bax', ru: 'Смотреть каталог', en: 'View catalogue', tr: 'Kataloğa bak', ar: 'تصفح الكتالوج' },
-  cta_stores: { az: 'Mağazalar', ru: 'Магазины', en: 'Stores', tr: 'Mağazalar', ar: 'المتاجر' },
-  v_natural: { az: '100% Təbii', ru: '100% натурально', en: '100% Natural', tr: '100% Doğal', ar: 'طبيعي 100%' },
-  v_handmade: { az: 'Əl işi hədiyyə qutuları', ru: 'Подарки ручной работы', en: 'Handcrafted gift boxes', tr: 'El yapımı hediye kutuları', ar: 'علب هدايا يدوية' },
-  v_stores: { az: '11 mağaza · Bakı', ru: '11 магазинов · Баку', en: '11 stores · Baku', tr: '11 mağaza · Bakü', ar: '11 متجرًا · باكو' },
-  v_est: { az: 'Est. 2015', ru: 'С 2015', en: 'Est. 2015', tr: 'Est. 2015', ar: 'تأسس 2015' },
-  cat_label: { az: 'Kateqoriyalar', ru: 'Категории', en: 'Categories', tr: 'Kategoriler', ar: 'الفئات' },
-  cat_title: { az: 'Kolleksiyanı kəşf et', ru: 'Откройте коллекцию', en: 'Discover the collection', tr: 'Koleksiyonu keşfet', ar: 'اكتشف المجموعة' },
-  feat_label: { az: 'Bestseller', ru: 'Хиты продаж', en: 'Bestsellers', tr: 'Çok satanlar', ar: 'الأكثر مبيعًا' },
-  feat_title: { az: 'Seçilmiş məhsullar', ru: 'Избранные товары', en: 'Featured products', tr: 'Öne çıkan ürünler', ar: 'منتجات مختارة' },
-  luxe_tag: { az: 'İmza kolleksiya', ru: 'Фирменная коллекция', en: 'Signature collection', tr: 'İmza koleksiyon', ar: 'مجموعة مميزة' },
-  luxe_h1a: { az: 'Hədiyyə vermək', ru: 'Дарить — это', en: 'Gifting is', tr: 'Hediye vermek', ar: 'الإهداء' },
-  luxe_h1em: { az: 'bir incəsənətdir.', ru: 'искусство.', en: 'an art.', tr: 'bir sanattır.', ar: 'فنٌّ.' },
-  luxe_p: {
-    az: 'Əl işi ağac və dəri qutularda hazırlanan premium hədiyyə seçimlərimiz — korporativ təqdimatlar, bayramlar və xüsusi anlar üçün. Hər qutu Xurcun keyfiyyəti ilə imzalanır.',
-    ru: 'Наши премиальные подарки в деревянных и кожаных коробках ручной работы — для корпоративных презентов, праздников и особых моментов. Каждая коробка отмечена качеством Xurcun.',
-    en: 'Our premium gift selections in handcrafted wood and leather boxes — for corporate gifts, holidays and special moments. Every box is signed with Xurcun quality.',
-    tr: 'El yapımı ahşap ve deri kutularda hazırlanan premium hediye seçimlerimiz — kurumsal sunumlar, bayramlar ve özel anlar için. Her kutu Xurcun kalitesiyle imzalanır.',
-    ar: 'تشكيلات هدايانا الفاخرة في علب خشبية وجلدية مصنوعة يدويًا — للهدايا المؤسسية والأعياد والمناسبات الخاصة. كل علبة موقعة بجودة Xurcun.',
-  },
-  luxe_cta: { az: 'Hədiyyə qutularına bax', ru: 'Подарочные наборы', en: 'View gift boxes', tr: 'Hediye kutularına bak', ar: 'تصفح علب الهدايا' },
-  stores_label: { az: '11 filial · Bakı', ru: '11 филиалов · Баку', en: '11 branches · Baku', tr: '11 şube · Bakü', ar: '11 فرعًا · باكو' },
-  stores_title: { az: 'Mağazalarımız', ru: 'Наши магазины', en: 'Our stores', tr: 'Mağazalarımız', ar: 'متاجرنا' },
-  anniv_label: { az: 'Yubiley', ru: 'Юбилей', en: 'Anniversary', tr: 'Yıldönümü', ar: 'الذكرى السنوية' },
-  anniv_title: { az: 'Bir yerdə qeyd etdik', ru: 'Мы отпраздновали вместе', en: 'We celebrated together', tr: 'Birlikte kutladık', ar: 'احتفلنا معًا' },
-  anniv_lead: {
-    az: 'Qonaqlarımız və Xurcun ailəsi ilə unudulmaz bir axşam — keyfiyyətə olan vurğunluğumuzu birlikdə qeyd etdik.',
-    ru: 'Незабываемый вечер с нашими гостями и семьёй Xurcun — мы вместе отметили нашу преданность качеству.',
-    en: 'An unforgettable evening with our guests and the Xurcun family — celebrating our devotion to quality, together.',
-    tr: 'Konuklarımız ve Xurcun ailesiyle unutulmaz bir akşam — kaliteye olan bağlılığımızı birlikte kutladık.',
-    ar: 'أمسية لا تُنسى مع ضيوفنا وعائلة Xurcun — احتفلنا معًا بشغفنا بالجودة.',
-  },
-  yeni: { az: 'Yeni', ru: 'Новинка', en: 'New', tr: 'Yeni', ar: 'جديد' },
-  call: { az: 'Zəng et', ru: 'Позвонить', en: 'Call', tr: 'Ara', ar: 'اتصل' },
-  foot_about: {
-    az: 'Azərbaycanın premium quru meyvə, çərəz və hədiyyə butiki. 2015-dən bəri Keyfiyyətə Vurğunuq!',
-    ru: 'Премиальный бутик сухофруктов, орехов и подарков Азербайджана. Fond of Quality — с 2015 года.',
-    en: 'Azerbaijan’s premium dried fruit, nuts and gift boutique. Fond of Quality since 2015.',
-    tr: 'Azerbaycan’ın premium kuru meyve, çerez ve hediye butiği. 2015’ten beri Fond of Quality.',
-    ar: 'بوتيك أذربيجان الفاخر للفواكه المجففة والمكسرات والهدايا. Fond of Quality منذ 2015.',
-  },
-  foot_stores: { az: 'Mağazalar', ru: 'Магазины', en: 'Stores', tr: 'Mağazalar', ar: 'المتاجر' },
-  foot_contact: { az: 'Əlaqə', ru: 'Контакты', en: 'Contact', tr: 'İletişim', ar: 'اتصل بنا' },
-  skip: { az: 'Əsas məzmuna keç', ru: 'К основному содержанию', en: 'Skip to content', tr: 'İçeriğe geç', ar: 'انتقل إلى المحتوى' },
-  gift_alt: {
-    az: 'Qızıl lentlə bağlanmış əl işi XURCUN hədiyyə qutusu',
-    ru: 'Подарочная коробка XURCUN ручной работы с золотой лентой',
-    en: 'Handcrafted XURCUN gift box tied with a gold ribbon',
-    tr: 'Altın kurdeleli el yapımı XURCUN hediye kutusu',
-    ar: 'علبة هدايا XURCUN مصنوعة يدويًا بشريط ذهبي',
-  },
-  aria_nav: { az: 'Əsas naviqasiya', ru: 'Основная навигация', en: 'Main navigation', tr: 'Ana navigasyon', ar: 'التنقل الرئيسي' },
-  aria_lang: { az: 'Dil seçimi', ru: 'Выбор языка', en: 'Language', tr: 'Dil seçimi', ar: 'اختيار اللغة' },
-  about_tag: { az: 'Haqqımızda', ru: 'О нас', en: 'About us', tr: 'Hakkımızda', ar: 'من نحن' },
-  about_title: {
-    az: 'Azərbaycanın dad imzası', ru: 'Вкус Азербайджана', en: 'Azerbaijan’s signature of taste',
-    tr: 'Azerbaycan’ın lezzet imzası', ar: 'بصمة طعم أذربيجان',
-  },
-  about_p1: {
-    az: 'Xurcun 2015-ci ildə Vüqar Məhərrəmov tərəfindən təsis edilib — bu gün təbii quru meyvə, qoz-fındıq, ekzotik çaylar və şirniyyatların sürətlə böyüyən butik şəbəkəsidir.',
-    ru: 'Xurcun основан в 2015 году Вугаром Магеррамовым — сегодня это быстрорастущая сеть бутиков натуральных сухофруктов, орехов, экзотических чаёв и сладостей.',
-    en: 'Founded in 2015 by Vugar Maharramov, Xurcun is today a fast-growing chain of boutiques for natural dried fruits, nuts, exotic teas and sweets.',
-    tr: '2015’te Vugar Maharramov tarafından kurulan Xurcun, bugün doğal kuru meyve, çerez, egzotik çaylar ve tatlıların hızla büyüyen butik zinciridir.',
-    ar: 'تأسست Xurcun عام 2015 على يد فوغار محرموف، وهي اليوم سلسلة بوتيكات سريعة النمو للفواكه المجففة الطبيعية والمكسرات والشاي والحلويات.',
-  },
-  about_p2: {
-    az: 'Bütün məhsullarımız orqanik və təbiidir, konservant yoxdur; qlütensiz seçimlər də mövcuddur. «Keyfiyyətə Vurğunuq!» sadəcə şüar deyil — hər qutuya qoyduğumuz vəddir. Qonaqlar Azərbaycanın dadını dünyaya aparmaq üçün Xurcun-u seçir.',
-    ru: 'Вся наша продукция органическая и натуральная, без консервантов; есть и безглютеновые варианты. «Fond of Quality» — не просто слоган, а обещание в каждой коробке. Гости выбирают Xurcun, чтобы увезти вкус Азербайджана с собой.',
-    en: 'All our products are organic and natural, with no preservatives, and gluten-free options too. “Fond of Quality” is not just a slogan — it is the promise in every box. Guests choose Xurcun to carry the taste of Azerbaijan home.',
-    tr: 'Tüm ürünlerimiz organik ve doğaldır, koruyucu içermez; glutensiz seçenekler de vardır. “Fond of Quality” yalnızca bir slogan değil — her kutuya koyduğumuz sözdür. Misafirler Azerbaycan’ın lezzetini yanlarında götürmek için Xurcun’u seçer.',
-    ar: 'جميع منتجاتنا عضوية وطبيعية وخالية من المواد الحافظة، مع خيارات خالية من الغلوتين. «Fond of Quality» ليس مجرد شعار — بل وعدٌ في كل علبة. يختار الضيوف Xurcun ليحملوا نكهة أذربيجان معهم.',
-  },
-  about_alt: {
-    az: 'Xurcun mağazasında məhsulların tərəzidə çəkilməsi',
-    ru: 'Взвешивание продукции в бутике Xurcun',
-    en: 'Weighing products at a Xurcun boutique counter',
-    tr: 'Xurcun mağazasında ürünlerin tartılması',
-    ar: 'وزن المنتجات في متجر Xurcun',
-  },
-  about_sound: {
-    az: 'Səs üçün toxunun',
-    ru: 'Нажмите для звука',
-    en: 'Tap for sound',
-    tr: 'Ses için dokunun',
-    ar: 'انقر للصوت',
-  },
-} satisfies Record<string, M>
 
 const CATS: M[] = [
   { az: 'Çay & Ədviyyat', ru: 'Чай и специи', en: 'Tea & Spices', tr: 'Çay & Baharat', ar: 'الشاي والتوابل' },
@@ -217,6 +112,16 @@ export default function HomePage() {
   }, [homeImgsQ.data])
   const img = (key: string, fallback: string) => homeMap[key] || fallback
 
+  // Homepage text overrides (admin CMS). Falls back to in-code TEXT_DEFAULT so
+  // the page renders identical copy while the query loads or when the DB is empty.
+  const homeTextQ = trpc.homepageText.getAll.useQuery(undefined, { retry: false })
+  const textMap = useMemo(() => {
+    const m: Record<string, L5> = {}
+    ;(homeTextQ.data ?? []).forEach((t) => { m[t.key] = t.value })
+    return m
+  }, [homeTextQ.data])
+  const txt = (key: string, l: Lang = lang) => textMap[key]?.[l] || TEXT_DEFAULT[key]?.[l] || TEXT_DEFAULT[key]?.az || ''
+
   const featQ = trpc.catalog.featured.useQuery(undefined, { retry: false })
   const featFromDb = (featQ.data ?? [])
     .map((p) => {
@@ -291,10 +196,10 @@ export default function HomePage() {
 
   return (
     <div className="xc" ref={root}>
-      <a className="skip" href="#main">{t(S.skip)}</a>
+      <a className="skip" href="#main">{txt('skip')}</a>
       <div className="topbar" id="top"><div className="wrap">
         <div className="ph"><a href="mailto:info@xurcun.az" dir="ltr">info@xurcun.az</a><a href="tel:+994502121811" dir="ltr">+994 50 212 18 11</a></div>
-        <div className="langs" role="group" aria-label={t(S.aria_lang)}>
+        <div className="langs" role="group" aria-label={txt('aria_lang')}>
           {LANGS.map((l) => (
             <button key={l.code} className={lang === l.code ? 'on' : ''} aria-pressed={lang === l.code} aria-label={l.code.toUpperCase()} onClick={() => setLang(l.code)}>{l.label}</button>
           ))}
@@ -307,16 +212,16 @@ export default function HomePage() {
           <button
             type="button"
             className="navtoggle"
-            aria-label={t(S.aria_nav)}
+            aria-label={txt('aria_nav')}
             aria-controls="primary-nav"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((o) => !o)}
           >
             <span /><span /><span />
           </button>
-          <nav id="primary-nav" aria-label={t(S.aria_nav)} onClick={() => setMenuOpen(false)}>
-            <a href="#top">{t(S.nav_home)}</a><a href="/catalog">{t(S.nav_catalog)}</a><a href="/catalog">{t(S.nav_gift)}</a>
-            <a href="/gift-card">{t(S.nav_giftcard)}</a><a href="#magazalar">{t(S.nav_stores)}</a><a href="#haqqimizda">{t(S.nav_about)}</a><a href="#elaqe">{t(S.nav_contact)}</a>
+          <nav id="primary-nav" aria-label={txt('aria_nav')} onClick={() => setMenuOpen(false)}>
+            <a href="#top">{txt('nav_home')}</a><a href="/catalog">{txt('nav_catalog')}</a><a href="/catalog">{txt('nav_gift')}</a>
+            <a href="/gift-card">{txt('nav_giftcard')}</a><a href="#magazalar">{txt('nav_stores')}</a><a href="#haqqimizda">{txt('nav_about')}</a><a href="#elaqe">{txt('nav_contact')}</a>
           </nav>
         </div>
       </header>
@@ -328,26 +233,26 @@ export default function HomePage() {
         <div className="bgpat" /><div className="veil" />
         <div className="wrap">
           <img className="emb" src={EMBLEM} alt="" />
-          <div className="script">{t(S.hero_script)}</div>
-          <h1>{t(S.hero_h1a)} <em>{t(S.hero_h1em)}</em></h1>
-          <p className="lead">{t(S.hero_lead)}</p>
+          <div className="script">{txt('hero_script')}</div>
+          <h1>{txt('hero_h1a')} <em>{txt('hero_h1em')}</em></h1>
+          <p className="lead">{txt('hero_lead')}</p>
           <div className="btns">
-            <a className="btn btn-gold" href="/catalog">{t(S.cta_catalog)}</a>
-            <a className="btn btn-ghost" href="#magazalar">{t(S.cta_stores)}</a>
+            <a className="btn btn-gold" href="/catalog">{txt('cta_catalog')}</a>
+            <a className="btn btn-ghost" href="#magazalar">{txt('cta_stores')}</a>
           </div>
         </div>
       </section>
 
       <div className="values"><div className="wrap">
-        <span><i />{t(S.v_natural)}</span><span><i />{t(S.v_handmade)}</span>
-        <span><i />{t(S.v_stores)}</span><span><i />{t(S.v_est)}</span>
+        <span><i />{txt('v_natural')}</span><span><i />{txt('v_handmade')}</span>
+        <span><i />{txt('v_stores')}</span><span><i />{txt('v_est')}</span>
       </div></div>
 
       <section className="sec" id="cat">
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="ornament"><img src={EMBLEM} alt="" /></div>
-            <h2>{t(S.cat_title)}</h2>
+            <h2>{txt('cat_title')}</h2>
           </div>
           <div className="cats reveal d1">
             {catLabels.map((label, i) => (<div className="cat" key={i}><img src={EMBLEM} alt="" />{label}</div>))}
@@ -359,13 +264,13 @@ export default function HomePage() {
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="ornament"><img src={EMBLEM} alt="" /></div>
-            <h2>{t(S.feat_title)}</h2>
+            <h2>{txt('feat_title')}</h2>
           </div>
           <div className="grid">
             {featured.map((p, i) => (
               <div className={`card reveal d${(i % 3) + 1}`} key={i}>
                 <div className="thumb">
-                  {p.isNew && <span className="badge">{t(S.yeni)}</span>}
+                  {p.isNew && <span className="badge">{txt('yeni')}</span>}
                   {p.img ? (
                     <img className="pimg" src={p.img} alt={p.name} loading="lazy" decoding="async"
                       onError={(e) => { const img = e.currentTarget; img.onerror = null; img.src = EMBLEM; img.className = 'wm' }} />
@@ -385,7 +290,7 @@ export default function HomePage() {
       <section className="about" id="haqqimizda">
         <div className="wrap">
           <div className="about-media reveal">
-            <video ref={aboutVid} className="about-vid" muted loop playsInline autoPlay preload="metadata" poster={img('about_poster', '/images/gv-ribbons.webp')} aria-label={t(S.about_alt)}>
+            <video ref={aboutVid} className="about-vid" muted loop playsInline autoPlay preload="metadata" poster={img('about_poster', '/images/gv-ribbons.webp')} aria-label={txt('about_alt')}>
               <source src="/videos/gv-ribbons-s.mp4" type="video/mp4" />
             </video>
             <button
@@ -393,8 +298,8 @@ export default function HomePage() {
               className={`about-sound${aboutSound ? ' on' : ''}`}
               onClick={toggleAboutSound}
               aria-pressed={aboutSound}
-              aria-label={t(S.about_sound)}
-              title={t(S.about_sound)}
+              aria-label={txt('about_sound')}
+              title={txt('about_sound')}
             >
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor" stroke="none" />
@@ -402,18 +307,18 @@ export default function HomePage() {
                   ? <><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 6a8 8 0 0 1 0 12" /></>
                   : <path d="m17 9 5 6M22 9l-5 6" />}
               </svg>
-              <span>{t(S.about_sound)}</span>
+              <span>{txt('about_sound')}</span>
             </button>
           </div>
           <div className="about-body reveal d1">
-            <div className="tag">{t(S.about_tag)}</div>
-            <h2>{t(S.about_title)}</h2>
-            <p>{t(S.about_p1)}</p>
-            <p>{t(S.about_p2)}</p>
+            <div className="tag">{txt('about_tag')}</div>
+            <h2>{txt('about_title')}</h2>
+            <p>{txt('about_p1')}</p>
+            <p>{txt('about_p2')}</p>
             <div className="about-stats">
-              <span>{t(S.v_est)}</span>
-              <span>{t(S.v_natural)}</span>
-              <span>{t(S.stores_label)}</span>
+              <span>{txt('v_est')}</span>
+              <span>{txt('v_natural')}</span>
+              <span>{txt('stores_label')}</span>
             </div>
           </div>
         </div>
@@ -423,12 +328,12 @@ export default function HomePage() {
         <div className="bgpat" />
         <div className="wrap">
           <div className="reveal">
-            <div className="tag">{t(S.luxe_tag)}</div>
-            <h2>{t(S.luxe_h1a)}<br /><em>{t(S.luxe_h1em)}</em></h2>
-            <p>{t(S.luxe_p)}</p>
-            <a className="btn btn-gold" href="/catalog">{t(S.luxe_cta)}</a>
+            <div className="tag">{txt('luxe_tag')}</div>
+            <h2>{txt('luxe_h1a')}<br /><em>{txt('luxe_h1em')}</em></h2>
+            <p>{txt('luxe_p')}</p>
+            <a className="btn btn-gold" href="/catalog">{txt('luxe_cta')}</a>
           </div>
-          <div className="luxe-frame reveal d2"><img className="gimg" src={img('gift', GIFT_IMG)} alt={t(S.gift_alt)} loading="lazy" decoding="async" /></div>
+          <div className="luxe-frame reveal d2"><img className="gimg" src={img('gift', GIFT_IMG)} alt={txt('gift_alt')} loading="lazy" decoding="async" /></div>
         </div>
       </div>
 
@@ -436,7 +341,7 @@ export default function HomePage() {
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="ornament"><img src={EMBLEM} alt="" /></div>
-            <h2>{t(S.stores_title)}</h2><div className="tag">{t(S.stores_label)}</div>
+            <h2>{txt('stores_title')}</h2><div className="tag">{txt('stores_label')}</div>
           </div>
           <div className="mag-grid">
             {branches.map((b, i) => (
@@ -448,7 +353,7 @@ export default function HomePage() {
                 <div className="bover">
                   <div className="bn">{b.name}</div><div className="ba">{b.addr}</div>
                   <div className="brow">
-                    {b.tel && <a className="tel" href={telHref(b.tel)} aria-label={`${t(S.call)}: ${b.name}`}>{t(S.call)}</a>}
+                    {b.tel && <a className="tel" href={telHref(b.tel)} aria-label={`${txt('call')}: ${b.name}`}>{txt('call')}</a>}
                     <a href={maps(b.q)} target="_blank" rel="noopener noreferrer" aria-label={`${b.name} — Google Maps`}>Google Maps</a>
                   </div>
                 </div>
@@ -462,9 +367,9 @@ export default function HomePage() {
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="ornament"><img src={EMBLEM} alt="" /></div>
-            <h2>{t(S.anniv_title)}</h2><div className="tag">{t(S.anniv_label)}</div>
+            <h2>{txt('anniv_title')}</h2><div className="tag">{txt('anniv_label')}</div>
           </div>
-          <p className="anniv-lead reveal">{t(S.anniv_lead)}</p>
+          <p className="anniv-lead reveal">{txt('anniv_lead')}</p>
           <div className="anniv-stage reveal">
             <video controls playsInline preload="none" poster={img('anniversary_poster', ANNIV_POSTER)}>
               <source src="/videos/anniversary.mp4" type="video/mp4" />
@@ -476,9 +381,9 @@ export default function HomePage() {
       <footer id="elaqe">
         <div className="bgpat" />
         <div className="wrap">
-          <div className="reveal"><img className="logo" src={img('logo', LOGO)} alt="Xurcun" width={140} height={48} /><p>{t(S.foot_about)}</p><p className="foot-links"><a href="/about">{t(S.nav_about)}</a> · <a href="/faq">FAQ</a> · <a href="/blog">Blog</a> · <a href="/corporate">{t(S.nav_corp)}</a> · <a href="/gift-card">{t(S.nav_giftcard)}</a> · <a href="/catalog">{t(S.nav_catalog)}</a></p></div>
-          <div className="reveal d1"><h3>{t(S.foot_stores)}</h3><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Crescent Mall</li><li>Sea Breeze</li><li>Hava Limanı</li></ul></div>
-          <div className="reveal d2"><h3>{t(S.foot_contact)}</h3><ul>
+          <div className="reveal"><img className="logo" src={img('logo', LOGO)} alt="Xurcun" width={140} height={48} /><p>{txt('foot_about')}</p><p className="foot-links"><a href="/about">{txt('nav_about')}</a> · <a href="/faq">FAQ</a> · <a href="/blog">Blog</a> · <a href="/corporate">{txt('nav_corp')}</a> · <a href="/gift-card">{txt('nav_giftcard')}</a> · <a href="/catalog">{txt('nav_catalog')}</a></p></div>
+          <div className="reveal d1"><h3>{txt('foot_stores')}</h3><ul><li>Port Baku Mall</li><li>Gənclik Mall</li><li>Crescent Mall</li><li>Sea Breeze</li><li>Hava Limanı</li></ul></div>
+          <div className="reveal d2"><h3>{txt('foot_contact')}</h3><ul>
             <li><a href="mailto:info@xurcun.az">info@xurcun.az</a></li>
             <li><a href="tel:+994502121811">+994 50 212 18 11</a></li>
             <li><a href="https://instagram.com/xurcun" target="_blank" rel="noopener noreferrer">Instagram</a> · <a href="https://fb.com/xurcun" target="_blank" rel="noopener noreferrer">Facebook</a></li>
