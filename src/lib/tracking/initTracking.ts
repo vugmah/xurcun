@@ -93,19 +93,33 @@ function initGA4(ga4Id: string) {
   );
 }
 
-/** Initialize Google Ads */
-function initGoogleAds(awId: string) {
+/** Initialize Google Ads.
+ *  gtagJsAlreadyLoading: true when GA4 is also configured (it already injects
+ *  the shared gtag.js library, so we must NOT load a second copy). When false
+ *  — e.g. an Ads-only account — we MUST inject gtag.js?id=AW-… ourselves, or
+ *  the queued config() never runs and Ads tracking silently does nothing. */
+function initGoogleAds(awId: string, gtagJsAlreadyLoading: boolean) {
   if (!awId || !awId.startsWith("AW-")) return;
-  // Google Ads uses the same gtag as GA4 — just add the config
-  const w = window as unknown as { gtag?: (...a: unknown[]) => void };
+  // Google Ads uses the same gtag as GA4 — ensure the gtag fn + js command exist,
+  // add the config, and make sure the base gtag.js library is actually loaded.
+  const w = window as unknown as {
+    dataLayer?: Record<string, unknown>[];
+    gtag?: (...a: unknown[]) => void;
+  };
+  w.dataLayer = w.dataLayer || [];
   if (!w.gtag) {
-    // gtag not ready yet, inject it first
-    const w2 = window as unknown as { dataLayer?: Record<string, unknown>[] };
-    w2.dataLayer = w2.dataLayer || [];
-    w2.dataLayer.push(["js", new Date()] as any);
-    w2.dataLayer.push(["config", awId] as any);
-  } else {
-    w.gtag("config", awId);
+    w.gtag = function (...args: unknown[]) {
+      w.dataLayer!.push(args as unknown as Record<string, unknown>);
+    };
+  }
+  w.gtag("js", new Date());
+  w.gtag("config", awId);
+
+  if (!gtagJsAlreadyLoading) {
+    injectScript(
+      `https://www.googletagmanager.com/gtag/js?id=${awId}`,
+      `xurcun-aw-${awId}`
+    );
   }
 }
 
@@ -179,7 +193,7 @@ export function initTracking() {
 
   if (settings.gtmId) initGTM(settings.gtmId);
   if (settings.ga4MeasurementId) initGA4(settings.ga4MeasurementId);
-  if (settings.googleAdsId) initGoogleAds(settings.googleAdsId);
+  if (settings.googleAdsId) initGoogleAds(settings.googleAdsId, !!settings.ga4MeasurementId);
   // Meta Pixel: load directly only when NOT handled by a GTM container.
   // If a GTM container with a Meta Pixel tag is later configured, gtmId will be
   // set and we skip direct init to avoid duplicate PageView/event firing.
@@ -213,7 +227,7 @@ export async function initTrackingAsync() {
 
   if (settings.gtmId) initGTM(settings.gtmId);
   if (settings.ga4MeasurementId) initGA4(settings.ga4MeasurementId);
-  if (settings.googleAdsId) initGoogleAds(settings.googleAdsId);
+  if (settings.googleAdsId) initGoogleAds(settings.googleAdsId, !!settings.ga4MeasurementId);
   // Meta Pixel: load directly only when NOT handled by a GTM container.
   // If a GTM container with a Meta Pixel tag is later configured, gtmId will be
   // set and we skip direct init to avoid duplicate PageView/event firing.
