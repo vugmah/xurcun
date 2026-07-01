@@ -200,14 +200,16 @@ function injectRouteMeta(html: string, pathname: string, meta: RouteMeta, lang: 
   return out;
 }
 
-// Point hreflang alternates at the CURRENT path (not always the homepage).
+// Point hreflang alternates at the CURRENT path (not always the homepage). AZ is the
+// clean canonical URL; other langs use ?lang=; x-default is the clean URL — matching the
+// canonical scheme and sitemap.xml.
 function injectHreflang(html: string, pathname: string): string {
   const base = SITE + pathname;
   let out = html;
   for (const l of LANGS) {
     out = out.replace(
       new RegExp(`(<link rel="alternate" hreflang="${l}" href=")[^"]*(")`),
-      `$1${base}?lang=${l}$2`,
+      `$1${l === "az" ? base : `${base}?lang=${l}`}$2`,
     );
   }
   return out.replace(/(<link rel="alternate" hreflang="x-default" href=")[^"]*(")/, `$1${base}$2`);

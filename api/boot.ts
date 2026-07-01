@@ -252,7 +252,10 @@ app.get("/uploads/*", async (c) => {
 app.get("/sitemap.xml", async (c) => {
   const today = new Date().toISOString().split("T")[0];
 
-  const routes = [
+  // Static/nav pages have full az/ru/en/tr/ar translations → emit each language as its
+  // own <url> with the complete hreflang alternate set (Google's multilingual sitemap
+  // format). AZ = clean canonical URL; others = ?lang=<code>; x-default = clean.
+  const staticRoutes = [
     { loc: "https://xurcun.az/", priority: "1.0", changefreq: "weekly" },
     { loc: "https://xurcun.az/catalog", priority: "0.9", changefreq: "weekly" },
     { loc: "https://xurcun.az/menu", priority: "0.9", changefreq: "weekly" },
@@ -265,6 +268,11 @@ app.get("/sitemap.xml", async (c) => {
     { loc: "https://xurcun.az/blog", priority: "0.6", changefreq: "weekly" },
   ];
 
+  // Dynamic deep pages (blog posts, branch menus, catalog products): AZ only for now —
+  // their ru/tr/ar bodies are EN-fallback (DB lacks those fields), so we don't advertise
+  // language variants we can't back with real translations. Extend when those fields land.
+  const dynamicRoutes: { loc: string; priority: string; changefreq: string }[] = [];
+
   // Per-post blog pages (/blog/<slug>) — one crawlable URL per published post.
   // Best-effort: a DB failure must not break the sitemap; fall back to static routes.
   try {
@@ -275,7 +283,7 @@ app.get("/sitemap.xml", async (c) => {
       .where(eq(blogPosts.published, true))
       .orderBy(asc(blogPosts.sortOrder));
     for (const b of rows) {
-      if (b.slug) routes.push({ loc: `https://xurcun.az/blog/${b.slug}`, priority: "0.6", changefreq: "monthly" });
+      if (b.slug) dynamicRoutes.push({ loc: `https://xurcun.az/blog/${b.slug}`, priority: "0.6", changefreq: "monthly" });
     }
   } catch (err) {
     console.error("[sitemap] blog posts fetch failed (serving static routes only):", err);
@@ -291,7 +299,7 @@ app.get("/sitemap.xml", async (c) => {
       .where(eq(branches.isActive, true))
       .orderBy(asc(branches.sortOrder));
     for (const b of rows) {
-      if (b.slug) routes.push({ loc: `https://xurcun.az/menu/${b.slug}`, priority: "0.7", changefreq: "weekly" });
+      if (b.slug) dynamicRoutes.push({ loc: `https://xurcun.az/menu/${b.slug}`, priority: "0.7", changefreq: "weekly" });
     }
   } catch (err) {
     console.error("[sitemap] branch fetch failed (serving static routes only):", err);
@@ -317,7 +325,7 @@ app.get("/sitemap.xml", async (c) => {
         const slug = slugify(String(it.nameEn || it.nameAz || ""));
         if (slug && !seen.has(slug)) {
           seen.add(slug);
-          routes.push({ loc: `https://xurcun.az/catalog/${slug}`, priority: "0.7", changefreq: "weekly" });
+          dynamicRoutes.push({ loc: `https://xurcun.az/catalog/${slug}`, priority: "0.7", changefreq: "weekly" });
         }
       }
     }
@@ -325,16 +333,38 @@ app.get("/sitemap.xml", async (c) => {
     console.error("[sitemap] catalog products fetch failed:", err);
   }
 
-  const urls = routes
+  const SITEMAP_LANGS = ["az", "ru", "en", "tr", "ar"] as const;
+  // hreflang alternate block shared by every language variant of one page.
+  const altBlock = (base: string) =>
+    [
+      ...SITEMAP_LANGS.map(
+        (l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${l === "az" ? base : `${base}?lang=${l}`}"/>`,
+      ),
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${base}"/>`,
+    ].join("\n");
+
+  // Static routes: one <url> per language, each carrying the full alternate set.
+  const staticUrls = staticRoutes
+    .flatMap((r) =>
+      SITEMAP_LANGS.map((l) => {
+        const loc = l === "az" ? r.loc : `${r.loc}?lang=${l}`;
+        return `  <url>\n    <loc>${loc}</loc>\n${altBlock(r.loc)}\n    <lastmod>${today}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`;
+      }),
+    )
+    .join("\n");
+
+  // Dynamic deep pages: single AZ entry (no alternates yet).
+  const dynamicUrls = dynamicRoutes
     .map(
       (r) =>
-        `  <url>\n    <loc>${r.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`
+        `  <url>\n    <loc>${r.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`,
     )
     .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${staticUrls}
+${dynamicUrls}
 </urlset>`;
 
   return new Response(xml, {
