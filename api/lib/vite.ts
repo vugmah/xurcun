@@ -266,7 +266,12 @@ function injectHomeLang(html: string, lang: string): string {
     .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${desc}$2`)
     .replace(/(<meta property="og:locale" content=")[^"]*(")/, `$1${t.ogLocale}$2`)
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${title}$2`)
-    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${desc}$2`);
+    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${desc}$2`)
+    // Organization JSON-LD description (raw string, not HTML-escaped — it's JSON).
+    .replace(
+      "Azərbaycanın premium quru meyvə, qoz-fındıq, çərəz, şokolad, lokum, paxlava və əl işi hədiyyə qutuları butiki. 2015-dən bəri.",
+      t.desc,
+    );
 }
 
 function breadcrumbJsonLd(pathname: string, meta: RouteMeta, lang: string): string {
@@ -282,7 +287,9 @@ function breadcrumbJsonLd(pathname: string, meta: RouteMeta, lang: string): stri
   })}</script>`;
 }
 
-// Static FAQPage schema (AZ) so non-JS AI crawlers can quote the answers.
+// Static FAQPage schema so non-JS AI crawlers can quote the answers. AZ is the default;
+// EN is used for every non-AZ language so a localized page never carries AZ schema (this
+// is only the fallback — the live path reads the DB per-language via faqShell).
 const FAQ_QA: { q: string; a: string }[] = [
   { q: "Xurcun nə satır?", a: "Premium quru meyvə, qoz-fındıq, çərəz, ekzotik çaylar, şokolad, lokum, paxlava və əl işi hədiyyə qutuları." },
   { q: "Xurcun nə vaxt yaranıb?", a: "Xurcun 2015-ci ildə Vüqar Məhərrəmov tərəfindən Bakıda təsis edilib." },
@@ -291,29 +298,48 @@ const FAQ_QA: { q: string; a: string }[] = [
   { q: "Necə sifariş verə bilərəm?", a: "Kataloqdan bəyəndiyiniz məhsulları seçin və WhatsApp ilə bizə göndərin, ya da +994 50 212 18 11 nömrəsinə zəng edin." },
   { q: "Hədiyyə qutuları hazırlayırsınız?", a: "Bəli, korporativ təqdimatlar, bayramlar və xüsusi anlar üçün əl işi premium hədiyyə qutularımız var." },
 ];
-const FAQ_JSONLD = `<script type="application/ld+json">${JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: FAQ_QA.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-})}</script>`;
+const FAQ_QA_EN: { q: string; a: string }[] = [
+  { q: "What does Xurcun sell?", a: "Premium dried fruit, nuts, snacks, exotic teas, chocolate, Turkish delight, baklava and handmade gift boxes." },
+  { q: "When was Xurcun founded?", a: "Xurcun was founded in Baku in 2015 by Vugar Maharramov." },
+  { q: "How many stores do you have?", a: "We have 11 stores in Baku — including malls, central streets and Heydar Aliyev International Airport." },
+  { q: "Are the products natural, are there gluten-free options?", a: "Yes, our products are natural and preservative-free; gluten-free options are also available." },
+  { q: "How can I order?", a: "Pick the products you like from the catalog and send them to us on WhatsApp, or call +994 50 212 18 11." },
+  { q: "Do you make gift boxes?", a: "Yes, we make handmade premium gift boxes for corporate gifting, holidays and special occasions." },
+];
+function faqFallbackJsonLd(lang: string): string {
+  const qa = lang === "az" ? FAQ_QA : FAQ_QA_EN;
+  return `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: qa.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  })}</script>`;
+}
 
-// HowTo schema for the Gift Card page ("how it works" 4 steps) — rich result + AI.
-const HOWTO_GIFTCARD = `<script type="application/ld+json">${JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "Xurcun Hədiyyə Kartı necə işləyir",
-  description: "Xurcun Hədiyyə Kartını seçin, istədiyiniz balansı yükləyin, hədiyyə edin və Bakıdakı mağazalarda istifadə edin.",
-  step: [
-    { "@type": "HowToStep", position: 1, name: "Kartı seçin" },
-    { "@type": "HowToStep", position: 2, name: "Balans yükləyin" },
-    { "@type": "HowToStep", position: 3, name: "Hədiyyə edin" },
-    { "@type": "HowToStep", position: 4, name: "Mağazada istifadə edin" },
-  ],
-})}</script>`;
+// HowTo schema for the Gift Card page ("how it works" 4 steps) — rich result + AI, per language.
+const HOWTO_I18N: Record<string, { name: string; description: string; steps: [string, string, string, string] }> = {
+  az: { name: "Xurcun Hədiyyə Kartı necə işləyir", description: "Xurcun Hədiyyə Kartını seçin, istədiyiniz balansı yükləyin, hədiyyə edin və Bakıdakı mağazalarda istifadə edin.", steps: ["Kartı seçin", "Balans yükləyin", "Hədiyyə edin", "Mağazada istifadə edin"] },
+  en: { name: "How the Xurcun Gift Card works", description: "Choose a Xurcun Gift Card, load any balance, gift it, and use it at our stores in Baku.", steps: ["Choose the card", "Load a balance", "Give it as a gift", "Use it in store"] },
+  ru: { name: "Как работает подарочная карта Xurcun", description: "Выберите подарочную карту Xurcun, пополните на любую сумму, подарите и используйте в наших магазинах в Баку.", steps: ["Выберите карту", "Пополните баланс", "Подарите", "Используйте в магазине"] },
+  tr: { name: "Xurcun Hediye Kartı nasıl çalışır", description: "Bir Xurcun Hediye Kartı seçin, istediğiniz bakiyeyi yükleyin, hediye edin ve Bakü'deki mağazalarımızda kullanın.", steps: ["Kartı seçin", "Bakiye yükleyin", "Hediye edin", "Mağazada kullanın"] },
+  ar: { name: "كيف تعمل بطاقة هدية Xurcun", description: "اختر بطاقة هدية Xurcun، اشحن أي رصيد، أهدها، واستخدمها في متاجرنا في باكو.", steps: ["اختر البطاقة", "اشحن رصيدًا", "قدّمها هدية", "استخدمها في المتجر"] },
+};
+function howtoGiftCardJsonLd(lang: string): string {
+  const t = HOWTO_I18N[lang] ?? HOWTO_I18N.az;
+  return `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: t.name,
+    description: t.description,
+    step: t.steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s })),
+  })}</script>`;
+}
+
+// Localized ItemList name for the /catalog schema.
+const CATALOG_LIST_NAME: Record<string, string> = { az: "Xurcun Kataloq", en: "Xurcun Catalog", ru: "Каталог Xurcun", tr: "Xurcun Katalog", ar: "كتالوج Xurcun" };
 
 type MenuItemRow = typeof menuItems.$inferSelect;
 
@@ -366,7 +392,7 @@ async function catalogShell(lang: string): Promise<{ listHtml: string; jsonLd: s
   const jsonLd = `<script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Xurcun Kataloq",
+    name: CATALOG_LIST_NAME[lang] ?? CATALOG_LIST_NAME.az,
     itemListElement: elements,
   })}</script>`;
   return { listHtml, jsonLd };
@@ -476,10 +502,10 @@ async function blogPostShell(slug: string, lang: string): Promise<{ meta: RouteM
   };
 }
 
-// Build the FAQPage JSON-LD from published faq_items (AZ), so non-JS crawlers/AI
-// get the live DB answers. Returns null on empty/failure → caller falls back to
-// the hardcoded FAQ_JSONLD.
-async function faqShell(): Promise<string | null> {
+// Build the FAQPage JSON-LD from published faq_items in the requested language, so non-JS
+// crawlers/AI get the live DB answers. For non-AZ langs, fall back to EN (then AZ) so the
+// schema isn't Azerbaijani. Returns null on empty/failure → caller falls back to faqFallbackJsonLd.
+async function faqShell(lang: string): Promise<string | null> {
   const db = getDb();
   const rows = await db
     .select()
@@ -487,13 +513,21 @@ async function faqShell(): Promise<string | null> {
     .where(eq(faqItems.published, true))
     .orderBy(asc(faqItems.sortOrder), asc(faqItems.id));
   if (!rows.length) return null;
+  const q2 = (r: typeof rows[number]): string => {
+    const by: Record<string, string | null | undefined> = { az: r.questionAz, en: r.questionEn, ru: r.questionRu, tr: r.questionTr };
+    return (lang === "az" ? r.questionAz : by[lang] || r.questionEn || r.questionAz) || "";
+  };
+  const a2 = (r: typeof rows[number]): string => {
+    const by: Record<string, string | null | undefined> = { az: r.answerAz, en: r.answerEn, ru: r.answerRu, tr: r.answerTr, ar: r.answerAr };
+    return (lang === "az" ? r.answerAz : by[lang] || r.answerEn || r.answerAz) || "";
+  };
   return `<script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: rows.map((q) => ({
       "@type": "Question",
-      name: q.questionAz ?? "",
-      acceptedAnswer: { "@type": "Answer", text: q.answerAz ?? "" },
+      name: q2(q),
+      acceptedAnswer: { "@type": "Answer", text: a2(q) },
     })),
   })}</script>`;
 }
@@ -565,13 +599,13 @@ async function buildRouteHtml(html: string, pathname: string, lang: string): Pro
   if (pathname === "/faq") {
     let faqLd: string | null = null;
     try {
-      faqLd = await faqShell();
+      faqLd = await faqShell(lang);
     } catch (err) {
       console.error("[ssr] faq shell failed (serving static FAQ schema):", err);
     }
-    extras.push(faqLd ?? FAQ_JSONLD);
+    extras.push(faqLd ?? faqFallbackJsonLd(lang));
   }
-  if (pathname === "/gift-card") extras.push(HOWTO_GIFTCARD);
+  if (pathname === "/gift-card") extras.push(howtoGiftCardJsonLd(lang));
   if (pathname === "/catalog") {
     try {
       const { listHtml, jsonLd } = await catalogShell(lang);
