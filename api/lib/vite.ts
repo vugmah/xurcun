@@ -120,6 +120,62 @@ function injectHreflang(html: string, pathname: string): string {
   return out.replace(/(<link rel="alternate" hreflang="x-default" href=")[^"]*(")/, `$1${base}$2`);
 }
 
+// Per-language homepage <head>. The homepage ("/") is served by serveStatic as the
+// static AZ index.html, so a crawler hitting xurcun.az/?lang=en (e.g. a Google Ads
+// landing-page language check) would otherwise see Azerbaijani — an unsupported ad
+// language — and disapprove the ad. Rewriting <html lang>/title/description/OG for the
+// requested language makes the served page match ?lang= before any JS runs.
+type HomeMeta = { htmlLang: string; dir?: string; ogLocale: string; title: string; desc: string };
+const HOME_I18N: Record<string, HomeMeta> = {
+  en: {
+    htmlLang: "en",
+    ogLocale: "en_US",
+    title: "Xurcun | Premium Dried Fruit, Nuts & Gifts — Baku",
+    desc: "Xurcun — Baku's premium boutique for dried fruit, nuts, sweets, chocolate, Turkish delight, baklava and handmade gift boxes. 11 stores across Baku.",
+  },
+  ru: {
+    htmlLang: "ru",
+    ogLocale: "ru_RU",
+    title: "Xurcun | Премиум сухофрукты, орехи и подарки — Баку",
+    desc: "Xurcun — премиальный бутик сухофруктов, орехов, сладостей, шоколада, лукума, пахлавы и подарочных наборов ручной работы. 11 магазинов в Баку.",
+  },
+  tr: {
+    htmlLang: "tr",
+    ogLocale: "tr_TR",
+    title: "Xurcun | Premium Kuru Meyve, Kuruyemiş & Hediye — Bakü",
+    desc: "Xurcun — Bakü'nün premium kuru meyve, kuruyemiş, tatlı, çikolata, lokum, baklava ve el yapımı hediye kutuları butiği. Bakü'de 11 mağaza.",
+  },
+  ar: {
+    htmlLang: "ar",
+    dir: "rtl",
+    ogLocale: "ar_AE",
+    title: "Xurcun | فواكه مجففة ومكسرات وهدايا فاخرة — باكو",
+    desc: "Xurcun — بوتيك فاخر في باكو للفواكه المجففة والمكسرات والحلويات والشوكولاتة والراحة والبقلاوة وعلب الهدايا اليدوية. 11 متجرًا في باكو.",
+  },
+};
+
+// Rewrite the homepage <head> for a supported ?lang= (en/ru/tr/ar). AZ is the static
+// default and never passes through here. Only touches language signals — html lang/dir,
+// title, description, OG/Twitter title+description, og:locale, and self-canonical.
+function injectHomeLang(html: string, lang: string): string {
+  const t = HOME_I18N[lang];
+  if (!t) return html;
+  const title = escapeHtml(t.title);
+  const desc = escapeHtml(t.desc);
+  const canonical = `${SITE}/?lang=${lang}`;
+  return html
+    .replace(/<html lang="[^"]*"[^>]*>/, `<html lang="${t.htmlLang}"${t.dir ? ` dir="${t.dir}"` : ""}>`)
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
+    .replace(/(<meta name="description" content=")[^"]*(")/, `$1${desc}$2`)
+    .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${canonical}$2`)
+    .replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${canonical}$2`)
+    .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${title}$2`)
+    .replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${desc}$2`)
+    .replace(/(<meta property="og:locale" content=")[^"]*(")/, `$1${t.ogLocale}$2`)
+    .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${title}$2`)
+    .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${desc}$2`);
+}
+
 function breadcrumbJsonLd(pathname: string, meta: RouteMeta): string {
   const items: { "@type": string; position: number; name: string; item: string }[] = [
     { "@type": "ListItem", position: 1, name: "Ana səhifə", item: `${SITE}/` },
@@ -425,6 +481,23 @@ async function buildRouteHtml(html: string, pathname: string): Promise<string> {
 
 export function serveStaticFiles(app: App) {
   const distPath = path.resolve(import.meta.dirname, "../dist/public");
+
+  // Language-aware homepage. "/" is otherwise served by serveStatic as the raw AZ
+  // index.html, so xurcun.az/?lang=en|ru|tr|ar would reach crawlers (and Google Ads'
+  // landing-page language check) as Azerbaijani. Rewrite the <head> for the requested
+  // language here, before serveStatic serves the file. AZ / no param falls through.
+  app.get("/", async (c, next) => {
+    const lang = c.req.query("lang");
+    if (!lang || !HOME_I18N[lang]) return next();
+    try {
+      const indexPath = path.resolve(distPath, "index.html");
+      const content = fs.readFileSync(indexPath, "utf-8");
+      return c.html(injectHomeLang(content, lang));
+    } catch (err) {
+      console.error("[static] Failed to serve localized homepage:", err);
+      return next();
+    }
+  });
 
   app.use("*", serveStatic({ root: "./dist/public" }));
 
